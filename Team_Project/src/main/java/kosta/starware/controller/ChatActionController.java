@@ -18,7 +18,6 @@ public class ChatActionController {
 	public void UserRegisterCheck(){
 		
 	}
-	private String babo;
 	
 	
 }
