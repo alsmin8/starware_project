@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import kosta.starware.service.ChatService;
 import lombok.Setter;
@@ -19,15 +20,17 @@ public class ChatController {
 	
 	@RequestMapping("messengerFind")
 	public void MessengerFind(){
-		
+		log.info("messengerFind");
 	}
 
+	
+	
 	@RequestMapping("/messengerChat")
-	public void MessengerChat(Model model){
+	public ModelAndView MessengerChat(String fromID, String toID, String listType){
 		log.info("messengerChat");
 		//model.addAttribute("board", service.messengerChat(fromID, toID, listType));
+		return null;
 	}
-
-
+	
 	
 }

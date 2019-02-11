@@ -7,10 +7,13 @@
 <mapper namespace="kosta.starware.mapper.ChatMapper">
 	<cache />
 	
-	<select id="getUser" resultType="kosta.starware.domain.EmpDTO" parameterType="int">
-		select * from emp where emp_no = #{emp_no}
+	<select id="getOneUser" resultType="kosta.starware.domain.EmpDTO" parameterType="String">
+		select * from emp where emp_name = #{emp_name}
 	</select>
 	
+	<select id="getAllUser" resultType="kosta.starware.domain.EmpDTO">
+		select * from emp
+	</select>
 	
 	<insert id="submit" parameterType="kosta.starware.domain.ChatDTO">
 		insert into messenger values (messenger_no_seq.nextval, #{from_ID},#{to_ID}, #{m_Content}, sysdate, 0)

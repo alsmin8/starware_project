@@ -8,31 +8,55 @@
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
 		}
-		if (emp_no == null) {
+/* 		if (emp_no == null) {
 			session.setAttribute("messageType", "오류메세지");
 			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
-			response.sendRedirect("login.jsp");
+			response.sendRedirect("/login");
 			return;
-		}
+		} */
 	%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale = 1">
-<link rel="stylesheet" href="css/bootstrap.css">
-<link rel="stylesheet" href="css/custom.css">
+<link rel="stylesheet" href="/resources/css/bootstrap.css">
+<link rel="stylesheet" href="/resources/css/custom.css">
 <title>STARWARE(Groupware)</title>
-<script src="jquery.js" type="text/javascript"></script>
-<script src="js/bootstrap.js"></script>
+<script src="/resources/jquery.js" type="text/javascript"></script>
+<script src="/resources/js/bootstrap.js"></script>
 
 <script type="text/javascript">
+	function allUserFunction() {
+		$.ajax({
+			type : 'POST',
+			url : '/chat2/allUserCheck.json',
+			success : function(data) {
+				for (var i = 0; i < data.length; i++) {
+					addListUser(data[i].emp_no, data[i].emp_name);
+				}
+			}
+		});
+	}
+	function addListUser(emp_no, emp_name) {
+		console.log(emp_no);
+		$('#friendResult').append(
+				'<tbody><tr><td style="text-align: center;"><h3>사번 :' + emp_no +"&nbsp;&nbsp; 이름 : " +  emp_name +'</h3><a href="messengerChat.jsp?toID=' + emp_name +
+				'" class="btn btn-primary pull-right">메신저보내기</a></td>'+
+				'</tr></tbody>');
+	}
+		
+
 	function findFunction() {
+/* 		  var operForm = $("#friendResult"); 
+		  operForm.find("#bno").remove(); */
+		
 		var userID = $('#findID').val();
 		$.ajax({
 			type : 'POST',
-			url : './UserRegisterCheck',
+			url : '/chat2/userRegisterCheck',
 			data : {
 				userID : userID
 			},
 			success : function(result) {
+				console.log(result);
 				if (result == 1) {
 					$('#checkMessage').html('사용자찾기에 성공하였습니다.');
 					$('#checkType').attr('class','modal-content panel-success');
@@ -106,7 +130,7 @@
 				<li><a href="resource_main.jsp">출퇴근관리</a></li>
 				<li><a href="list.do">인사관리</a></li>
 				<li><a href="calendar_main.jsp">일정관리</a></li>
-				<li class="active"><a href="messengerFind.jsp">메세지함</a></li>
+				<li class="active"><a href="/chat/messengerFind">메세지함</a></li>
 			</ul>
 			
 			<ul class="nav navbar-nav navbar-right">
@@ -114,7 +138,7 @@
 					data-toggle="dropdown" role="buton" aria-haspopup="true"
 					aria-expanded="false">회원관리<span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="logoutaction.jsp">로그아웃</a></li>
+						<li><a href="/logoutaction">로그아웃</a></li>
 					</ul></li>
 			</ul>
 		</div>
@@ -215,15 +239,16 @@
 <%-- 	<%
 		if(emp_no != null){
 
-	%>
+	%> --%>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			getUnread();
-			getInfiniteUnread();
+			allUserFunction();
+			/* getUnread();
+			getInfiniteUnread(); */
 		});
 	</script>
-	<%
+<%-- 	<%
 		}
-	%> --%>
+	%>  --%>
 </body>
 </html>
