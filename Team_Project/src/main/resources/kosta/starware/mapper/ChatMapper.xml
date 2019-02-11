@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="kosta.starware.mapper.ChatMapper">
+	<cache />
+	
+	<select id="getUser" resultType="kosta.starware.domain.EmpDTO" parameterType="int">
+		select * from emp where emp_no = #{emp_no}
+	</select>
+	
+	
+	<insert id="submit" parameterType="kosta.starware.domain.ChatDTO">
+		insert into messenger values (messenger_no_seq.nextval, #{from_ID},#{to_ID}, #{m_Content}, sysdate, 0)
+	</insert>
+	
+	<select id="getChatlistByRecent" parameterType="map" resultType="kosta.starware.domain.ChatDTO">
+		select * from messenger where ((from_ID =#{from_ID} and to_ID=#{to_ID})or(from_ID =#{to_ID} and to_ID=#{from_ID})) and m_contentNo > (select max(m_contentNo)-#{m_contentNo} from messenger where ((from_ID = #{from_ID} and to_ID = #{to_ID}) or (from_ID = #{to_ID} and to_ID = #{from_ID}))) order by m_regdate
+	</select>
+	
+	<select id="getChatListbyID" parameterType="map" resultType="kosta.starware.domain.ChatDTO">
+		select * from messenger where ((from_ID =#{from_ID} and to_ID=#{to_ID}) or (from_ID =#{to_ID} and to_ID=#{from_ID})) and m_contentNo > #{m_contentNo}  order by m_regdate
+	</select>
+	
+<!-- 	
+	
+
+	
+	<update id="unleadUpdate" parameterType="map">
+		update messenger set chatLead = 1 where (from_ID = #{to_ID} and to_ID = #{from_ID})
+	</update>
+	
+	<resultMap type="ChatDTO" id="Chatlist">
+		<result column="fromID" property="userID"/>
+		<result column="toID" property="userID"/>
+	</resultMap>
+	
+	<select id="unleadAllChatlist" parameterType="String" resultMap="Chatlist">
+		select count(chatNo) from chat3 where toID = #{userID} and chatLead = 0;
+	</select>
+	
+	<select id="getChatlist" parameterType="String" resultMap="Chatlist">
+		select * from chat3 where chatNo IN (select max(chatNo) from chat3 where toID = #{userID} and fromID = #{userID} group by fromID,toID)
+	</select> -->
+	
+</mapper>
