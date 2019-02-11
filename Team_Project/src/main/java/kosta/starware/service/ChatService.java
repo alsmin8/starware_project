@@ -26,6 +26,13 @@ public class ChatService {
 		return chatMapper.getOneUser(userID);
 	}
 	
+
+	public EmpDTO getUser2(int userID) {
+		// TODO Auto-generated method stub
+		return chatMapper.getOneUser2(userID);
+	}
+
+	
 	
 	
 	
@@ -34,7 +41,7 @@ public class ChatService {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
+
 	public void messengerChat(String fromID, String toID, String listType){
 		
 /*		if (fromID == null || fromID.equals("")||toID == null || toID.equals("")||listType == null || listType.equals("")) {
@@ -142,5 +149,6 @@ public class ChatService {
 		
 		return result.toString();
 	}
+
 	
 }

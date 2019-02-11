@@ -17,17 +17,15 @@
 		toID = (String) request.getParameter("toID");
 	}
 
-/* 	if (emp_no == null || emp_name ==null) {
+/*  	if (emp_no == null || emp_name ==null) {
 		session.setAttribute("messageType", "오류메세지");
 		session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
-		response.sendRedirect("login.jsp");
-		return;
+		//로그인화면으로 이동하는게 있어야 됨
 	}
 	if (toID == null) {
 		session.setAttribute("messageType", "오류메세지");
 		session.setAttribute("messageContent", "대화상대가  지정되지 않았습니다.");
-		response.sendRedirect("messengerFind.jsp");
-		return;
+		//메신저 선택 화면으로 이동하는게 있어야 함
 	} */
 %>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
