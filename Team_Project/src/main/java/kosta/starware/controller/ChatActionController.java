@@ -12,5 +12,6 @@ import lombok.extern.log4j.Log4j;
 public class ChatActionController {
 	
 	private ChatService service;
-
+	
+	
 }
