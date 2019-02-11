@@ -20,4 +20,9 @@ public class ChatActionController {
 	}
 	
 	
+/*	@RequestMapping("/UserRegisterCheck")
+	public void UserRegisterCheck(){
+		
+	}*/
+	
 }
