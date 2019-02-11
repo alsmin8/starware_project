@@ -1,13 +1,17 @@
 package kosta.starware.domain;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
 @AllArgsConstructor
 @ToString
-public class EmpDTO{
+@NoArgsConstructor
+public class EmpDTO implements Serializable{
 	private int emp_no;
 	private String emp_name;
 	private String emp_pass;

@@ -20,5 +20,8 @@ public interface ChatMapper {
 		int unleadAllChatlist(String userID);
 		ArrayList<ChatDTO> getChatlist(String userID);
 		
-		EmpDTO getUser(int emp_no);
+		
+		//임시불러오기
+		EmpDTO getOneUser(@Param("emp_name")String userID);
+		ArrayList<EmpDTO> getAllUser();
 }

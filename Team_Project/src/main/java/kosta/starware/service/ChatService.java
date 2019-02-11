@@ -16,6 +16,25 @@ public class ChatService {
 	@Setter(onMethod_ = @Autowired)
 	private ChatMapper chatMapper;
 	
+	public ArrayList<EmpDTO> getAllUser() {
+		
+		return chatMapper.getAllUser();
+	}
+	
+	public EmpDTO getUser(String userID) {
+		
+		return chatMapper.getOneUser(userID);
+	}
+	
+	
+	
+	
+	
+	public int insertChatSubmit(ChatDTO dto) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
 	public void messengerChat(String fromID, String toID, String listType){
 		
 /*		if (fromID == null || fromID.equals("")||toID == null || toID.equals("")||listType == null || listType.equals("")) {
@@ -34,11 +53,6 @@ public class ChatService {
 			}
 		}
 		return chatMapper.getChatListbyID(fromID, toID, 10);*/
-	}
-	public EmpDTO UserRegisterCheck(String userID){
-		int emp_no = Integer.parseInt(userID);
-		
-		return chatMapper.getUser(emp_no);
 	}
 	
 	public String Chatlist(String fromID, String toID, String listType) throws Exception {
@@ -127,11 +141,6 @@ public class ChatService {
 		System.out.println(result);
 		
 		return result.toString();
-	}
-	
-	public int insertChatSubmit(ChatDTO dto) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 	
 }
