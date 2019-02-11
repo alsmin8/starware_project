@@ -8,11 +8,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale = 1">
-<link rel="stylesheet" href="css/bootstrap.css">
-<link rel="stylesheet" href="css/custom.css">
+<link rel="stylesheet" href="/resources/css/bootstrap.css">
+<link rel="stylesheet" href="/resources/css/custom.css">
 <title>STARWARE(Groupware)</title>
-<script src="jquery.js" type="text/javascript"></script>
-<script src="js/bootstrap.js"></script>
+<script src="/resources/jquery.js" type="text/javascript"></script>
+<script src="/resources/js/bootstrap.js"></script>
 <style>
 
 td{
@@ -109,7 +109,7 @@ text-align: center;
 	<td><a href="detail.bit?seq=${Approval.app_no}&app_kind=${Approval.app_kind}">${Approval.app_no}</a></td>
 	<td>${Approval.app_kind}</td>
 	
-	<td>${Approval.vd_title}</td>
+	<td>${Approval.app_title}</td>
 	
 	<td>
 	 <fmt:parseDate var="dateString" value="${Approval.app_startdate}" pattern="yyyy-MM-dd"/>
@@ -120,7 +120,7 @@ text-align: center;
 	 <fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd"/>
 	</td>
 	<td>${Approval.app_situation}</td>
-	<td>${Approval.emp_name}</td>
+	<td>${Approval.emp_no}</td>
 	</tr>
 	</c:forEach>
 	
