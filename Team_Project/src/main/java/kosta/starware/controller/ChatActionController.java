@@ -14,4 +14,7 @@ public class ChatActionController {
 	private ChatService service;
 	
 	
+	private String babo;
+	
+	
 }
