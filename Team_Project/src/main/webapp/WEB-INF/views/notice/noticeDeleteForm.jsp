@@ -26,6 +26,7 @@
 			return;
 		}
 	%> --%>
+	
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed"
@@ -69,7 +70,7 @@
 
 삭제하시겠습니까?
 <br><br>
-<a href="deleteAction.not?notice_no=${notice.notice_no}">예</a>
+<a href="noticeDelete?notice_no=${notice.notice_no}">예</a>
 <a href="noticeList">아니오</a>
 </div>
 

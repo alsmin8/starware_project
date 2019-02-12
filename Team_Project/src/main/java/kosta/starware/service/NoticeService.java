@@ -12,5 +12,9 @@ public interface NoticeService {
 	
 	public NoticeVO detailNoticeService(int notice_no);
 	
+	public int updateNoticeService(NoticeVO notice);
+
+	public int deleteNoticeService(int notice_no);
 	
+	//public int updateHitCountService(NoticeVO notice);
 }

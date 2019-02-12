@@ -114,8 +114,8 @@
 	</table>
 
 	<br>
-	 <input class="btn btn-primary pull-right" type="button" onclick="location.href='deleteForm.not?notice_no=${notice.notice_no}';" value="삭제"/>
-	<input class="btn btn-primary pull-right" type="button" onclick="location.href='updateForm.not?notice_no=${notice.notice_no}';" value="수정" />
+	 <input class="btn btn-primary pull-right" type="button" onclick="location.href='noticeDeleteForm?notice_no=${notice.notice_no}';" value="삭제"/>
+	<input class="btn btn-primary pull-right" type="button" onclick="location.href='noticeUpdateForm?notice_no=${notice.notice_no}';" value="수정" />
 	<input class="btn btn-primary pull-right" type="button" onclick="location.href='noticeList';" value="글목록" />
 
 </div>

@@ -16,6 +16,7 @@
 		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE" />
 		<property name="username" value="project" />
 		<property name="password" value="1234" />
+
 	</bean>
 
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"
@@ -37,4 +38,5 @@
 	<context:component-scan base-package="kosta.starware.domain" />
 	<context:component-scan base-package="kosta.starware.service" />
 
+		
 </beans>

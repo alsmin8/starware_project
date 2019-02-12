@@ -93,8 +93,12 @@
 	<div class="container">
 
 
-<form action="update.not" method="post" name="form" id="form" enctype="multipart/form-data" onsubmit="return checkForm();">
+<form action="noticeUpdate" method="post" name="form" id="form" onsubmit="return checkForm();">
 	<input type="hidden" name="notice_no" value="${notice.notice_no}">
+	<input type="hidden" name="notice_hitCount" value="${notice.notice_hitCount}">
+	<input type="hidden" name="notice_regdate" value="${notice.notice_regdate}">
+	<input type="hidden" name="emp_no" value="${emp_no}">
+	
 	<table class="table table-bordered table-hover"
 					style="text-align: center; border: 1px solid #dddddd;">
 	<thead>
@@ -113,14 +117,14 @@
 	
 	<tr>
 	<td style="width: 110px;"><h5>제목</h5></td>
-	<td colspan="3"><input class="form-control" type="text" id="notice_title"
+	<td colspan="3"><input class="form-control" type="text"
 								name="notice_title" value="${notice.notice_title }"></td>
 	</tr>
 	
 	<tr>
 	<td style="width: 110px;"><h5>내용</h5></td>
 	<td colspan="3">
-	<textarea rows="10" cols="100" name="notice_contents" id="notice_contents"> ${notice.notice_contents }</textarea>
+	<textarea rows="10" cols="100" name="notice_contents"> ${notice.notice_contents }</textarea>
 	</tr>
 	
 	<tr>
@@ -128,14 +132,14 @@
 	<td style="width: 40%"><input class="form-control"  type="text" id="start"
 								name="notice_startDate"></td>
 		<td style="width: 110px;"><h5>파일</h5></td>
-	<td><input type="file" name="notice_fname"></td>	
+	<td><input type="file" name=""></td>	
 	</tr>
 	<tr>
 		<td style="width: 110px;"><h5>종료일</h5></td>
 	<td style="width: 40%"><input class="form-control"  type="text" id="end"
 								name="notice_endDate"></td>
 	<td style="width: 110px;"><h5>진행상태</h5></td>
-	<td style="text-align: left"><select name="notice_state" id="notice_state">
+	<td style="text-align: left"><select name="notice_state">
 	<option label="진행중">진행중</option>
 	<option label="완료">완료</option>
 	</select></td>
