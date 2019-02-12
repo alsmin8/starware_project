@@ -4,8 +4,6 @@
 <html>
 <head>
 	<%
-		//session.setAttribute("emp_no", "12304");
-		//session.setAttribute("emp_name", "이길동");
 		String emp_no = null;
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
