@@ -32,8 +32,25 @@ public class NoticeServiceImpl implements NoticeService {
 
 	@Override
 	public NoticeVO detailNoticeService(int notice_no) {
-		
-		return noticeMapper.noticeDetail(notice_no);
+		NoticeVO notice=noticeMapper.noticeDetail(notice_no);
+		noticeMapper.updateHitCount(notice);
+		return notice;
 	}
+
+	@Override
+	public int updateNoticeService(NoticeVO notice) {
+		
+		return noticeMapper.noticeUpdate(notice);
+	}
+
+	@Override
+	public int deleteNoticeService(int notice_no) {
+	
+		return noticeMapper.noticeDelete(notice_no);
+	}
+
+	
+	
+	
 
 }

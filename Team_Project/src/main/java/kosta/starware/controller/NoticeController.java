@@ -16,7 +16,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
 
-//@RestController
 @Controller
 @Log4j
 @RequestMapping("/notice/*")
@@ -25,16 +24,11 @@ public class NoticeController {
 
 	private NoticeService service;
 	
+	
 	@GetMapping("/noticeList")
-	public void noticeList(){
-		
-	}
-	
-	
-	/*@GetMapping("/noticeList")
 	public void noticeList(Model model){
 		model.addAttribute("noticeList", service.listNoticeService());		
-	}*/
+	}
 	
 	@GetMapping("/noticeInsertForm")
 	public void noticeInsertForm(){
@@ -80,19 +74,68 @@ public class NoticeController {
 	
 	
 	@GetMapping("/noticeUpdateForm")
-	public void noticeUpdateForm(){
+	public void noticeUpdateForm(@RequestParam("notice_no") int notice_no, Model model){
+		model.addAttribute("notice", service.detailNoticeService(notice_no));
+		log.info(model);
+	}
+	
+	
+/*	@PostMapping("/noticeUpdate")
+	public String noticeUpdate(NoticeVO notice){
+		log.info(notice);
+		service.updateNoticeService(notice);
+		return "redirect:/notice/noticeList";
+	}*/
+	
+	@PostMapping("/noticeUpdate")
+	public String noticeUpdate(
+		@RequestParam(value="notice_no", required=true) int notice_no,	
+		@RequestParam(value="notice_title", required=true) String notice_title,
+		@RequestParam(value="notice_contents", required=true) String notice_contents,
+		@RequestParam(value="notice_subject", required=true) String notice_subject,
+		@RequestParam(value="notice_startDate", required=false) String notice_startDate,
+		@RequestParam(value="notice_endDate", required=false) String notice_endDate,
+		@RequestParam(value="notice_state", required=false) String notice_state, RedirectAttributes rttr){
+		
+		NoticeVO notice=service.detailNoticeService(notice_no);
+		
+		notice.setNotice_title(notice_title);
+		notice.setNotice_contents(notice_contents);
+		notice.setNotice_subject(notice_subject);
+		notice.setNotice_startDate(notice_startDate);
+		notice.setNotice_endDate(notice_endDate);
+		notice.setNotice_state(notice_state);
+		
+		
+		service.updateNoticeService(notice);
+		
+		log.info("notice Update:"+notice);
+		
+		rttr.addFlashAttribute("result", notice.getNotice_no());
+		return "redirect:/notice/noticeList";
 		
 	}
 	
-
-	
-	@GetMapping("/noticeDetail")
+	@RequestMapping("/noticeDetail")
 	public void noticeDetail(@RequestParam("notice_no") int notice_no, Model model){
 		model.addAttribute("notice", service.detailNoticeService(notice_no));
+		log.info(model);
 	}
 	
+	
 	@GetMapping("/noticeDeleteForm")
-	public void noticeDeleteForm(){
-		
+	public void noticeDeleteForm(@RequestParam("notice_no") int notice_no, Model model){
+		model.addAttribute("notice", service.detailNoticeService(notice_no));
+		//log.info(model);
 	}
+	
+	@RequestMapping("/noticeDelete")
+	public String noticeDelete(@RequestParam("notice_no") int notice_no){
+		service.deleteNoticeService(notice_no);
+		return "redirect:/notice/noticeList";
+	}
+	
+	
+	
+	
 }
