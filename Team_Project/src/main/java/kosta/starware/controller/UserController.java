@@ -36,38 +36,28 @@ public class UserController {
 
 		int num = service.loginCheck(vo);
 
-		if (num == -1) 
-		{
-			session.setAttribute("messageType", "¿À·ù¸Ş¼¼Áö");
-			session.setAttribute("messageContent", "¸ğµç³»¿ëÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+		if (num == -1) {
+			session.setAttribute("messageType", "ì˜¤ë¥˜ë©”ì„¸ì§€");
+			session.setAttribute("messageContent", "ëª¨ë“ ë‚´ìš©ì„ ì…ë ¥í•´ì£¼ì„¸ìš”.");
 			return "/login";
-		} 
-		else if (num == 0) 
-		{
-			session.setAttribute("messageType", "¿À·ù¸Ş¼¼Áö");
-			session.setAttribute("messageContent", "¾ÆÀÌµğ´Â ¼ıÀÚ¸¸ ÀÔ·ÂÇÏ¼¼¿ä.");
+		} else if (num == 0) {
+			session.setAttribute("messageType", "ì˜¤ë¥˜ë©”ì„¸ì§€");
+			session.setAttribute("messageContent", "ì•„ì´ë””ëŠ” ìˆ«ìë§Œ ì…ë ¥í•˜ì„¸ìš”.");
 			return "/login";
-		} 
-		else 
-		{
+		} else {
 			EmpDTO dto = service.loginService(vo);
 
-			if (dto == null) 
-			{
-				session.setAttribute("messageType", "¿À·ù¸Ş¼¼Áö");
-				session.setAttribute("messageContent", "¾ÆÀÌµğ°¡ Á¸ÀçÇÏÁö¾Ê½À´Ï´Ù.");
+			if (dto == null) {
+				session.setAttribute("messageType", "ì˜¤ë¥˜ë©”ì„¸ì§€");
+				session.setAttribute("messageContent", "ì•„ì´ë””ê°€ ì¡´ì¬í•˜ì§€ì•ŠìŠµë‹ˆë‹¤.");
 				return "/login";
-			} 
-			else if (!dto.getEmp_pass().equals(vo.getEmp_pass())) 
-			{
-				session.setAttribute("messageType", "¿À·ù¸Ş¼¼Áö");
-				session.setAttribute("messageContent", "ºñ¹Ğ¹øÈ£°¡ Æ²¸³´Ï´Ù.");
+			} else if (!dto.getEmp_pass().equals(vo.getEmp_pass())) {
+				session.setAttribute("messageType", "ì˜¤ë¥˜ë©”ì„¸ì§€");
+				session.setAttribute("messageContent", "ë¹„ë°€ë²ˆí˜¸ê°€ í‹€ë¦½ë‹ˆë‹¤.");
 				return "/login";
-			} 
-			else 
-			{
-				session.setAttribute("messageType", "¼º°ø¸Ş¼¼Áö");
-				session.setAttribute("messageContent", "·Î±×ÀÎ µÇ¾ú½À´Ï´Ù.");
+			} else {
+				session.setAttribute("messageType", "ì„±ê³µë©”ì„¸ì§€");
+				session.setAttribute("messageContent", "ë¡œê·¸ì¸ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 
 				session.setAttribute("emp_no", String.valueOf(dto.getEmp_no()));
 				session.setAttribute("emp_name", dto.getEmp_name());
@@ -84,7 +74,8 @@ public class UserController {
 	}
 
 	@RequestMapping("/logoutaction")
-	public String logoutAction(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+	public String logoutAction(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws Exception {
 		session.invalidate();
 
 		return "redirect:/login";
