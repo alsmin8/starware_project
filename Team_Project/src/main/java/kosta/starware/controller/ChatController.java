@@ -28,8 +28,8 @@ public class ChatController {
 		int result = service.userCheck(session);
 		
 		if (result == 0) {
-			//return "/login";
-			return "/chat/messengerFind";
+			return "/login";
+			//return "/chat/messengerFind";
 		}else{
 			return "/chat/messengerFind";
 		}
@@ -49,6 +49,8 @@ public class ChatController {
 			model.addAttribute("toID", toID);
 			return "/chat/messengerChat";
 		}
+		
+		
 	}
 	
 	
