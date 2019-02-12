@@ -1,14 +1,18 @@
 package kosta.starware.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import kosta.starware.domain.ChatDTO;
 import kosta.starware.domain.EmpDTO;
 import kosta.starware.service.ChatService;
 import lombok.AllArgsConstructor;
@@ -57,24 +61,39 @@ public class ChatActionController {
 	    }
 	  }
 	
-	@RequestMapping("/insertChatSubmit")
-	public ResponseEntity<String> insertChatSubmit(){
+	@RequestMapping(value = "/insertChatSubmit", consumes="application/json", produces={MediaType.TEXT_PLAIN_VALUE})
+	public String insertChatSubmit(@RequestBody ChatDTO chatDTO){
 		log.info("insertChatSubmit");
 		
-		return new ResponseEntity<>("success", HttpStatus.OK);
+		log.info(chatDTO);
+		
+		int result = service.insertChatSubmit(chatDTO);
+
+		if(result == 1){
+			return "1";
+		}else if(result == 0){
+			return "0";
+		}else{
+			return "-1";
+		}
 	}
 	
 	
 	
 	
-	
-	
-	
-	@RequestMapping("/listChatLoad")
-	public void listChatLoad(){
+	@RequestMapping(value="/listChatLoad", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+	public String listChatLoad(@RequestParam String fromID, @RequestParam String toID, @RequestParam String listType) throws Exception, IOException, Exception{
 		log.info("listChatLoad");
 		
+		//String result=null;
+		String result = service.messengerChat(fromID, toID, listType);
+		
+		return result;	
 	}
+
+	
+	
+	
 	
 	@RequestMapping("/unleadChat")
 	public void unleadChat(){

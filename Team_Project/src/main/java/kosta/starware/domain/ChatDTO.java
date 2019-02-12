@@ -1,11 +1,15 @@
 package kosta.starware.domain;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class ChatDTO{
+@NoArgsConstructor
+public class ChatDTO implements Serializable{
 		private int m_contentNo;
 		private String from_ID;
 		private String to_ID;

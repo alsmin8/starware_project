@@ -29,52 +29,59 @@
 
 <script type="text/javascript">
 	var lastID = 0;
+
 	function submitFunction() {
 		var fromID = '<%=emp_name%>';
 		var toID = '<%=toID%>';
 		var chatContent = $('#chatContent').val();
-			$.ajax({
-				type : 'POST',
-				url : '/chat2/insertChatSubmit',
-				data : {
-					fromID : fromID,
-					toID : toID,
-					chatContent : chatContent
-				},
-				success : function(result) {
-					if (result == 1) {
-						autoClosingAlert('#successMessage', 2000);
-					} else if (result == 0) {
-						autoClosingAlert('#dangerMessage', 2000);
-					} else {
-						autoClosingAlert('#warningMessage', 2000);
-					}
-				}
-			});
-			$('#chatContent').val(' ');
-		}
-
-		function autoClosingAlert(selector, deley) {
-			var alert = $(selector).alert();
-			alert.show();
-			window.setTimeout(function() {
-				alert.hide()
-			}, deley);
-		}
 		
-		function chatListFunction(type) {
-			var fromID = '<%=emp_name%>';
-			var toID = '<%=toID%>';
 		$.ajax({
 			type : 'POST',
-			url : './listChatLoad',
+			url : '/chat2/insertChatSubmit',
+			data : JSON.stringify({
+				from_ID : fromID,
+				to_ID : toID,
+				m_Content : chatContent
+			}),
+			contentType : "application/json; charset=utf-8",
+			success : function(result) {
+				if (result == 1) {
+					autoClosingAlert('#successMessage', 2000);
+				} else if (result == 0) {
+					autoClosingAlert('#dangerMessage', 2000);
+				} else {
+					autoClosingAlert('#warningMessage', 2000);
+				}
+			}
+		});
+		$('#chatContent').val(' ');
+	}
+	function autoClosingAlert(selector, deley) {
+		var alert = $(selector).alert();
+		alert.show();
+		window.setTimeout(function() {
+			alert.hide()
+		}, deley);
+	}
+		
+		
+		
+		
+	function chatListFunction(type) {
+		var fromID = '<%=emp_name%>';
+		var toID = '<%=toID%>';
+		$.ajax({
+			type : 'POST',
+			url : '/chat2/listChatLoad',
 			data : {
 				fromID : fromID,
 				toID : toID,
 				listType : type
 			},
 			success : function(data) {
-				if (data == null){
+				console.log(data);
+				
+				if (data == null || data == ""){
 					return;
 				}
 				var parsed = JSON.parse(data);
@@ -87,29 +94,29 @@
 					addChat(result[i][0].value, result[i][2].value,
 							result[i][3].value);
 				}
-				lastID = Number(parsed.last);
+				lastID = Number(data.last);
 			}
 		});
 	}
 	function addChat(chatName, chatContent, chatTime) {
 		$('#chatList').append(
-						'<div class="row">' + 
-						'<div class="col-lg-12">' + 
-						'<div class="media">'+ 
-						'<a class="pull-left" href="#">'+ 
-						'<img class="media-object img-circle" style="width:30px; height:30px;" src="images/p.JPG" alt=""/>'+ 
-						'</a>' + '<div class="media-body">'+ 
-						'<h4 class="media-heading">' + 
-						chatName + 
-						'<span class="small pull-right">' + 
-						chatTime + 
-						'</span>' + 
-						'</h4>' + 
-						'</div>' + 
-						'<p>'+ 
-						chatContent + 
-						'</p>' + 
-						'</div></div></div><hr>');
+			'<div class="row">' + 
+			'<div class="col-lg-12">' + 
+			'<div class="media">'+ 
+			'<a class="pull-left" href="#">'+ 
+			'<img class="media-object img-circle" style="width:30px; height:30px;" src="/resources/images/p.JPG" alt=""/>'+ 
+			'</a>' + '<div class="media-body">'+ 
+			'<h4 class="media-heading">' + 
+			chatName + 
+			'<span class="small pull-right">' + 
+			chatTime + 
+			'</span>' + 
+			'</h4>' + 
+			'</div>' + 
+			'<p>'+ 
+			chatContent + 
+			'</p>' + 
+			'</div></div></div><hr>');
 		$('#chatList').scrollTop($('#chatList')[0].scrollHeight);
 	}
 	
@@ -200,7 +207,10 @@
 					</div>
 					<div id="chat" class="panel-collapse collapse in">
 						<div id="chatList" class="portlet-body chat-widget"
-							style="overflow-y: auto; width: auto; height: 600px;"></div>
+							style="overflow-y: auto; width: auto; height: 600px;">
+						
+						</div>
+						
 						<div class="portlet-footer">
 							<div class="row" style="height: 90px;">
 								<div class="form-group col-xs-10">

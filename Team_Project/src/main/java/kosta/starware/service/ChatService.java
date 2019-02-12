@@ -1,5 +1,6 @@
 package kosta.starware.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
@@ -20,6 +21,7 @@ public class ChatService {
 	@Setter(onMethod_ = @Autowired)
 	private ChatMapper chatMapper;
 	
+	//messengerFind이동시 session 체크 여부
 	public int userCheck(HttpSession session) {
 		String emp_no = (String) session.getAttribute("emp_no");
 		String emp_name = (String) session.getAttribute("emp_name");
@@ -31,24 +33,22 @@ public class ChatService {
 		}
 		return 1;
 	}
-	
-	
-	public ArrayList<EmpDTO> getAllUser() {
+	//전체 emp유저 불러오기
+	public ArrayList<EmpDTO> getAllUser() {	
 		
 		return chatMapper.getAllUser();
 	}
-	
-	public EmpDTO getUser(String userID) {
+	//사용자 검색 (이름)
+	public EmpDTO getUser(String userID) {	
 		
 		return chatMapper.getOneUser(userID);
-	}
-	
-
-	public EmpDTO getUser2(int userID) {
+	}	
+	//사용자 검색(사번)
+	public EmpDTO getUser2(int userID) {	
 		// TODO Auto-generated method stub
 		return chatMapper.getOneUser2(userID);
 	}
-
+	//메신저 사용자 체크
 	public String chatUserCheck(HttpSession session, String toID) {
 		log.info(session.getAttribute("emp_no"));
 		log.info(session.getAttribute("emp_name"));
@@ -68,36 +68,17 @@ public class ChatService {
 		}
 		return "1";
 	}
-	
-	
-	
+	//메세지 DB저장
 	public int insertChatSubmit(ChatDTO dto) {
-		// TODO Auto-generated method stub
-		return 0;
+		return chatMapper.chatSubmit(dto);
 	}
 
-	public void messengerChat(String fromID, String toID, String listType){
-		
-/*		if (fromID == null || fromID.equals("")||toID == null || toID.equals("")||listType == null || listType.equals("")) {
-			System.out.println("빈칸");
-			response.getWriter().write("");
-		}else if (listType.equals("ten")) {
-			System.out.println("ten");
-			response.getWriter().write(getTen(fromID, toID));
-		}else {
-			try {
-				System.out.println("getID");
-				response.getWriter().write(getID(fromID, toID, listType));
-			} catch (Exception e) {
-				System.out.println("오류");
-				response.getWriter().write("");
-			}
-		}
-		return chatMapper.getChatListbyID(fromID, toID, 10);*/
-	}
 	
-	public String Chatlist(String fromID, String toID, String listType) throws Exception {
-
+	
+	
+	
+	//사용자간 메세지 불러오기
+	public String messengerChat(String fromID, String toID, String listType) throws Exception, IOException{
 		if (fromID == null || fromID.equals("")||toID == null || toID.equals("")||listType == null || listType.equals("")) {
 			System.out.println("빈칸");
 			return "";
@@ -113,12 +94,17 @@ public class ChatService {
 				return "";
 			}
 		}
+		//return chatMapper.getChatListbyID(fromID, toID, listType);
 	}
 	public String getTen(String fromID, String toID) throws Exception{
 		StringBuffer result = new StringBuffer("");
-
-		ArrayList<ChatDTO> chatlist = chatMapper.getChatlistByRecent(fromID, toID, 40);
-
+		log.info("getTen 시작: " + fromID +" "+ toID);
+		
+		
+		ArrayList<ChatDTO> chatlist = chatMapper.getChatlistByRecent(fromID, toID, 10);
+		
+		log.info("chatlist : " + chatlist);
+		
 		if(chatlist.size() == 0){
 			return "";
 		}
@@ -151,8 +137,11 @@ public class ChatService {
 	
 	public String getID(String fromID, String toID, String listType) throws Exception{
 		StringBuffer result = new StringBuffer("");
-
+		log.info("getID 시작: " + fromID +" "+ toID);
+		
 		ArrayList<ChatDTO> chatlist = chatMapper.getChatListbyID(fromID, toID, listType);
+		
+		log.info("chatlist : " + chatlist);
 		//chatMapper.unleadChatUpdate(fromID, toID);
 		
 		if(chatlist.size() == 0){

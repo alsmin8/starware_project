@@ -10,7 +10,7 @@ import kosta.starware.domain.EmpDTO;
 
 public interface ChatMapper {
 
-		int submit(ChatDTO chat);
+		
 		ArrayList<ChatDTO> getChatlistUpdate(int chatNo);
 
 		ArrayList<ChatDTO> getChatListbyID(@Param("from_ID") String from_ID,@Param("to_ID") String to_ID,@Param("m_contentNo") String listType);
@@ -19,6 +19,8 @@ public interface ChatMapper {
 		int unleadUpdate(@Param("from_ID") String fromID,@Param("to_ID") String toID);
 		int unleadAllChatlist(String userID);
 		ArrayList<ChatDTO> getChatlist(String userID);
+		
+		int chatSubmit(ChatDTO chat);
 		
 		
 		//임시불러오기
