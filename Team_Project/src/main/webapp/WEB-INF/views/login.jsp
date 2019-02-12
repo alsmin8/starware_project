@@ -20,10 +20,8 @@
 		}
 
 		if (emp_no != null) {
-			//session.setAttribute("messageType", "오류메세지");
-			//session.setAttribute("messageContent", "현재 로그인이 되어있습니다.");
-			response.sendRedirect("/login");
-			return;
+			session.setAttribute("messageType", "오류메세지");
+			session.setAttribute("messageContent", "현재 로그인이 되어있습니다.");
 		}
 	%>
 	<nav class="navbar navbar-default">
