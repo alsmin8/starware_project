@@ -30,8 +30,8 @@ public class ChatActionController {
 	
 	@RequestMapping("/allUserCheck.json")
 	public ResponseEntity<ArrayList<EmpDTO>> allUserCheck(){
-		//log.info("allUserCheck");	
-		ArrayList<EmpDTO> emplist = service.getAllUser();
+		log.info("allUserCheck");	
+		//ArrayList<EmpDTO> emplist = service.getAllUser();
 		//log.info(emplist);
 		return new ResponseEntity<>(service.getAllUser() ,HttpStatus.OK);
 	}
