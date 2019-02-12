@@ -57,6 +57,5 @@ where notice_no=#{notice_no}
 delete notice where notice_no=#{notice_no}
 </delete>
 
-
 </mapper>
 
