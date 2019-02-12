@@ -34,19 +34,28 @@ public class ChatActionController {
 		return new ResponseEntity<>(service.getAllUser() ,HttpStatus.OK);
 	}
 	
-	@RequestMapping("/userRegisterCheck")
-	public String userCheck(@RequestParam String userID){
+	@RequestMapping("/userRegisterCheck.json")
+	public EmpDTO userCheck(@RequestParam String userID){
 		log.info("userID :" +userID);
+	
+		EmpDTO dto = null;
 		
-		String result = "";
-		
-		if(service.getUser(userID) != null){
-			result = "1";
+		if(isStringDouble(userID)){
+			dto = service.getUser2(Integer.parseInt(userID));
 		}else{
-			result = "0";
+			dto = service.getUser(userID);
 		}
-		return result;
+		return dto;
 	}
+	
+	public static boolean isStringDouble(String s) {
+	    try {
+	        Double.parseDouble(s);
+	        return true;
+	    } catch (NumberFormatException e) {
+	        return false;
+	    }
+	  }
 	
 
 	@RequestMapping(value = "/insertChatSubmit")

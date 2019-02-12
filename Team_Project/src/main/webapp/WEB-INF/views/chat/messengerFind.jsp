@@ -35,52 +35,48 @@
 			}
 		});
 	}
-	function addListUser(emp_no, emp_name) {
+	function addListUser(emp_no, findID) {
 		console.log(emp_no);
 		$('#friendResult').append(
-				'<tbody><tr><td style="text-align: center;"><h3>사번 :' + emp_no +"&nbsp;&nbsp; 이름 : " +  emp_name +'</h3><a href="messengerChat.jsp?toID=' + emp_name +
-				'" class="btn btn-primary pull-right">메신저보내기</a></td>'+
-				'</tr></tbody>');
+				'<tbody><tr><td style="text-align: center;"><h3>사번 :' + emp_no +"&nbsp;&nbsp; 이름 : " + findID +'</h3><a href="/chat/messengerChat?toID=' + findID +
+				'" class="btn btn-primary pull-right">메신저보내기</a></td></tr></tbody>');
 	}
 		
-
 	function findFunction() {
-/* 		  var operForm = $("#friendResult"); 
-		  operForm.find("#bno").remove(); */
-		
 		var userID = $('#findID').val();
 		$.ajax({
 			type : 'POST',
-			url : '/chat2/userRegisterCheck',
+			url : '/chat2/userRegisterCheck.json',
 			data : {
 				userID : userID
 			},
 			success : function(result) {
 				console.log(result);
-				if (result == 1) {
-					$('#checkMessage').html('사용자찾기에 성공하였습니다.');
-					$('#checkType').attr('class','modal-content panel-success');
-					getFriend(userID);
-				}else {
+				if (result == null || result =="" || result == {}) {
 					$('#checkMessage').html('사용자를 찾을수 없습니다.');
 					$('#checkType').attr('class','modal-content panel-warning');
 					failFriend();
+				}else {
+					$('#checkMessage').html('사용자찾기에 성공하였습니다.');
+					$('#checkType').attr('class','modal-content panel-success');
+					getFriend(result.emp_no , result.emp_name);
+					
 				}
 				$('#checkModal').modal('show');
 			}
 		});
 		$('#chatContent').val(' ');
 	} 
-	function getFriend(findID) {
-		$('#friendResult').html('<thead><tr><th><h4>검색결과</h4></th></tr></thead>' +
-				'<tbody><tr>' +
-				'<td style="text-align: center;"><h3>' + findID +'</h3><a href="messengerChat.jsp?toID=' + findID +
+	function getFriend(emp_no, findID) {
+		$('#friendResult').html('<thead><tr><th><h4>검색결과</h4></th></tr></thead><tbody><tr>' +
+				'<td style="text-align: center;"><h3>사번 :' + emp_no +"&nbsp;&nbsp; 이름 : " + findID +'</h3><a href="/chat/messengerChat?toID=' + findID +
 				'" class="btn btn-primary pull-right">메신저보내기</a></td>'+
 				'</tr></tbody>');
 	}
 	function failFriend() {
 		$('#friendResult').html('');
 	}
+	
 <%-- 	function getUnread() {
 		$.ajax({
 			type : "POST",

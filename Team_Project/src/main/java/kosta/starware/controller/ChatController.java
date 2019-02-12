@@ -2,8 +2,8 @@ package kosta.starware.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import kosta.starware.service.ChatService;
@@ -26,10 +26,9 @@ public class ChatController {
 	
 	
 	@RequestMapping("/messengerChat")
-	public ModelAndView MessengerChat(String fromID, String toID, String listType){
+	public void MessengerChat(){
 		log.info("messengerChat");
 		//model.addAttribute("board", service.messengerChat(fromID, toID, listType));
-		return null;
 	}
 	
 	
