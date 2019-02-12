@@ -35,12 +35,10 @@ public class ChatService {
 	}
 	//전체 emp유저 불러오기
 	public ArrayList<EmpDTO> getAllUser() {	
-		
 		return chatMapper.getAllUser();
 	}
 	//사용자 검색 (이름)
 	public EmpDTO getUser(String userID) {	
-		
 		return chatMapper.getOneUser(userID);
 	}	
 	//사용자 검색(사번)
@@ -165,11 +163,8 @@ public class ChatService {
 	public int readChat(String fromID, String toID){
 		return chatMapper.unleadUpdate(fromID, toID);
 	}
-	
 	//안 읽은 전체 메세지 갯수 
 	public int unleadAllChatlist(String userID){
 		return chatMapper.unleadAllChatlist(userID);
 	}
-
-
 }

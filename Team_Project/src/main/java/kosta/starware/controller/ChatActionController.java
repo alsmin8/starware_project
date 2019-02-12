@@ -30,18 +30,15 @@ public class ChatActionController {
 	
 	@RequestMapping("/allUserCheck.json")
 	public ResponseEntity<ArrayList<EmpDTO>> allUserCheck(){
-		log.info("allUserCheck");	
-		
+		//log.info("allUserCheck");	
 		ArrayList<EmpDTO> emplist = service.getAllUser();
-		log.info(emplist);
-		
+		//log.info(emplist);
 		return new ResponseEntity<>(service.getAllUser() ,HttpStatus.OK);
 	}
 	
 	@RequestMapping("/userRegisterCheck.json")
 	public EmpDTO userCheck(@RequestParam String userID){
-		log.info("userID :" +userID);
-	
+		//log.info("userID :" +userID);
 		EmpDTO dto = null;
 		
 		if(isStringDouble(userID)){
@@ -78,13 +75,10 @@ public class ChatActionController {
 	@RequestMapping(value="/listChatLoad", produces = "application/text; charset=utf8")
 	public String listChatLoad(@RequestParam String fromID, @RequestParam String toID, @RequestParam String listType) throws Exception, IOException, Exception{
 		//log.info("listChatLoad");
-
 		String result = service.messengerChat(fromID, toID, listType);
 		return result;	
 	}
 
-	
-	
 	@RequestMapping("/unleadAllChatlist")
 	public String unleadAllChatlist(@RequestParam String userID){
 		log.info("unleadAllChatlist");		
