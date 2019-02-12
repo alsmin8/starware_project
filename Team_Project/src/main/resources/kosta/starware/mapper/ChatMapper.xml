@@ -23,9 +23,6 @@
 		insert into messenger values (messenger_no_seq.nextval, #{from_ID},#{to_ID}, #{m_Content}, sysdate, 0)
 	</insert>
 	
-	
-	
-	
 	<select id="getChatlistByRecent" parameterType="map" resultType="kosta.starware.domain.ChatDTO">
 		select * from messenger where ((from_ID =#{from_ID} and to_ID=#{to_ID})or(from_ID =#{to_ID} and to_ID=#{from_ID})) and m_contentNo > (select max(m_contentNo)-#{m_contentNo} from messenger where ((from_ID = #{from_ID} and to_ID = #{to_ID}) or (from_ID = #{to_ID} and to_ID = #{from_ID}))) order by m_regdate
 	</select>
@@ -33,23 +30,23 @@
 	<select id="getChatListbyID" parameterType="map" resultType="kosta.starware.domain.ChatDTO">
 		select * from messenger where ((from_ID =#{from_ID} and to_ID=#{to_ID}) or (from_ID =#{to_ID} and to_ID=#{from_ID})) and m_contentNo > #{m_contentNo}  order by m_regdate
 	</select>
-	
-<!-- 	
-	
 
-	
 	<update id="unleadUpdate" parameterType="map">
 		update messenger set chatLead = 1 where (from_ID = #{to_ID} and to_ID = #{from_ID})
 	</update>
+
+	<select id="unleadAllChatlist" parameterType="String" resultType="java.lang.Integer">
+		select count(m_contentNo) from messenger where to_ID = #{userID} and chatLead = 0
+	</select>
+	
+<!-- 	
 	
 	<resultMap type="ChatDTO" id="Chatlist">
 		<result column="fromID" property="userID"/>
 		<result column="toID" property="userID"/>
 	</resultMap>
 	
-	<select id="unleadAllChatlist" parameterType="String" resultMap="Chatlist">
-		select count(chatNo) from chat3 where toID = #{userID} and chatLead = 0;
-	</select>
+
 	
 	<select id="getChatlist" parameterType="String" resultMap="Chatlist">
 		select * from chat3 where chatNo IN (select max(chatNo) from chat3 where toID = #{userID} and fromID = #{userID} group by fromID,toID)

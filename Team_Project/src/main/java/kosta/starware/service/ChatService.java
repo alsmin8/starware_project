@@ -72,11 +72,6 @@ public class ChatService {
 	public int insertChatSubmit(ChatDTO dto) {
 		return chatMapper.chatSubmit(dto);
 	}
-
-	
-	
-	
-	
 	//사용자간 메세지 불러오기
 	public String messengerChat(String fromID, String toID, String listType) throws Exception, IOException{
 		if (fromID == null || fromID.equals("")||toID == null || toID.equals("")||listType == null || listType.equals("")) {
@@ -98,13 +93,10 @@ public class ChatService {
 	}
 	public String getTen(String fromID, String toID) throws Exception{
 		StringBuffer result = new StringBuffer("");
-		log.info("getTen 시작: " + fromID +" "+ toID);
-		
-		
+		//log.info("getTen 시작: " + fromID +" "+ toID);		
 		ArrayList<ChatDTO> chatlist = chatMapper.getChatlistByRecent(fromID, toID, 10);
 		
-		log.info("chatlist : " + chatlist);
-		
+		//log.info("chatlist : " + chatlist);	
 		if(chatlist.size() == 0){
 			return "";
 		}
@@ -130,18 +122,15 @@ public class ChatService {
 		}
 		result.append("], \"last\" : \"" + chatlist.get(chatlist.size() - 1).getM_contentNo() + "\"}");
 		
-		System.out.println(result);
-		
+		//System.out.println(result);
+		readChat(fromID, toID);
 		return result.toString();
 	}
-	
 	public String getID(String fromID, String toID, String listType) throws Exception{
 		StringBuffer result = new StringBuffer("");
-		log.info("getID 시작: " + fromID +" "+ toID);
-		
+		//log.info("getID 시작: " + fromID +" "+ toID);	
 		ArrayList<ChatDTO> chatlist = chatMapper.getChatListbyID(fromID, toID, listType);
-		
-		log.info("chatlist : " + chatlist);
+		//log.info("chatlist : " + chatlist);
 		//chatMapper.unleadChatUpdate(fromID, toID);
 		
 		if(chatlist.size() == 0){
@@ -168,10 +157,19 @@ public class ChatService {
 		}
 		result.append("], \"last\" : \"" + chatlist.get(chatlist.size() - 1).getM_contentNo() + "\"}");
 		
-		System.out.println(result);
-		
+		//System.out.println(result);
+		readChat(fromID, toID);
 		return result.toString();
 	}
-
+	//안읽은 메세지 업데이트
+	public int readChat(String fromID, String toID){
+		return chatMapper.unleadUpdate(fromID, toID);
+	}
 	
+	//안 읽은 전체 메세지 갯수 
+	public int unleadAllChatlist(String userID){
+		return chatMapper.unleadAllChatlist(userID);
+	}
+
+
 }

@@ -34,7 +34,6 @@
 		var fromID = '<%=emp_name%>';
 		var toID = '<%=toID%>';
 		var chatContent = $('#chatContent').val();
-		
 		$.ajax({
 			type : 'POST',
 			url : '/chat2/insertChatSubmit',
@@ -63,10 +62,7 @@
 			alert.hide()
 		}, deley);
 	}
-		
-		
-		
-		
+
 	function chatListFunction(type) {
 		var fromID = '<%=emp_name%>';
 		var toID = '<%=toID%>';
@@ -79,8 +75,6 @@
 				listType : type
 			},
 			success : function(data) {
-				console.log(data);
-				
 				if (data == null || data == "" || data == {}){
 					return;
 				}
@@ -125,15 +119,17 @@
 			chatListFunction(lastID);
 		}, 2000);
 	}
-	<%-- function getUnread() {
+	
+ 	function getUnread() {
 		$.ajax({
 			type : "POST",
-			url : "./unleadChatList",
+			url : "/chat2/unleadAllChatlist",
 			data : {
-				userID : '<%=emp_no%>'
+				userID : '<%=emp_name%>'
 			},
 			success : function(result) {
-				if(result == 1){
+				var count = Number(result);
+				if(count >= 1){
 					showUnread(result);
 				}else{
 					showUnread('');
@@ -147,8 +143,8 @@
 		}, 3000);
 	}
 	function showUnread(result) {
-		$('#unread').html(result);
-	} --%>
+		$('#unlead').html(result);
+	}
 </script>
 
 </head>
@@ -290,10 +286,10 @@
 	%>
 	<script type="text/javascript">
 	$(document).ready(function() {
-		//getUnread();
+		getUnread();
 		chatListFunction('ten');
 		getInfiniteChat();
-		//getInfiniteUnread();
+		getInfiniteUnread();
 	});
 	</script>
 	

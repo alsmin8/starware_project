@@ -4,11 +4,15 @@
 <html>
 <head>
 	<%
-		//session.setAttribute("emp_no", "12303");
-		//session.setAttribute("emp_name", "최길동");
+		session.setAttribute("emp_no", "12301");
+		session.setAttribute("emp_name", "홍길동");
 		String emp_no = null;
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
+		}
+		String emp_name = null;
+		if (session.getAttribute("emp_name") != null) {
+			emp_name = (String) session.getAttribute("emp_name");
 		}
 	%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -61,7 +65,6 @@
 				$('#checkModal').modal('show');
 			}
 		});
-		$('#chatContent').val(' ');
 	} 
 	function getFriend(emp_no, findID) {
 		$('#friendResult').html('<thead><tr><th><h4>검색결과</h4></th></tr></thead><tbody><tr>' +
@@ -73,15 +76,16 @@
 		$('#friendResult').html('');
 	}
 	
-<%-- 	function getUnread() {
+ 	function getUnread() {
 		$.ajax({
 			type : "POST",
-			url : "./unleadChatList",
+			url : "/chat2/unleadAllChatlist",
 			data : {
-				userID : '<%=emp_no%>'
+				userID : '<%=emp_name%>'
 			},
 			success : function(result) {
-				if(result == 1){
+				var count = Number(result);
+				if(count >= 1){
 					showUnread(result);
 				}else{
 					showUnread('');
@@ -95,8 +99,8 @@
 		}, 3000);
 	}
 	function showUnread(result) {
-		$('#unread').html(result);
-	} --%>
+		$('#unlead').html(result);
+	}
 </script>
 
 </head>
@@ -122,7 +126,7 @@
 				<li><a href="resource_main.jsp">출퇴근관리</a></li>
 				<li><a href="list.do">인사관리</a></li>
 				<li><a href="calendar_main.jsp">일정관리</a></li>
-				<li class="active"><a href="/chat/messengerFind">메세지함</a></li>
+				<li class="active"><a href="/chat/messengerFind">메세지함<span id="unlead" class="label label-info"></span></a></li>
 			</ul>
 			
 			<ul class="nav navbar-nav navbar-right">
@@ -228,19 +232,19 @@
 			</div>
 		</div>
 	</div>
-<%-- 	<%
+ 	<%
 		if(emp_no != null){
 
-	%> --%>
+	%>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			allUserFunction();
-			/* getUnread();
-			getInfiniteUnread(); */
+			getUnread();
+			getInfiniteUnread();
 		});
 	</script>
-<%-- 	<%
+	<%
 		}
-	%>  --%>
+	%>
 </body>
 </html>

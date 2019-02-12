@@ -51,7 +51,6 @@ public class ChatActionController {
 		}
 		return dto;
 	}
-	
 	public static boolean isStringDouble(String s) {
 	    try {
 	        Double.parseDouble(s);
@@ -64,9 +63,7 @@ public class ChatActionController {
 	@RequestMapping(value = "/insertChatSubmit", consumes="application/json", produces={MediaType.TEXT_PLAIN_VALUE})
 	public String insertChatSubmit(@RequestBody ChatDTO chatDTO){
 		log.info("insertChatSubmit");
-		
-		log.info(chatDTO);
-		
+		//log.info(chatDTO);
 		int result = service.insertChatSubmit(chatDTO);
 
 		if(result == 1){
@@ -80,11 +77,9 @@ public class ChatActionController {
 
 	@RequestMapping(value="/listChatLoad", produces = "application/text; charset=utf8")
 	public String listChatLoad(@RequestParam String fromID, @RequestParam String toID, @RequestParam String listType) throws Exception, IOException, Exception{
-		log.info("listChatLoad");
-		
-		//String result=null;
+		//log.info("listChatLoad");
+
 		String result = service.messengerChat(fromID, toID, listType);
-		
 		return result;	
 	}
 
@@ -92,12 +87,13 @@ public class ChatActionController {
 	
 	
 	
-	@RequestMapping("/unleadChat")
-	public void unleadChat(){
-		log.info("unleadChat");
+	
+	
+	@RequestMapping("/unleadAllChatlist")
+	public String unleadAllChatlist(@RequestParam String userID){
+		log.info("unleadAllChatlist");		
+		String count = String.valueOf(service.unleadAllChatlist(userID));
 		
+		return count;
 	}
-	
-
-	
 }
