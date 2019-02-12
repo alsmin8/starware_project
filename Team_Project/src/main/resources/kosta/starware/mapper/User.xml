@@ -14,10 +14,6 @@
 	<select id="getOneList" resultType="Emp" parameterType="int">
 		select * from emp where emp_no = #{emp_no}
 	</select>
-	
-	<select id="OneList" resultType="int" parameterType="int">
-		select * from emp where emp_no = #{emp_no}
-	</select>
 
 	<insert id="register" parameterType="userDTO">
 		insert into user2 values(#{userID}, #{userPassword}, #{userName}, #{userAge})

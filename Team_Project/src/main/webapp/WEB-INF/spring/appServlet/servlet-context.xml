@@ -22,7 +22,6 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="kosta.starware.controller" />
-	
-	
+	<context:component-scan base-package="kosta.starware.exception" />
 	
 </beans:beans>
