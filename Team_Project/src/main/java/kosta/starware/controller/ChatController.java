@@ -28,10 +28,8 @@ public class ChatController {
 		int result = service.userCheck(session);
 		
 		if (result == 0) {
-			session.setAttribute("messageType", "오류메세지");
-			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
-			/*return "/login";*/
-			return "/chat/messengerFind";
+			return "/login";
+			//return "/chat/messengerFind";
 		}else{
 			return "/chat/messengerFind";
 		}

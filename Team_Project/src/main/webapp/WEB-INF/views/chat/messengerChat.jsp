@@ -54,7 +54,7 @@
 				}
 			}
 		});
-		$('#chatContent').val(' ');
+		$('#chatContent').val('');
 	}
 	function autoClosingAlert(selector, deley) {
 		var alert = $(selector).alert();
@@ -81,7 +81,7 @@
 			success : function(data) {
 				console.log(data);
 				
-				if (data == null || data == ""){
+				if (data == null || data == "" || data == {}){
 					return;
 				}
 				var parsed = JSON.parse(data);
@@ -94,7 +94,7 @@
 					addChat(result[i][0].value, result[i][2].value,
 							result[i][3].value);
 				}
-				lastID = Number(data.last);
+				lastID = Number(parsed.last);
 			}
 		});
 	}

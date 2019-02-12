@@ -77,11 +77,8 @@ public class ChatActionController {
 			return "-1";
 		}
 	}
-	
-	
-	
-	
-	@RequestMapping(value="/listChatLoad", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+
+	@RequestMapping(value="/listChatLoad", produces = "application/text; charset=utf8")
 	public String listChatLoad(@RequestParam String fromID, @RequestParam String toID, @RequestParam String listType) throws Exception, IOException, Exception{
 		log.info("listChatLoad");
 		
