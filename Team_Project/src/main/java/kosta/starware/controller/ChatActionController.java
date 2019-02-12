@@ -85,10 +85,6 @@ public class ChatActionController {
 
 	
 	
-	
-	
-	
-	
 	@RequestMapping("/unleadAllChatlist")
 	public String unleadAllChatlist(@RequestParam String userID){
 		log.info("unleadAllChatlist");		
