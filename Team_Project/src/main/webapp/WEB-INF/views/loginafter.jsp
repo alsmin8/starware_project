@@ -11,9 +11,6 @@
 <script src="/resources/jquery.js" type="text/javascript"></script>
 <script src="/resources/js/bootstrap.js" type="text/javascript"></script>
 
-
-</head>
-<body>
 	<%
 		String emp_no = null;
 		if (session.getAttribute("emp_no") != null) {
@@ -22,10 +19,39 @@
  		if (emp_no == null) {
 			session.setAttribute("messageType", "오류메세지");
 			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
-			//response.sendRedirect("login.jsp");
-			//return;
 		}
 	%>
+<script type="text/javascript">
+	function getUnread() {
+		$.ajax({
+			type : "POST",
+			url : "/chat2/unleadAllChatlist",
+			data : {
+				userID : ${emp_name}
+			},
+			success : function(result) {
+				var count = Number(result);
+				if(count >= 1){
+					showUnread(result);
+				}else{
+					showUnread('');
+				}
+			}
+		});
+	}
+	function getInfiniteUnread() {
+		setInterval(function() {
+			getUnread();
+		}, 3000);
+	}
+	function showUnread(result) {
+		$('#unlead').html(result);
+	}
+</script>
+</head>
+<body>
+
+	
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed"
@@ -34,7 +60,7 @@
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="/loginafter">STARWARE</a>
+			<a class="navbar-brand" href="/login">STARWARE</a>
 		</div>
 
 		<div class="collapse navbar-collapse"
@@ -168,6 +194,20 @@
 			</div>
 		</div>
 	</div>
+	
+	 	<%
+		if(emp_no != null){
+
+	%>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			getUnread();
+			getInfiniteUnread();
+		});
+	</script>
+	<%
+		}
+	%>
 	
 </body>
 </html>

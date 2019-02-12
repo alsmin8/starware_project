@@ -119,7 +119,7 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a href="loginafter.jsp">메인</a></li>
+				<li><a href="/loginafter">메인</a></li>
 				<li><a href="list.bit">전자결재</a></li>
 				<li><a href="listActionProject.pro">협업지원</a></li>
 				<li><a href="list.not">공지사항</a></li>

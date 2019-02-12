@@ -26,7 +26,7 @@ public class ChatController {
 		int result = service.userCheck(session);
 		
 		if (result == 0) {
-			return "/login";
+			return "redirect:/login";
 			//return "/chat/messengerFind";
 		}else{
 			return "/chat/messengerFind";
@@ -39,7 +39,7 @@ public class ChatController {
 		String result = service.chatUserCheck(session, toID);
 		//model.addAttribute("board", service.messengerChat(fromID, toID, listType));
 		if (result == "-1") {
-			return "/login";
+			return "redirect:/login";
 		}else if(result == "0"){
 			return "/chat/messengerFind";
 		}else{

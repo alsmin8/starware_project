@@ -18,11 +18,11 @@
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
 		}
-
+/* 
 		if (emp_no != null) {
 			session.setAttribute("messageType", "오류메세지");
 			session.setAttribute("messageContent", "현재 로그인이 되어있습니다.");
-		}
+		} */
 	%>
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
@@ -37,9 +37,7 @@
 
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
-			<%
-				if (emp_no == null) {
-			%>
+
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="buton" aria-haspopup="true"
@@ -49,9 +47,7 @@
 						<li><a href="/login">로그인</a></li>
 					</ul></li>
 			</ul>
-			<%
-				}
-			%>
+
 		</div>
 	</nav>
 
