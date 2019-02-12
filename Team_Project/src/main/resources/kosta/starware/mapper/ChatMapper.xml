@@ -8,23 +8,23 @@
 	<cache />
 	
 	<select id="getOneUser" resultType="kosta.starware.domain.EmpDTO" parameterType="String">
-		select * from emp where emp_name = #{emp_name}
+		select emp_no,emp_name from emp where emp_name = #{emp_name}
 	</select>
 	
 	<select id="getOneUser2" resultType="kosta.starware.domain.EmpDTO" parameterType="int">
-		select * from emp where emp_no = #{emp_no}
+		select emp_no,emp_name from emp where emp_no = #{emp_no}
 	</select>
 
 	<select id="getAllUser" resultType="kosta.starware.domain.EmpDTO">
 		select * from emp
 	</select>
 	
-	
-	
-	
-	<insert id="submit" parameterType="kosta.starware.domain.ChatDTO">
+	<insert id="chatSubmit" parameterType="kosta.starware.domain.ChatDTO">
 		insert into messenger values (messenger_no_seq.nextval, #{from_ID},#{to_ID}, #{m_Content}, sysdate, 0)
 	</insert>
+	
+	
+	
 	
 	<select id="getChatlistByRecent" parameterType="map" resultType="kosta.starware.domain.ChatDTO">
 		select * from messenger where ((from_ID =#{from_ID} and to_ID=#{to_ID})or(from_ID =#{to_ID} and to_ID=#{from_ID})) and m_contentNo > (select max(m_contentNo)-#{m_contentNo} from messenger where ((from_ID = #{from_ID} and to_ID = #{to_ID}) or (from_ID = #{to_ID} and to_ID = #{from_ID}))) order by m_regdate

@@ -4,16 +4,12 @@
 <html>
 <head>
 	<%
+		//session.setAttribute("emp_no", "12303");
+		//session.setAttribute("emp_name", "최길동");
 		String emp_no = null;
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
 		}
-/* 		if (emp_no == null) {
-			session.setAttribute("messageType", "오류메세지");
-			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
-			response.sendRedirect("/login");
-			return;
-		} */
 	%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale = 1">
@@ -113,7 +109,7 @@
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="login.jsp">STARWARE</a>
+			<a class="navbar-brand" href="/login">STARWARE</a>
 		</div>
 
 		<div class="collapse navbar-collapse"
