@@ -24,15 +24,18 @@ public class UserController {
 	private UserService service;
 
 	@GetMapping("/login")
-	public void login(@ModelAttribute("vo") UserVO vo) {
-
-		// log.info("login start...................");
+	public String login(HttpSession session) {
+		
+		if(session.getAttribute("emp_no") == null || session.getAttribute("emp_no").equals("")){
+			return "/login";
+		}else{
+			return "/loginafter";
+		}
+	
 	}
 
 	@PostMapping("/login")
 	public String loginafter(UserVO vo, HttpSession session) throws Exception {
-
-		// log.info("vo : " + vo);
 
 		int num = service.loginCheck(vo);
 
