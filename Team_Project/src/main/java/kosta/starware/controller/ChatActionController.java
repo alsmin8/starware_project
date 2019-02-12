@@ -39,7 +39,6 @@ public class ChatActionController {
 		log.info("userID :" +userID);
 	
 		EmpDTO dto = null;
-		//추가 변경
 		
 		if(isStringDouble(userID)){
 			dto = service.getUser2(Integer.parseInt(userID));
@@ -58,13 +57,18 @@ public class ChatActionController {
 	    }
 	  }
 	
-
-	@RequestMapping(value = "/insertChatSubmit")
+	@RequestMapping("/insertChatSubmit")
 	public ResponseEntity<String> insertChatSubmit(){
 		log.info("insertChatSubmit");
 		
 		return new ResponseEntity<>("success", HttpStatus.OK);
 	}
+	
+	
+	
+	
+	
+	
 	
 	@RequestMapping("/listChatLoad")
 	public void listChatLoad(){

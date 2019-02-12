@@ -2,6 +2,8 @@ package kosta.starware.service;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,12 +11,27 @@ import kosta.starware.domain.ChatDTO;
 import kosta.starware.domain.EmpDTO;
 import kosta.starware.mapper.ChatMapper;
 import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
 @Service
+@Log4j
 public class ChatService {
 	
 	@Setter(onMethod_ = @Autowired)
 	private ChatMapper chatMapper;
+	
+	public int userCheck(HttpSession session) {
+		String emp_no = (String) session.getAttribute("emp_no");
+		String emp_name = (String) session.getAttribute("emp_name");
+		
+		if (emp_no == null || emp_name == null) {
+			session.setAttribute("messageType", "오류메세지");
+			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
+			return 0;
+		}
+		return 1;
+	}
+	
 	
 	public ArrayList<EmpDTO> getAllUser() {
 		
@@ -32,8 +49,25 @@ public class ChatService {
 		return chatMapper.getOneUser2(userID);
 	}
 
-	
-	
+	public String chatUserCheck(HttpSession session, String toID) {
+		log.info(session.getAttribute("emp_no"));
+		log.info(session.getAttribute("emp_name"));
+		log.info(toID);
+		String emp_no = (String) session.getAttribute("emp_no");
+		String emp_name = (String) session.getAttribute("emp_name");
+		
+		if (emp_no == null || emp_name ==null) {
+			session.setAttribute("messageType", "오류메세지");
+			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
+			return "-1";
+		}
+		if (toID == null|| toID.equals("")){
+			session.setAttribute("messageType", "오류메세지");
+			session.setAttribute("messageContent", "대화상대가  지정되지 않았습니다.");
+			return "0";
+		}
+		return "1";
+	}
 	
 	
 	

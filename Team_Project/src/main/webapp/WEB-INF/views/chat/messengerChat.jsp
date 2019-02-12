@@ -13,20 +13,10 @@
 		emp_no = (String) session.getAttribute("emp_no");
 	}
 	String toID = null;
-	if (request.getParameter("toID") != null) {
-		toID = (String) request.getParameter("toID");
+	if (request.getAttribute("toID") != null) {
+		toID = (String) request.getAttribute("toID");
 	}
 
-/*  	if (emp_no == null || emp_name ==null) {
-		session.setAttribute("messageType", "오류메세지");
-		session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
-		//로그인화면으로 이동하는게 있어야 됨
-	}
-	if (toID == null) {
-		session.setAttribute("messageType", "오류메세지");
-		session.setAttribute("messageContent", "대화상대가  지정되지 않았습니다.");
-		//메신저 선택 화면으로 이동하는게 있어야 함
-	} */
 %>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale = 1">
@@ -45,7 +35,7 @@
 		var chatContent = $('#chatContent').val();
 			$.ajax({
 				type : 'POST',
-				url : './insertChatSubmit',
+				url : '/chat2/insertChatSubmit',
 				data : {
 					fromID : fromID,
 					toID : toID,
