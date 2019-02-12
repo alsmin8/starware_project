@@ -39,6 +39,7 @@ public class ChatActionController {
 		log.info("userID :" +userID);
 	
 		EmpDTO dto = null;
+		//추가 변경
 		
 		if(isStringDouble(userID)){
 			dto = service.getUser2(Integer.parseInt(userID));
