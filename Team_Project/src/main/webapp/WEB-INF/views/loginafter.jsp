@@ -19,12 +19,12 @@
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
 		}
-/* 		if (emp_no == null) {
+ 		if (emp_no == null) {
 			session.setAttribute("messageType", "오류메세지");
 			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
-			response.sendRedirect("login.jsp");
-			return;
-		} */
+			//response.sendRedirect("login.jsp");
+			//return;
+		}
 	%>
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
@@ -34,13 +34,13 @@
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="/login">STARWARE</a>
+			<a class="navbar-brand" href="/loginafter">STARWARE</a>
 		</div>
 
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="/UserLogin">메인</a></li>
+				<li class="active"><a href="/loginafter">메인</a></li>
 				<li><a href="list.bit">전자결재</a></li>
 				<li><a href="listActionProject.pro">협업지원</a></li>
 				<li><a href="list.not">공지사항</a></li>

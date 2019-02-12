@@ -22,7 +22,7 @@
 		if (emp_no != null) {
 			//session.setAttribute("messageType", "오류메세지");
 			//session.setAttribute("messageContent", "현재 로그인이 되어있습니다.");
-			response.sendRedirect("/UserLogin");
+			response.sendRedirect("/login");
 			return;
 		}
 	%>
@@ -68,7 +68,7 @@
 			</div>
 			<div class="col-xs-10">
 
-				<form method="post" action="/UserLogin">
+				<form method="post" action="/login">
 					<table class="table table-bordered table-hover"
 						style="text-align: center; border: 1px solid #dddddd;">
 						<thead>
@@ -80,13 +80,13 @@
 							<tr>
 								<td style="width: 110px;"><h5>아이디</h5></td>
 								<td colspan="2"><input class="form-control" type="text"
-									id="userID" name="userID" maxlength="20"
+									id="emp_no" name="emp_no" maxlength="20"
 									placeholder="아이디를 입력하세요"></td>
 							</tr>
 							<tr>
 								<td style="width: 110px;"><h5>비밀번호</h5></td>
 								<td colspan="2"><input class="form-control" type="password"
-									id="userPassword" name="userPassword" maxlength="20"
+									id="emp_pass" name="emp_pass" maxlength="20"
 									placeholder="비밀번호를 입력하세요"></td>
 							</tr>
 							<tr>
