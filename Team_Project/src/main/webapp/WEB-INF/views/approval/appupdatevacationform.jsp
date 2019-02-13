@@ -81,47 +81,53 @@ text-align: center;
 	</nav>
 	
 	<div class="container">
-	<%
-		String app_kind = request.getParameter("app_kind");
-	%>
-	<form action="/approval/appdetailddraft?app_no=${approval.app_no}&app_kind=${app_kind}" method="post">
-			<input type="hidden" name="app_kind" value="<%=app_kind%>">
-	<table class="table table-bordered table-hover"
+	
+	
+	<form action="/approval/appupdatevacationform?app_no=${approval.app_no}&app_kind=${approval.app_kind}" method="post">
+		<table class="table table-bordered table-hover"
 				style="text-align: center; border: 1px solid #dddddd;">
 				<thead>
 					<tr>
-						<th colspan="4"><h4>기 안 서</h4></th>
+						<th colspan="6"><h4>연 차 신 청 서</h4></th>
 					</tr>
-				</thead>
-			<tr>
-				<td style="width: 110px;">이 름</td>
-				<td style="width: 110px;">${emp_name }</td>
-				<td style="width: 110px;">사 번</td>
-				<td style="width: 110px;">${emp_no}</td>
-			<tr>
-			<tr>
-				<td style="width: 110px;">부 서</td>
-				<td style="width: 110px;">${dept_name }</td>
-				<td style="width: 110px;">직 급</td>
-				<td style="width: 110px;">${grade_name }</td>
-			<tr>
 			<tr>
 				<td style="width: 110px;">제 목</td>
-				<td colspan="3">${approval.app_title}</td>
+				<td colspan="5"><input type="text" name="app_title" value="${approval.app_title}"></td>
 			</tr>
 			<tr>
-				<td  style="width: 110px;" rowspan="5">내 용</td>
-				<td colspan="3" rowspan="5" height="250">${draftdoc.dd_contents}</td>
+				<td>이 름</td>
+				<td colspan="2"><input type="text" name="name" value=""></td>
+				<td>사 번</td>
+				<td colspan="2"><input type="text" name="emp_no" value="${approval.emp_no}"></td>
+			</tr>
+			<tr>
+				<td style="width: 110px;">부 서</td>
+				<td colspan="2"><input class="form-control" type="text" name="dept_name" value=""></td>
+				<td style="width: 110px;">직 급</td>
+				<td colspan="2"><input class="form-control" type="text" name="grade_name" value= ""></td>
+			</tr>
+			<tr>
+				<td style="width: 110px;">휴가기간</td>
+				<td><input class="form-control" type="text" name="vd_startdate" value="${vacationdoc.vd_startdate}"> </td>
+				<td>~</td>
+				<td><input class="form-control" type="text" name="vd_enddate" value="${vacationdoc.vd_enddate}"> </td>
+				<td style="width: 110px;">총 일수</td>
+				<td><input class="form-control" type="text" name="vd_day" value="${vacationdoc.vd_day}"> </td>
+			</tr>
+			<tr>
+				<td style="width: 110px;">내 용</td>
+				<td colspan="5"><input class="form-control" type="text" name="vd_contents" value="${vacationdoc.vd_contents}"> </td>
+			</tr>
+			<tr>
+				<td style="width: 110px;">비 고</td>
+				<td colspan="5"><input class="form-control" type="text" name="etc" value=""></td>
 			</tr>
 
+
 		</table>
-		<br>
-		<center>
-		<a href="/approval/appupdatedraftform?app_no=${approval.app_no}&app_kind=${approval.app_kind}">수정</a> &emsp;&emsp;&emsp;&emsp;&emsp;
-		<a href="/approval/appdeletedraft?app_no=${approval.app_no}">삭제</a>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-		<a href="/approval/applist_alllist">목록</a>
-		</center>
-		</form>
+		<input type="submit" value="수정완료">
+	</form>
+	
 	
 	</div>
 	

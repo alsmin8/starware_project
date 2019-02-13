@@ -6,11 +6,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale = 1">
-<link rel="stylesheet" href="css/bootstrap.css">
-<link rel="stylesheet" href="css/custom.css">
+<link rel="stylesheet" href="/resources/css/bootstrap.css">
+<link rel="stylesheet" href="/resources/css/custom.css">
 <title>STARWARE(Groupware)</title>
-<script src="jquery.js" type="text/javascript"></script>
-<script src="js/bootstrap.js"></script>
+<script src="/resources/jquery.js" type="text/javascript"></script>
+<script src="/resources/js/bootstrap.js"></script>
 <style>
 
 td{
@@ -81,7 +81,7 @@ text-align: center;
 	<div class="container">
 	
 	
-	<form action="approval/appupdateddform?seq=${approval.app_no}&app_kind=${approval.app_kind}" method="post">
+	<form action="/approval/appupdateddform?app_no=${approval.app_no}&app_kind=${approval.app_kind}" method="post">
 	
 		<table class="table table-bordered table-hover"
 				style="text-align: center; border: 1px solid #dddddd;">
@@ -91,11 +91,11 @@ text-align: center;
 					</tr>
 			<tr>
 				<td style="width: 110px;">제 목</td>
-				<td colspan="3"><input class="form-control" type="text" name="d_title" value="${disbursementdoc.d_title }" width=100></td>
+				<td colspan="3"><input class="form-control" type="text" name="app_title" value="${approval.app_title }" width=100></td>
 			</tr>
 			<tr>
 				<td style="width: 110px;">이 름</td>
-				<td><input class="form-control" type="text" name="emp_name" value="${emp.emp_name}"></td>
+				<td><input class="form-control" type="text" name="emp_name" value="emp"></td>
 				<td style="width: 110px;">사 번</td>
 				<td><input class="form-control" type="text" name="emp_no" value="${approval.emp_no}"></td>
 			</tr>
@@ -109,7 +109,7 @@ text-align: center;
 				<td><input class="form-control" type="text" name="d_contents" value="${disbursementdoc.d_contents}"></td>
 				<td><input class="form-control" type="text" name="d_usingdate" value="${disbursementdoc.d_usingdate }"></td>
 				<td><input class="form-control" type="text" name="d_amount" value="${disbursementdoc.d_amount }"></td>
-				<td><input class="form-control" type="text" name="customer_no" value="${disbursementdoc.customer_no }"></td>
+				
 			</tr>
 
 			<tr>

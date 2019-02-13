@@ -8,6 +8,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 import kosta.starware.domain.Approval;
+import kosta.starware.domain.DisbursementDoc;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
@@ -26,8 +27,8 @@ public class ApprovalMapperTest {
 	/*@Test
 	public void testappInsert(){
 		Approval approval = new Approval();
-		approval.setApp_title("»õ·ÎÀÛ¼ºÇÏ´Â test");
-		approval.setApp_kind("»õ·ÎÀÛ¼ºÇÏ´Â test");
+		approval.setApp_title("ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½ï¿½Ï´ï¿½ test");
+		approval.setApp_kind("ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½ï¿½Ï´ï¿½ test");
 		
 		approvalmapper.appInsert(approval);
 		log.info(approval);
@@ -36,8 +37,8 @@ public class ApprovalMapperTest {
 	/*@Test
 	public void testappInsertSelectKey(){
 		Approval approval = new Approval();
-		approval.setApp_title("»õ·ÎÀÛ¼ºÇÏ´Â selectkey");
-		approval.setApp_kind("»õ·ÎÀÛ¼ºÇÏ´Â selectkey");
+		approval.setApp_title("ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½ï¿½Ï´ï¿½ selectkey");
+		approval.setApp_kind("ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½ï¿½Ï´ï¿½ selectkey");
 		
 		approvalmapper.appInsertSelectKey(approval);
 		log.info(approval);
@@ -57,16 +58,20 @@ public class ApprovalMapperTest {
 	/*@Test
 	public void testappUpdate(){
 		Approval approval = new Approval();
-		approval.setApp_no(8);
-		approval.setApp_title("¼öÁ¤µÈÁ¦¸ñ");
+		DisbursementDoc disbursementDoc =  new DisbursementDoc();
+		approval.setApp_no(101);
+		approval.setApp_title("ìˆ˜ì •test");
+		disbursementDoc.setD_amount(10000000);
 		
 		int count = approvalmapper.appUpdate(approval);
 		log.info("UPDATECOUNT::::::::" +count);
+		int amount = approvalmapper.appDdUpdate(disbursementDoc);
+		log.info("UPDATEAMOUNT"+amount);
 	}*/
-	@Test
+	/*@Test
 	public void testgetappno(){
 		
 		log.info("appno::::::::" +approvalmapper.getAppNo());
-	}
+	}*/
 	
 }
