@@ -8,11 +8,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale = 1">
-<link rel="stylesheet" href="css/bootstrap.css">
-<link rel="stylesheet" href="css/custom.css">
+<link rel="stylesheet" href="/resources/css/bootstrap.css">
+<link rel="stylesheet" href="/resources/css/custom.css">
 <title>STARWARE(Groupware)</title>
-<script src="jquery.js" type="text/javascript"></script>
-<script src="js/bootstrap.js"></script>
+<script src="/resources/jquery.js" type="text/javascript"></script>
+<script src="/resources/js/bootstrap.js"></script>
 <style>
 td {
 	text-align: center;
@@ -90,19 +90,19 @@ tr {
 	%>
 
 
-		<form action="detaildd.bit?seq=${Approval.app_no}" method="post">
+		<form action="/approval/appdetaildd?app_no=${approval.app_no}&app_kind=${app_kind}" method="post">
 			<input type="hidden" name="app_kind" value="<%=app_kind%>">
 			<table class="table table-bordered table-hover"
 				style="text-align: center; border: 1px solid #dddddd;">
 				<thead>
 					<tr>
-						<th colspan="3"><h4>기 안 서</h4></th>
+						<th colspan="4"><h4>지 출 결 의 서</h4></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<td style="width: 110px;">제 목</td>
-						<td colspan="3">${disbursementdoc.d_title }</td>
+						<td colspan="3">${approval.app_title }</td>
 					</tr>
 					<tr>
 						<td style="width: 110px;">이 름</td>
@@ -128,7 +128,7 @@ tr {
 							<fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd" /></td>
 						<td style="width: 110px;">${disbursementdoc.d_contents}</td>
 						<td style="width: 110px;">${disbursementdoc.d_amount}</td>
-						<td style="width: 110px;">${disbursementdoc.customer_no}</td>
+						<td style="width: 110px;">${customer_no}</td>
 					</tr>
 					<tr>
 						<td style="width: 110px;"></td>
@@ -147,7 +147,7 @@ tr {
 			<br>
 			<center>
 				<a
-					href="updateform.bit?seq=${Approval.app_no}&app_kind=${Approval.app_kind}">수정</a>
+					href="/approval/appupdateddform?app_no=${Approval.app_no}">수정</a>
 				&emsp;&emsp;&emsp;&emsp;&emsp; <a
 					href="delete.bit?seq=${Approval.app_no}">삭제</a>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 				<a href="list.bit" align="right">목록</a>

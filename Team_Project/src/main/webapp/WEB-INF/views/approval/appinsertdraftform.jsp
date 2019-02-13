@@ -8,11 +8,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale = 1">
-<link rel="stylesheet" href="css/bootstrap.css">
-<link rel="stylesheet" href="css/custom.css">
+<link rel="stylesheet" href="/resources/css/bootstrap.css">
+<link rel="stylesheet" href="/resources/css/custom.css">
 <title>STARWARE(Groupware)</title>
-<script src="jquery.js" type="text/javascript"></script>
-<script src="js/bootstrap.js"></script>
+<script src="/resources/jquery.js" type="text/javascript"></script>
+<script src="/resources/js/bootstrap.js"></script>
 
 </head>
 <body>
@@ -76,12 +76,12 @@
 	
 	<div class="container">
 	
-	<%
+	 <%
 		String app_kind = request.getParameter("app_kind");
-	%>
+	%> 
 	
-	<form action="insertDraft.bit" method="post">
-		<input type="hidden" name="app_kind" value="<%=app_kind%>">
+	<form role="form" action="/approval/appinsertdraftform" method="post">
+		 <input type="hidden" name="app_kind" value="<%=app_kind%>"> 
 		<table class="table table-bordered table-hover"
 				style="text-align: center; border: 1px solid #dddddd;">
 				<thead>
@@ -102,7 +102,7 @@
 			</tr>
 			<tr>
 				<td style="width: 110px;">제 목</td>
-				<td colspan="3"><input  class="form-control" type="text" name="dd_title" size="80"></td>
+				<td colspan="3"><input  class="form-control" type="text" name="app_title" size="80"></td>
 			</tr>
 			<tr>
 				<td style="width: 110px;">내 용</td>

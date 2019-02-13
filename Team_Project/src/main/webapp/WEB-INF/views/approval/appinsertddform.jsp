@@ -8,11 +8,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale = 1">
-<link rel="stylesheet" href="css/bootstrap.css">
-<link rel="stylesheet" href="css/custom.css">
+<link rel="stylesheet" href="/resources/css/bootstrap.css">
+<link rel="stylesheet" href="/resources/css/custom.css">
 <title>STARWARE(Groupware)</title>
-<script src="jquery.js" type="text/javascript"></script>
-<script src="js/bootstrap.js"></script>
+<script src="/resources/jquery.js" type="text/javascript"></script>
+<script src="/resources/js/bootstrap.js"></script>
 
 </head>
 <body>
@@ -76,13 +76,13 @@
 
 	<div class="container">
 
-		<%
+		 <%
 			String app_kind = request.getParameter("app_kind");
-		%>
+		%> 
 
 
-		<form action="insertdd.bit" method="post">
-			<input type="hidden" name="app_kind" value="<%=app_kind%>">
+		<form role="form" action="/approval/appinsertddform" method="post">
+			 <input type="hidden" name="app_kind" value="<%=app_kind%>">
 			<table class="table table-bordered table-hover"
 				style="text-align: center; border: 1px solid #dddddd;">
 				<thead>
@@ -91,33 +91,34 @@
 					</tr>
 					<tr>
 						<td style="width: 110px;">제 목</td>
-						<td colspan="7"><input class="form-control" type="text"
-							name="d_title"></td>
+						<td colspan="4"><input class="form-control" type="text"
+							name="app_title"></td>
 					</tr>
-					<tr>
+					 <tr>
 						<td style="width: 110px;">이 름</td>
-						<td colspan="3"><input class="form-control" type="text"
+						<td><input class="form-control" type="text"
 							name="emp_name" value=${emp_name}></td>
 						<td style="width: 110px;">사 번</td>
-						<td colspan="3"><input class="form-control" type="text"
+						<td><input class="form-control" type="text"
 							name="emp_no" value=${emp_no}></td>
 					</tr>
 					<tr>
-						<td style="width: 110px;">사 유</td>
-						<td><input class="form-control" type="text" name="d_contents"></td>
+						<td style="width: 110px;">순번</td>
 						<td style="width: 110px;">사용일자</td>
-						<td><input class="form-control" type="text"
-							name="d_usingdate"></td>
+						<td style="width: 110px;">사 유</td>
 						<td style="width: 110px;">금 액</td>
+					</tr>
+					<tr>
+						<td><input class="form-control" type="text" name="d_idx" value="1" readonly="readonly"></td>
+						<td><input class="form-control" type="text" name="d_usingdate"></td>
+						<td><input class="form-control" type="text" name="d_contents"></td>
 						<td><input class="form-control" type="text" name="d_amount"></td>
-						<td style="width: 110px;">거래처 번호</td>
-						<td><input class="form-control" type="text"
-							name="customer_no"></td>
+						
 					</tr>
 
 					<tr>
-						<td style="width: 110px;">비 고</td>
-						<td colspan="7"><input class="form-control" type="text"
+						<td style="width: 110px;">특이사항</td>
+						<td colspan="4"><input class="form-control" type="text"
 							name="etc" size="100"></td>
 					</tr>
 			</table>

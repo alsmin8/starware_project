@@ -8,11 +8,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale = 1">
-<link rel="stylesheet" href="css/bootstrap.css">
-<link rel="stylesheet" href="css/custom.css">
+<link rel="stylesheet" href="/resources/css/bootstrap.css">
+<link rel="stylesheet" href="/resources/css/custom.css">
 <title>STARWARE(Groupware)</title>
-<script src="jquery.js" type="text/javascript"></script>
-<script src="js/bootstrap.js"></script>
+<script src="/resources/jquery.js" type="text/javascript"></script>
+<script src="/resources/js/bootstrap.js"></script>
 <style>
 
 td{
@@ -85,9 +85,9 @@ text-align: center;
 	
 	<h3>결재 양식 선택</h3><br><br>
 	
-	<a href="appinsertddform.jsp?app_kind=지출결의서"><input type="hidden" name="app_kind" value="지출결의서"/>지출결의서</a><br><br>
-	<a href="appinsertdraftform.jsp?app_kind=기안서" ><input type="hidden" name="app_kind" value="기안서"/>기안서</a><br><br>
-	<a href="appinsertvacationform.jsp?app_kind=연차신청서"><input type="hidden" name="app_kind" value="연차신청서"/>연차신청서</a><br><br>
+	<a href="appinsertddform?app_kind=지출결의서"><input type="hidden" name="app_kind" value="지출결의서"/>지출결의서</a><br><br>
+	<a href="appinsertdraftform?app_kind=기안서" ><input type="hidden" name="app_kind" value="기안서"/>기안서</a><br><br>
+	<a href="appinsertvacationform?app_kind=연차신청서"><input type="hidden" name="app_kind" value="연차신청서"/>연차신청서</a><br><br>
 	<a>출장신청서</a><br><br>
 	<a>예산신청서</a><br><br>
 	<a>사직서</a><br><br>
