@@ -1,5 +1,7 @@
 ﻿<%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -15,29 +17,26 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="/resources/js/bootstrap.js"></script>
   <script>
-  $( function() {
-	    $( "#start" ).datepicker();
-	    dateFormat: 'yy-mm-dd'
-	  } );
-	  $( function() {
-		    $( "#end" ).datepicker();
-		    dateFormat: 'yy-mm-dd'
-		  } );
+$( function() {
 	  
-  function checkForm(){
-	  var title=document.form.notice_title;
-	  var contents=document.form.notice_contents;
+	  $("#today").text(new Date().toLocaleDateString());
 	  
-	  if(title.value==''||contents.value==''){
-		  window.alert("제목과 내용을 입력해야 합니다.")
-		  document.form.notice_title.focus();
-		  document.form.notice_contents.focus();
-		  return false;
-	  }
-  }
-  
-  
-  
+    $( "#start" ).datepicker({ 
+    	dateFormat: 'yy-mm-dd',
+    	onClose: function( selectedDate ) {    
+            // 시작일(fromDate) datepicker가 닫힐때
+            // 종료일(toDate)의 선택할수있는 최소 날짜(minDate)를 선택한 시작일로 지정
+            $("#start").datepicker( "option", "minDate", selectedDate );
+        }       
+    });
+	
+ 	 $( "#end" ).datepicker({ 
+ 		 dateFormat: 'yy-mm-dd',
+ 		onClose: function(selectedDate){
+ 			$("#start").datepicker("option", "maxDate", selectedDate);
+ 		} 
+ 	 });
+  });
   </script>
 </head>
 <body>
@@ -92,12 +91,14 @@
 
 	<div class="container">
 
-
-<form action="noticeUpdate" method="post" name="form" id="form" onsubmit="return checkForm();">
+<form role="form" id="form" name="form" action="noticeUpdate" method="post" >
 	<input type="hidden" name="notice_no" value="${notice.notice_no}">
 	<input type="hidden" name="notice_hitCount" value="${notice.notice_hitCount}">
 	<input type="hidden" name="notice_regdate" value="${notice.notice_regdate}">
 	<input type="hidden" name="emp_no" value="${emp_no}">
+	<input type='hidden' name='pageNum' value='<c:out value="${ncri.pageNum }"/>'>
+    <input type='hidden' name='amount' value='<c:out value="${ncri.amount }"/>'>
+	
 	
 	<table class="table table-bordered table-hover"
 					style="text-align: center; border: 1px solid #dddddd;">
@@ -146,11 +147,11 @@
 	</tr>
 	<tr>
 	<td style="text-align: left" colspan="4">
-	<input class="btn btn-primary pull-right" type="button" onclick="location.href='noticeList';" value="취소" />
-	<input class="btn btn-primary pull-right" type="submit" value="등록"/>
 	
+	<button type="submit" data-oper='list' class="btn btn-primary pull-right">취소</button>
+	<button type="submit" data-oper='update' class="btn btn-primary pull-right">수정</button>
 	 </td>
-						</tr>
+	</tr>
 	
 	</tbody>
 	</table>
@@ -158,6 +159,50 @@
 </form>
 
 </div>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+	var noticeUpdateForm=$("form");
+    var title=document.form.notice_title;
+	var contents=document.form.notice_contents;
+	
+	$('button').on("click", function(e){
+		e.preventDefault();
+		var noticeoper=$(this).data("oper");
+		console.log(noticeoper);
+		
+		if(noticeoper==='update'){
+			
+			if(title.value==''||contents.value==''){
+				  window.alert("제목과 내용을 입력해야 합니다.")
+				  document.form.notice_title.focus();
+				  document.form.notice_contents.focus();
+				  return false;}
+		
+			noticeUpdateForm.attr("action", "/notice/noticeUpdate");
+			
+		}else if(noticeoper==='list'){
+			noticeUpdateForm.attr("action", "/notice/noticeList").attr("method", "get");
+			
+			var pageNumTag = $("input[name='pageNum']").clone();
+		    var amountTag = $("input[name='amount']").clone();
+		  	var keywordTag = $("input[name='keyword']").clone();
+		    var typeTag = $("input[name='type']").clone(); 
+			
+		    noticeUpdateForm.empty();
+		    noticeUpdateForm.append(pageNumTag);
+		    noticeUpdateForm.append(amountTag);
+		    
+		}
+		noticeUpdateForm.submit();
+	});
+});
+</script>
+	
+
+
+
 
 </body>
 </html>

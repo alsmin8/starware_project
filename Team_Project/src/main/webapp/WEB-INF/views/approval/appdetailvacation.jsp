@@ -8,11 +8,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale = 1">
-<link rel="stylesheet" href="css/bootstrap.css">
-<link rel="stylesheet" href="css/custom.css">
+<link rel="stylesheet" href="/resources/css/bootstrap.css">
+<link rel="stylesheet" href="/resources/css/custom.css">
 <title>STARWARE(Groupware)</title>
-<script src="jquery.js" type="text/javascript"></script>
-<script src="js/bootstrap.js"></script>
+<script src="/resources/jquery.js" type="text/javascript"></script>
+<script src="/resources/js/bootstrap.js"></script>
 <style>
 
 td{
@@ -84,18 +84,18 @@ text-align: center;
 	<%
 		String app_kind = request.getParameter("app_kind");
 	%>
-	<form action="detailvacation.bit?seq=${Approval.app_no}" method="post">
+	<form action="/approval/appdetailvacation?seq=${Approval.app_no}&app_kind=${app_kind}" method="post">
 	<input type="hidden" name="app_kind" value="<%=app_kind%>">
 	<table class="table table-bordered table-hover"
 				style="text-align: center; border: 1px solid #dddddd;">
 				<thead>
 					<tr>
-						<th colspan="4"><h4>기 안 서</h4></th>
+						<th colspan="4"><h4>연 차 신 청 서</h4></th>
 					</tr>
 				</thead>
 			<tr>
 				<td style="width: 110px;">제 목</td>
-				<td style="width: 110px;" colspan="5">${vacationdoc.vd_title}</td>
+				<td style="width: 110px;" colspan="5">${approval.app_title}</td>
 			</tr>
 			<tr>
 				<td style="width: 110px;">이 름</td>

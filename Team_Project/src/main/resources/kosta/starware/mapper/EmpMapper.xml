@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="kosta.starware.mapper.EmpMapper">
+
+<select id="empGetList" resultType="kosta.starware.domain.EmpVO">
+<![CDATA[
+select * from emp where emp_no > 0
+]]>
+</select>
+
+<select id ="empGetListWithPaging" resultType="kosta.starware.domain.EmpVO">
+<![CDATA[
+select 
+emp_no, emp_name, emp_pass, emp_gender, emp_socialNo, dept_no, grade_no, emp_cellphone, 
+emp_extension, emp_hiredate, emp_retiredate, emp_empstate, emp_totalvdays, emp_vleftdays
+from
+(
+select /*
+]]>
+
+</select>
+
+<insert id ="empInsert">
+insert into emp (emp_no, emp_name, emp_pass, emp_gender, emp_socialNo, dept_no, grade_no, emp_cellphone, 
+emp_extension, emp_hiredate, emp_retiredate, emp_empstate, emp_totalvdays, emp_vleftdays)
+
+values (emp_no_seq.nextval, #{emp_name}, #{emp_pass}, #{emp_gender}, #{emp_socialNo}, #{dept_no},
+ #{grade_no}, #{emp_cellphone}, #{emp_extension}, #{emp_hiredate}, #{emp_retiredate},
+  #{emp_empstate}, #{emp_totalvdays}, #{emp_vleftdays})
+</insert>
+
+ <insert id="empInsertSelectKey">
+<selectKey keyProperty="emp_no" order="BEFORE"
+resultType="int">
+select emp_no_seq.nextval from dual
+</selectKey> 
+
+insert into emp (emp_no, emp_name, emp_pass, emp_gender, emp_socialNo, dept_no, grade_no, emp_cellphone, 
+emp_extension, emp_hiredate, emp_retiredate, emp_empstate, emp_totalvdays, emp_vleftdays)
+
+values(#{emp_no}, #{emp_name}, #{emp_pass}, #{emp_gender}, #{emp_socialNo}, #{dept_no},
+ #{grade_no}, #{emp_cellphone}, #{emp_extension}, #{emp_hiredate}, #{emp_retiredate},
+  #{emp_empstate}, #{emp_totalvdays}, #{emp_vleftdays}) 
+</insert> 
+
+<select id="empRead" resultType="kosta.starware.domain.EmpVO">
+select * from emp where emp_no =#{emp_no}
+</select>
+
+
+<!-- <update id="updateEmp" parameterType="Emp">
+		update emp set
+		emp_no=#{emp_no}, emp_name=#{emp_name}, emp_pass=#{emp_pass},
+		emp_gender=#{emp_gender}, emp_socialNo=#{emp_socialNo},
+		dept_no=#{dept_no}, grade_no=#{grade_no},
+		emp_cellphone=#{emp_cellphone}, emp_extension=#{emp_extension},
+		emp_hiredate=#{emp_hiredate}, emp_retiredate=#{emp_retiredate},
+		emp_empstate=#{emp_empstate}, emp_totalvdays=#{emp_totalvdays},
+		emp_vleftdays=#{emp_vleftdays}
+		where emp_no = #{emp_no}
+	</update>
+ -->
+
+
+<update id="empUpdate">
+update emp 
+set  emp_no = #{emp_no},
+emp_name = #{emp_name}, 
+emp_pass = #{emp_pass}, 
+emp_gender = #{emp_gender}, 
+emp_socialNo = #{emp_socialNo}, 
+dept_no = #{dept_no}, 
+grade_no = #{grade_no}, 
+emp_cellphone = #{emp_cellphone}, 
+emp_extension = #{emp_extension}, 
+emp_hiredate = #{emp_hiredate}, 
+emp_retiredate = #{emp_retiredate}, 
+emp_empstate = #{emp_empstate}, 
+emp_totalvdays = #{emp_totalvdays}, 
+emp_vleftdays = #{emp_vleftdays}
+where emp_no=#{emp_no}
+
+</update> 
+
+</mapper> 
+
+<!-- private int emp_no;
+	private String emp_name;
+	private String emp_pass;
+	private String emp_gender;
+	private String emp_socialNo;
+	private int dept_no;
+	private int grade_no;
+	private String emp_cellphone;
+	private String emp_extension;
+	private String emp_hiredate;
+	private String emp_retiredate;
+	private String emp_empstate;
+	private int emp_totalvdays;
+	private int emp_vleftdays; -->

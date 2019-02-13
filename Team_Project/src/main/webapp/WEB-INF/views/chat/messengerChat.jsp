@@ -114,12 +114,6 @@
 		$('#chatList').scrollTop($('#chatList')[0].scrollHeight);
 	}
 	
-	function getInfiniteChat() {
-		setInterval(function() {
-			chatListFunction(lastID);
-		}, 2000);
-	}
-	
  	function getUnread() {
 		$.ajax({
 			type : "POST",
@@ -137,14 +131,18 @@
 			}
 		});
 	}
-	function getInfiniteUnread() {
+	function showUnread(result) {
+		$('#unread').html(result);
+	}
+	
+	function getInfinite() {
 		setInterval(function() {
 			getUnread();
+			chatListFunction(lastID);
 		}, 3000);
 	}
-	function showUnread(result) {
-		$('#unlead').html(result);
-	}
+	
+
 </script>
 
 </head>
@@ -165,13 +163,13 @@
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
 				<li><a href="/loginafter">메인</a></li>
-				<li><a href="list.bit">전자결재</a></li>
-				<li><a href="listActionProject.pro">협업지원</a></li>
-				<li><a href="list.not">공지사항</a></li>
-				<li><a href="resource_main.jsp">출퇴근관리</a></li>
-				<li><a href="list.do">인사관리</a></li>
-				<li><a href="calendar_main.jsp">일정관리</a></li>
-				<li class="active"><a href="/chat/messengerFind">메세지함<span id="unlead" class="label label-info"></span></a></li>
+				<li><a href="/approval/applist_alllist">전자결재</a></li>
+				<li><a href="/project/projectList">협업지원</a></li>
+				<li><a href="/notice/noticeList">공지사항</a></li>
+				<li><a href="/attend/attendInsert">출퇴근관리</a></li>
+				<li><a href="/emp/empList">인사관리</a></li>
+				<li><a href="/schedule/schduleMain">일정관리</a></li>
+				<li class="active"><a href="/chat/messengerFind">메세지함<span id="unread" class="label label-info"></span></a></li>
 			</ul>
 			<%
 				if (emp_no != null) {
@@ -284,14 +282,22 @@
 			session.removeAttribute("messageType");
 		}
 	%>
+	
+	<%
+		if(emp_no != null){
+
+	%>
 	<script type="text/javascript">
 	$(document).ready(function() {
 		getUnread();
-		chatListFunction('ten');
-		getInfiniteChat();
-		getInfiniteUnread();
+		chatListFunction('0');
+		getInfinite();
 	});
 	</script>
+	<%
+		}
+	%>
+
 	
 </body>
 </html>

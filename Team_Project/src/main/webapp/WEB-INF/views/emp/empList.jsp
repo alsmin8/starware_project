@@ -9,16 +9,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale = 1">
-<link rel="stylesheet" href="css/bootstrap.css">
-<link rel="stylesheet" href="css/custom.css">
+<link rel="stylesheet" href="/resources/css/bootstrap.css">
+<link rel="stylesheet" href="/resources/css/custom.css">
 <title>STARWARE(Groupware)</title>
-<script src="jquery.js" type="text/javascript"></script>
-<script src="js/bootstrap.js"></script>
+<script src="/resources/jquery.js" type="text/javascript"></script>
+<script src="/resources/js/bootstrap.js"></script>
 
 
 </head>
 <body>
-<%
+<%-- <%
 		String emp_no = null;
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
@@ -29,7 +29,7 @@
 			response.sendRedirect("login.jsp");
 			return;
 		}
-	%>
+	%> --%>
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed"
@@ -49,7 +49,7 @@
 				<li><a href="listActionProject.pro">협업지원</a></li>
 				<li><a href="list.not">공지사항</a></li>
 				<li><a href="resource_main.jsp">출퇴근관리</a></li>
-				<li class="active"><a href="list.do">인사관리</a></li>
+				<li class="active"><a href="empList">인사관리</a></li>
 				<li><a href="calendar_main.jsp">일정관리</a></li>
 				<li><a href="messengerFind.jsp">메세지함</a></li>
 						</ul>
@@ -72,7 +72,7 @@
 	<h1>사원 정보</h1>
 	
 	 <h3>사원정보</h3>
-   <a href="insertForm.do">입력하기</a>
+   <a href="/emp/empInsertForm?emp_no=${emp.emp_no }">입력하기</a>
    <table class="type04">
   <!-- <table width="500" border="1" cellpadding="0" cellspacing="0"> -->
   <tr>
@@ -85,7 +85,7 @@
   
   </tr>
   
-<c:forEach var = "emp" items = "${listModel.list }">
+<c:forEach var = "emp" items = "${empList}">
     
 
   <tr>
@@ -107,7 +107,7 @@
 						</c:choose>
 					</c:if>
 				</td> --%>
-				<td><a href="detail.do?emp_no=${emp.emp_no }">${emp.emp_name }</a></td>
+				<td><a href="/emp/empDetail?emp_no=${emp.emp_no }">${emp.emp_name }</a></td>
 				      
 				<td>${emp.emp_hiredate }</td> 
 				<%--   <td>					
@@ -133,25 +133,25 @@
   <!-- 페이지 처리 영역 -->
   <!-- 이전 -->
   <c:if test="${listModel.startPage > 5 }">
-  	<a href="list.do?pageNum=${listModel.startPage-5 }">[이전]</a>
+  	<a href="/emp/empList?pageNum=${listModel.startPage-5 }">[이전]</a>
   </c:if>
   
   <!-- 페이지 목록 -->
   <c:forEach var = "pageNo" begin="${listModel.startPage }"
   	end="${listModel.endPage }">
   	<c:if test="${listModel.requestPage == pageNo }"><b></c:if>
-  	<a href="list.do?pageNum=${pageNo }">[${pageNo }]</a>
+  	<a href="/emp/empList?pageNum=${pageNo }">[${pageNo }]</a>
   	  	<c:if test="${listModel.requestPage == pageNo }"></b></c:if>
   	
    	</c:forEach>
    	
    	<!-- 이후 -->
   <c:if test="${listModel.endPage < listModel.totalPageCount }">
-  	<a href="list.do?pageNum=${listModel.startPage+5 }">[이후]</a>
+  	<a href="/empList?pageNum=${listModel.startPage+5 }">[이후]</a>
   </c:if> 
   
    
-  <form action="list.do" method="post">
+  <form action="/empList" method="post">
     <input type="checkbox" name="area" value="emp_name"> 성명
     <input type="checkbox" name="area" value="emp_no"> 사번
     <input type="checkbox" name="area" value="dept_no"> 부서번호 

@@ -4,8 +4,6 @@
 <html>
 <head>
 	<%
-		//session.setAttribute("emp_no", "12304");
-		//session.setAttribute("emp_name", "이길동");
 		String emp_no = null;
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
@@ -52,10 +50,9 @@
 			},
 			success : function(result) {
 				console.log(result);
-				if (result == null || result =="" || result == {}) {
+				if (result == null || result =="" || result.length == 0) {
 					$('#checkMessage').html('사용자를 찾을수 없습니다.');
 					$('#checkType').attr('class','modal-content panel-warning');
-					failFriend();
 				}else {
 					$('#checkMessage').html('사용자찾기에 성공하였습니다.');
 					$('#checkType').attr('class','modal-content panel-success');
@@ -71,9 +68,6 @@
 				'<td style="text-align: center;"><h3>사번 :' + emp_no +"&nbsp;&nbsp; 이름 : " + findID +'</h3><a href="/chat/messengerChat?toID=' + findID +
 				'" class="btn btn-primary pull-right">메신저보내기</a></td>'+
 				'</tr></tbody>');
-	}
-	function failFriend() {
-		$('#friendResult').html('');
 	}
 	
  	function getUnread() {
@@ -99,7 +93,7 @@
 		}, 3000);
 	}
 	function showUnread(result) {
-		$('#unlead').html(result);
+		$('#unread').html(result);
 	}
 </script>
 
@@ -120,13 +114,13 @@
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
 				<li><a href="/loginafter">메인</a></li>
-				<li><a href="list.bit">전자결재</a></li>
-				<li><a href="listActionProject.pro">협업지원</a></li>
-				<li><a href="list.not">공지사항</a></li>
-				<li><a href="resource_main.jsp">출퇴근관리</a></li>
-				<li><a href="list.do">인사관리</a></li>
-				<li><a href="calendar_main.jsp">일정관리</a></li>
-				<li class="active"><a href="/chat/messengerFind">메세지함<span id="unlead" class="label label-info"></span></a></li>
+				<li><a href="/approval/applist_alllist">전자결재</a></li>
+				<li><a href="/project/projectList">협업지원</a></li>
+				<li><a href="/notice/noticeList">공지사항</a></li>
+				<li><a href="/attend/attendInsert">출퇴근관리</a></li>
+				<li><a href="/emp/empList">인사관리</a></li>
+				<li><a href="/schedule/schduleMain">일정관리</a></li>
+				<li class="active"><a href="/chat/messengerFind">메세지함<span id="unread" class="label label-info"></span></a></li>
 			</ul>
 			
 			<ul class="nav navbar-nav navbar-right">

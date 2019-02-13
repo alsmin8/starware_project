@@ -12,21 +12,19 @@ public interface ChatMapper {
 
 		int chatSubmit(ChatDTO chat);
 		
-		
 		ArrayList<ChatDTO> getChatListbyID(@Param("from_ID") String from_ID,@Param("to_ID") String to_ID,@Param("m_contentNo") String listType);
 		ArrayList<ChatDTO> getChatlistByRecent(@Param("from_ID") String from_ID,@Param("to_ID") String to_ID,@Param("m_contentNo") int m_Content);
 		int unleadUpdate(@Param("from_ID") String from_ID,@Param("to_ID") String to_ID);
-
-		
-		
 		int unleadAllChatlist(String userID);
 		
 		
 		
-		
-		
-		
 		ArrayList<ChatDTO> getChatlist(String userID);
+		
+		
+		
+		
+		
 		
 		ArrayList<ChatDTO> getChatlistUpdate(int chatNo);
 		

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kosta.starware.mapper.ProjectMapper">
+
+	<select id="getListProject" resultType="kosta.starware.domain.ProjectDTO">
+		<![CDATA[
+		select * from project where project_No > 0
+		]]>
+	</select>
+
+	<insert id="registerProject">
+		<selectKey keyProperty="project_No" order="BEFORE"
+			resultType="int">
+			select project_No_seq.nextval from dual
+		</selectKey>
+		insert into project
+		values
+		(#{project_No},#{project_Title},#{project_Contents},#{project_Kind},#{project_Writer},#{project_Manager},#{project_Members},
+		#{project_Term},sysdate,sysdate,sysdate,
+		#{project_Situation},12301)
+	</insert>
+
+	<select id="readProject" resultType="kosta.starware.domain.ProjectDTO">
+		select * from project where
+		project_No = #{project_No}
+	</select>
+
+	<delete id="removeProject">
+		delete project where project_No = #{project_No}
+	</delete>
+
+	<update id="modifyProject"> update project
+		set project_Title=#{project_Title},
+		project_Contents=#{project_Contents},
+		project_Kind=#{project_Kind},
+		project_Writer=#{project_Writer},
+		project_Manager=#{project_Manager},
+		project_Members=#{project_Members},
+		project_Term=#{project_Term},
+		project_Start_Date=sysdate,
+		project_End_Date=sysdate,
+		project_Regdate=sysdate,
+		project_Situation=#{project_Situation}
+		where project_No=#{project_No}
+	</update>
+
+</mapper>

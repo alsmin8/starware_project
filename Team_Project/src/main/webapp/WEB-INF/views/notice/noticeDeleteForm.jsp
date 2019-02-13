@@ -1,5 +1,8 @@
 ﻿<%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -67,13 +70,55 @@
 </nav>
 
 <div class="container">
+<br><br><br>
+<h4 align="center">삭제하시겠습니까?</h4>
 
-삭제하시겠습니까?
-<br><br>
-<a href="noticeDelete?notice_no=${notice.notice_no}">예</a>
-<a href="noticeList">아니오</a>
+<br>
+<div align="center">
+	<button data-oper='delete'>&nbsp;&nbsp예&nbsp;&nbsp</button>
+	<button data-oper='list'>아니오</button>
+
 </div>
 
+<form id="listAction" action="notice/noticeList" method="get">
+	<input type='hidden' name='notice_no' id='notice_no' value='<c:out value="${notice.notice_no }"/>'>
+	<input type='hidden' name='pageNum' value='<c:out value="${ncri.pageNum }"/>'>
+	<input type='hidden' name='amount' value='<c:out value="${ncri.amount }"/>'>
+</form>
+
+<form id="deleteAction" action="notice/noticeDelete" method="get">
+	<input type='hidden' name='notice_no' id='notice_no' value='<c:out value="${notice.notice_no }"/>'>
+	<input type='hidden' name='pageNum' value='<c:out value="${ncri.pageNum }"/>'>
+	<input type='hidden' name='amount' value='<c:out value="${ncri.amount }"/>'>
+</form>
+
+
+</div>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+	var listAction = $("#listAction");
+	var deleteAction = $("#deleteAction");
+
+
+	$("button[data-oper='list']").on("click", function(e) {
+		listAction.find("#notice_no").remove();
+		listAction.attr("action", "/notice/noticeList")
+		listAction.submit();
+	});
+	
+	$("button[data-oper='delete']").on("click", function(e) {
+		deleteAction.attr("action", "noticeDelete").submit();
+	}); 
+
+	
+	
+
+});
+
+
+</script>
 
 
 
