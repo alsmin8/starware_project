@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kosta.starware.mapper.CategoryMapper">
+
+  <insert id="insertCgr">
+  	insert into category values(cgr_seq.nextval, #{emp_no}, #{category_name}, #{category_color}, 1)
+  </insert>
+  
+  <select id="listEmp" resultType="kosta.starware.domain.EmpVO">
+  	select emp_no, emp_name, dept_name from emp e, dept d where e.dept_no = d.dept_no
+  </select>
+  
+  <select id="listCgr" resultType="kosta.starware.domain.CategoryVO">
+	select * from category
+  </select>
+
+</mapper>

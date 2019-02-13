@@ -1,0 +1,160 @@
+/* General Demo Style */
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
+
+@font-face {
+	font-family: 'fontawesome';
+	src:url('../fonts/fontawesome.eot');
+	src:url('../fonts/fontawesome.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/fontawesome.svg#fontawesome') format('svg'),
+		url('../fonts/fontawesome.woff') format('woff'),
+		url('../fonts/fontawesome.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+body, html { font-size: 100%; 	padding: 0; margin: 0;}
+
+/* Reset */
+*,
+*:after,
+*:before {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+/* Clearfix hack by Nicolas Gallagher: http://nicolasgallagher.com/micro-clearfix-hack/ */
+.clearfix:before,
+.clearfix:after {
+	content: " ";
+	display: table;
+}
+
+.clearfix:after {
+	clear: both;
+}
+
+body {
+    font-family: 'Lato', Calibri, Arial, sans-serif;
+    color: #47a3da;
+
+}
+
+a {
+	color: #f0f0f0;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #000;
+}
+
+.main > section h2 {
+	font-weight: 300;
+	color: #ccc;
+}
+
+.main > section button {
+	border: none;
+	background: #fff;
+	color: #fff;
+	padding: 1.6em;
+	display: block;
+	cursor: pointer;
+	width: 3%;
+	border-radius: 100px;
+	font-size: 16px;
+	left: 476px;
+	top: 100px;
+	z-index: 10;
+	position: absolute;
+	background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-size: 45px 45px;
+}
+
+.main > section button:hover {
+	background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-size: 45px 45px;
+}
+
+.main > section button.active {
+	background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-size: 45px 45px;
+}
+
+.main > section button.disabled {
+	background: #aaa;
+	pointer-events: none;
+}
+
+.icon-drop:before, 
+.icon-arrow-left:before {
+	font-family: 'fontawesome';
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 2;
+	text-align: center;
+	color: #47a3da;
+	-webkit-font-smoothing: antialiased;
+	text-indent: 8000px;
+	padding-left: 8px;
+}
+
+.container > header nav a:hover:before {
+	color: #fff;
+}
+
+.icon-drop:before {
+	content: "\e000";
+}
+
+.icon-arrow-left:before {
+	content: "\f060";
+}
+
+div #sub-menu1 {
+	z-index: 500; 
+	position:absolute; 
+	left:235px; 
+	top:223px;
+	height: 600px;
+	width: 500px;
+}
+
+.color {
+		width: 24px;
+		height: 24px;
+		display: inline-block;
+}
+
+.color-select {
+				display: none; 
+				width: 20px;
+				height: 20px;
+				border: 2px solid #bcbcbc;
+				cursor: pointer;
+}
+
+#suggestList a {
+	padding: 0px;
+	text-decoration: none;
+	color: black;
+	border-bottom-color: white;
+}
+
+#delete-btn {
+	border-style: none;
+	font-weight: 1000;
+	background-color: white;
+}
