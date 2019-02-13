@@ -39,17 +39,12 @@
 		select count(m_contentNo) from messenger where to_ID = #{userID} and chatLead = 0
 	</select>
 	
-<!-- 	
 	
-	<resultMap type="ChatDTO" id="Chatlist">
-		<result column="fromID" property="userID"/>
-		<result column="toID" property="userID"/>
-	</resultMap>
 	
-
+	<select id="getChatlist" parameterType="String" resultType="kosta.starware.domain.ChatDTO">
+		select * from messenger where m_contentNo IN (select max(m_contentNo) from messenger where to_ID = #{userID} or from_ID = #{userID} group by from_ID,to_ID)
+	</select>
 	
-	<select id="getChatlist" parameterType="String" resultMap="Chatlist">
-		select * from chat3 where chatNo IN (select max(chatNo) from chat3 where toID = #{userID} and fromID = #{userID} group by fromID,toID)
-	</select> -->
+	
 	
 </mapper>

@@ -24,13 +24,11 @@ public class UserController {
 
 	@GetMapping("/login")
 	public String login(HttpSession session) {
-		
 		if(session.getAttribute("emp_no") == null || session.getAttribute("emp_no").equals("")){
 			return "/login";
 		}else{
 			return "/loginafter";
 		}
-	
 	}
 
 	@PostMapping("/login")

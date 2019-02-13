@@ -8,16 +8,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale = 1">
-<link rel="stylesheet" href="css/bootstrap.css">
-<link rel="stylesheet" href="css/custom.css">
+<link rel="stylesheet" href="/resources/css/bootstrap.css">
+<link rel="stylesheet" href="/resources/css/custom.css">
 <title>STARWARE(Groupware)</title>
-<script src="jquery.js" type="text/javascript"></script>
-<script src="js/bootstrap.js"></script>
+<script src="/resources/jquery.js" type="text/javascript"></script>
+<script src="/resources/js/bootstrap.js"></script>
 
 
 </head>
 <body>
-<%
+<%-- <%
 		String emp_no = null;
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
@@ -28,7 +28,7 @@
 			response.sendRedirect("login.jsp");
 			return;
 		}
-	%>
+	%> --%>
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed"
@@ -48,7 +48,7 @@
 				<li><a href="listActionProject.pro">협업지원</a></li>
 				<li><a href="list.not">공지사항</a></li>
 				<li><a href="resource_main.jsp">출퇴근관리</a></li>
-				<li class="active"><a href="list.do">인사관리</a></li>
+				<li class="active"><a href="empList">인사관리</a></li>
 				<li><a href="calendar_main.jsp">일정관리</a></li>
 				<li><a href="messengerFind.jsp">메세지함</a></li>
 						</ul>
@@ -226,8 +226,8 @@
 											
 						<tr>
 							<td style="text-align: left" colspan="3"><!-- <h5 style="color: red;" id="passwordCheckMessage"></h5><input class="btn btn-primary pull-right" type="submit" value="수정"/> --> 
-							<h5 style="color: red;" id="passwordCheckMessage"></h5><a class="btn btn-default pull-right" value="목록" href="list.do">목록</a>
-							<h5 style="color: red;" id="passwordCheckMessage"></h5><a class="btn btn-default pull-right" value="목록" href="UpdateForm.do?emp=${emp.emp_no}">수정하기</a> </td>
+							<h5 style="color: red;" id="passwordCheckMessage"></h5><a class="btn btn-default pull-right" value="목록" href="/emp/empList">목록</a>
+							<h5 style="color: red;" id="passwordCheckMessage"></h5><a class="btn btn-default pull-right" value="목록" href="/emp/empUpdateForm?emp_no=${emp.emp_no}">수정하기</a> </td>
 						</tr>
 						
 					</tbody>
