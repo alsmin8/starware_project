@@ -12,6 +12,9 @@ public class NoticeCriteria {
 	private int pageNum;
 	private int amount;
 	
+	private String noticeSearchType;
+	private String noticeSearchKey;
+	
 	public NoticeCriteria(){
 		this(1, 5);
 	}
@@ -20,6 +23,10 @@ public class NoticeCriteria {
 		super();
 		this.pageNum = pageNum;
 		this.amount = amount;
+	}
+	
+	public String[] getNoticeSearchArr(){
+		return noticeSearchType==null? new String[] {}:noticeSearchType.split("");
 	}
 	
 	

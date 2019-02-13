@@ -13,12 +13,39 @@
 <title>STARWARE(Groupware)</title>
 <script src="/resources/jquery.js" type="text/javascript"></script>
 <script src="/resources/js/bootstrap.js"></script>
+<style type="text/css">
+.pagination ul {
+	list-style:none;
+	float:left;
+	display:inline;
+}
+.pagination ul li {
+	float:left;
+}
+.pagination ul li a {
+	float:left;
+	padding:4px;
+	margin-right:3px;
+	width:30px;
+	color:#000;
+	font:bold 12px tahoma;
+	border:1px solid #eee;
+	text-align:center;
+	text-decoration:none;
+}
+.pagination ul li a:hover, ul li a:focus {
+	color:#fff;
+	border:1px solid #4d86d1;
+	background-color:#4d86d1;
+}
+</style>
+
 </head>
 
 
 
 <body>
-<%-- <%
+	<%-- <%
 		String emp_no = null;
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
@@ -68,88 +95,164 @@
 	</nav>
 
 	<div class="container">
+		<br><br><br>
+		<div>
+		<h3 style="display: inline">공지사항</h3>
+			<button data-oper='insert' class="btn btn-primary pull-right">글쓰기</button>
+		</div>
+	
+		<form id="insertFormAction" action="notice/noticeInsertForm" method="get">
+		</form>
 
-	<h3>공지사항</h3>
-	<a href="noticeInsertForm">글쓰기</a><br>
-
-	<table class="type04">
-		<tr>
-			<td>글번호</td>
-			<td>분류</td>
-			<td>제목</td>
-			<td>작성자</td>
-			<td>작성일</td>
-			<td>조회수</td>
-		</tr>
-
-
-
-
-
-		<c:forEach var="notice" items="${noticeList }">
+		<table class="type04">
 			<tr>
-				<td>${notice.notice_no}</td>
-				<td>${notice.notice_subject }</td>
-				
-				<td><a href="noticeDetail?notice_no=${notice.notice_no}">${notice.notice_title }</a>		
-				</td>
-				
-				<td>${notice.emp_no }</td>
-				<td><fmt:parseDate var="dateString"
-						value="${notice.notice_regdate}" pattern="yyyy-MM-dd" scope="page" /> <fmt:formatDate
-						value="${dateString}" pattern="yyyy-MM-dd"/></td>
-				<td>${notice.notice_hitCount}</td>
+				<td>글번호</td>
+				<td>분류</td>
+				<td>제목</td>
+				<td>작성자</td>
+				<td>작성일</td>
+				<td>조회수</td>
 			</tr>
+
+			<c:forEach var="notice" items="${noticeList }">
+				<tr>
+					<td>${notice.notice_no}</td>
+					<td>${notice.notice_subject }</td>
+
+					<td><a class='noticeMove' href='<c:out value="${notice.notice_no }"/>'>
+					<c:out value="${notice.notice_title }"/></a>
+					</td>
+
+					<td>${notice.emp_no }</td>
+					<td><fmt:parseDate var="dateString"
+							value="${notice.notice_regdate}" pattern="yyyy-MM-dd"
+							scope="page" /> <fmt:formatDate value="${dateString}"
+							pattern="yyyy-MM-dd" /></td>
+					<td>${notice.notice_hitCount}</td>
+				</tr>
+			</c:forEach>
+		</table>
 		
-	
-		</c:forEach>
+		<!-- 페이징처리 -->
+		<div class="pagination">
+			<ul>
+				<c:if test="${noticeModel.prev}">
+					<li class="paginate_button previous"><a
+						href="${noticeModel.startPage -1}">Previous</a></li>
+				</c:if>
+
+				<c:forEach var="num" begin="${noticeModel.startPage}"
+					end="${noticeModel.endPage}">
+					<li class="paginate_button  ${noticeModel.ncri.pageNum == num ? "active":""} ">
+						<a href="${num}">${num}</a>
+					</li>
+				</c:forEach>
+
+				<c:if test="${noticeModel.next}">
+					<li class="paginate_button next"><a
+						href="${noticeModel.endPage +1 }">Next</a></li>
+				</c:if>
+			</ul>
+		</div>
+		
+		<form id='noticeAction' action="/notice/noticeList" method='get'>
+				<input type='hidden' name='pageNum' value='${noticeModel.ncri.pageNum}'>
+				<input type='hidden' name='amount' value='${noticeModel.ncri.amount}'>
+				<input type='hidden' name='noticeSearchType' value='<c:out value="${ noticeModel.ncri.noticeSearchType }"/>'>
+				<input type='hidden' name='noticeSearchKey' value='<c:out value="${ noticeModel.ncri.noticeSearchKey }"/>'>
+		</form> 
 
 
-
-	</table>
-	<br>
-	<br>
-
-<%-- 	<!-- 페이지처리 영역 -->
-	<!-- 이전 : 처음화면 아니면 무조건 이전 있어야되니까. 이전 누르면 5페이지 전으로 돌아가야 함 -->
-	<c:if test="${listModel.startPage >5}">
-		<a href="list.not?pageNum=${listModel.startPage-5 }">[이전]</a>
-	</c:if>
-
-	<!-- 페이지목록 -->
-	<c:forEach var="pageNo" begin="${listModel.startPage }"
-		end="${listModel.endPage }">
-		<c:if test="${listModel.requestPage==pageNo }">
-			<b>
-		</c:if>
-		<a href="list.not?pageNum=${pageNo }">[${pageNo }]</a>
-		<c:if test="${listModel.requestPage==pageNo }">
-			</b>
-		</c:if>
-	</c:forEach>
-
-	<!-- 이후 -->
-	<c:if test="${listModel.endPage <listModel.totalPageCount}">
-		<a href="list.not?pageNum=${listModel.startPage+5 }">[이후]</a>
-	</c:if> --%>
-
-
-
-	<form action="list.not" method="post">
-	
-		<input type="checkbox" name="notice_subject" value="안 내">안내
-		<input type="checkbox" name="notice_subject" value="인 사">인사
-		<input type="checkbox" name="notice_subject" value="기 타">기타 
-	<br>
-		<input type="checkbox" name="area" value="notice_title">제목 
-		<input type="checkbox" name="area" value="emp_no">작성자 
-		<input type="text" name="searchKey" size="10"></input> 
-		<input type="submit" value="검색">
-	</form>
+		<form action="noticeList" method="get" id="searchNotice">
+			<select name=noticeSearchType>
+				<option value=""
+					<c:out value="${noticeModel.ncri.noticeSearchType == null?'selected':''}"/>>--</option>
+				<option value="T"
+					<c:out value="${noticeModel.ncri.noticeSearchType eq 'T'?'selected':''}"/>>제목</option>
+				<option value="C"
+					<c:out value="${noticeModel.ncri.noticeSearchType eq 'C'?'selected':''}"/>>내용</option>
+				<option value="W"
+					<c:out value="${noticeModel.ncri.noticeSearchType eq 'W'?'selected':''}"/>>작성자</option>
+				<option value="TC"
+					<c:out value="${noticeModel.ncri.noticeSearchType eq 'TC'?'selected':''}"/>>제목
+					+ 내용</option>
+				<option value="TW"
+					<c:out value="${noticeModel.ncri.noticeSearchType eq 'TW'?'selected':''}"/>>제목
+					+ 작성자</option>
+				<option value="TWC"
+					<c:out value="${noticeModel.ncri.noticeSearchType eq 'TWC'?'selected':''}"/>>제목
+					+ 내용 + 작성자</option>
+			</select>
+			<input type='text' name='noticeSearchKey'
+								value='<c:out value="${noticeModel.ncri.noticeSearchKey}"/>' /> <input
+								type='hidden' name='pageNum'
+								value='<c:out value="${noticeModel.ncri.pageNum}"/>' /> <input
+								type='hidden' name='amount'
+								value='<c:out value="${noticeModel.ncri.amount}"/>' />
+			<button class='btn btn-default'>검색</button>
+		</form>
 
 	</div>
 
+<script type="text/javascript">
 
+$(document).ready(
+		function(){
+			
+			var noticeAction=$("#noticeAction");
+			var searchNotice=$("#searchNotice");
+			var insertFormAction=$("#insertFormAction");
+			
+			$(".paginate_button a").on(
+					"click",
+					function(e) {
+						e.preventDefault();
+
+						console.log('click');
+
+						noticeAction.find("input[name='pageNum']")
+								.val($(this).attr("href"));
+						noticeAction.submit();
+					});
+			
+			$(".noticeMove").on("click", function(e){
+				e.preventDefault();
+				noticeAction.append("<input type='hidden' name='notice_no' value='"
+						+ $(this).attr("href")+ "'>");
+				noticeAction.attr("action",	"/notice/noticeDetail");
+				noticeAction.submit();
+			});
+			
+			$("button[data-oper='insert']").on("click", function(e) {
+				insertFormAction.attr("action", "/notice/noticeInsertForm").submit();
+			}); 
+			
+			
+			$("#searchNotice button").on("click", function(e){
+				
+				if(!searchNotice.find("option:selected").val()){
+					alert("검색 종류를 선택하세요.");
+					return false;
+				}
+				
+				if(!searchNotice.find("input[name='noticeSearchKey']").val()){
+					alert("키워드를 입력하세요.");
+					return false;
+				}
+				
+				searchNotice.find("input[name='pageNum']").val("1");
+				e.preventDefault();
+				
+				searchNotice.submit();
+				
+			});
+			
+			
+		});
+
+
+
+</script>
 
 </body>
 </html>
