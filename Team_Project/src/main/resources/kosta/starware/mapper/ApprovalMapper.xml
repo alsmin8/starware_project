@@ -5,13 +5,13 @@
 <mapper namespace="kosta.starware.mapper.ApprovalMapper">
 
 	<select id="appList" resultType="kosta.starware.domain.Approval">
-		select * from approval
+		select * from approval order by app_no DESC
 	</select>
 
-	<insert id="appInsert">
+	<!-- <insert id="appInsert">
 		insert into approval (app_no, app_kind, app_title, app_startdate, app_enddate, app_situation, emp_no)
 		values(app_no_seq.nextval, #{app_kind}, #{app_title}, sysdate, null, '결재요청', 12301)
-	</insert>
+	</insert> -->
 
 	<insert id="appInsertSelectKey">
 		<selectKey keyProperty="app_no" order="BEFORE" resultType="int">
@@ -19,12 +19,38 @@
 		</selectKey>
 		insert into approval (app_no, app_kind, app_title, app_startdate, app_enddate, app_situation, emp_no)
 		values (#{app_no},	#{app_kind}, #{app_title}, sysdate, null,'결재요청', 12301)
+	
 	</insert>
-
+	<select id="getAppNo" resultType="int">
+	 select max(app_no) from approval 
+	</select>
+	<insert id="appDdInsert">
+		insert into disbursement_doc (app_no, d_no, d_idx, d_contents, d_usingdate, d_amount)
+		values (#{app_no}, d_no_seq.nextval, #{d_idx},#{d_contents}, #{d_usingdate}, #{d_amount})
+	</insert>
+	<insert id="appDraftInsert">
+		insert into draft_doc (app_no, dd_no, dd_contents)
+		values (#{app_no}, dd_no_seq.nextval, #{dd_contents})
+	</insert>
+	<insert id="appVacationInsert">
+		insert into vacation_Doc (app_no, vd_no, vd_startdate, vd_enddate, vd_day, vd_contents)
+		values (#{app_no}, vd_no_seq.nextval, #{vd_startdate}, #{vd_enddate}, #{vd_day}, #{vd_contents})
+	</insert>
+	<!-- DETAIL 문서보기 SQL!! -->
 	<select id="appDetail" resultType="kosta.starware.domain.Approval">
 		select * from approval where app_no=#{app_no}
 	</select>
+	<select id="appDdDetail" resultType="kosta.starware.domain.DisbursementDoc">
+		select * from disbursement_doc where app_no=#{app_no}
+	</select>
+	<select id="appDraftDetail" resultType="kosta.starware.domain.DraftDoc">
+		select * from draft_doc where app_no=#{app_no}
+	</select>
+	<select id="appVacationDetail" resultType="kosta.starware.domain.VacationDoc">
+		select * from vacation_doc where app_no=#{app_no}
+	</select>
 	
+	<!-- DELETE 삭제 SQL!! -->
 	<delete id="appDelete">
 		delete approval where app_no=#{app_no}
 	</delete>
