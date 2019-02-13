@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kosta.starware.domain.NoticeCriteria;
 import kosta.starware.domain.NoticeVO;
 import kosta.starware.mapper.NoticeMapper;
 import lombok.Setter;
@@ -25,9 +26,9 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public List<NoticeVO> listNoticeService() {
+	public List<NoticeVO> listNoticeService(NoticeCriteria ncri) {
 		log.info("listNotice..");
-		return noticeMapper.noticeListWithPaging();
+		return noticeMapper.noticeListWithPaging(ncri);
 	}
 
 	@Override
@@ -47,6 +48,12 @@ public class NoticeServiceImpl implements NoticeService {
 	public int deleteNoticeService(int notice_no) {
 	
 		return noticeMapper.noticeDelete(notice_no);
+	}
+
+	@Override
+	public int getNoticeTotalService(NoticeCriteria ncri) {
+		
+		return noticeMapper.getNoticeTotal(ncri);
 	}
 
 	

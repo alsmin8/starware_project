@@ -63,5 +63,10 @@ public class ApprovalMapperTest {
 		int count = approvalmapper.appUpdate(approval);
 		log.info("UPDATECOUNT::::::::" +count);
 	}*/
+	@Test
+	public void testgetappno(){
+		
+		log.info("appno::::::::" +approvalmapper.getAppNo());
+	}
 	
 }

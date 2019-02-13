@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kosta.starware.domain.NoticeCriteria;
+import kosta.starware.domain.NoticePageDTO;
 import kosta.starware.domain.NoticeVO;
 import kosta.starware.service.NoticeService;
 import lombok.AllArgsConstructor;
@@ -25,24 +27,23 @@ public class NoticeController {
 	private NoticeService service;
 	
 	
-	@GetMapping("/noticeList")
+	/*@GetMapping("/noticeList")
 	public void noticeList(Model model){
 		model.addAttribute("noticeList", service.listNoticeService());		
+	}*/
+	
+	@GetMapping("/noticeList")
+	public void list(NoticeCriteria ncri, Model model){
+		model.addAttribute("noticeList", service.listNoticeService(ncri));		
+		int total=service.getNoticeTotalService(ncri);
+		model.addAttribute("noticeModel", new NoticePageDTO(ncri, total));
 	}
+	
 	
 	@GetMapping("/noticeInsertForm")
 	public void noticeInsertForm(){
 		
 	}
-	
-	/*@PostMapping("/noticeInsert")
-	public String noticeInsert(NoticeVO notice, RedirectAttributes rttr){
-		log.info("notice Insert:"+notice);
-		service.insertNoticeService(notice);
-		rttr.addFlashAttribute("result", notice.getNotice_no());
-		return "redirect:/notice/noticeList";
-		
-	}*/
 	
 	@PostMapping("/noticeInsert")
 	public String noticeInsert(@RequestParam(value="notice_title", required=true) String notice_title,
@@ -74,18 +75,13 @@ public class NoticeController {
 	
 	
 	@GetMapping("/noticeUpdateForm")
-	public void noticeUpdateForm(@RequestParam("notice_no") int notice_no, Model model){
+	public void noticeUpdateForm(@RequestParam("notice_no") int notice_no, 
+			@ModelAttribute("ncri") NoticeCriteria ncri,
+			Model model){
 		model.addAttribute("notice", service.detailNoticeService(notice_no));
-		log.info(model);
+		log.info(ncri);
+		//log.info(model);
 	}
-	
-	
-/*	@PostMapping("/noticeUpdate")
-	public String noticeUpdate(NoticeVO notice){
-		log.info(notice);
-		service.updateNoticeService(notice);
-		return "redirect:/notice/noticeList";
-	}*/
 	
 	@PostMapping("/noticeUpdate")
 	public String noticeUpdate(
@@ -95,9 +91,14 @@ public class NoticeController {
 		@RequestParam(value="notice_subject", required=true) String notice_subject,
 		@RequestParam(value="notice_startDate", required=false) String notice_startDate,
 		@RequestParam(value="notice_endDate", required=false) String notice_endDate,
-		@RequestParam(value="notice_state", required=false) String notice_state, RedirectAttributes rttr){
+		@RequestParam(value="notice_state", required=false) String notice_state,
+		@ModelAttribute("ncri") NoticeCriteria ncri,
+		RedirectAttributes rttr){
 		
 		NoticeVO notice=service.detailNoticeService(notice_no);
+		//log.info("detail:"+notice);
+		//log.info(ncri);
+		
 		
 		notice.setNotice_title(notice_title);
 		notice.setNotice_contents(notice_contents);
@@ -109,29 +110,41 @@ public class NoticeController {
 		
 		service.updateNoticeService(notice);
 		
-		log.info("notice Update:"+notice);
+		//log.info("notice Update:"+notice);
 		
-		rttr.addFlashAttribute("result", notice.getNotice_no());
+		//rttr.addFlashAttribute("result", notice.getNotice_no());
+		
+		rttr.addAttribute("pageNum", ncri.getPageNum());
+		rttr.addAttribute("amount", ncri.getAmount());
+		
 		return "redirect:/notice/noticeList";
 		
 	}
 	
 	@RequestMapping("/noticeDetail")
-	public void noticeDetail(@RequestParam("notice_no") int notice_no, Model model){
+	public void noticeDetail(@RequestParam("notice_no") int notice_no, 
+			@ModelAttribute("ncri") NoticeCriteria ncri, Model model){
 		model.addAttribute("notice", service.detailNoticeService(notice_no));
-		log.info(model);
+		//log.info(model);
 	}
 	
 	
 	@GetMapping("/noticeDeleteForm")
-	public void noticeDeleteForm(@RequestParam("notice_no") int notice_no, Model model){
+	public void noticeDeleteForm(@RequestParam("notice_no") int notice_no,
+			@ModelAttribute("ncri") NoticeCriteria ncri,Model model){
 		model.addAttribute("notice", service.detailNoticeService(notice_no));
 		//log.info(model);
 	}
 	
 	@RequestMapping("/noticeDelete")
-	public String noticeDelete(@RequestParam("notice_no") int notice_no){
+	public String noticeDelete(@RequestParam("notice_no") int notice_no
+			, @ModelAttribute("ncri") NoticeCriteria ncri,
+			RedirectAttributes rttr){
 		service.deleteNoticeService(notice_no);
+		
+		rttr.addAttribute("pageNum", ncri.getPageNum());
+		rttr.addAttribute("amount", ncri.getAmount());
+		
 		return "redirect:/notice/noticeList";
 	}
 	

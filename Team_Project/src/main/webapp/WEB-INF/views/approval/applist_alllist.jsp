@@ -74,10 +74,10 @@ text-align: center;
 	<script type="text/javascript">
 		$(function() {
 			$('#tab2').click(function() {
-				location.href="applist_myself.jsp"
+				location.href="/approval/applist_myself"
 			});
 			$('#tab3').click(function() {
-				location.href="applist_result.jsp"
+				location.href="/approval/applist_result"
 			});
 		});
 	
@@ -85,14 +85,22 @@ text-align: center;
 	
 	<div class="container">
 		<ul class="nav nav-tabs" role="tablist">
-			<li class="active"><a id="tab1" href="#applist" role="tab" data-toggle="tab" style="font-size: 11pt; font-weight: bold">전자결재목록</a></li>
+			<li class="active"><a id="tab1" href="/approval/applist_alllist" role="tab" data-toggle="tab" style="font-size: 11pt; font-weight: bold">전자결재목록</a></li>
 			<li><a id="tab2" role="tab" data-toggle="tab" font-weight="bold" style="font-size: 11pt; font-weight: bold">내가 올린 결재목록</a></li>
 			<li><a id="tab3" role="tab" data-toggle="tab" font-weight="bold" style="font-size: 11pt; font-weight: bold">내가 진행할 결재목록</a></li>
 		</ul>
 	</div>
 	<div class="container" id="applist">
 		<h2>전자결재목록</h2><br>
-	<a class=newapproval href="appselectform.jsp">새 결재 상신</a>
+	<a class=newapproval href="appselectform">새 결재 상신</a>
+	<!-- <script type="text/javascript">
+	$(document).ready(
+			$(function(){
+				$(".newapproval").on("click", function(){
+					self.location="/approval/appselectform";
+				});
+			});
+	</script> -->
 	<table class="type04">
 	<tr>
 	<td>글번호</td>
@@ -106,10 +114,10 @@ text-align: center;
 	
 	<c:forEach var="Approval" items="${list}">
 	<tr>
-	<td><a href="detail.bit?seq=${Approval.app_no}&app_kind=${Approval.app_kind}">${Approval.app_no}</a></td>
+	<td>${Approval.app_no}</td>
 	<td>${Approval.app_kind}</td>
 	
-	<td>${Approval.app_title}</td>
+	<td><a href="/approval/a?app_no=${Approval.app_no}&app_kind=${Approval.app_kind}">${Approval.app_title}</a></td>
 	
 	<td>
 	 <fmt:parseDate var="dateString" value="${Approval.app_startdate}" pattern="yyyy-MM-dd"/>

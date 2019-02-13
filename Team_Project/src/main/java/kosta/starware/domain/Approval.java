@@ -11,4 +11,6 @@ public class Approval {
 	private String app_enddate;
 	private String app_situation;
 	private int emp_no;
+	
+	
 }

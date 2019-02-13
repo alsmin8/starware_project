@@ -81,7 +81,7 @@ text-align: center;
 	<div class="container">
 	
 	
-	<form action="update.bit?seq=${approval.app_no}&app_kind=${approval.app_kind}" method="post">
+	<form action="approval/appupdateddform?seq=${approval.app_no}&app_kind=${approval.app_kind}" method="post">
 	
 		<table class="table table-bordered table-hover"
 				style="text-align: center; border: 1px solid #dddddd;">

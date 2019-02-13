@@ -4,6 +4,30 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kosta.starware.mapper.NoticeMapper">
 
+<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='noticeSearchType' collection="noticeSearchArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="noticeSearchType=='T'.toString()">
+							notice_title like '%'||#{noticeSearchKey}||'%'
+						</when>
+						<when test="noticeSearchType=='C'.toString()">
+							notice_contents like '%'||#{noticeSearchKey}||'%'
+						</when>
+						<when test="noticeSearchType=='W'.toString()">
+							emp_no like '%'||#{noticeSearchKey}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+</sql>
+
+
+
+
+
 <insert id="insertNotice">
 		<selectKey keyProperty="notice_no" order="BEFORE" resultType="int">
 		select notice_no_seq.nextval from dual
@@ -18,7 +42,7 @@
 
 </insert>
 
-<select id="noticeListWithPaging" resultType="kosta.starware.domain.NoticeVO">
+<!-- <select id="noticeListWithPaging" resultType="kosta.starware.domain.NoticeVO">
 <![CDATA[
 select notice_no, notice_subject, notice_title, emp_no, notice_regdate, notice_hitCount
 from notice
@@ -27,7 +51,29 @@ order by notice_no desc
 ]]>
 
 
+</select> -->
+
+
+
+<select id="noticeListWithPaging" resultType="kosta.starware.domain.NoticeVO">
+<![CDATA[
+select notice_no, notice_subject, notice_title, emp_no, notice_regdate, notice_hitCount
+from ( 
+select /*+ index_desc(notice XPKNOTICE) */
+rownum rn, notice_no, notice_subject, notice_title, emp_no, notice_regdate, notice_hitCount
+from notice
+where ]]>
+
+<include refid="criteria"></include>
+
+<![CDATA[
+rownum<=#{pageNum}*#{amount})
+	where rn>(#{pageNum}-1)*#{amount}
+	]]>
+
 </select>
+
+
 
 
 <select id="noticeDetail" resultType="kosta.starware.domain.NoticeVO">
@@ -45,6 +91,7 @@ where notice_no=#{notice_no}
 <update id="noticeUpdate">
 update notice
 set notice_title=#{notice_title},
+notice_subject=#{notice_subject},
 notice_contents=#{notice_contents},
 notice_startDate=to_date(#{notice_startDate}, 'MM-DD-YYYY'),
 notice_endDate=to_date(#{notice_endDate}, 'MM-DD-YYYY'),
@@ -56,6 +103,15 @@ where notice_no=#{notice_no}
 <delete id="noticeDelete">
 delete notice where notice_no=#{notice_no}
 </delete>
+
+<select id="getNoticeTotal" resultType="int">
+select count(*) from notice
+where
+
+<include refid="criteria"></include>
+
+ notice_no>0
+</select>
 
 </mapper>
 

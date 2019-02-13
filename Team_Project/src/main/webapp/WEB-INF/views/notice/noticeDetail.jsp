@@ -114,12 +114,61 @@
 	</table>
 
 	<br>
-	 <input class="btn btn-primary pull-right" type="button" onclick="location.href='noticeDeleteForm?notice_no=${notice.notice_no}';" value="삭제"/>
-	<input class="btn btn-primary pull-right" type="button" onclick="location.href='noticeUpdateForm?notice_no=${notice.notice_no}';" value="수정" />
-	<input class="btn btn-primary pull-right" type="button" onclick="location.href='noticeList';" value="글목록" />
 
+	<button data-oper='delete' class="btn btn-primary pull-right">글삭제</button>
+	<button data-oper='update' class="btn btn-primary pull-right">글수정</button>
+	<button data-oper='list' class="btn btn-primary pull-right">글목록</button>
+	
+	
+	<form id="listAction" action="notice/noticeList" method="get">
+	<input type='hidden' name='notice_no' id='notice_no' value='<c:out value="${notice.notice_no }"/>'>
+	<input type='hidden' name='pageNum' value='<c:out value="${ncri.pageNum }"/>'>
+	<input type='hidden' name='amount' value='<c:out value="${ncri.amount }"/>'>
+	</form>
+	
+	<form id="updateFormAction" action="notice/noticeUpdateForm" method="get">
+	<input type='hidden' name='notice_no' id='notice_no' value='<c:out value="${notice.notice_no }"/>'>
+	<input type='hidden' name='pageNum' value='<c:out value="${ncri.pageNum }"/>'>
+	<input type='hidden' name='amount' value='<c:out value="${ncri.amount }"/>'>
+	</form>
+	
+	<form id="deleteFormAction" action="notice/noticeDeleteForm" method="get">
+	<input type='hidden' name='notice_no' id='notice_no' value='<c:out value="${notice.notice_no }"/>'>
+	<input type='hidden' name='pageNum' value='<c:out value="${ncri.pageNum }"/>'>
+	<input type='hidden' name='amount' value='<c:out value="${ncri.amount }"/>'>
+	</form>
+	
 </div>
 
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+	var listAction = $("#listAction");
+	var updateFormAction = $("#updateFormAction");
+	var deleteFormAction = $("#deleteFormAction");
+
+	$("button[data-oper='update']").on("click", function(e) {
+		updateFormAction.attr("action", "/notice/noticeUpdateForm").submit();
+	}); 
+
+	$("button[data-oper='list']").on("click", function(e) {
+		listAction.find("#notice_no").remove();
+		listAction.attr("action", "/notice/noticeList")
+		listAction.submit();
+	});
+	
+	$("button[data-oper='delete']").on("click", function(e) {
+		deleteFormAction.attr("action", "/notice/noticeDeleteForm").submit();
+	}); 
+
+	
+	
+
+});
+
+
+</script>
 
 </body>
 </html>
