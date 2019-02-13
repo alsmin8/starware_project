@@ -2,6 +2,7 @@
     pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -106,7 +107,8 @@
 	<tr>
 	<td style="width: 110px;"><h5>시작일</h5></td>
 	<td style="width: 40%"><input class="form-control"  type="text" id="start"
-								name="notice_startDate"></td>
+								name="notice_startDate">
+								</td>
 		<td style="width: 110px;"><h5>파일</h5></td>
 	<td><!-- <input type="file" name=""> --></td>	
 	</tr>
@@ -135,15 +137,32 @@
 
 
 	  <script>
+	  
+	 //데이트 피커 날짜 제한
+	 
   $( function() {
-    $( "#start" ).datepicker();
-    dateFormat: 'yy-mm-dd'
-  } );
-  $( function() {
-	    $( "#end" ).datepicker();
-	    dateFormat: 'yy-mm-dd'
-	  } );
+	  
+	  $("#today").text(new Date().toLocaleDateString());
+	  
+    $( "#start" ).datepicker({ 
+    	dateFormat: 'yy-mm-dd',
+    	onClose: function( selectedDate ) {    
+            // 시작일(fromDate) datepicker가 닫힐때
+            // 종료일(toDate)의 선택할수있는 최소 날짜(minDate)를 선택한 시작일로 지정
+            $("#start").datepicker( "option", "minDate", selectedDate );
+        }       
+    });
+	
+ 	 $( "#end" ).datepicker({ 
+ 		 dateFormat: 'yy-mm-dd',
+ 		onClose: function(selectedDate){
+ 			$("#start").datepicker("option", "maxDate", selectedDate);
+ 		} 
+ 	 });
+  });
+  </script>
   
+  <script>
   function checkForm(){
 	  var title=document.form.notice_title;
 	  var contents=document.form.notice_contents;
