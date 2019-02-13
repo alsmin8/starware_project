@@ -22,34 +22,6 @@
 <script src="/resources/js/bootstrap.js"></script>
 
 <script type="text/javascript">
-	function findFunction() {
-		var userID = $('#findID').val();
-		$.ajax({
-			type : 'POST',
-			url : '/chat2/userRegisterCheck.json',
-			data : {
-				userID : userID
-			},
-			success : function(result) {
-				if (result == null || result =="" || result.length == 0) {
-					$('#checkMessage').html('사용자를 찾을수 없습니다.');
-					$('#checkType').attr('class','modal-content panel-warning');
-				}else {
-					$('#checkMessage').html('사용자찾기에 성공하였습니다.');
-					$('#checkType').attr('class','modal-content panel-success');
-					getFriend(result.emp_no , result.emp_name);
-					
-				}
-				$('#checkModal').modal('show');
-			}
-		});
-	} 
-	function getFriend(emp_no, findID) {
-		$('#friendResult').html('<thead><tr><th><h4>검색결과</h4></th></tr></thead><tbody><tr>' +
-				'<td style="text-align: center;"><h3>사번 :' + emp_no +"&nbsp;&nbsp; 이름 : " + findID +'</h3><a href="/chat/messengerChat?toID=' + findID +
-				'" class="btn btn-primary pull-right">메신저보내기</a></td>'+
-				'</tr></tbody>');
-	}
 	
  	function getUnread() {
 		$.ajax({
@@ -76,26 +48,25 @@
 		var userID = '<%=emp_name%>'
 		$.ajax({
 			type : 'POST',
-			url : '/chat2/unreadChatMessage',
+			url : '/chat2/unreadChatMessage.json',
 			data : {
 				userID : userID
 			},
-			contentType : "application/json; charset=utf-8",
 			success : function(data){
 				console.log(data);
-				/* if(data == null || data.length ==0 || data == ""){
+				$('#boxTable').html('');
+
+				if(data == null || data.length == 0 || data == ""){
 					return;
 				}
-				$('#boxTable').html('');
 				for (var i = 0; i < data.length; i++) {
-
 					if(data[i].from_ID == UserID){
 						data[i].from_ID = data[i].to_ID;
 					}else{
 						data[i].toID = data[i].from_ID;
 					}
 					addBox(data[i].from_ID, data[i].to_ID, data[i].m_Content, data[i].m_regdate);
-				} */
+				}
 			}
 		});
 	}
@@ -106,11 +77,15 @@
 				+ '<div class="pull-right">'+ chatTime +'</div></td></tr>');
 	}
 	
-	function getInfinite() {
+/* 	function getInfiniteUnreadChat() {
 		setInterval(function() {
-			getUnread();
 			unreadChatMessage();
 		}, 3000);
+	} */
+	function getInfiniteUnread() {
+		setInterval(function() {
+			getUnread();
+		}, 3500);
 	}
 
 /* 	function addBox(lastID, toID, chatContent, chatTime) {
@@ -277,7 +252,8 @@
 		$(document).ready(function() {
 			getUnread();
 			unreadChatMessage();
-			getInfinite();
+			//getInfiniteUnreadChat();
+			getInfiniteUnread();
 		});
 	</script>
 	<%

@@ -87,14 +87,15 @@
 			}
 		});
 	}
+	function showUnread(result) {
+		$('#unread').html(result);
+	}
 	function getInfiniteUnread() {
 		setInterval(function() {
 			getUnread();
 		}, 3000);
 	}
-	function showUnread(result) {
-		$('#unread').html(result);
-	}
+
 </script>
 
 </head>
@@ -134,6 +135,10 @@
 		</div>
 	</nav>
 	<div class="container">
+		<div>
+			<button class="btn btn-primary" onclick="location.href='/chat/messengerUnread'">메신저보관함으로 이동</button>
+		</div>
+	
 		<table class="table table-bordered table-hover"
 			style="text-align: center; border: 1px solid #dddddd">
 			<thead>

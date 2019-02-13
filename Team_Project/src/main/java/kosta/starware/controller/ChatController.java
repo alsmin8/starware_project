@@ -50,14 +50,13 @@ public class ChatController {
 	
 	@RequestMapping("messengerUnread")
 	public String messengerUnread(HttpSession session){
-/*		int result = service.userCheck(session);
+		int result = service.userCheck(session);
 		
 		if (result == 0) {
 			return "redirect:/login";
 			//return "/chat/messengerFind";
 		}else{
 			return "/chat/messengerUnread";
-		}*/
-		return "/chat/messengerUnread";
+		}
 	}
 }

@@ -38,6 +38,7 @@ public class ChatActionController {
 	
 	@RequestMapping("/userRegisterCheck.json")
 	public EmpDTO userCheck(@RequestParam String userID){
+		log.info("userRegisterCheck.json");	
 		//log.info("userID :" +userID);
 		EmpDTO dto = null;
 		
@@ -74,23 +75,22 @@ public class ChatActionController {
 
 	@RequestMapping(value="/listChatLoad", produces = "application/text; charset=utf8")
 	public String listChatLoad(@RequestParam String fromID, @RequestParam String toID, @RequestParam String listType) throws Exception, IOException, Exception{
-		//log.info("listChatLoad");
+		log.info("listChatLoad");
 		return service.messengerChat(fromID, toID, listType);	
 	}
 
 	@RequestMapping("/unleadAllChatlist")
 	public String unleadAllChatlist(@RequestParam String userID){
-		//log.info("unleadAllChatlist");		
+		log.info("unleadAllChatlist");		
 		String count = String.valueOf(service.unleadAllChatlist(userID));
 		
 		return count;
 	}
 	
-	@RequestMapping("/unreadChatMessage")
+	@RequestMapping("/unreadChatMessage.json")
 	public ResponseEntity<ArrayList<ChatDTO>> unleadChating(@RequestParam String userID){
 		log.info("unleadChating");		
 		ArrayList<ChatDTO> chatDTO = service.unleadChating(userID);
-		
 		
 		log.info("result : " + chatDTO);
 		return new ResponseEntity<>(service.unleadChating(userID) ,HttpStatus.OK);

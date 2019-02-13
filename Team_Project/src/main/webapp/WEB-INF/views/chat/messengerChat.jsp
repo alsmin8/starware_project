@@ -134,12 +134,16 @@
 	function showUnread(result) {
 		$('#unread').html(result);
 	}
-	
-	function getInfinite() {
+
+	function getInfinitechatList() {
 		setInterval(function() {
-			getUnread();
 			chatListFunction(lastID);
 		}, 3000);
+	}
+	function getInfiniteUnread() {
+		setInterval(function() {
+			getUnread();
+		}, 3500);
 	}
 	
 
@@ -291,7 +295,8 @@
 	$(document).ready(function() {
 		getUnread();
 		chatListFunction('0');
-		getInfinite();
+		getInfinitechatList();
+		getInfiniteUnread();
 	});
 	</script>
 	<%
