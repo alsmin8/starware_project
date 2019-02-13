@@ -27,7 +27,7 @@
 			type : "POST",
 			url : "/chat2/unleadAllChatlist",
 			data : {
-				userID : ${emp_name}
+				userID : '${emp_name}'
 			},
 			success : function(result) {
 				var count = Number(result);
@@ -69,8 +69,8 @@
 				<li class="active"><a href="/loginafter">메인</a></li>
 				<li><a href="list.bit">전자결재</a></li>
 				<li><a href="listActionProject.pro">협업지원</a></li>
-				<li><a href="list.not">공지사항</a></li>
-				<li><a href="resource_main.jsp">출퇴근관리</a></li>
+				<li><a href="/notice/noticeList">공지사항</a></li>
+				<li><a href="/attend/attendInsert">출퇴근관리</a></li>
 				<li><a href="list.do">인사관리</a></li>
 				<li><a href="calendar_main.jsp">일정관리</a></li>
 				<li><a href="/chat/messengerFind">메세지함<span id="unlead" class="label label-info"></span></a></li>

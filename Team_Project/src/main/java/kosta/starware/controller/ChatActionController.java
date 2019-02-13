@@ -86,13 +86,13 @@ public class ChatActionController {
 		return count;
 	}
 	
-	@RequestMapping("/unleadChating")
-	public String unleadChating(@RequestParam String fromID, @RequestParam String toID, @RequestParam int number){
+	@RequestMapping("/unreadChatMessage")
+	public ResponseEntity<ArrayList<ChatDTO>> unleadChating(@RequestParam String userID){
 		log.info("unleadChating");		
-		//String count = String.valueOf(service.unleadAllChatlist(userID));
+		ArrayList<ChatDTO> chatDTO = service.unleadChating(userID);
 		
-		return null;
+		
+		log.info("result : " + chatDTO);
+		return new ResponseEntity<>(service.unleadChating(userID) ,HttpStatus.OK);
 	}
-	
-	
 }

@@ -74,11 +74,11 @@
 				<li><a href="loginafter.jsp">메인</a></li>
 				<li><a href="list.bit">전자결재</a></li>
 				<li><a href="listActionProject.pro">협업지원</a></li>
-				<li class="active"><a href="noticeList">공지사항</a></li>
-				<li><a href="../attend/attendInsert">출퇴근관리</a></li>
+				<li class="active"><a href="/notice/noticeList">공지사항</a></li>
+				<li><a href="/attend/attendInsert">출퇴근관리</a></li>
 				<li><a href="list.do">인사관리</a></li>
 				<li><a href="calendar_main.jsp">일정관리</a></li>
-				<li><a href="messengerFind.jsp">메세지함</a></li>
+				<li><a href="/chat/messengerFind">메세지함</a></li>
 			</ul>
 
 			<ul class="nav navbar-nav navbar-right">
