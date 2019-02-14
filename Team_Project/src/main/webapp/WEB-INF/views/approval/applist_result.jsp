@@ -93,21 +93,24 @@ text-align: center;
 	<div class="container" id="applist">
 		<h2>내가 진행할 결재목록</h2><br>
 	<table class="type04">
-		<tr>
-			<td>글번호</td>
-			<td>문서종류</td>
-			<td>제      목</td>
-			<td>기안일자</td>
-			<td>상신일자</td>
-			<td>본인승인결과</td>
-			<td>기안자</td>
-		</tr>
-		<c:forEach var="Approval" items="${applist_result}">
+		<thead>
 			<tr>
-				<td><a href="detail.bit?seq=${Approval.APP_NO}&app_kind=${Approval.APP_KIND}">${Approval.APP_NO}</a></td>
+				<td>글번호</td>
+				<td>문서종류</td>
+				<td>제      목</td>
+				<td>기안일자</td>
+				<td>상신일자</td>
+				<td>본인승인결과</td>
+				<td>기안자</td>
+			</tr>
+		</thead>
+		<tbody id="result_detail">
+		<c:forEach var="Approval" items="${applist_result}">
+			<tr data-app_no="${Approval.APP_NO}">
+				<td>${Approval.APP_NO}</td>
 				<td>${Approval.APP_KIND}</td>
 				<td>${Approval.APP_TITLE}</td>
-				
+				<%-- <a href="detail.bit?seq=${Approval.APP_NO}&app_kind=${Approval.APP_KIND}"></a> --%>
 				<td>
 					 <fmt:parseDate var="dateString" value="${Approval.APP_STARTDATE}" pattern="yyyy-MM-dd"/>
 					 <fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd"/>
@@ -120,6 +123,7 @@ text-align: center;
 				<td>${Approval.EMP_NO}</td>
 			</tr>
 		</c:forEach>
+		</tbody>
 	</table>
 	<br><br>
 	
@@ -145,6 +149,107 @@ text-align: center;
 	<br><input type = "submit" value = "검색">
 	
 	</form> -->
+	
 	</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">결재 승인 내용 및 창</h4>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label>문서종류</label> 
+					<input class="form-control" name='kind' value='kind!!!!' readonly="readonly">
+				</div>      
+				<div class="form-group">
+					<label>제목</label> 
+					<input class="form-control" name='title' value='New Title!!!!' readonly="readonly">
+				</div>
+				<div class="form-group">
+					<label>작성내용</label> 
+					<input class="form-control" name='content' value='content' readonly="readonly">
+				</div>
+				<div class="form-group">
+					<label>기안일자</label> 
+					<input class="form-control" name='startDate' value='2018-01-01 13:13' readonly="readonly">
+				</div>
+				<div class="form-group">
+					<label>완료일자</label> 
+					<input class="form-control" name='endDate' value='2018-01-01 13:13' readonly="readonly">
+				</div>
+				<div class="form-group">
+					<label>기안자</label> 
+					<input class="form-control" name='writer' value='writer' readonly="readonly">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button id='modalAcceptBtn' type="button" class="btn btn-primary">accept</button>
+				<button id='modalRejectBtn' type="button" class="btn btn-danger">reject</button>
+				<button id='modalCloseBtn' type="button" class="btn btn-default">Close</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+	
+	
+	
+<script type="text/javascript">
+	var modal = $(".modal");
+	var modalInputKind = modal.find("input[name='kind']");
+	var modalInputTitle = modal.find("input[name='title']");
+	var modalInputContent = modal.find("input[name='content']");
+	var modalInputStartDate = modal.find("input[name='startDate']");
+	var modalInputEndDate = modal.find("input[name='endDate']");
+	var modalInputWriter = modal.find("input[name='writer']");
+	
+	var modalAcceptBtn = $("#modalAcceptBtn");
+	var modalRejectBtn = $("#modalRejectBtn");
+
+	//상세 조회 클릭 이벤트 처리 
+    $(".result_detail").on("click", "tr", function(e){
+    // tr를 왜 두번째에 넣어줬냐 동적으로 하기위해 - 있는 tr이 아닙니다.
+    var detailNum = $(this).data("app_no"); //app_no를 뽑아냄
+
+  	function getDetail(detailNum) {
+		$.ajax({
+			type: 'POST',
+			url : '',
+			data : {
+				app_no : detailNum
+			},
+			success : function(result){
+				modalInputKind.val(result.kind);
+				modalInputTitle.val(result.title);
+				modalInputContent.val(result.content);
+				modalInputStartDate.val(result.startDate);
+				modalInputEndDate.val(result.endDate);
+				modalInputWriter.val(result.writer);
+				
+		        modal.data("app_no", reply.app_no);
+		        
+		        modal.find("button[id !='modalCloseBtn']").hide();
+		        modalAcceptBtn.show();
+		        modalRejectBtn.show();
+		        
+		        $(".modal").modal("show");
+			}
+			
+		});
+	}
+      
+    });	//버튼클릭 이벤트 종료
+</script>
+
+
 </body>
 </html>
