@@ -1,5 +1,6 @@
 package kosta.starware.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import kosta.starware.domain.Approval;
@@ -30,5 +31,8 @@ public interface ApprovalService {
 	public boolean appDraftDelete(int app_no);
 	public boolean appDdDelete(int app_no);
 	public boolean appVacationDelete(int app_no);
+	
+	//내가 결재할 목록
+	public List<HashMap> resultApproval(String userID);
 	
 }

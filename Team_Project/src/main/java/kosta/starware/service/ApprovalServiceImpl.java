@@ -1,5 +1,6 @@
 package kosta.starware.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,6 +118,21 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public boolean appVacationUpdate(VacationDoc vacationDoc) {
 		// TODO Auto-generated method stub
 		return approvalmapper.appVacationUpdate(vacationDoc)==1;
+	}
+
+	
+	
+	
+	
+	
+	
+	@Override
+	public List<HashMap> resultApproval(String userID) {
+		log.info("resultapproval 시작 : ");
+		List<HashMap> list = approvalmapper.resultApproval(userID);
+
+		log.info(list);
+		return list;
 	}
 
 	

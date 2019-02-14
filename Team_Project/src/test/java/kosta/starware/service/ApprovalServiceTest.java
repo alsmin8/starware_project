@@ -2,6 +2,9 @@ package kosta.starware.service;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +34,11 @@ public class ApprovalServiceTest {
 	/*@Test
 	public void testInsert(){
 		Approval approval = new Approval();
-		approval.setApp_title("»õ·ÎÀÛ¼ºÇÏ´Âservice1");
-		approval.setApp_kind("»õ·ÎÀÛ¼ºÇÏ´Âservice1");
+		approval.setApp_title("ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½ï¿½Ï´ï¿½service1");
+		approval.setApp_kind("ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½ï¿½Ï´ï¿½service1");
 		
 		approvalservice.appInsert(approval);
-		log.info("»ý¼ºµÈ °Ô½Ã¹°ÀÇ ¹øÈ£1:"+ approval.getApp_no());
+		log.info("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½Ã¹ï¿½ï¿½ï¿½ ï¿½ï¿½È£1:"+ approval.getApp_no());
 		
 	}*/
 	/*@Test
@@ -58,7 +61,17 @@ public class ApprovalServiceTest {
 		if(approval==null){
 			return ;
 		}
-		approval.setApp_title("Á¦¸ñ¼öÁ¤µÆ´Ù");
+		approval.setApp_title("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ´ï¿½");
 		log.info("updateresult"+approvalservice.appUpdate(approval));
 	}*/
+	
+	@Test
+	public void testResultapproval(){
+		log.info("testApproval :");
+		
+		String userID = "12304";
+		List<HashMap> list = approvalservice.resultApproval(userID);
+
+		log.info("list :" +list);
+	}
 }
