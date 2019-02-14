@@ -84,7 +84,7 @@ text-align: center;
 	<%
 		String app_kind = request.getParameter("app_kind");
 	%>
-	<form action="/approval/appdetailddraft?seq=${Approval.app_no}&app_kind=${app_kind}" method="post">
+	<form action="/approval/appdetailddraft?app_no=${approval.app_no}&app_kind=${app_kind}" method="post">
 			<input type="hidden" name="app_kind" value="<%=app_kind%>">
 	<table class="table table-bordered table-hover"
 				style="text-align: center; border: 1px solid #dddddd;">
@@ -117,9 +117,9 @@ text-align: center;
 		</table>
 		<br>
 		<center>
-		<a href="updateform.bit?seq=${Approval.app_no}&app_kind=${Approval.app_kind}">수정</a> &emsp;&emsp;&emsp;&emsp;&emsp;
-		<a href="delete.bit?seq=${Approval.app_no}">삭제</a>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-		<a href="list.bit">목록</a>
+		<a href="/approval/appupdatedraftform?app_no=${approval.app_no}&app_kind=${approval.app_kind}">수정</a> &emsp;&emsp;&emsp;&emsp;&emsp;
+		<a href="/approval/appdeletedraft?app_no=${approval.app_no}">삭제</a>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+		<a href="/approval/applist_alllist">목록</a>
 		</center>
 		</form>
 	

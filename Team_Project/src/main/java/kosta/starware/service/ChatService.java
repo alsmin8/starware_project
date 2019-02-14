@@ -2,6 +2,7 @@ package kosta.starware.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 
@@ -43,7 +44,6 @@ public class ChatService {
 	}	
 	//사용자 검색(사번)
 	public EmpDTO getUser2(int userID) {	
-		// TODO Auto-generated method stub
 		return chatMapper.getOneUser2(userID);
 	}
 	//메신저 사용자 체크
@@ -75,9 +75,6 @@ public class ChatService {
 		if (fromID == null || fromID.equals("")||toID == null || toID.equals("")||listType == null || listType.equals("")) {
 			System.out.println("빈칸");
 			return "";
-		}else if (listType.equals("ten")) {
-			System.out.println("ten");
-			return getTen(fromID, toID);
 		}else {
 			try {
 				System.out.println("getID");
@@ -89,52 +86,15 @@ public class ChatService {
 		}
 		//return chatMapper.getChatListbyID(fromID, toID, listType);
 	}
-	public String getTen(String fromID, String toID) throws Exception{
-		StringBuffer result = new StringBuffer("");
-		//log.info("getTen 시작: " + fromID +" "+ toID);		
-		ArrayList<ChatDTO> chatlist = chatMapper.getChatlistByRecent(fromID, toID, 10);
-		
-		//log.info("chatlist : " + chatlist);	
-		if(chatlist.size() == 0){
-			return "";
-		}
-		
-		String timeType = "오전";
-		
-		result.append("{\"result\":[");
-		for (int i = 0; i < chatlist.size(); i++) {
-			result.append("[{\"value\": \"" + chatlist.get(i).getFrom_ID() + "\"},");
-			result.append("{\"value\": \"" + chatlist.get(i).getTo_ID() + "\"},");
-			result.append("{\"value\": \"" + chatlist.get(i).getM_Content().replaceAll(" ", "&nbsp;")
-					.replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br>") + "\"},");
-			int chatTime = Integer.parseInt(chatlist.get(i).getM_regdate().substring(11, 13));
-			if (chatTime >= 12) {
-				timeType = "오후";
-				chatTime -= 12;
-			}
-			result.append("{\"value\": \"" + chatlist.get(i).getM_regdate().substring(0, 11) + " " + timeType + " "
-					+ chatTime + ":" + chatlist.get(i).getM_regdate().substring(14, 16) + "\"}]");
-			if (i != chatlist.size() - 1) {
-				result.append(",");
-			}
-		}
-		result.append("], \"last\" : \"" + chatlist.get(chatlist.size() - 1).getM_contentNo() + "\"}");
-		
-		//System.out.println(result);
-		readChat(fromID, toID);
-		return result.toString();
-	}
-	public String getID(String fromID, String toID, String listType) throws Exception{
+	public String getID(String fromID, String toID, String listType) throws Exception, IOException{
 		StringBuffer result = new StringBuffer("");
 		//log.info("getID 시작: " + fromID +" "+ toID);	
 		ArrayList<ChatDTO> chatlist = chatMapper.getChatListbyID(fromID, toID, listType);
-		//log.info("chatlist : " + chatlist);
 		//chatMapper.unleadChatUpdate(fromID, toID);
 		
 		if(chatlist.size() == 0){
 			return "";
 		}
-		String timeType = "오전";
 
 		result.append("{\"result\":[");
 		for (int i = 0; i < chatlist.size(); i++) {
@@ -142,13 +102,7 @@ public class ChatService {
 			result.append("{\"value\": \"" + chatlist.get(i).getTo_ID() + "\"},");
 			result.append("{\"value\": \"" + chatlist.get(i).getM_Content().replaceAll(" ", "&nbsp;")
 					.replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br>") + "\"},");
-			int chatTime = Integer.parseInt(chatlist.get(i).getM_regdate().substring(11, 13));
-			if (chatTime >= 12) {
-				timeType = "오후";
-				chatTime -= 12;
-			}
-			result.append("{\"value\": \"" + chatlist.get(i).getM_regdate().substring(0, 11) + " " + timeType + " "
-					+ chatTime + ":" + chatlist.get(i).getM_regdate().substring(14, 16) + "\"}]");
+			result.append("{\"value\": \"" + displayTime((chatlist.get(i).getM_regdate().getTime())) + "\"}]");
 			if (i != chatlist.size() - 1) {
 				result.append(",");
 			}
@@ -167,4 +121,93 @@ public class ChatService {
 	public int unleadAllChatlist(String userID){
 		return chatMapper.unleadAllChatlist(userID);
 	}
+	
+	
+	
+	
+	
+
+	//읽지 않은 최근메세지 불러오기
+	public ArrayList<ChatDTO> unleadChating(String userID){
+		StringBuffer result = new StringBuffer("");
+		ArrayList<ChatDTO> chatlist = chatMapper.getChatlist(userID);
+		System.out.println(chatlist);
+		if(chatlist.size() == 0){
+			return null;
+		}
+		for(int i =0 ; i< chatlist.size() ; i++){
+			ChatDTO x = chatlist.get(i);
+			for(int j=0; j<chatlist.size() ; i++){
+				ChatDTO y = chatlist.get(j);
+				if(x.getFrom_ID().equals(y.getTo_ID()) && x.getTo_ID().equals(y.getFrom_ID())){
+					if(x.getM_contentNo() < y.getM_contentNo()){
+						chatlist.remove(x);
+						i--;
+						break;
+					}else{
+						chatlist.remove(y);
+						j--;
+					}
+				}
+			}
+		}
+		System.out.println(chatlist);
+		return chatlist;
+	}
+	//날짜 표시 기능(메소드)
+	public String displayTime(Long timeValue) {
+		Date today = new Date();
+		
+		Long gap = today.getTime() - timeValue;
+		
+		Date dateObj = new Date(timeValue);
+		String str = "";
+		
+		if(gap < (1000 * 60 * 60 * 24)){
+			
+			int hh = dateObj.getHours();
+			int mi = dateObj.getMinutes();
+			int ss = dateObj.getSeconds();
+			
+			if(hh > 9){
+				str += "" + hh + ":";
+			}else{
+				str += "0"+ hh + ":";
+			}
+			
+			if(mi > 9){
+				str += "" + mi + ":";
+			}else{
+				str += "0" + mi + ":";
+			}
+			
+			if(ss > 9){
+				str += "" + mi + "";
+			}else{
+				str += "0" + ss + "";
+			}
+			
+			return str;
+		}else{
+			int yy = dateObj.getYear() -100;
+			int mm = dateObj.getMonth() + 1;
+			int dd = dateObj.getDate();
+			
+			str += yy + "/";
+			
+			if(mm > 9){
+				str += "" + mm + "/\"";
+			}else{
+				str += "0" + mm + "/\"";
+			}
+			
+			if(dd > 9){
+				str += "" + dd + "";
+			}else{
+				str += "0" + dd + "";
+			}
+			
+			return str;
+		}
+	}	
 }

@@ -22,7 +22,7 @@ public class ProjectServiceImpl implements ProjectService{
 	@Override
 	public void register(ProjectDTO project) {
 		
-		log.info("«¡∑Œ¡ß∆Æ µÓ∑œ......." + project);
+		log.info("Í∏Ä Îì±Î°ù" + project);
 		
 		mapper.registerProject(project);
 	}
@@ -30,7 +30,7 @@ public class ProjectServiceImpl implements ProjectService{
 	@Override
 	public ProjectDTO read(int project_No) {
 		
-		log.info("«¡∑Œ¡ß∆Æ ±€ ≥ªøÎ........." + project_No);
+		log.info("Î¶¨Ïä§Ìä∏Ï°∞Ìöå" + project_No);
 		
 		return mapper.readProject(project_No);
 	}
@@ -38,7 +38,7 @@ public class ProjectServiceImpl implements ProjectService{
 	@Override
 	public boolean modify(ProjectDTO project) {
 		
-		log.info("«¡∑Œ¡ß∆Æ ºˆ¡§.........." + project);
+		log.info("" + project);
 		
 		return mapper.modifyProject(project) == 1;
 	}
@@ -46,7 +46,7 @@ public class ProjectServiceImpl implements ProjectService{
 	@Override
 	public boolean remove(int project_No) {
 		
-		log.info("«¡∑Œ¡ß∆Æ ªË¡¶.........." + project_No);
+		log.info("Í∏Ä ÏÇ≠Ï†ú" + project_No);
 		
 		return mapper.removeProject(project_No) == 1;
 	}
@@ -54,7 +54,7 @@ public class ProjectServiceImpl implements ProjectService{
 	@Override
 	public List<ProjectDTO> getList() {
 		
-		log.info("«¡∑Œ¡ß∆Æ ∏ÆΩ∫∆Æ.........");
+		log.info("getlist.......");
 		
 		return mapper.getListProject();
 	}
