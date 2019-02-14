@@ -2,6 +2,7 @@ package kosta.starware.service;
 
 import java.util.List;
 
+import kosta.starware.domain.EmpCriteria;
 import kosta.starware.domain.EmpVO;
 
 public interface EmpService {
@@ -12,6 +13,8 @@ public interface EmpService {
 	
 	public boolean empUpdate (EmpVO emp);
 	
-	public List<EmpVO> empGetList();
+	//public List<EmpVO> empGetList();
+	/*List<EmpVO>*/
+	public List<EmpVO> empGetList(EmpCriteria empcri);
 
 }

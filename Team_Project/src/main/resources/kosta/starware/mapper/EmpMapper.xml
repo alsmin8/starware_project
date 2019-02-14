@@ -11,13 +11,19 @@ select * from emp where emp_no > 0
 </select>
 
 <select id ="empGetListWithPaging" resultType="kosta.starware.domain.EmpVO">
+
 <![CDATA[
 select 
-emp_no, emp_name, emp_pass, emp_gender, emp_socialNo, dept_no, grade_no, emp_cellphone, 
-emp_extension, emp_hiredate, emp_retiredate, emp_empstate, emp_totalvdays, emp_vleftdays
+ emp_no, emp_name, emp_hiredate, dept_no, grade_no, emp_empstate
 from
 (
-select /*
+select /*+INDEX DESC(emp emp_no)*/
+rownum rn, emp_no, emp_name, emp_hiredate, dept_no, grade_no, emp_empstate
+from
+emp
+where rownum <= #{pageNum} * #{amount}
+)
+where rn > (#{pageNum} -1) * #{amount}
 ]]>
 
 </select>
