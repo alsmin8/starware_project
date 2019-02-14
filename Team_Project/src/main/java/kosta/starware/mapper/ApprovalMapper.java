@@ -13,7 +13,7 @@ public interface ApprovalMapper {
 	
 	//@Select("select * from approval")
 	public List<Approval> appList();
-	
+	//insert
 	public void appInsert(Approval approval);
 	public void appInsertSelectKey(Approval approval);
 	public int getAppNo();
@@ -25,8 +25,15 @@ public interface ApprovalMapper {
 	public DisbursementDoc appDdDetail(int app_no);
 	public DraftDoc appDraftDetail(int app_no);
 	public VacationDoc appVacationDetail(int app_no);
-	
-	
+	//delete	
 	public int appDelete(int app_no);
+	public int appDdDelete(int app_no);
+	public int appDraftDelete(int app_no);
+	public int appVacationDelete(int app_no);
+	//update
 	public int appUpdate(Approval approval);
+	public int appDdUpdate(DisbursementDoc disbursementDoc);
+	public int appDraftUpdate(DraftDoc draftDoc);
+	public int appVacationUpdate(VacationDoc vacationDoc);
+
 }

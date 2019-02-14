@@ -32,11 +32,21 @@ public class ApprovalControllerTest {
 	public void setup(){
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx).build();
 	}
-	@Test
+	/*@Test
 	public void testList() throws Exception{
 	log.info(mockMvc.perform(MockMvcRequestBuilders.get("/approval/applist_alllist"))
 			.andReturn()
 			.getModelAndView()
 			.getModelMap());
-}
+}*/
+	@Test
+	public void testUpdate() throws Exception {
+		String resultPage = mockMvc
+				.perform(MockMvcRequestBuilders.post("/approval/appupdateddform")
+						.param("app_title", "수정된새글")
+						.param("d_contents", "수정test")
+						.param("app_no", "101"))
+						.andReturn().getModelAndView().getViewName();
+		log.info(resultPage);
+	}
 }

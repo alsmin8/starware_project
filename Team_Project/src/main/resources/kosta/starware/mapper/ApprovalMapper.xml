@@ -24,7 +24,7 @@
 	<select id="getAppNo" resultType="int">
 	 select max(app_no) from approval 
 	</select>
-	<insert id="appDdInsert">
+	<insert id="appDdInsert" >
 		insert into disbursement_doc (app_no, d_no, d_idx, d_contents, d_usingdate, d_amount)
 		values (#{app_no}, d_no_seq.nextval, #{d_idx},#{d_contents}, #{d_usingdate}, #{d_amount})
 	</insert>
@@ -54,9 +54,31 @@
 	<delete id="appDelete">
 		delete approval where app_no=#{app_no}
 	</delete>
-	
-	<update id="appUpdate">
+	<delete id="appDraftDelete">
+		delete draft_doc where app_no=#{app_no}
+	</delete>
+	<delete id="appDdDelete">
+		delete disbursement_doc where app_no=#{app_no}
+	</delete>
+	<delete id="appVacationDelete">
+		delete vacation_doc where app_no=#{app_no}
+	</delete>
+	<!-- UPDATE 수정 SQL!! -->
+	<update id="appUpdate" >
 		update approval set app_title=#{app_title}, app_startdate = sysdate
 		where app_no = #{app_no}
 	</update>
+	<update id="appDraftUpdate" parameterType="kosta.starware.domain.DisbursementDoc">
+		update draft_doc set dd_contents=#{dd_contents}
+		where app_no = #{app_no}
+	</update>
+	<update id="appDdUpdate" >
+		update disbursement_doc set d_contents=#{d_contents}, d_usingdate=#{d_usingdate}, d_amount=#{d_amount}
+		where app_no=#{app_no}
+	</update>
+	<update id="appVacationUpdate">
+		update vacation_doc set vd_startdate=#{vd_startdate}, vd_enddate=#{vd_enddate}, vd_day=#{vd_day}, vd_contents=#{vd_contents}
+		where app_no=#{app_no}
+	</update>
+	
 </mapper>
