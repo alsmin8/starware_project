@@ -2,6 +2,7 @@ package kosta.starware.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -74,7 +75,7 @@ public class ChatActionController {
 	}
 
 	@RequestMapping(value="/listChatLoad", produces = "application/text; charset=utf8")
-	public String listChatLoad(@RequestParam String fromID, @RequestParam String toID, @RequestParam String listType) throws Exception, IOException, Exception{
+	public String listChatLoad(@RequestParam String fromID, @RequestParam String toID, @RequestParam String listType) throws Exception, IOException{
 		log.info("listChatLoad");
 		return service.messengerChat(fromID, toID, listType);	
 	}
@@ -88,7 +89,7 @@ public class ChatActionController {
 	}
 	
 	@RequestMapping(value ="/unreadChatMessaging", produces = "application/json")
-	public ResponseEntity<ArrayList<ChatDTO>> unleadChating(@RequestParam String userID){
+	public ResponseEntity<List<ChatDTO>> unleadChating(@RequestParam String userID){
 		log.info("unleadChating");		
 		
 		return new ResponseEntity<>(service.unreadChating(userID),HttpStatus.OK);

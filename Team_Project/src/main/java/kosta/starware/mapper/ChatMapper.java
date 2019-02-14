@@ -13,10 +13,11 @@ public interface ChatMapper {
 		int chatSubmit(ChatDTO chat);
 		
 		ArrayList<ChatDTO> getChatListbyID(@Param("from_ID") String from_ID,@Param("to_ID") String to_ID,@Param("m_contentNo") String listType);
-		ArrayList<ChatDTO> getChatlistByRecent(@Param("from_ID") String from_ID,@Param("to_ID") String to_ID,@Param("m_contentNo") int m_Content);
+		
 		int unleadUpdate(@Param("from_ID") String from_ID,@Param("to_ID") String to_ID);
 		int unleadAllChatlist(String userID);
 		
+		int unleadUserChatlist(@Param("userID")String userID,@Param("toID") String toID);
 		
 		
 		ArrayList<ChatDTO> getChatlist(String userID);
@@ -33,4 +34,6 @@ public interface ChatMapper {
 		EmpDTO getOneUser(@Param("emp_name")String userID);
 		EmpDTO getOneUser2(@Param("emp_no")int userID);
 		ArrayList<EmpDTO> getAllUser();
+
+		
 }

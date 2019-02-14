@@ -22,93 +22,44 @@
 <script src="/resources/js/bootstrap.js"></script>
 
 <script type="text/javascript">
- 	function getUnread() {
-		$.ajax({
-			type : "POST",
-			url : "/chat2/unleadAllChatlist",
-			data : {
-				userID : '<%=emp_name%>'
-			},
-			success : function(result) {
-				var count = Number(result);
-				if(count >= 1){
-					showUnread(result);
-				}else{
-					showUnread('');
-				}
-			}
-		});
-	}
-	function showUnread(result) {
-		$('#unread').html(result);
-	}
-	
-
-	
 	function unreadChatMessage() {
-		$('#boxTable').html('');
-		var userID = '<%=emp_name%>';
 		$.ajax({
 			type : 'POST',
 			url : '/chat2/unreadChatMessaging',
-			data : {
-				userID : userID
+			data : { userID : '<%=emp_name%>'
 			},
 			success : function(data){
-				//console.log(data);
+				$('#boxTable').html('');
+				console.log(data);
 				if (data == null || data == "" || data == {}){
 					return;
 				}
-				for (var i = 0; i < data.length; i++) {
-					if(data[i].from_ID == userID){
-						data[i].from_ID = data[i].to_ID;
-					}else{
-						data[i].to_ID = data[i].from_ID;
-					}
-					var date = data[i].m_regdate;
-					addBox(data[i].from_ID, data[i].to_ID, data[i].m_Content, displayTime(data[i].m_regdate));
+				
+				for(i =0 ; i< data.length; i++){
+				console.log(data[i]);
+				addBox(data[i].from_ID, data[i].to_ID, data[i].m_Content, displayTime(data[i].m_regdate));
 				}
 			}
 		});
 	}
-	function addBox(lastID, toID, chatContent, chatTime) {
-		$('#boxTable').append('<tr onclick="location.href=\'/chat/messengerChat?toID=' + toID + '\'">'
-				+ '<td style="width : 150px;"><h5>'+ lastID +'</h5></td>'
-				+ '<td><h5>마지막 메세지 : '+ chatContent +'</h5>'
-				+ '<div class="pull-right">'+ chatTime +'</div></td></tr>');
-	}
-	function displayTime(timeValue) {
-		var today = new Date();
-		
-		var gap = today.getTime() - timeValue;
-		
-		var dateObj = new Date(timeValue);
-		var str = "";
-		
-		if(gap < (1000 * 60 * 60 * 24)){
-			
-			var hh = dateObj.getHours();
-			var mi = dateObj.getMinutes();
-			var ss = dateObj.getSeconds();
-			
-			return [(hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi, ':',(ss > 9 ? '' : '0') + ss ].join('');
+	function addBox(from_ID, to_ID, m_Content, m_regdate) {
+		if(from_ID == '<%=emp_name%>'){
+			m_Content = '내가 보낸 마지막 메세지 : ' + m_Content;
+			from_ID = to_ID;
 		}else{
-			var yy = dateObj.getFullYear();
-			var mm = dateObj.getMonth() + 1;
-			var dd = dateObj.getDate();
-			
-			return [yy, '/',(mm > 9 ? '' : '0') + mm, '/',(dd > 9 ? '' : '0') + dd].join('');
+			m_Content = '읽지 않은 마지막 메세지 : ' + m_Content;
+			to_ID = from_ID;
 		}
+		$('#boxTable').append('<tr onclick="location.href=\'/chat/messengerChat?toID=' + to_ID + '\'">'
+				+ '<td style="width : 150px;"><h5>'+ from_ID +'<span id="unreadAmount" class="label label-info"></span></h5></td>'
+				+ '<td><h5>'+ m_Content +'</h5>'
+				+ '<div class="pull-right">'+ m_regdate +'</div></td></tr>');
 	}
+	
  	function getInfiniteUnreadChat() {
 		setInterval(function() {
 			unreadChatMessage();
 		}, 5000);
-	}
-	function getInfiniteUnread() {
-		setInterval(function() {
-			getUnread();
-		}, 3000);
 	}
 </script>
 
@@ -134,7 +85,7 @@
 				<li><a href="/notice/noticeList">공지사항</a></li>
 				<li><a href="/attend/attendInsert">출퇴근관리</a></li>
 				<li><a href="/emp/empList">인사관리</a></li>
-				<li><a href="/schedule/schduleMain">일정관리</a></li>
+				<li><a href="/schedule/scheduleMain">일정관리</a></li>
 				<li class="active"><a href="/chat/messengerFind">메세지함<span id="unread" class="label label-info"></span></a></li>
 			</ul>
 			
@@ -153,7 +104,7 @@
 		<table class="table" style="margin: 0 auto;">
 			<thead>
 				<tr>
-					<th colspan="2"><h4>안읽은 메세지목록</h4></th>
+					<th colspan="2"><h4>메세지목록</h4></th>
 				</tr>
 			</thead>
 			<div style="overflow-y: auto; width: 100%; max-height: 450px;">
@@ -242,14 +193,15 @@
 	</div>
  	<%
 		if(emp_no != null){
-
 	%>
+	<script src="/resources/chatMethod.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			getUnread();
+			var emp_name = '<%=emp_name%>';
+			getUnread(emp_name);
 			unreadChatMessage();
 			getInfiniteUnreadChat();
-			getInfiniteUnread();
+			getInfiniteUnread(emp_name);
 		});
 	</script>
 	<%

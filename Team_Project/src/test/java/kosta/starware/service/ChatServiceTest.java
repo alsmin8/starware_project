@@ -27,7 +27,7 @@ public class ChatServiceTest {
 		assertNotNull(chatService);
 	}*/
 	
-	@Test
+/*	@Test
 	public void testdisplayTime(){
 		log.info("testdisplayTime : ");
 		Date today = new Date();
@@ -43,7 +43,7 @@ public class ChatServiceTest {
 		String str = chatService.displayTime(gap);
 
 		log.info("결과값 확인" + str);
-	}
+	}*/
 
 /*	@Test
 	public void unleadChating(){
@@ -55,5 +55,17 @@ public class ChatServiceTest {
 		//log.info("chatDTO 의 값 : "+chatDTO);
 
 	}*/
+	
+	@Test
+	public void testunleadUserChatlist(){
+		log.info("unleadUserChatlist(각 안읽은 유저마다 표시하기위해서  : ");
+		String userID = "홍길동";
+		String toID = "최길동";
+		
+		int result = chatService.unleadUserChatlist(userID, toID);
+
+		log.info("결과값 확인" + result);
+	}
+	
 	
 }

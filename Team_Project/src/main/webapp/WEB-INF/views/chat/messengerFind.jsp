@@ -20,30 +20,7 @@
 <title>STARWARE(Groupware)</title>
 <script src="/resources/jquery.js" type="text/javascript"></script>
 <script src="/resources/js/bootstrap.js"></script>
-
 <script type="text/javascript">
-	function allUserFunction() {
-		$.ajax({
-			type : 'POST',
-			url : '/chat2/allUserCheck.json',
-			success : function(data) {
-				console.log(data);
-				for (var i = 0; i < data.length; i++) {
-					if(data[i].emp_name == '<%=emp_name%>' ){
-						data[i].emp_name = data[i].emp_name + '(본인)';
-					}
-					addListUser(data[i].emp_no, data[i].emp_name);
-				}
-			}
-		});
-	}
-	function addListUser(emp_no, findID) {
-		console.log(emp_no);
-		$('#friendResult').append(
-				'<tbody><tr><td style="text-align: center;"><h3>사번 :' + emp_no +"&nbsp;&nbsp; 이름 : " + findID +'</h3><a href="/chat/messengerChat?toID=' + findID +
-				'" class="btn btn-primary pull-right">메신저보내기</a></td></tr></tbody>');
-	}
-		
 	function findFunction() {
 		var userID = $('#findID').val();
 		$.ajax({
@@ -73,35 +50,7 @@
 				'" class="btn btn-primary pull-right">메신저보내기</a></td>'+
 				'</tr></tbody>');
 	}
-	
- 	function getUnread() {
-		$.ajax({
-			type : "POST",
-			url : "/chat2/unleadAllChatlist",
-			data : {
-				userID : '<%=emp_name%>'
-			},
-			success : function(result) {
-				var count = Number(result);
-				if(count >= 1){
-					showUnread(result);
-				}else{
-					showUnread('');
-				}
-			}
-		});
-	}
-	function showUnread(result) {
-		$('#unread').html(result);
-	}
-	function getInfiniteUnread() {
-		setInterval(function() {
-			getUnread();
-		}, 3000);
-	}
-
 </script>
-
 </head>
 <body>
 	<nav class="navbar navbar-default">
@@ -182,10 +131,9 @@
 		aria-hidden="true">
 		<div class="vertical-alignment-helper">
 			<div class="modal-dialog vertical-align-center">
-				<div
-					class="modal-content <%if (messageType.equals("오류메세지"))
+				<div class="modal-content <%if (messageType.equals("오류메세지"))
 					out.println("panel-warning");
-				else
+					else
 					out.println("panel-success");%>">
 					<div class="modal-header panel-heading">
 						<button type="button" class="close" data-dismiss="modal">
@@ -235,15 +183,17 @@
 			</div>
 		</div>
 	</div>
+	<!-- 로그인시 아래 js 실행 -->
  	<%
 		if(emp_no != null){
-
 	%>
+	<script src="/resources/chatMethod.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			allUserFunction();
-			getUnread();
-			getInfiniteUnread();
+			var emp_name = '<%=emp_name%>';
+			allUserFunction(emp_name);
+			getUnread(emp_name);
+			getInfiniteUnread(emp_name);
 		});
 	</script>
 	<%
