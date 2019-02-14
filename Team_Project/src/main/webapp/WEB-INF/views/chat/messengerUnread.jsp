@@ -43,6 +43,40 @@
 		$('#unread').html(result);
 	}
 	
+
+	
+	function unreadChatMessage() {
+		$('#boxTable').html('');
+		var userID = '<%=emp_name%>';
+		$.ajax({
+			type : 'POST',
+			url : '/chat2/unreadChatMessaging',
+			data : {
+				userID : userID
+			},
+			success : function(data){
+				//console.log(data);
+				if (data == null || data == "" || data == {}){
+					return;
+				}
+				for (var i = 0; i < data.length; i++) {
+					if(data[i].from_ID == userID){
+						data[i].from_ID = data[i].to_ID;
+					}else{
+						data[i].to_ID = data[i].from_ID;
+					}
+					var date = data[i].m_regdate;
+					addBox(data[i].from_ID, data[i].to_ID, data[i].m_Content, displayTime(data[i].m_regdate));
+				}
+			}
+		});
+	}
+	function addBox(lastID, toID, chatContent, chatTime) {
+		$('#boxTable').append('<tr onclick="location.href=\'/chat/messengerChat?toID=' + toID + '\'">'
+				+ '<td style="width : 150px;"><h5>'+ lastID +'</h5></td>'
+				+ '<td><h5>마지막 메세지 : '+ chatContent +'</h5>'
+				+ '<div class="pull-right">'+ chatTime +'</div></td></tr>');
+	}
 	function displayTime(timeValue) {
 		var today = new Date();
 		
@@ -66,40 +100,6 @@
 			return [yy, '/',(mm > 9 ? '' : '0') + mm, '/',(dd > 9 ? '' : '0') + dd].join('');
 		}
 	}
-	
-	function unreadChatMessage() {
-		$('#boxTable').html('');
-		var userID = '<%=emp_name%>';
-		$.ajax({
-			type : 'POST',
-			url : '/chat2/unreadChatMessaging',
-			data : {
-				userID : userID
-			},
-			success : function(data){
-				//console.log(data);
-				if (data == null || data == "" || data == {}){
-					return;
-				}
-				for (var i = 0; i < data.length; i++) {
-					if(data[i].from_ID == userID){
-						data[i].from_ID = data[i].to_ID;
-					}else{
-						data[i].to_ID = data[i].from_ID;
-					}
-					var date = data[i].m_regdate;
-					addBox(data[i].from_ID, data[i].to_ID, data[i].m_Content, displayTime(data[i].m_regdate.getTime()));
-				}
-			}
-		});
-	}
-	function addBox(lastID, toID, chatContent, chatTime) {
-		$('#boxTable').append('<tr onclick="location.href=\'/chat/messengerChat?toID=' + toID + '\'">'
-				+ '<td style="width : 150px;"><h5>'+ lastID +'</h5></td>'
-				+ '<td><h5>마지막 메세지 : '+ chatContent +'</h5>'
-				+ '<div class="pull-right">'+ chatTime +'</div></td></tr>');
-	}
-	
  	function getInfiniteUnreadChat() {
 		setInterval(function() {
 			unreadChatMessage();
