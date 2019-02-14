@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Select;
 
+import kosta.starware.domain.AppCriteria;
 import kosta.starware.domain.Approval;
 import kosta.starware.domain.DisbursementDoc;
 import kosta.starware.domain.DraftDoc;
@@ -13,7 +14,8 @@ public interface ApprovalMapper {
 	
 	//@Select("select * from approval")
 	public List<Approval> appList();
-	//insert
+	public List<Approval> appPaging(AppCriteria cri);
+ 	//insert
 	public void appInsert(Approval approval);
 	public void appInsertSelectKey(Approval approval);
 	public int getAppNo();

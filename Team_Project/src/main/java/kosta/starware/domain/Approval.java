@@ -1,8 +1,10 @@
 package kosta.starware.domain;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
+@ToString
 public class Approval {
 	private int app_no;
 	private String app_kind;
@@ -12,5 +14,7 @@ public class Approval {
 	private String app_situation;
 	private int emp_no;
 	
+	private String grade_name;
+	private String dept_name;
 	
 }

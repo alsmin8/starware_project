@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kosta.starware.domain.AppCriteria;
 import kosta.starware.domain.Approval;
 import kosta.starware.domain.DisbursementDoc;
 import kosta.starware.domain.DraftDoc;
@@ -23,9 +24,9 @@ public class ApprovalServiceImpl implements ApprovalService {
 	
 	//List
 	@Override
-	public List<Approval> appList() {
+	public List<Approval> appList(AppCriteria appcri) {
 		log.info("get list......");
-		return approvalmapper.appList();
+		return approvalmapper.appPaging(appcri);
 	}
 	
 	//insert

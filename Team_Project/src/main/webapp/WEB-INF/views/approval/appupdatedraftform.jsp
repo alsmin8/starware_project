@@ -93,9 +93,9 @@ text-align: center;
 					</tr>
 			<tr>
 				<td style="width: 110px;">이 름</td>
-				<td><input class="form-control" type="text" name="emp_name" value=${emp_name }></td>
+				<td><input class="form-control" type="text" name="emp_name" value=${emp.emp_name }></td>
 				<td style="width: 110px;">사 번</td>
-				<td><input class="form-control" type="text" name="emp_no" value= ${emp_no}></td>
+				<td><input class="form-control" type="text" name="emp_no" value= ${emp.emp_no}></td>
 			</tr>	
 			<tr>
 				<td style="width: 110px;">부 서</td>

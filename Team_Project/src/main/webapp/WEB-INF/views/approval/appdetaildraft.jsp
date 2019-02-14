@@ -22,7 +22,7 @@ text-align: center;
 
 </head>
 <body>
-	<%
+<%-- 	<%
 		String emp_no = null;
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
@@ -78,13 +78,13 @@ text-align: center;
 				}
 			%>
 		</div>
-	</nav>
+	</nav> --%>
 	
 	<div class="container">
 	<%
 		String app_kind = request.getParameter("app_kind");
 	%>
-	<form action="/approval/appdetailddraft?app_no=${approval.app_no}&app_kind=${app_kind}" method="post">
+	<form action="/approval/appdetailddraft?app_no=${approval.app_no}&app_kind=${approval.app_kind}" method="post">
 			<input type="hidden" name="app_kind" value="<%=app_kind%>">
 	<table class="table table-bordered table-hover"
 				style="text-align: center; border: 1px solid #dddddd;">
@@ -95,15 +95,15 @@ text-align: center;
 				</thead>
 			<tr>
 				<td style="width: 110px;">이 름</td>
-				<td style="width: 110px;">${emp_name }</td>
+				<td style="width: 110px;"> ${emp.emp_name }  </td>
 				<td style="width: 110px;">사 번</td>
-				<td style="width: 110px;">${emp_no}</td>
+				<td style="width: 110px;"> ${emp.emp_no} </td>
 			<tr>
 			<tr>
 				<td style="width: 110px;">부 서</td>
-				<td style="width: 110px;">${dept_name }</td>
+				<td style="width: 110px;"><%-- ${dept_name } --%></td>
 				<td style="width: 110px;">직 급</td>
-				<td style="width: 110px;">${grade_name }</td>
+				<td style="width: 110px;"><%-- ${grade_name } --%></td>
 			<tr>
 			<tr>
 				<td style="width: 110px;">제 목</td>
