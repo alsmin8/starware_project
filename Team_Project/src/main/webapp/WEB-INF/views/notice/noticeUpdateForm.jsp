@@ -19,7 +19,7 @@
   <script>
 $( function() {
 	  
-	  $("#today").text(new Date().toLocaleDateString());
+	$("#today").text(new Date().toLocaleDateString());
 	  
     $( "#start" ).datepicker({ 
     	dateFormat: 'yy-mm-dd',
@@ -69,7 +69,7 @@ $( function() {
 				<li><a href="loginafter.jsp">메인</a></li>
 				<li><a href="list.bit">전자결재</a></li>
 				<li><a href="listActionProject.pro">협업지원</a></li>
-				<li class="active"><a href="noticeList">공지사항</a></li>
+				<li class="active"><a href="/notice/noticeList">공지사항</a></li>
 				<li><a href="../attend/attendInsert">출퇴근관리</a></li>
 				<li><a href="list.do">인사관리</a></li>
 				<li><a href="calendar_main.jsp">일정관리</a></li>
@@ -95,7 +95,7 @@ $( function() {
 	<input type="hidden" name="notice_no" value="${notice.notice_no}">
 	<input type="hidden" name="notice_hitCount" value="${notice.notice_hitCount}">
 	<input type="hidden" name="notice_regdate" value="${notice.notice_regdate}">
-	<input type="hidden" name="emp_no" value="${emp_no}">
+	<input type="hidden" name="emp_no" value="${notice.emp_no}">
 	<input type='hidden' name='pageNum' value='<c:out value="${ncri.pageNum }"/>'>
     <input type='hidden' name='amount' value='<c:out value="${ncri.amount }"/>'>
 	
@@ -103,55 +103,64 @@ $( function() {
 	<table class="table table-bordered table-hover"
 					style="text-align: center; border: 1px solid #dddddd;">
 	<thead>
-	<tr><th colspan="4"><h4>공지사항 수정</h4></th></tr>
-		</thead>
+		<tr><th colspan="4"><h4>공지사항 수정</h4></th></tr>
+	</thead>
 		
 	<tbody>
-	<tr>
-	<td style="width: 110px;"><h5>카테고리</h5></td>
-	<td colspan="3" style="text-align: left"><select name="notice_subject" id="notice_subject">
-	<option label="안 내">안 내</option>
-	<option label="인 사">인 사</option>
-	<option label="기 타">기 타</option>
-	</select></td>
-	</tr>
+		<tr>
+			<td style="width: 110px;"><h5>카테고리</h5></td>
+			<td colspan="3" style="text-align: left">
+				<select name="notice_subject" id="notice_subject">
+					<option label="안 내">안 내</option>
+					<option label="인 사">인 사</option>
+					<option label="기 타">기 타</option>
+				</select>
+			</td>
+		</tr>
 	
-	<tr>
-	<td style="width: 110px;"><h5>제목</h5></td>
-	<td colspan="3"><input class="form-control" type="text"
-								name="notice_title" value="${notice.notice_title }"></td>
-	</tr>
+		<tr>
+			<td style="width: 110px;"><h5>제목</h5></td>
+			<td colspan="3"><input class="form-control" type="text"
+										name="notice_title" value="${notice.notice_title }"></td>
+		</tr>
 	
-	<tr>
-	<td style="width: 110px;"><h5>내용</h5></td>
-	<td colspan="3">
-	<textarea rows="10" cols="100" name="notice_contents"> ${notice.notice_contents }</textarea>
-	</tr>
+		<tr>
+			<td style="width: 110px;"><h5>내용</h5></td>
+			<td colspan="3">
+			<textarea rows="10" cols="100" name="notice_contents"> ${notice.notice_contents }</textarea>
+		</tr>
 	
-	<tr>
-	<td style="width: 110px;"><h5>시작일</h5></td>
-	<td style="width: 40%"><input class="form-control"  type="text" id="start"
-								name="notice_startDate"></td>
-		<td style="width: 110px;"><h5>파일</h5></td>
-	<td><input type="file" name=""></td>	
-	</tr>
-	<tr>
-		<td style="width: 110px;"><h5>종료일</h5></td>
-	<td style="width: 40%"><input class="form-control"  type="text" id="end"
-								name="notice_endDate"></td>
-	<td style="width: 110px;"><h5>진행상태</h5></td>
-	<td style="text-align: left"><select name="notice_state">
-	<option label="진행중">진행중</option>
-	<option label="완료">완료</option>
-	</select></td>
-	</tr>
-	<tr>
-	<td style="text-align: left" colspan="4">
-	
-	<button type="submit" data-oper='list' class="btn btn-primary pull-right">취소</button>
-	<button type="submit" data-oper='update' class="btn btn-primary pull-right">수정</button>
-	 </td>
-	</tr>
+		<tr>
+			<td style="width: 110px;"><h5>시작일</h5></td>
+			<td style="width: 40%">
+			<input class="form-control" type="text" id="start" name="notice_startDate" 
+				value="${notice.notice_startDate}">
+			</td>
+			<td style="width: 110px;"><h5>파일</h5></td>
+			<td><input type="file" name=""></td>	
+		</tr>
+		<tr>
+			<td style="width: 110px;"><h5>종료일</h5></td>
+			<td style="width: 40%">
+				<input class="form-control" type="text" id="end" name="notice_endDate" 
+					value="${notice.notice_endDate}">
+			</td>
+			<td style="width: 110px;"><h5>진행상태</h5></td>
+			<td style="text-align: left">
+				<select name="notice_state">
+					<option label="진행중">진행중</option>
+					<option label="완료">완료</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td style="text-align: left" colspan="4">
+				<div align="right">
+					<button type="submit" data-oper='update' class="btn btn-default">수정</button>
+					<button type="submit" data-oper='list' class="btn btn-default">취소</button>
+				 </div>
+			 </td>
+		</tr>
 	
 	</tbody>
 	</table>
@@ -166,6 +175,8 @@ $(document).ready(function() {
 	var noticeUpdateForm=$("form");
     var title=document.form.notice_title;
 	var contents=document.form.notice_contents;
+	var start=document.form.notice_startDate;
+	var end=document.form.notice_endDate;
 	
 	$('button').on("click", function(e){
 		e.preventDefault();
@@ -173,12 +184,19 @@ $(document).ready(function() {
 		console.log(noticeoper);
 		
 		if(noticeoper==='update'){
-			
 			if(title.value==''||contents.value==''){
 				  window.alert("제목과 내용을 입력해야 합니다.")
 				  document.form.notice_title.focus();
 				  document.form.notice_contents.focus();
-				  return false;}
+				  return false;
+			}
+			if(end.value!=''&&start.value==''){
+				window.alert('시작일을 입력해야 합니다.')
+				document.form.notice_startDate.focus();
+				return false;
+			}
+			
+			
 		
 			noticeUpdateForm.attr("action", "/notice/noticeUpdate");
 			
