@@ -27,7 +27,11 @@
 			type : 'POST',
 			url : '/chat2/allUserCheck.json',
 			success : function(data) {
+				console.log(data);
 				for (var i = 0; i < data.length; i++) {
+					if(data[i].emp_name == '<%=emp_name%>' ){
+						data[i].emp_name = data[i].emp_name + '(본인)';
+					}
 					addListUser(data[i].emp_no, data[i].emp_name);
 				}
 			}
@@ -44,12 +48,12 @@
 		var userID = $('#findID').val();
 		$.ajax({
 			type : 'POST',
-			url : '/chat2/userRegisterCheck.json',
+			url : '/chat2/userRegisterCheck',
 			data : {
 				userID : userID
 			},
 			success : function(result) {
-				console.log(result);
+				//console.log(result);
 				if (result == null || result =="" || result.length == 0) {
 					$('#checkMessage').html('사용자를 찾을수 없습니다.');
 					$('#checkType').attr('class','modal-content panel-warning');
@@ -87,14 +91,15 @@
 			}
 		});
 	}
+	function showUnread(result) {
+		$('#unread').html(result);
+	}
 	function getInfiniteUnread() {
 		setInterval(function() {
 			getUnread();
 		}, 3000);
 	}
-	function showUnread(result) {
-		$('#unread').html(result);
-	}
+
 </script>
 
 </head>
@@ -134,6 +139,10 @@
 		</div>
 	</nav>
 	<div class="container">
+		<div>
+			<button class="btn btn-primary" onclick="location.href='/chat/messengerUnread'">안읽은메신저 보관함으로 이동</button>
+		</div>
+	
 		<table class="table table-bordered table-hover"
 			style="text-align: center; border: 1px solid #dddddd">
 			<thead>

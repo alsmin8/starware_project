@@ -1,7 +1,5 @@
 package kosta.starware.service;
 
-import static org.junit.Assert.assertNotNull;
-
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -29,7 +27,7 @@ public class ChatServiceTest {
 		assertNotNull(chatService);
 	}*/
 	
-/*	@Test
+	@Test
 	public void testdisplayTime(){
 		log.info("testdisplayTime : ");
 		Date today = new Date();
@@ -42,20 +40,20 @@ public class ChatServiceTest {
 		log.info("비교시간 값 확인 : " + num);
 		log.info("오늘 시간 확인2" + dateObj);
 		
-		//String str = chatService.displayTime(gap);
+		String str = chatService.displayTime(gap);
 
-		//log.info("결과값 확인" + str);
-	}*/
+		log.info("결과값 확인" + str);
+	}
 
-	@Test
+/*	@Test
 	public void unleadChating(){
 		log.info("unleadChating result 확인 : ");
 
-		String userID = "홍길동"; 
+		String userID = "박길동"; 
 		
-		ArrayList<ChatDTO> chatDTO = chatService.unleadChating(userID);
-		log.info("chatDTO 의 값 : "+chatDTO);
+		//ArrayList<ChatDTO> chatDTO = chatService.unleadChating(userID);
+		//log.info("chatDTO 의 값 : "+chatDTO);
 
-	}
+	}*/
 	
 }
