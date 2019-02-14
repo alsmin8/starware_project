@@ -22,7 +22,6 @@
 <script src="/resources/js/bootstrap.js"></script>
 
 <script type="text/javascript">
-	
  	function getUnread() {
 		$.ajax({
 			type : "POST",
@@ -44,28 +43,52 @@
 		$('#unread').html(result);
 	}
 	
+	function displayTime(timeValue) {
+		var today = new Date();
+		
+		var gap = today.getTime() - timeValue;
+		
+		var dateObj = new Date(timeValue);
+		var str = "";
+		
+		if(gap < (1000 * 60 * 60 * 24)){
+			
+			var hh = dateObj.getHours();
+			var mi = dateObj.getMinutes();
+			var ss = dateObj.getSeconds();
+			
+			return [(hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi, ':',(ss > 9 ? '' : '0') + ss ].join('');
+		}else{
+			var yy = dateObj.getFullYear();
+			var mm = dateObj.getMonth() + 1;
+			var dd = dateObj.getDate();
+			
+			return [yy, '/',(mm > 9 ? '' : '0') + mm, '/',(dd > 9 ? '' : '0') + dd].join('');
+		}
+	}
+	
 	function unreadChatMessage() {
-		var userID = '<%=emp_name%>'
+		$('#boxTable').html('');
+		var userID = '<%=emp_name%>';
 		$.ajax({
 			type : 'POST',
-			url : '/chat2/unreadChatMessage.json',
+			url : '/chat2/unreadChatMessaging',
 			data : {
 				userID : userID
 			},
 			success : function(data){
-				console.log(data);
-				$('#boxTable').html('');
-
-				if(data == null || data.length == 0 || data == ""){
+				//console.log(data);
+				if (data == null || data == "" || data == {}){
 					return;
 				}
 				for (var i = 0; i < data.length; i++) {
-					if(data[i].from_ID == UserID){
+					if(data[i].from_ID == userID){
 						data[i].from_ID = data[i].to_ID;
 					}else{
-						data[i].toID = data[i].from_ID;
+						data[i].to_ID = data[i].from_ID;
 					}
-					addBox(data[i].from_ID, data[i].to_ID, data[i].m_Content, data[i].m_regdate);
+					var date = data[i].m_regdate;
+					addBox(data[i].from_ID, data[i].to_ID, data[i].m_Content, displayTime(data[i].m_regdate.getTime()));
 				}
 			}
 		});
@@ -73,27 +96,20 @@
 	function addBox(lastID, toID, chatContent, chatTime) {
 		$('#boxTable').append('<tr onclick="location.href=\'/chat/messengerChat?toID=' + toID + '\'">'
 				+ '<td style="width : 150px;"><h5>'+ lastID +'</h5></td>'
-				+ '<td><h5>'+ chatContent +'</h5>'
+				+ '<td><h5>마지막 메세지 : '+ chatContent +'</h5>'
 				+ '<div class="pull-right">'+ chatTime +'</div></td></tr>');
 	}
 	
-/* 	function getInfiniteUnreadChat() {
+ 	function getInfiniteUnreadChat() {
 		setInterval(function() {
 			unreadChatMessage();
-		}, 3000);
-	} */
+		}, 5000);
+	}
 	function getInfiniteUnread() {
 		setInterval(function() {
 			getUnread();
-		}, 3500);
+		}, 3000);
 	}
-
-/* 	function addBox(lastID, toID, chatContent, chatTime) {
-		
-		$('#friendResult').append(
-				'<tbody><tr><td style="text-align: center;"><h3>사번 :' + emp_no +"&nbsp;&nbsp; 이름 : " + findID +'</h3><a href="/chat/messengerChat?toID=' + findID +
-				'" class="btn btn-primary pull-right">메신저보내기</a></td></tr></tbody>');
-	} */
 </script>
 
 </head>
@@ -132,44 +148,24 @@
 			</ul>
 		</div>
 	</nav>
+	<br>
 	<div class="container">
-		<table class="table table-bordered table-hover"
-			style="text-align: center; border: 1px solid #dddddd">
+		<table class="table" style="margin: 0 auto;">
 			<thead>
 				<tr>
 					<th colspan="2"><h4>안읽은 메세지목록</h4></th>
 				</tr>
 			</thead>
-			<tbody>
-				<tr>
-					<td style="width: 110px;"><h5>사용자아이디</h5></td>
-					<td><input class="form-control" type="text" id="findID" maxlength="20" placeholder="찾을 아이디를 입력하세요."></td>
-				</tr>
-				<tr>
-					<td colspan="2"><button class="btn btn-primary pull-right" onclick="findFunction();">검색</button></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	<div class="container">
-		<table id="friendResult" class="table table-bordered table-hover"
-			style="text-align: center; border: 1px solid #dddddd">
-		</table>
-		<table class="table" style="margin: 0 auto;">
-			<thead>
-				<h4>주고받은 메세지 목록</h4>
-			</thead>
 			<div style="overflow-y: auto; width: 100%; max-height: 450px;">
 				<table class="table table-bordered table-hover" style="text-align: center; border: 1px solid #dddddd; margin: 0 auto;">
 					<tbody id="boxTable">
-					<tr onclick="location.href ='/chat/messengerChat?toID=홍길동'">
-						<td style="width : 150px;"><h5>lastID</h5>
-						</td>
-						<td>
-							<h5>chatContent</h5>
-							<div class="pull-right">chatTime</div>
-						</td>
-					</tr>
+						<tr onclick="location.href ='/chat/messengerChat?toID=홍길동'">
+							<td style="width : 150px;"><h5>lastID</h5></td>
+							<td>
+								<h5>마지막 메세지 : chatContent</h5>
+								<div class="pull-right">chatTime</div>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -252,7 +248,7 @@
 		$(document).ready(function() {
 			getUnread();
 			unreadChatMessage();
-			//getInfiniteUnreadChat();
+			getInfiniteUnreadChat();
 			getInfiniteUnread();
 		});
 	</script>

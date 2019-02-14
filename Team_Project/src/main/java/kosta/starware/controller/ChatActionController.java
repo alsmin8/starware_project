@@ -36,7 +36,7 @@ public class ChatActionController {
 		return new ResponseEntity<>(service.getAllUser() ,HttpStatus.OK);
 	}
 	
-	@RequestMapping("/userRegisterCheck.json")
+	@RequestMapping(value = "/userRegisterCheck", produces = "application/json")
 	public EmpDTO userCheck(@RequestParam String userID){
 		log.info("userRegisterCheck.json");	
 		//log.info("userID :" +userID);
@@ -87,12 +87,10 @@ public class ChatActionController {
 		return count;
 	}
 	
-	@RequestMapping("/unreadChatMessage.json")
+	@RequestMapping(value ="/unreadChatMessaging", produces = "application/json")
 	public ResponseEntity<ArrayList<ChatDTO>> unleadChating(@RequestParam String userID){
 		log.info("unleadChating");		
-		ArrayList<ChatDTO> chatDTO = service.unleadChating(userID);
 		
-		log.info("result : " + chatDTO);
-		return new ResponseEntity<>(service.unleadChating(userID) ,HttpStatus.OK);
+		return new ResponseEntity<>(service.unreadChating(userID),HttpStatus.OK);
 	}
 }
