@@ -1,6 +1,8 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,10 +11,12 @@
 <link rel="stylesheet" href="/resources/css/bootstrap.css">
 <link rel="stylesheet" href="/resources/css/custom.css">
 <title>STARWARE(Groupware)</title>
-<script src="/resources/jquery.js" type="text/javascript"></script>
-<script src="/resources/js/bootstrap.js"></script>
-<link rel="stylesheet" href="/resources/css/mainProject.css">
 
+<script type="text/javascript">
+$(document).ready(function(){
+	val result = '<c:out value="${result}"/>';
+});
+</script>
 </head>
 <body>
 	<%
@@ -74,70 +78,84 @@
 			%>
 		</div>
 	</nav>
-	
+
 	<div class="container">
-	
-	<hr>
-	<h3 align="center"><a href="listActionProject.pro">프로젝트 목록 보기</a></h3>
-	<hr>
-	
-	<table class="type04">
-	
-	<tr>
-		<td>No</td>
-		<td>제목</td>
-		<td>작성자</td>
-		<td>담당자</td>
-		<td>기간</td>
-		<td>계획 시작일</td>
-		<td>계획 종료일</td>
-	</tr>
-	
-	<c:forEach var="project" items="${projectListModel.list }">
-		<tr>
-			<td>${project.project_No}</td>
-			<td><a href="detailProject.pro?project_No=${project.project_No }">${project.project_Title}</a></td>
-			<td>${project.project_Writer}</td>
-			<td>${project.project_Manager}</td>
-			<td>${project.project_Term }</td>
-			<td>${project.project_Start_Date}</td>
-			<td>${project.project_End_Date}</td>
-		</tr>
-	</c:forEach>
-	</table>
-	<br>
-	
-	<form style="text-align: center">
 
-	<c:if test="${projectListModel.startPage > 5 }">
-		<a href="listActionProject.pro?pageNum=${projectListModel.startPage-5 }">[이전]</a>
-	</c:if>
+		<hr>
+		<h3 align="center">
+			프로젝트 목록 보기</a>
+		</h3>
+		<hr>
 
-	<c:forEach var="pageNo" begin="${projectListModel.startPage }" end="${projectListModel.endPage }">
-		<c:if test="${projectListModel.requestPage == pageNo }"><b></c:if>
-		<a href="listActionProject.pro?pageNum=${pageNo }">[${pageNo }]</a>
-		<c:if test="${projectListModel.requestPage == pageNo }"></b></c:if>
-	</c:forEach>
+		<table class="type04">
+			<tr>
+				<td>No</td>
+				<td>제목</td>
+				<td>작성자</td>
+				<td>담당자</td>
+				<td>기간</td>
+				<td>계획 시작일</td>
+				<td>계획 종료일</td>
+				<td>작성일</td>
+			</tr>
 
-	<c:if test="${projectListModel.endPage < projectListModel.totalPageCount }">
-		<a href="listActionProject.pro?pageNum=${projectListModel.startPage+5 }">[이후]</a>
-	</c:if>
-	</form>
-	<hr>
-	<br>
-	<hr>
-	<form action="listActionProject.pro" method="post" style="text-align: center">
-		<input type="checkbox" name="area" value="project_Title">제목
-		<input type="checkbox" name="area" value="project_Writer">작성자
-		<input type="text" name="searchKey" size="20"></input>
-		<input class="btn btn-primary pull" type="submit" value="검색">
-	</form>
-	
-	<hr>
-	<form action="insertFormProject.pro" method="post">
-	<input class="btn btn-primary pull" type="submit" value="프로젝트 생성하기" >
-	</form>
+			<c:forEach var="project" items="${listProjectForm }">
+				<tr>
+					<td>${project.project_No}</td>
+					<td><a href="detailProjectForm?project_No=${project.project_No }">${project.project_Title}</a></td>
+					<td>${project.project_Writer}</td>
+					<td>${project.project_Manager}</td>
+					<td>${project.project_Term }</td>
+					<td>${project.project_Start_Date}</td>
+					<td>${project.project_End_Date}</td>
+					<td>${project.project_Regdate}</td>
+				</tr>
+			</c:forEach>
+		</table>
+		<br>
+
+<%-- 		<form style="text-align: center">
+
+			<c:if test="${projectListModel.startPage > 5 }">
+				<a
+					href="listActionProject?pageNum=${projectListModel.startPage-5 }">[이전]</a>
+			</c:if>
+
+			<c:forEach var="pageNo" begin="${projectListModel.startPage }"
+				end="${projectListModel.endPage }">
+				<c:if test="${projectListModel.requestPage == pageNo }">
+					<b>
+				</c:if>
+				<a href="listActionProject?pageNum=${pageNo }">[${pageNo }]</a>
+				<c:if test="${projectListModel.requestPage == pageNo }">
+					</b>
+				</c:if>
+			</c:forEach>
+
+			<c:if
+				test="${projectListModel.endPage < projectListModel.totalPageCount }">
+				<a
+					href="listActionProject.pro?pageNum=${projectListModel.startPage+5 }">[이후]</a>
+			</c:if>
+		</form> --%>
+		<hr>
+		<br>
+		<hr>
+		<form action="listProjectForm" method="post"
+			style="text-align: center">
+			<input type="checkbox" name="area" value="project_Title">제목 <input
+				type="checkbox" name="area" value="project_Writer">작성자 <input
+				type="text" name="searchKey" size="20"></input> <input
+				class="btn btn-primary pull" type="submit" value="검색">
+		</form>
+		
+		<div class="btn btn-primary pull">프로젝트 생성하기</div>
+		<button id></button>
+		<hr>
+		 <form action="insertProjectForm" method="post">
+		<a href="insertProjectForm" class="btn-primary" type="submit">프로젝트 생성하기</a>
+		</form>
 	</div>
-	
+
 </body>
 </html>
