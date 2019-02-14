@@ -48,7 +48,7 @@
 			<li><a href="loginafter.jsp">메인</a></li>
 				<li><a href="list.bit">전자결재</a></li>
 				<li><a href="listActionProject.pro">협업지원</a></li>
-				<li class="active"><a href="noticeList">공지사항</a></li>
+				<li class="active"><a href="/notice/noticeList">공지사항</a></li>
 				<li><a href="../attend/attendInsert">출퇴근관리</a></li>
 				<li><a href="list.do">인사관리</a></li>
 				<li><a href="calendar_main.jsp">일정관리</a></li>
@@ -96,15 +96,8 @@
 		</tr>
 
 		<tr>
-			<td>
-			시작일:
-			<fmt:parseDate var="dateString" value="${notice.notice_startDate}" pattern="yyyy-MM-dd" /> 
-			<fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd" />
-			</td>
-			<td>종료일: 
-			<fmt:parseDate var="dateString" value="${notice.notice_endDate}" pattern="yyyy-MM-dd" /> 
-			<fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd" />
-			</td>
+			<td>시작일: ${notice.notice_startDate }</td>
+			<td>종료일: ${notice.notice_endDate }</td>
 		</tr>
 
 		<tr>
@@ -115,9 +108,11 @@
 
 	<br>
 
-	<button data-oper='delete' class="btn btn-primary pull-right">글삭제</button>
-	<button data-oper='update' class="btn btn-primary pull-right">글수정</button>
-	<button data-oper='list' class="btn btn-primary pull-right">글목록</button>
+	<div align="center">
+	<button data-oper='list' class="btn btn-default">글목록</button>
+	<button data-oper='update' class="btn btn-default">글수정</button>
+	<button data-oper='delete' class="btn btn-default">글삭제</button>
+	</div>
 	
 	
 	<form id="listAction" action="notice/noticeList" method="get">

@@ -36,23 +36,11 @@
 		insert into notice values
 		(#{notice_no}, #{notice_subject}, #{notice_title},
 		#{notice_contents}, 0, sysdate,
-		to_date(#{notice_startDate}, 'MM-DD-YYYY'),
-		to_date(#{notice_endDate},'MM-DD-YYYY'),
-		#{notice_state}, 12301)
+		#{notice_startDate},
+		#{notice_endDate},
+		#{notice_state}, #{emp_no})
 
 </insert>
-
-<!-- <select id="noticeListWithPaging" resultType="kosta.starware.domain.NoticeVO">
-<![CDATA[
-select notice_no, notice_subject, notice_title, emp_no, notice_regdate, notice_hitCount
-from notice
-where notice_no>0
-order by notice_no desc
-]]>
-
-
-</select> -->
-
 
 
 <select id="noticeListWithPaging" resultType="kosta.starware.domain.NoticeVO">
@@ -93,8 +81,8 @@ update notice
 set notice_title=#{notice_title},
 notice_subject=#{notice_subject},
 notice_contents=#{notice_contents},
-notice_startDate=to_date(#{notice_startDate}, 'MM-DD-YYYY'),
-notice_endDate=to_date(#{notice_endDate}, 'MM-DD-YYYY'),
+notice_startDate=#{notice_startDate},
+notice_endDate=#{notice_endDate},
 notice_state=#{notice_state}
 where notice_no=#{notice_no}
 </update>
