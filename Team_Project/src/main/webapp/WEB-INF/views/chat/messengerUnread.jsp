@@ -22,103 +22,45 @@
 <script src="/resources/js/bootstrap.js"></script>
 
 <script type="text/javascript">
-	function findFunction() {
-		var userID = $('#findID').val();
-		$.ajax({
-			type : 'POST',
-			url : '/chat2/userRegisterCheck.json',
-			data : {
-				userID : userID
-			},
-			success : function(result) {
-				if (result == null || result =="" || result.length == 0) {
-					$('#checkMessage').html('사용자를 찾을수 없습니다.');
-					$('#checkType').attr('class','modal-content panel-warning');
-				}else {
-					$('#checkMessage').html('사용자찾기에 성공하였습니다.');
-					$('#checkType').attr('class','modal-content panel-success');
-					getFriend(result.emp_no , result.emp_name);
-					
-				}
-				$('#checkModal').modal('show');
-			}
-		});
-	} 
-	function getFriend(emp_no, findID) {
-		$('#friendResult').html('<thead><tr><th><h4>검색결과</h4></th></tr></thead><tbody><tr>' +
-				'<td style="text-align: center;"><h3>사번 :' + emp_no +"&nbsp;&nbsp; 이름 : " + findID +'</h3><a href="/chat/messengerChat?toID=' + findID +
-				'" class="btn btn-primary pull-right">메신저보내기</a></td>'+
-				'</tr></tbody>');
-	}
-	
- 	function getUnread() {
-		$.ajax({
-			type : "POST",
-			url : "/chat2/unleadAllChatlist",
-			data : {
-				userID : '<%=emp_name%>'
-			},
-			success : function(result) {
-				var count = Number(result);
-				if(count >= 1){
-					showUnread(result);
-				}else{
-					showUnread('');
-				}
-			}
-		});
-	}
-	function showUnread(result) {
-		$('#unread').html(result);
-	}
-	
 	function unreadChatMessage() {
-		var userID = '<%=emp_name%>'
 		$.ajax({
 			type : 'POST',
-			url : '/chat2/unreadChatMessage',
-			data : {
-				userID : userID
+			url : '/chat2/unreadChatMessaging',
+			data : { userID : '<%=emp_name%>'
 			},
-			contentType : "application/json; charset=utf-8",
 			success : function(data){
+				$('#boxTable').html('');
 				console.log(data);
-				/* if(data == null || data.length ==0 || data == ""){
+				if (data == null || data == "" || data == {}){
 					return;
 				}
-				$('#boxTable').html('');
-				for (var i = 0; i < data.length; i++) {
-
-					if(data[i].from_ID == UserID){
-						data[i].from_ID = data[i].to_ID;
-					}else{
-						data[i].toID = data[i].from_ID;
-					}
-					addBox(data[i].from_ID, data[i].to_ID, data[i].m_Content, data[i].m_regdate);
-				} */
+				
+				for(i =0 ; i< data.length; i++){
+				console.log(data[i]);
+				addBox(data[i].from_ID, data[i].to_ID, data[i].m_Content, displayTime(data[i].m_regdate));
+				}
 			}
 		});
 	}
-	function addBox(lastID, toID, chatContent, chatTime) {
-		$('#boxTable').append('<tr onclick="location.href=\'/chat/messengerChat?toID=' + toID + '\'">'
-				+ '<td style="width : 150px;"><h5>'+ lastID +'</h5></td>'
-				+ '<td><h5>'+ chatContent +'</h5>'
-				+ '<div class="pull-right">'+ chatTime +'</div></td></tr>');
+	function addBox(from_ID, to_ID, m_Content, m_regdate) {
+		if(from_ID == '<%=emp_name%>'){
+			m_Content = '내가 보낸 마지막 메세지 : ' + m_Content;
+			from_ID = to_ID;
+		}else{
+			m_Content = '읽지 않은 마지막 메세지 : ' + m_Content;
+			to_ID = from_ID;
+		}
+		$('#boxTable').append('<tr onclick="location.href=\'/chat/messengerChat?toID=' + to_ID + '\'">'
+				+ '<td style="width : 150px;"><h5>'+ from_ID +'<span id="unreadAmount" class="label label-info"></span></h5></td>'
+				+ '<td><h5>'+ m_Content +'</h5>'
+				+ '<div class="pull-right">'+ m_regdate +'</div></td></tr>');
 	}
 	
-	function getInfinite() {
+ 	function getInfiniteUnreadChat() {
 		setInterval(function() {
-			getUnread();
 			unreadChatMessage();
-		}, 3000);
+		}, 5000);
 	}
-
-/* 	function addBox(lastID, toID, chatContent, chatTime) {
-		
-		$('#friendResult').append(
-				'<tbody><tr><td style="text-align: center;"><h3>사번 :' + emp_no +"&nbsp;&nbsp; 이름 : " + findID +'</h3><a href="/chat/messengerChat?toID=' + findID +
-				'" class="btn btn-primary pull-right">메신저보내기</a></td></tr></tbody>');
-	} */
 </script>
 
 </head>
@@ -143,7 +85,7 @@
 				<li><a href="/notice/noticeList">공지사항</a></li>
 				<li><a href="/attend/attendInsert">출퇴근관리</a></li>
 				<li><a href="/emp/empList">인사관리</a></li>
-				<li><a href="/schedule/schduleMain">일정관리</a></li>
+				<li><a href="/schedule/scheduleMain">일정관리</a></li>
 				<li class="active"><a href="/chat/messengerFind">메세지함<span id="unread" class="label label-info"></span></a></li>
 			</ul>
 			
@@ -157,44 +99,24 @@
 			</ul>
 		</div>
 	</nav>
+	<br>
 	<div class="container">
-		<table class="table table-bordered table-hover"
-			style="text-align: center; border: 1px solid #dddddd">
-			<thead>
-				<tr>
-					<th colspan="2"><h4>안읽은 메세지목록</h4></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td style="width: 110px;"><h5>사용자아이디</h5></td>
-					<td><input class="form-control" type="text" id="findID" maxlength="20" placeholder="찾을 아이디를 입력하세요."></td>
-				</tr>
-				<tr>
-					<td colspan="2"><button class="btn btn-primary pull-right" onclick="findFunction();">검색</button></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	<div class="container">
-		<table id="friendResult" class="table table-bordered table-hover"
-			style="text-align: center; border: 1px solid #dddddd">
-		</table>
 		<table class="table" style="margin: 0 auto;">
 			<thead>
-				<h4>주고받은 메세지 목록</h4>
+				<tr>
+					<th colspan="2"><h4>메세지목록</h4></th>
+				</tr>
 			</thead>
 			<div style="overflow-y: auto; width: 100%; max-height: 450px;">
 				<table class="table table-bordered table-hover" style="text-align: center; border: 1px solid #dddddd; margin: 0 auto;">
 					<tbody id="boxTable">
-					<tr onclick="location.href ='/chat/messengerChat?toID=홍길동'">
-						<td style="width : 150px;"><h5>lastID</h5>
-						</td>
-						<td>
-							<h5>chatContent</h5>
-							<div class="pull-right">chatTime</div>
-						</td>
-					</tr>
+						<tr onclick="location.href ='/chat/messengerChat?toID=홍길동'">
+							<td style="width : 150px;"><h5>lastID</h5></td>
+							<td>
+								<h5>마지막 메세지 : chatContent</h5>
+								<div class="pull-right">chatTime</div>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -271,13 +193,15 @@
 	</div>
  	<%
 		if(emp_no != null){
-
 	%>
+	<script src="/resources/chatMethod.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			getUnread();
+			var emp_name = '<%=emp_name%>';
+			getUnread(emp_name);
 			unreadChatMessage();
-			getInfinite();
+			getInfiniteUnreadChat();
+			getInfiniteUnread(emp_name);
 		});
 	</script>
 	<%

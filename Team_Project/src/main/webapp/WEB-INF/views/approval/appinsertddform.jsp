@@ -103,7 +103,13 @@
 							name="emp_no" value=${emp_no}></td>
 					</tr>
 					<tr>
-						<td style="width: 110px;">순번</td>
+						<td style="width: 110px;">부 서</td>
+						<td><input class="form-control" type="text" name="dept_name"></td>
+						<td style="width: 110px;">직 급</td>
+						<td><input class="form-control" type="text" name="grade_name"></td>
+					</tr>
+					<tr>
+						<td style="width: 110px;">순 번</td>
 						<td style="width: 110px;">사용일자</td>
 						<td style="width: 110px;">사 유</td>
 						<td style="width: 110px;">금 액</td>

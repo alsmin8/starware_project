@@ -14,16 +14,17 @@
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
+<script src="/resources/jquery.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="/resources/js/bootstrap.js"></script>
 
 <script>
 	function getSelectValue(frm) {
 		frm.project_Situation.value = frm.situation.options[frm.situation.selectedIndex].text;
 		frm.project_Kind.value = frm.Kind.options[frm.Kind.selectedIndex].text;
-
 	};
 </script>
-<script src="jquery.js" type="text/javascript"></script>
-<script src="js/bootstrap.js"></script>
 
 </head>
 <body>
@@ -86,10 +87,18 @@
 			%>
 		</div>
 	</nav>
+
+
 	<div class="container">
-		<form action="updateProject" method="post" >
-			<input type="hidden" name="emp_No" value="${emp_No}">
-			<input type="hidden" name="project_No" value="${project.project_No}">
+	<form role="form" id="form" name="form" action="updateProject" method="post" >
+	<input type="hidden" name="project_No" value="${project.project_No}">
+	<input type="hidden" name="emp_no" value="${emp_no}">
+	<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum }"/>'>
+    <input type='hidden' name='amount' value='<c:out value="${cri.amount }"/>'>
+    
+<%--  		<form action="updateProject" method="post">
+			<input type="hidden" name="emp_No" value="${emp_No}"> <input
+				type="hidden" name="project_No" value="${project.project_No}"> --%>
 			<table class="table table-bordered table-hover"
 				style="text-align: center; border: 1px solid #dddddd;">
 				<thead>
@@ -177,12 +186,54 @@
 
 				</tbody>
 			</table>
-
-			<input type="submit" class="btn btn-primary pull" value="프로젝트 수정" style="margin-left: 485px">
-			<input type="button" class="btn btn-primary pull" value="프로젝트 목록" onclick="location.href='listProjectForm'"
-				style="text-align: center;">
-		</form>
+	<button type="submit" data-oper='list' class="btn btn-primary pull" style="margin-left: 485px">프로젝트 목록</button>
+	<button type="submit" data-oper='update' class="btn btn-primary pull" style="text-align: center;">프로젝트 수정</button>
+<!-- 
+	<input type="submit" class="btn btn-primary pull" value="프로젝트 수정" data-oper='update' style="margin-left: 485px">
+	<input type="submit" data-oper='list' class="btn btn-primary pull" value="프로젝트 목록" onclick="location.href='listProjectForm'"
+				style="text-align: center;"> -->
+				
+						</form>
 	</div>
+	
+	<script type="text/javascript">
+	$(document).ready(function() {
+		var updateProjectForm=$("form");
+    	var Title=document.form.project_Title;
+		var Contents=document.form.project_Contents;
+	
+	$('button').on("click", function(e){
+		e.preventDefault();
+		var projectoper=$(this).data("oper");
+		console.log(projectoper);
+		
+		if(projectoper==='update'){
+			
+			if(Title.value==''||Contents.value==''){
+				  window.alert("제목과 내용을 입력해야 합니다.")
+				  document.form.project_Title.focus();
+				  document.form.project_Contents.focus();
+				  return false;}
+		
+			updateProjectForm.attr("action", "/project/updateProjectForm");
+			
+		}else if(projectoper==='list'){
+			projectUpdateForm.attr("action", "/project/listProjectForm").attr("method", "get");
+			
+			var pageNumTag = $("input[name='pageNum']").clone();
+		    var amountTag = $("input[name='amount']").clone();
+		  	var keywordTag = $("input[name='keyword']").clone();
+		    var typeTag = $("input[name='type']").clone(); 
+			
+		    updateProjectForm.empty();
+		    updateProjectForm.append(pageNumTag);
+		    updateProjectForm.append(amountTag);
+		    
+		}
+		updateProjectForm.submit();
+	});
+});
+</script>
 
 
 </body>

@@ -113,7 +113,17 @@
 	</div> --%>
 	
 	<div class="container">
-			<form method="post" action="/emp/empUpdateForm">
+			<!-- <form method="post" action="/emp/empUpdateForm"> -->
+			
+			<form role="form" id="form" name="form" action="empUpdate" method="post" >
+	<%-- <input type="hidden" name="notice_no" value="${notice.notice_no}">
+	<input type="hidden" name="notice_hitCount" value="${notice.notice_hitCount}">
+	<input type="hidden" name="notice_regdate" value="${notice.notice_regdate}">
+	<input type="hidden" name="emp_no" value="${emp_no}"> --%>
+	<input type='hidden' name='pageNum' value='<c:out value="${empcri.pageNum }"/>'>
+    <input type='hidden' name='amount' value='<c:out value="${empcri.amount }"/>'>
+	
+			
 				<table class="table table-bordered table-hover"
 					style="text-align: center; border: 1px solid #dddddd;">
 					<thead>

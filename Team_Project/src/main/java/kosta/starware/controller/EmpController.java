@@ -3,11 +3,14 @@ package kosta.starware.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kosta.starware.domain.EmpCriteria;
+import kosta.starware.domain.EmpPageDTO;
 import kosta.starware.domain.EmpVO;
 import kosta.starware.service.EmpService;
 import lombok.AllArgsConstructor;
@@ -23,10 +26,13 @@ public class EmpController {
 	
 	//목록 출력
 	@GetMapping("/empList")
-	public void list(Model model){
-		log.info("empList");
+	public void list(EmpCriteria empcri, Model model){
 		
-		model.addAttribute("empList", service.empGetList());
+		log.info("empList: " + empcri);
+		model.addAttribute("empList", service.empGetList(empcri));
+		/*int total=service.empGetList(empcri);*/
+		model.addAttribute("empPageMaker", new EmpPageDTO(empcri, 100));
+		
 	}
 	
 	//사원정보입력
@@ -46,23 +52,46 @@ public class EmpController {
 		
 	}
 	
-	//사원목록조회 처리
-	@GetMapping({"/empDetail","/empUpdateForm"})
-	public void empGet(@RequestParam("emp_no") int emp_no, Model model) {
+	//사원상세정보 처리 (교재에 있는 코드)
+	@RequestMapping({"/empDetail","/empUpdateForm"})
+	public void empGet(@RequestParam("emp_no") int emp_no, 
+			@ModelAttribute("empcri") EmpCriteria empcri, Model model) {
 		
-		log.info("/empDetail or /empUpdateForm");
+		log.info("/empDetail or empUpdateForm");
+		
 		model.addAttribute("emp", service.empGet(emp_no));
+		
 	}
+	//사원상세정보 처리
+/*	@RequestMapping("/empDetail")
+	public void empDetail(@RequestParam("emp_no") int emp_no, 
+			@ModelAttribute("empcri") EmpCriteria empcri, Model model){
+		model.addAttribute("emp", service.empGet(emp_no));
+		log.info(model);
+	}
+		
 	//사원정보수정
+	@RequestMapping("/empUpdateForm")
+	public void empUpdateForm(@RequestParam("emp_no") int emp_no, 
+			@ModelAttribute("empcri") EmpCriteria empcri,
+			Model model){
+		model.addAttribute("emp", service.empGet(emp_no));
+		log.info(model);
+	}
+	
 	@PostMapping("/empUpdateForm")
-	public String empUpdate(EmpVO emp, RedirectAttributes rttr) {
+	public String empUpdate(EmpVO emp, @ModelAttribute("cri") EmpCriteria empcri, RedirectAttributes rttr) {
 		log.info("empUpdate: " + emp);
 		
 		if (service.empUpdate(emp)) {
 			rttr.addFlashAttribute("result", "success");
 		}
+		rttr.addAttribute("pageNum", empcri.getPageNum());
+		rttr.addAttribute("amount", empcri.getAmount());
 		return "redirect:/emp/empList";
-		}
+		}*/
+	
+
 	//사원정보수정 화면처리 메소드(추가)
 
 	}

@@ -3,6 +3,7 @@ package kosta.starware.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -68,7 +69,11 @@ public class ChatService {
 	}
 	//메세지 DB저장
 	public int insertChatSubmit(ChatDTO dto) {
-		return chatMapper.chatSubmit(dto);
+		if(dto.getM_Content() == null || dto.getM_Content().equals("") || dto.getM_Content().length()== 0){
+			return 0;
+		}else{
+			return chatMapper.chatSubmit(dto);
+		}
 	}
 	//사용자간 메세지 불러오기
 	public String messengerChat(String fromID, String toID, String listType) throws Exception, IOException{
@@ -84,7 +89,6 @@ public class ChatService {
 				return "";
 			}
 		}
-		//return chatMapper.getChatListbyID(fromID, toID, listType);
 	}
 	public String getID(String fromID, String toID, String listType) throws Exception, IOException{
 		StringBuffer result = new StringBuffer("");
@@ -117,43 +121,6 @@ public class ChatService {
 	public int readChat(String fromID, String toID){
 		return chatMapper.unleadUpdate(fromID, toID);
 	}
-	//안 읽은 전체 메세지 갯수 
-	public int unleadAllChatlist(String userID){
-		return chatMapper.unleadAllChatlist(userID);
-	}
-	
-	
-	
-	
-	
-
-	//읽지 않은 최근메세지 불러오기
-	public ArrayList<ChatDTO> unleadChating(String userID){
-		StringBuffer result = new StringBuffer("");
-		ArrayList<ChatDTO> chatlist = chatMapper.getChatlist(userID);
-		System.out.println(chatlist);
-		if(chatlist.size() == 0){
-			return null;
-		}
-		for(int i =0 ; i< chatlist.size() ; i++){
-			ChatDTO x = chatlist.get(i);
-			for(int j=0; j<chatlist.size() ; i++){
-				ChatDTO y = chatlist.get(j);
-				if(x.getFrom_ID().equals(y.getTo_ID()) && x.getTo_ID().equals(y.getFrom_ID())){
-					if(x.getM_contentNo() < y.getM_contentNo()){
-						chatlist.remove(x);
-						i--;
-						break;
-					}else{
-						chatlist.remove(y);
-						j--;
-					}
-				}
-			}
-		}
-		System.out.println(chatlist);
-		return chatlist;
-	}
 	//날짜 표시 기능(메소드)
 	public String displayTime(Long timeValue) {
 		Date today = new Date();
@@ -174,13 +141,11 @@ public class ChatService {
 			}else{
 				str += "0"+ hh + ":";
 			}
-			
 			if(mi > 9){
 				str += "" + mi + ":";
 			}else{
 				str += "0" + mi + ":";
 			}
-			
 			if(ss > 9){
 				str += "" + mi + "";
 			}else{
@@ -196,9 +161,9 @@ public class ChatService {
 			str += yy + "/";
 			
 			if(mm > 9){
-				str += "" + mm + "/\"";
+				str += "" + mm + "/";
 			}else{
-				str += "0" + mm + "/\"";
+				str += "0" + mm + "/";
 			}
 			
 			if(dd > 9){
@@ -210,4 +175,45 @@ public class ChatService {
 			return str;
 		}
 	}	
+	//읽지 않은 최근메세지 불러오기
+	public List<ChatDTO> unreadChating(String userID){
+		StringBuffer result = new StringBuffer("");
+		ArrayList<ChatDTO> chatlist = chatMapper.getChatlist(userID);
+		//System.out.println(chatlist);
+		
+		if(chatlist.size() == 0){
+			return null;
+		}
+		/*for(int i =0 ; i< chatlist.size() ; i++){
+			ChatDTO x = chatlist.get(i);
+			for(int j=0; j<chatlist.size() ; i++){
+				ChatDTO y = chatlist.get(j);
+				if(x.getFrom_ID().equals(y.getTo_ID()) && x.getTo_ID().equals(y.getFrom_ID())){
+					if(x.getM_contentNo() < y.getM_contentNo()){
+						chatlist.remove(x);
+						i--;
+						break;
+					}else{
+						chatlist.remove(y);
+						j--;
+					}
+				}
+			}
+		}*/
+		return chatlist;
+	}
+	
+	//안 읽은 전체 메세지 갯수 
+	public int unleadAllChatlist(String userID){
+		return chatMapper.unleadAllChatlist(userID);
+	}
+	
+	
+	
+	//안읽은 유저매세지 개수 각 출력
+	public int unleadUserChatlist(String userID, String toID) {
+		// TODO Auto-generated method stub
+		return chatMapper.unleadUserChatlist(userID, toID);
+	}
+	
 }

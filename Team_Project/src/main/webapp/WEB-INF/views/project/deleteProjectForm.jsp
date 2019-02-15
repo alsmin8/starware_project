@@ -11,6 +11,29 @@
 <link rel="stylesheet" href="/resources/css/bootstrap.css">
 <link rel="stylesheet" href="/resources/css/custom.css">
 <title>STARWARE(Groupware)</title>
+<!-- <script type="text/javascript">
+
+$(document).ready(function(){
+	
+	var formObj = $("form")
+	;
+	
+	$('button').on("click", function(e){
+		e.preventDefault();
+		var operation = $(this).data("oper");
+		
+		console.log(operation);
+		
+		if(operation == 'deleteProjectForm'){
+			formObj.attr("action", "/project/deleteProjectForm");
+		}else if(operation == 'listProjectForm'){
+			self.location = '/project/listProjectForm'
+			return;
+		}
+		formObj.submit();
+	})
+})
+</script> -->
 
 
 
@@ -78,6 +101,8 @@
 	
 	<div class="container">
 	
+<!-- 	<button type="submit" data-oper='deleteProjectForm' class="btn btn-primary pull" na></button>
+ -->	
 	<form action="deleteProjectForm">
 		<div align="center">
 		<b>정말 삭제하시겠습니까</b> <br><br>

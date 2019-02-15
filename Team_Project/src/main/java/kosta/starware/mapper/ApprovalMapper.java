@@ -1,9 +1,11 @@
 package kosta.starware.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Select;
 
+import kosta.starware.domain.AppCriteria;
 import kosta.starware.domain.Approval;
 import kosta.starware.domain.DisbursementDoc;
 import kosta.starware.domain.DraftDoc;
@@ -13,7 +15,8 @@ public interface ApprovalMapper {
 	
 	//@Select("select * from approval")
 	public List<Approval> appList();
-	//insert
+	public List<Approval> appPaging(AppCriteria cri);
+ 	//insert
 	public void appInsert(Approval approval);
 	public void appInsertSelectKey(Approval approval);
 	public int getAppNo();
@@ -35,5 +38,12 @@ public interface ApprovalMapper {
 	public int appDdUpdate(DisbursementDoc disbursementDoc);
 	public int appDraftUpdate(DraftDoc draftDoc);
 	public int appVacationUpdate(VacationDoc vacationDoc);
+	
+	
+	
+	//내가 결재할 목록
+	public List<HashMap> resultApproval(String userID);
+	
+	
 
 }

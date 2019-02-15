@@ -3,13 +3,15 @@ package kosta.starware.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import kosta.starware.domain.NoticeVO;
+import kosta.starware.domain.ProjectCriteria;
 import kosta.starware.domain.ProjectDTO;
+import kosta.starware.domain.ProjectPageDTO;
 import kosta.starware.service.ProjectService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -23,25 +25,17 @@ public class ProjectController {
 	private ProjectService service;
 
 	@GetMapping("/listProjectForm")
-	public void listProjectForm(Model model) {
+	public void listProjectForm(ProjectCriteria cri, Model model) {
 
-		log.info("/listProjectForm");
-
-		model.addAttribute("listProjectForm", service.getList());
+		log.info("list + cri");
+		model.addAttribute("listProjectForm", service.getList(cri));
+		//model.addAttribute("pageMaker" , new ProjectPageDTO(cri, 123));
+	
+		int total = service.getTotal(cri);
+		log.info("total:" + total);
+	
+		model.addAttribute("pageMaker", new ProjectPageDTO(cri, total));
 	}
-
-	/*
-	 * @PostMapping("/insertProjectForm") public String
-	 * insertProjectForm(ProjectDTO project, RedirectAttributes rttr) {
-	 * 
-	 * log.info("insertProjectForm:" + project);
-	 * 
-	 * service.register(project);
-	 * 
-	 * rttr.addFlashAttribute("result", project.getProject_No());
-	 * 
-	 * return "redirect:/project/listProjectForm"; }
-	 */
 
 	@PostMapping("/insertProjectForm")
 	public String insertProjectForm(
@@ -85,49 +79,61 @@ public class ProjectController {
 
 	}
 
-	@GetMapping("/detailProjectForm")
-	public void detailProjectForm(@RequestParam("project_No") int project_No, Model model) {
-
-		log.info("/detailProjectForm");
+	@RequestMapping("/detailProjectForm")
+	public void detailProjectForm(@RequestParam("project_No") int project_No, Model model, @ModelAttribute("cri") ProjectCriteria cri) {
+		log.info("detail....");
 		model.addAttribute("project", service.read(project_No));
 	}
 
 	@GetMapping("/updateProjectForm")
-	public void updateProjectForm(@RequestParam("project_No") int project_No, Model model) {
+	public void updateProjectForm(@RequestParam("project_No") int project_No, Model model, @ModelAttribute("cri") ProjectCriteria cri){
 		model.addAttribute("project", service.read(project_No));
-		log.info(model);
+		log.info(cri);
 	}
 
 	@PostMapping("/updateProject")
-	public String updateProject(ProjectDTO project, RedirectAttributes rttr) {
+	public String updateProject(ProjectDTO project,@ModelAttribute("cri") ProjectCriteria cri, RedirectAttributes rttr) {
 
-		log.info("updateProjectForm:" + project);
-
-		if (service.modify(project)) {
-
+		log.info("update:"+ project);
+		
+		if(service.modify(project)){
 			rttr.addFlashAttribute("result", "success");
 		}
+		rttr.addAttribute("pageNum", cri.getPageNum());
+		rttr.addAttribute("amount", cri.getAmount());
+		rttr.addAttribute("type", cri.getProjectSearchType());
+		rttr.addAttribute("keyword", cri.getProjectSearchKey());
+		
 		return "redirect:/project/listProjectForm";
 	}
 
-	@RequestMapping("/deleteProject")
-	public String deleteProject(@RequestParam("project_No") int project_No, RedirectAttributes rttr) {
-
-		log.info("remove...." + project_No);
-
-		if (service.remove(project_No)) {
-			rttr.addFlashAttribute("result", "success");
+	@PostMapping("/deleteProjectForm")
+	public String deleteProjectForm(@RequestParam("project_No") int project_No, RedirectAttributes rttr,
+			@ModelAttribute("cri") ProjectCriteria cri) {
+		
+		
+		log.info("remove....................." + project_No);
+		
+		if(service.remove(project_No)){
+			rttr.addFlashAttribute("result" , "success");
 		}
+		
+		rttr.addAttribute("pageNum", cri.getPageNum());
+		rttr.addAttribute("amount", cri.getAmount());
+		rttr.addAttribute("type", cri.getProjectSearchType());
+		rttr.addAttribute("keyword", cri.getProjectSearchKey());
+		
 		return "redirect:/project/listProjectForm";
 	}
 
 	@GetMapping("/deleteProjectForm")
-	public void deleteProjectForm(@RequestParam("project_No") int project_No, Model model) {
-
+	public void deleteProjectForm(@RequestParam("project_No") int project_No, Model model){
+		
 		model.addAttribute("project_No");
-
-		// log.info("project_No" + project_No);
-
+		
+		log.info("project_No" + project_No);
+		
 	}
+	
 
 }
