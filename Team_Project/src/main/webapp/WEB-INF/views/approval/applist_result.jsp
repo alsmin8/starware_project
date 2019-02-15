@@ -27,12 +27,11 @@ text-align: center;
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
 		}
-/* 		if (emp_no == null) {
+		if (emp_no == null) {
 			session.setAttribute("messageType", "오류메세지");
 			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
-			response.sendRedirect("login.jsp");
-			return;
-		} */
+
+		}
 	%>
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
@@ -218,38 +217,76 @@ text-align: center;
 	//상세 조회 클릭 이벤트 처리 
     $(".result_detail").on("click", "tr", function(e){
     // tr를 왜 두번째에 넣어줬냐 동적으로 하기위해 - 있는 tr이 아닙니다.
-    var detailNum = $(this).data("app_no"); //app_no를 뽑아냄
+	    var detailNum = $(this).data("app_no"); //app_no를 뽑아냄
+	
+	  	function getDetail(detailNum) {
+			$.ajax({
+				type: 'POST',
+				url : '/approval2/getDetail.json',
+				data : {
+					app_no : detailNum
+				},
+				success : function(result){
+					console.log(result);
+					modalInputKind.val(result.kind);
+					modalInputTitle.val(result.title);
+					modalInputContent.val(result.content);
+					modalInputStartDate.val(result.startDate);
+					modalInputEndDate.val(result.endDate);
+					modalInputWriter.val(result.writer);
+					
+			        modal.data("app_no", result.app_no);
+			        
+			        modal.find("button[id !='modalCloseBtn']").hide();
+			        modalAcceptBtn.show();
+			        modalRejectBtn.show();
+			        
+			        $(".modal").modal("show");
+				}
+			})
+	    }	//getDetail 메소드 종료
+    });	//result_detail 클릭버튼 이벤트 종료
+    modalAcceptBtn.on("click", function(e){
+        function getAccept(){
+			$.ajax({
+				type: 'POST',
+				url : '',
+				data : {
+					app_no: modal.data("app_no"), 
+					power_defult: '승인'
+				},
+				success : function(result){
+					console.log(result);
+					alret(result);
+					$(".modal").modal('hide');
+					location.href="/approval/applist_result";
+				}
+			})
+	    }	//getAccept 메소드 종료
+        
+    });	//modalAcceptBtn 이벤트 종료
 
-  	function getDetail(detailNum) {
-		$.ajax({
-			type: 'POST',
-			url : '',
-			data : {
-				app_no : detailNum
-			},
-			success : function(result){
-				modalInputKind.val(result.kind);
-				modalInputTitle.val(result.title);
-				modalInputContent.val(result.content);
-				modalInputStartDate.val(result.startDate);
-				modalInputEndDate.val(result.endDate);
-				modalInputWriter.val(result.writer);
-				
-		        modal.data("app_no", reply.app_no);
-		        
-		        modal.find("button[id !='modalCloseBtn']").hide();
-		        modalAcceptBtn.show();
-		        modalRejectBtn.show();
-		        
-		        $(".modal").modal("show");
-			}
-			
-		});
-	}
-      
-    });	//버튼클릭 이벤트 종료
+    modalRejectBtn.on("click", function (e){
+
+        function getReject(){
+			$.ajax({
+				type: 'POST',
+				url : '',
+				data : {
+	        		app_no: modal.data("app_no"), 
+	        		power_defult: '거절'
+				},
+				success : function(result){
+					console.log(result);
+					alret(result);
+					$(".modal").modal('hide');
+					location.href="/approval/applist_result";
+				}
+			})
+	    }	//getReject 메소드 종료
+  	}); //modalRejectBtn 이벤트 종료
+    
 </script>
-
 
 </body>
 </html>
