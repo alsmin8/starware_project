@@ -106,29 +106,29 @@ tr {
 					</tr>
 					<tr>
 						<td style="width: 110px;">이 름</td>
-						<td>${emp_name }</td>
+						<td>${emp.emp_name }</td>
 						<td style="width: 110px;">사 번</td>
-						<td>${emp_no}</td>
+						<td>${emp.emp_no}</td>
 					</tr>
 					<tr>
 						<td style="width: 110px;">부 서</td>
-						<td>${dept_name}</td>
+						<td><%-- ${dept_name} --%></td>
 						<td style="width: 110px;">직 급</td>
-						<td>${grade_name}</td>
+						<td><%-- ${grade_name} --%></td>
 					</tr>
 					<tr>
+						<td style="width: 110px;">순 번</td>
 						<td style="width: 110px;">사용일자</td>
 						<td style="width: 110px;">사 유</td>
 						<td style="width: 110px;">사용금액</td>
-						<td style="width: 110px;">거래처 번호</td>
 					</tr>
 					<tr>
-						<td style="width: 110px;"><fmt:parseDate var="dateString"
-								value="${disbursementdoc.d_usingdate}" pattern="yyyy-MM-dd" />
+					    <td style="width: 110px;">${disbursementdoc.d_idx}</td>
+						<td style="width: 110px;">
+							<fmt:parseDate var="dateString" value="${disbursementdoc.d_usingdate}" pattern="yyyy-MM-dd" />
 							<fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd" /></td>
 						<td style="width: 110px;">${disbursementdoc.d_contents}</td>
 						<td style="width: 110px;">${disbursementdoc.d_amount}</td>
-						<td style="width: 110px;">${customer_no}</td>
 					</tr>
 					<tr>
 						<td style="width: 110px;"></td>

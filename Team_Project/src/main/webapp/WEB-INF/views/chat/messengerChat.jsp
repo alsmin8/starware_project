@@ -75,6 +75,7 @@
 				listType : type
 			},
 			success : function(data) {
+				console.log(data);
 				if (data == null || data == "" || data == {}){
 					return;
 				}
@@ -113,35 +114,13 @@
 			'</div></div></div><hr>');
 		$('#chatList').scrollTop($('#chatList')[0].scrollHeight);
 	}
-	
- 	function getUnread() {
-		$.ajax({
-			type : "POST",
-			url : "/chat2/unleadAllChatlist",
-			data : {
-				userID : '<%=emp_name%>'
-			},
-			success : function(result) {
-				var count = Number(result);
-				if(count >= 1){
-					showUnread(result);
-				}else{
-					showUnread('');
-				}
-			}
-		});
-	}
-	function showUnread(result) {
-		$('#unread').html(result);
-	}
-	
-	function getInfinite() {
+
+	function getInfinitechatList() {
 		setInterval(function() {
-			getUnread();
 			chatListFunction(lastID);
 		}, 3000);
 	}
-	
+
 
 </script>
 
@@ -168,7 +147,7 @@
 				<li><a href="/notice/noticeList">공지사항</a></li>
 				<li><a href="/attend/attendInsert">출퇴근관리</a></li>
 				<li><a href="/emp/empList">인사관리</a></li>
-				<li><a href="/schedule/schduleMain">일정관리</a></li>
+				<li><a href="/schedule/scheduleMain">일정관리</a></li>
 				<li class="active"><a href="/chat/messengerFind">메세지함<span id="unread" class="label label-info"></span></a></li>
 			</ul>
 			<%
@@ -229,7 +208,7 @@
 	</div>
 	<div class="alert alert-danger" id="dangerMessage"
 		style="display: none;">
-		<strong>이름과 내용을 모두 입력해주세요.</strong>
+		<strong>내용을 입력해주세요.</strong>
 	</div>
 	<div class="alert alert-warning" id="warningMessage"
 		style="display: none;">
@@ -287,11 +266,14 @@
 		if(emp_no != null){
 
 	%>
+	<script src="/resources/chatMethod.js" type="text/javascript"></script>
 	<script type="text/javascript">
 	$(document).ready(function() {
-		getUnread();
+		var emp_name = '<%=emp_name%>';
+		getUnread(emp_name);
 		chatListFunction('0');
-		getInfinite();
+		getInfinitechatList();
+		getInfiniteUnread(emp_name);
 	});
 	</script>
 	<%

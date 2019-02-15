@@ -92,13 +92,13 @@ text-align: center;
 					</tr>
 			<tr>
 				<td style="width: 110px;">제 목</td>
-				<td colspan="5"><input type="text" name="app_title" value="${approval.app_title}"></td>
+				<td colspan="5"><input class="form-control" type="text" name="app_title" value="${approval.app_title}"></td>
 			</tr>
 			<tr>
 				<td>이 름</td>
-				<td colspan="2"><input type="text" name="name" value=""></td>
+				<td colspan="2"><input class="form-control" type="text" name="name" value="${emp.emp_name }"></td>
 				<td>사 번</td>
-				<td colspan="2"><input type="text" name="emp_no" value="${approval.emp_no}"></td>
+				<td colspan="2"><input class="form-control" type="text" name="emp_no" value="${emp.emp_no}"></td>
 			</tr>
 			<tr>
 				<td style="width: 110px;">부 서</td>
@@ -112,7 +112,7 @@ text-align: center;
 				<td>~</td>
 				<td><input class="form-control" type="text" name="vd_enddate" value="${vacationdoc.vd_enddate}"> </td>
 				<td style="width: 110px;">총 일수</td>
-				<td><input class="form-control" type="text" name="vd_day" value="${vacationdoc.vd_day}"> </td>
+				<td><input class="form-control" type="text" name="vd_day" pattern="yyyy-MM-dd" value="${vacationdoc.vd_day}"> </td>
 			</tr>
 			<tr>
 				<td style="width: 110px;">내 용</td>

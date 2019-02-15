@@ -42,30 +42,30 @@ text-align: center;
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="login.jsp">STARWARE</a>
+			<a class="navbar-brand" href="/login">STARWARE</a>
 		</div>
 
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a href="loginafter.jsp">메인</a></li>
-				<li class="active"><a href="list.bit">전자결재</a></li>
-				<li><a href="listActionProject.pro">협업지원</a></li>
-				<li><a href="list.not">공지사항</a></li>
-				<li><a href="resource_main.jsp">출퇴근관리</a></li>
-				<li><a href="list.do">인사관리</a></li>
-				<li><a href="calendar_main.jsp">일정관리</a></li>
-				<li><a href="messengerFind.jsp">메세지함</a></li>
+				<li><a href="/loginafter">메인</a></li>
+				<li class="active"><a href="/approval/applist_alllist">전자결재</a></li>
+				<li><a href="/project/projectList">협업지원</a></li>
+				<li><a href="/notice/noticeList">공지사항</a></li>
+				<li><a href="/attend/attendInsert">출퇴근관리</a></li>
+				<li><a href="/emp/empList">인사관리</a></li>
+				<li><a href="/schedule/scheduleMain">일정관리</a></li>
+				<li><a href="/chat/messengerFind">메세지함<span id="unread" class="label label-info"></span></a></li>
 			</ul>
 
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="buton" aria-haspopup="true"
-					aria-expanded="false">회원관리<span class="caret"></span>
-				</a>
+					aria-expanded="false">회원관리<span class="caret"></span></a>
 					<ul class="dropdown-menu">
-											<li><a href="logoutaction.jsp">로그아웃</a></li>
-					</ul></li>
+						<li><a href="/logoutaction">로그아웃</a></li>
+					</ul>
+				</li>
 			</ul>
 
 		</div>
@@ -93,41 +93,38 @@ text-align: center;
 	<div class="container" id="applist">
 		<h2>내가 진행할 결재목록</h2><br>
 	<table class="type04">
-	<tr>
-	<td>글번호</td>
-	<td>문서종류</td>
-	<td>제      목</td>
-	<td>기안일자</td>
-	<td>완료일자</td>
-	<td>결재현황</td>
-	<td>기안자</td>
-	</tr>
-	
-	<c:forEach var="Approval" items="${list}">
-	<tr>
-	<td><a href="detail.bit?seq=${Approval.app_no}&app_kind=${Approval.app_kind}">${Approval.app_no}</a></td>
-	<td>${Approval.app_kind}</td>
-	
-	<td>${Approval.vd_title}</td>
-	
-	<td>
-	 <fmt:parseDate var="dateString" value="${Approval.app_startdate}" pattern="yyyy-MM-dd"/>
-	 <fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd"/>
-	</td>
-	<td>
-	 <fmt:parseDate var="dateString" value="${Approval.app_enddate}" pattern="yyyy-MM-dd"/>
-	 <fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd"/>
-	</td>
-	<td>${Approval.app_situation}</td>
-	<td>${Approval.emp_name}</td>
-	</tr>
-	</c:forEach>
-	
+		<tr>
+			<td>글번호</td>
+			<td>문서종류</td>
+			<td>제      목</td>
+			<td>기안일자</td>
+			<td>상신일자</td>
+			<td>본인승인결과</td>
+			<td>기안자</td>
+		</tr>
+		<c:forEach var="Approval" items="${applist_result}">
+			<tr>
+				<td><a href="detail.bit?seq=${Approval.APP_NO}&app_kind=${Approval.APP_KIND}">${Approval.APP_NO}</a></td>
+				<td>${Approval.APP_KIND}</td>
+				<td>${Approval.APP_TITLE}</td>
+				
+				<td>
+					 <fmt:parseDate var="dateString" value="${Approval.APP_STARTDATE}" pattern="yyyy-MM-dd"/>
+					 <fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd"/>
+				</td>
+				<td>
+					 <fmt:parseDate var="dateString" value="${Approval.POWER_REGDATE}" pattern="yyyy-MM-dd"/>
+					 <fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd"/>
+				</td>
+				<td>${Approval.POWER_DEFULT}</td>
+				<td>${Approval.EMP_NO}</td>
+			</tr>
+		</c:forEach>
 	</table>
 	<br><br>
 	
 	
-	<form action="list.bit" method="post" >
+	<!-- <form action="list.bit" method="post" >
 	<input type ="checkbox" name = "check" value = "연차신청서">연차신청서
 	<input type ="checkbox" name = "check" value = "지출결의서">지출결의서
 	<input type ="checkbox" name = "check" value = "기안서">기안서
@@ -141,17 +138,13 @@ text-align: center;
 	<input type="radio" name="app_situation" value="반려">반려
 	<input type="radio" name="app_situation" value="승인">승인
 	
-<!-- 	<input type ="checkbox" name = "vd_title" value = "vd_title">제목
-	<input type ="text" name = "searchKey" size = "10"></input> -->
+	<input type ="checkbox" name = "vd_title" value = "vd_title">제목
+	<input type ="text" name = "searchKey" size = "10"></input>
 	
-	<!-- <input type ="text" name = "searchKey" size = "10"></input> -->
+	<input type ="text" name = "searchKey" size = "10"></input>
 	<br><input type = "submit" value = "검색">
 	
-	</form>
-	
-	
+	</form> -->
 	</div>
-	
-	
 </body>
 </html>

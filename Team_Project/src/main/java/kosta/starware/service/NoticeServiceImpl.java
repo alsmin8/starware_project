@@ -20,7 +20,7 @@ public class NoticeServiceImpl implements NoticeService {
 	
 	@Override
 	public int insertNoticeService(NoticeVO notice) {
-		log.info("∞‘Ω√±€ µÓ∑œ!"+notice);
+		log.info("Í≤åÏãúÍ∏Ä Îì±Î°ù..."+notice);
 		
 		return noticeMapper.insertNotice(notice);
 	}
@@ -40,7 +40,6 @@ public class NoticeServiceImpl implements NoticeService {
 
 	@Override
 	public int updateNoticeService(NoticeVO notice) {
-		
 		return noticeMapper.noticeUpdate(notice);
 	}
 
