@@ -3,6 +3,9 @@ package kosta.starware.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,11 +13,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -78,7 +85,7 @@ public class NoticeController {
 	public String noticeUpdate(NoticeVO notice, @ModelAttribute("ncri") NoticeCriteria ncri, RedirectAttributes rttr){
 		log.info("notice update:"+notice);
 		service.updateNoticeService(notice);
-		
+		 
 		rttr.addAttribute("pageNum", ncri.getPageNum());
 		rttr.addAttribute("amount", ncri.getAmount());
 		//rttr.addFlashAttribute("result", notice.getNotice_no());
@@ -125,19 +132,17 @@ public class NoticeController {
 	
 	//check Image
 	private boolean checkImageType(File file) {
-		log.info("file??"+file);
 
 		try {
 			String contentType = Files.probeContentType(file.toPath());
-			log.info("컨텐트타입??"+contentType);
+			//log.info("컨텐트타입??"+contentType);
 
 			return contentType.startsWith("image");
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
-
 		return false;
 	}
 	
@@ -177,7 +182,7 @@ public class NoticeController {
 		uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") + 1);
 		
 		
-		nafDTO.setNa_fileName(uploadFileName);
+		nafDTO.setFileName(uploadFileName);
 		
 		UUID uuid=UUID.randomUUID();
 		uploadFileName=uuid.toString()+"_"+uploadFileName;
@@ -188,21 +193,23 @@ public class NoticeController {
 			multipartFile.transferTo(saveFile);
 			
 		
-			nafDTO.setNa_uuid(uuid.toString());
-			nafDTO.setNa_uploadPath(uploadFolderPath);
+			nafDTO.setUuid(uuid.toString());
+			nafDTO.setUploadPath(uploadFolderPath);
 			
 			log.info(nafDTO);
 			
 			//check image type, 썸네일 생성
 			if(checkImageType(saveFile)){
-				nafDTO.setNa_image(true);
+				nafDTO.setImage(true);
+				log.info(nafDTO);
+				
+				
 				FileOutputStream thumbnail=new FileOutputStream(new File(uploadPath, "s_"+uploadFileName));
 				Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
 				thumbnail.close();
 			}
 			
 			list.add(nafDTO);
-			log.info("리스트:"+list);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -217,9 +224,76 @@ public class NoticeController {
 	}
 	
 	
-
-
+	@GetMapping("/display")
+	@ResponseBody
+	public ResponseEntity<byte[]> getFile(String fileName){
+		log.info("fileName:"+fileName);
 		
+		File file=new File("C:\\upload"+fileName);
+		
+		ResponseEntity<byte[]> result = null;
+
+		try {
+			HttpHeaders header = new HttpHeaders();
+
+			header.add("Content-Type", Files.probeContentType(file.toPath()));
+			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
+		} catch (IOException e) {
+		
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+
+	@GetMapping(value="/download", produces=MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@ResponseBody
+	public ResponseEntity<Resource> downloadFile(String fileName){
+		Resource resource=new FileSystemResource("C:\\upload\\"+fileName);
+		
+		String resourceName=resource.getFilename();
+		
+		//remove UUID
+		String resourceOriginalName=resourceName.substring(resourceName.indexOf("_")+1);
+		
+		HttpHeaders headers=new HttpHeaders();
+		
+		try {
+			//String downloadName=null;
+			//downloadName=new String(resourceOriginalName.getBytes("UTF-8"), "ISO-8859-1");
+			
+			headers.add("Content-Disposition", "attachment; filename=" + new String(resourceName.getBytes("UTF-8"), "ISO-8859-1"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
+	}
+	
+	@PostMapping("/deleteFile")
+	@ResponseBody
+	public ResponseEntity<String> deleteFile(String fileName, String type){
+		File file;
+		
+		try {
+			file=new File("c:\\upload\\"+URLDecoder.decode(fileName, "UTF-8"));
+			file.delete();
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<String>("deleted", HttpStatus.OK);
+	}
 	
 	
-}
+	
+	
+	
+	
+	}
+	
+	
+	
+
+
+
