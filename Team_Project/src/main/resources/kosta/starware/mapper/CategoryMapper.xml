@@ -8,12 +8,32 @@
   	insert into category values(cgr_seq.nextval, #{emp_no}, #{category_name}, #{category_color}, 1)
   </insert>
   
+  <insert id="addAttendee">
+  	insert into category values(#{category_no}, #{emp_no}, #{category_name}, #{category_color}, 1)
+  </insert>
+  
   <select id="listEmp" resultType="kosta.starware.domain.EmpVO">
   	select emp_no, emp_name, dept_name from emp e, dept d where e.dept_no = d.dept_no
   </select>
   
   <select id="listCgr" resultType="kosta.starware.domain.CategoryVO">
-	select * from category
+	select * from category where emp_no = #{emp_no}
   </select>
+  
+  <select id="getCgr" resultType="kosta.starware.domain.CategoryVO">
+  	select * from category where category_no = #{category_no} and emp_no = #{emp_no}
+  </select>
+  
+  <select id="getCgrByCno" resultType="int">
+  	select emp_no from category where category_no = #{category_no}
+  </select>
+  
+  <update id="updateCgr">
+  	update category set category_name = #{category_name}, category_color = #{category_color} where category_no = #{category_no}
+  </update>
+  
+  <delete id="deleteCgr">
+  	delete from category where category_no = #{category_no} and emp_no = #{emp_no}
+  </delete>
 
 </mapper>
