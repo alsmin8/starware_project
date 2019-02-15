@@ -50,14 +50,14 @@
 
 	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		<ul class="nav navbar-nav">
-			<li><a href="loginafter.jsp">메인</a></li>
-			<li><a href="list.bit">전자결재</a></li>
-			<li><a href="listActionProject.pro">협업지원</a></li>
-			<li class="active"><a href="/notice/noticeList">공지사항</a></li>
-			<li><a href="/attend/attendInsert">출퇴근관리</a></li>
-			<li><a href="list.do">인사관리</a></li>
-			<li><a href="calendar_main.jsp">일정관리</a></li>
-			<li><a href="messengerFind.jsp">메세지함</a></li>
+		 	<li><a href="loginafter.jsp">메인</a></li>
+     <li><a href="/approval/applist_alllist">전자결재</a></li>
+            <li><a href="/project/projectList">협업지원</a></li>
+            <li class="active"><a href="/notice/noticeList">공지사항</a></li>
+            <li><a href="/attend/attendInsert">출퇴근관리</a></li>
+            <li><a href="/emp/empList">인사관리</a></li>
+            <li><a href="/schedule/scheduleMain">일정관리</a></li>
+            <li><a href="/chat/messengerFind">메세지함<span id="unread" class="label label-info"></span></a></li>
 		</ul>
 
 		<ul class="nav navbar-nav navbar-right">
@@ -168,6 +168,9 @@
 
 	</div>
 	<script>
+		
+	/* 첨부파일 처리 */
+		
 	 	$(document).ready(function(e) {
 			var formObj = $("form[role='form']");
 			var cloneObj=$(".uploadDiv").clone();
@@ -234,28 +237,61 @@
 			
 			var uploadResult=$(".uploadResult ul");
 			
+			$(".uploadResult").on("click", "span", function(e){
+				console.log("delete file...");
+				
+				var targetFile=$(this).data("file");
+				var type=$(this).data("type");
+				
+				var targetLi=$(this).closest("li");
+				
+				
+				$.ajax({
+					url : '/notice/deleteFile',
+					data : {fileName : targetFile, type: type},
+					dataType : 'text',
+					type: 'POST',
+					success : function(result){
+						alert(result);
+						targetLi.remove();
+					}
+				})
+				
+				
+			})
+			
+			
 			function showUploadedFile(uploadResultArr){
 				
 				var str = "";
 			
 				 $(uploadResultArr).each(function(i, obj) {
 	
-					if(obj.image){
-						str +="<li><img src='/resources/images/notice_attach.jpg'>"
-							+obj.na_fileName+"</li>";						
+					if(!obj.image){
+						var fileCallPath =  encodeURIComponent("/"+ obj.uploadPath+ "/s_"+obj.uuid+"_"+obj.fileName);
+						
+						str +="<li>"+obj.fileName+"  <a href='/notice/download?fileName="+fileCallPath+"'>"+"<img src='/resources/images/notice_attach.jpg' style='width: 30px; height: 30px;'>"
+							+"</a><span data-file=\'"+fileCallPath+"\' data-type='file'> 【  X 】 </span></li>";						
 					}else{
-						console.log(obj.na_fileName);
-						 str += "<li>" + obj.na_fileName + "</li>";
+						
+						 var fileCallPath =  encodeURIComponent("/"+ obj.uploadPath+ "/s_"+obj.uuid+"_"+obj.fileName);
+						/*  str+="<li data-path='"+obj.uploadPath+"'";
+						 str+=" data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'><div>";
+						 str+="<span> "+obj.fileName"</span>";
+						 str+="  <img src='/notice/display?fileName="+fileCallPath+"' style='width: 30px; height: 30px;'>"+
+						  */
+						 
+						 
+						 str+="<li>"+obj.fileName+"  <img src='/notice/display?fileName="+fileCallPath+"' style='width: 30px; height: 30px;'>"+
+						 "<span data-file=\'"+fileCallPath+"\' data-type='file'> 【  X 】</span></li>";						
 					}
 				});
 				uploadResult.append(str);
 			}
 			
 			
-			
-			
-			
-		})  
+		})
+		
 	</script>
 
 

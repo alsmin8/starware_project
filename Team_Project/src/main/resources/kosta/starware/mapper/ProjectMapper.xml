@@ -44,7 +44,60 @@
 		project_End_Date=sysdate,
 		project_Regdate=sysdate,
 		project_Situation=#{project_Situation}
-		where project_No=#{project_No}
+		where
+		project_No=#{project_No}
 	</update>
 
+	<select id="getListPagingProject" resultType="kosta.starware.domain.ProjectDTO">
+	<![CDATA[
+		select project_No, project_Title, project_Contents, project_Kind, project_Writer,project_Manager,project_Members,
+			project_Term,project_Start_Date,project_End_Date,project_Regdate,project_Situation,emp_No
+		from(
+			select /*+ index_desc(project XPKPROJECT) */
+				rownum rn, project_No, project_Title, project_Contents, project_Kind, project_Writer,project_Manager,project_Members,
+			project_Term,project_Start_Date,project_End_Date,project_Regdate,project_Situation,emp_No
+		from
+			project
+		where
+	]]>
+		<include refid="criteria" />
+
+		<![CDATA[
+    
+      rownum <= #{pageNum} * #{amount}
+      )
+  where rn > (#{pageNum} -1) * #{amount}   
+  
+]]>
+
+	</select>
+
+	<select id="getTotalCountProject" resultType="int">
+		select count(*) from project where
+
+		<include refid="criteria"></include>
+
+		project_No > 0
+	</select>
+
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='projectSearchType' collection="projectSearchArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="projectSearchType=='T'.toString()">
+							project_Title like '%'||#{projectSearchKey}||'%'
+						</when>
+						<when test="projectSearchType=='C'.toString()">
+							project_Contents like
+							'%'||#{projectSearchKey}||'%'
+						</when>
+						<when test="projectSearchType=='W'.toString()">
+							emp_no like '%'||#{projectSearchKey}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
 </mapper>

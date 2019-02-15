@@ -124,20 +124,58 @@
 		</tr> --%>
 
 	</table>
-<%-- 	<form style="text-align: center">
-	<button data-oper="updateProjectForm" class="btn btn-primary pull">
-		<a href="/project/updateProjectForm?project_No= <c:out value="#{project.project_No}"/>">수정하기</a></button>
-	<button data-oper="deleteProjectForm" class="btn btn-primary pull">
-		<a href="/project/deleteProjectForm?project_No= <c:out value="#{project.project_No}"/>">삭제하기</a></button>
-	<button data-oper="listProjectForm" class="btn btn-primary pull">
-		<a href="/project/listProjectForm">목록</a></button>
-	</form> --%>
-	 <form style="text-align: center">
-		<input class="btn btn-primary pull" type="button" value="수정" onclick="location.href='updateProjectForm?project_No=${project.project_No}';"> 
-		<input class="btn btn-primary pull" type="button" value="삭제" onclick="location.href='deleteProjectForm?project_No=${project.project_No}';">
-		<input class="btn btn-primary pull" type="button" value="목록" onclick="location.href='listProjectForm'">
-		<span style="float: right;"><input class="btn btn-primary pull" type="button" value="게시판" onclick="location.href='boardFormProject.pro?project_No=${project.project_No}&project_Writer=${project.project_Writer }';"></span>
+	
+	
+	<button data-oper="update" class="btn btn-primary pull" style="text-align: center">수정하기</button>
+	<button data-oper="delete" class="btn btn-primary pull" style="text-align: center">삭제하기</button>
+	<button data-oper="list" class="btn btn-primary pull" style="text-align: center">목록</button>
+
+	
+	<form id='listAction' action="project/listProjectForm" method="get">
+	<input type='hidden' name='project_No' id='project_No' value='<c:out value="${project.project_No}"/>'>
+	<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
+	<input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
 	</form>
+	
+	<form id='deleteFormAction' action="project/deleteProjectForm" method="get">
+	<input type='hidden' name='project_No' id='project_No' value='<c:out value="${project.project_No}"/>'>
+	<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
+	<input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
+	</form>
+	
+	<form id='updateFormAction' action="project/updateProjectForm" method="get">
+	<input type='hidden' name='project_No' id='project_No' value='<c:out value="${project.project_No}"/>'>
+	<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
+	<input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
+	</form>
+	
+	<script type="text/javascript">
+$(document).ready(function() {
+	var listAction = $("#listAction");
+	var updateFormAction = $("#updateFormAction");
+	var deleteFormAction = $("#deleteFormAction");
+
+	$("button[data-oper='update']").on("click", function(e) {
+		updateFormAction.attr("action", "/project/updateProjectForm").submit();
+	}); 
+
+	$("button[data-oper='list']").on("click", function(e) {
+		listAction.find("#project_No").remove();
+		listAction.attr("action", "/project/listProjectForm")
+		listAction.submit();
+	});
+	
+	$("button[data-oper='delete']").on("click", function(e) {
+		deleteFormAction.attr("action", "/project/deleteProjectForm").submit();
+	}); 
+
+	
+	
+
+});
+
+
+</script>
 	
 	</div>
 	

@@ -95,9 +95,9 @@ text-align: center;
 			</tr>
 			<tr>
 				<td style="width: 110px;">이 름</td>
-				<td><input class="form-control" type="text" name="emp_name" value="emp"></td>
+				<td><input class="form-control" type="text" name="emp_name" value="${emp.emp_name }"></td>
 				<td style="width: 110px;">사 번</td>
-				<td><input class="form-control" type="text" name="emp_no" value="${approval.emp_no}"></td>
+				<td><input class="form-control" type="text" name="emp_no" value="${emp.emp_no }"></td>
 			</tr>
 			<tr>
 				<td style="width: 110px;">사 유</td>
@@ -106,8 +106,12 @@ text-align: center;
 				<td style="width: 110px;">거래처 번호</td>
 			</tr>
 			<tr>
+				<td><input class="form-control" type="text" name="d_idx" value="${disbursementdoc.d_idx}" readonly="readonly"></td>
 				<td><input class="form-control" type="text" name="d_contents" value="${disbursementdoc.d_contents}"></td>
 				<td><input class="form-control" type="text" name="d_usingdate" value="${disbursementdoc.d_usingdate }"></td>
+				
+				</td>
+				
 				<td><input class="form-control" type="text" name="d_amount" value="${disbursementdoc.d_amount }"></td>
 				
 			</tr>

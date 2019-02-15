@@ -2,6 +2,7 @@ package kosta.starware.service;
 
 import java.util.List;
 
+import kosta.starware.domain.ProjectCriteria;
 import kosta.starware.domain.ProjectDTO;
 
 public interface ProjectService {
@@ -14,6 +15,8 @@ public interface ProjectService {
 	
 	public boolean remove(int project_No);
 	
-	public List<ProjectDTO> getList();
+	public List<ProjectDTO> getList(ProjectCriteria cri);
+	
+	public int getTotal(ProjectCriteria cri);
 
 }

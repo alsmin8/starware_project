@@ -90,7 +90,7 @@ text-align: center;
 				style="text-align: center; border: 1px solid #dddddd;">
 				<thead>
 					<tr>
-						<th colspan="4"><h4>연 차 신 청 서</h4></th>
+						<th colspan="6"><h4>연 차 신 청 서</h4></th>
 					</tr>
 				</thead>
 			<tr>
@@ -99,9 +99,9 @@ text-align: center;
 			</tr>
 			<tr>
 				<td style="width: 110px;">이 름</td>
-				<td colspan="2">${emp_name }</td>
+				<td colspan="2">${emp.emp_name }</td>
 				<td style="width: 110px;">사 번</td>
-				<td colspan="2">${emp_no}</td>
+				<td colspan="2">${emp.emp_no}</td>
 			</tr>
 			<tr>
 				<td style="width: 110px;">휴가기간</td>

@@ -3,6 +3,7 @@ package kosta.starware.service;
 import java.util.HashMap;
 import java.util.List;
 
+import kosta.starware.domain.AppCriteria;
 import kosta.starware.domain.Approval;
 import kosta.starware.domain.DisbursementDoc;
 import kosta.starware.domain.DraftDoc;
@@ -10,7 +11,7 @@ import kosta.starware.domain.VacationDoc;
 
 public interface ApprovalService {
 	
-	public List<Approval> appList();
+	public List<Approval> appList(AppCriteria appcri);
 	//insert
 	public void appInsert(Approval approval);
 	public void appDdInsert(DisbursementDoc disbursementDoc);
