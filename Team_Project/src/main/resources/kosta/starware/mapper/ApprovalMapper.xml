@@ -7,7 +7,14 @@
 	<select id="appList" resultType="kosta.starware.domain.Approval">
 		select * from approval order by app_no DESC
 	</select>
-
+	<select id="appPaging" resultType="kosta.starware.domain.Approval"> 
+		<![CDATA[
+		select * from (select /*+INDEX_DESC(approval pk_XPKAPPROVAL)*/
+		rownum rn, app_no, app_kind, app_title, app_startdate, app_enddate, app_situation, emp_no
+		from approval where rownum <=#{pageNum}*#{amount})
+		where rn > (#{pageNum}-1)*#{amount}
+		]]>
+	</select>
 	<!-- <insert id="appInsert">
 		insert into approval (app_no, app_kind, app_title, app_startdate, app_enddate, app_situation, emp_no)
 		values(app_no_seq.nextval, #{app_kind}, #{app_title}, sysdate, null, '결재요청', 12301)
@@ -18,7 +25,7 @@
 			select app_no_seq.nextval from dual
 		</selectKey>
 		insert into approval (app_no, app_kind, app_title, app_startdate, app_enddate, app_situation, emp_no)
-		values (#{app_no},	#{app_kind}, #{app_title}, sysdate, null,'결재요청', 12301)
+		values (#{app_no},	#{app_kind}, #{app_title}, sysdate, null,'결재요청', #{emp_no})
 	
 	</insert>
 	<select id="getAppNo" resultType="int">
@@ -38,7 +45,7 @@
 	</insert>
 	<!-- DETAIL 문서보기 SQL!! -->
 	<select id="appDetail" resultType="kosta.starware.domain.Approval">
-		select * from approval where app_no=#{app_no}
+	    select * from approval where app_no=#{app_no}
 	</select>
 	<select id="appDdDetail" resultType="kosta.starware.domain.DisbursementDoc">
 		select * from disbursement_doc where app_no=#{app_no}
