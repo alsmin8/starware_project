@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kosta.starware.domain.ProjectCriteria;
 import kosta.starware.domain.ProjectDTO;
 import kosta.starware.mapper.ProjectMapper;
 import lombok.AllArgsConstructor;
@@ -38,7 +39,7 @@ public class ProjectServiceImpl implements ProjectService{
 	@Override
 	public boolean modify(ProjectDTO project) {
 		
-		log.info("" + project);
+		log.info("글 수정" + project);
 		
 		return mapper.modifyProject(project) == 1;
 	}
@@ -52,11 +53,19 @@ public class ProjectServiceImpl implements ProjectService{
 	}
 
 	@Override
-	public List<ProjectDTO> getList() {
+	public List<ProjectDTO> getList(ProjectCriteria cri) {
 		
-		log.info("getlist.......");
+		log.info("getlist....... + cri:" + cri);
 		
-		return mapper.getListProject();
+		return mapper.getListPagingProject(cri);
+	}
+
+	@Override
+	public int getTotal(ProjectCriteria cri) {
+		
+		log.info("get total count");
+
+		return mapper.getTotalCountProject(cri);
 	}
 	
 }

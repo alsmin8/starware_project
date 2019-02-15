@@ -15,7 +15,7 @@ import kosta.starware.domain.DraftDoc;
 import kosta.starware.domain.VacationDoc;
 import kosta.starware.mapper.ApprovalMapper;
 import kosta.starware.service.ApprovalService;
-import kosta.starware.service.ApprovalServiceTest;
+/*import kosta.starware.service.ApprovalServiceTest;*/
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
