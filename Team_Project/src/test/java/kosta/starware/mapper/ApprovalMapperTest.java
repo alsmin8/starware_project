@@ -1,5 +1,7 @@
 package kosta.starware.mapper;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.event.TransactionalEventListener;
 
+import kosta.starware.domain.AppCriteria;
 import kosta.starware.domain.Approval;
 import kosta.starware.domain.DisbursementDoc;
 import lombok.Setter;
@@ -73,5 +76,12 @@ public class ApprovalMapperTest {
 		
 		log.info("appno::::::::" +approvalmapper.getAppNo());
 	}*/
-	
+	@Test
+	public void testpaging(){
+		AppCriteria cri = new AppCriteria();
+		cri.setPageNum(2);
+		cri.setAmount(5);
+		List<Approval> list = approvalmapper.appPaging(cri);
+		list.forEach(approval -> log.info(approval));
+	}
 }
