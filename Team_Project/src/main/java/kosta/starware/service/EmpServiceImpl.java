@@ -33,6 +33,14 @@ public class EmpServiceImpl implements EmpService {
 	}
 
 	@Override
+	public EmpVO empDept(int dept_no){
+		log.info("empDept.........." + dept_no);
+		
+		return mapper.empDept(dept_no);
+	}
+	
+	
+	@Override
 	public boolean empUpdate(EmpVO emp) {
 		log.info("empUpdate......" + emp);
 
@@ -53,5 +61,7 @@ public class EmpServiceImpl implements EmpService {
 		
 		return mapper.empGetListWithPaging(empcri);
 	}
+	
+	
 
 }

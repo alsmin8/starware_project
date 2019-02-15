@@ -17,18 +17,7 @@
 
 </head>
 <body>
-	<%-- <%
-		String emp_no = null;
-		if (session.getAttribute("emp_no") != null) {
-			emp_no = (String) session.getAttribute("emp_no");
-		}
-		if (emp_no == null) {
-			session.setAttribute("messageType", "오류메세지");
-			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
-			response.sendRedirect("login.jsp");
-			return;
-		}
-	%> --%>
+
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed"
@@ -66,50 +55,10 @@
 		</div>
 	</nav>
 
-	<%-- <div class="container">
 	
-	<h1>사원 정보</h1>
-	
-	<ul>
-		<li>사번: ${emp.emp_no }</li>
-		<li>성명: ${emp.emp_name }</li>
-		<li>비밀번호: ${emp.emp_pass}</li>
-		<li>성별: ${emp.emp_gender}</li>
-		<li>주민등록번호: ${emp.emp_socialNo }</li>
-		<li>부서번호: ${emp.dept_no}</li>
-		<li>직급번호: ${emp.grade_no }</li>
-		<li>연락처: ${emp.emp_cellphone }</li>
-		<li>내선번호: ${emp.emp_extension }</li>
-		<li>입사일: ${emp.emp_hiredate }</li>
-		
-			<td><fmt:parseDate var="dateString" value="${emp.emp_hiredate }"
-					pattern="yyyy-MM-dd" /> <fmt:formatDate value="${dateString }"
-					pattern="yyyy-MM-dd" /></td>
-		
-		<li>퇴사일:${emp.emp_retiredate }</li>
-			
-		
-		<td><fmt:parseDate var="dateString"
-					value="${emp.emp_retiredate }" pattern="yyyy-MM-dd" /> <fmt:formatDate
-					value="${dateString }" pattern="yyyy-MM-dd" /></td>
-		
-		<li>고용상태: ${emp.emp_empstate }</li>
-		<li>총 연차일수: ${emp.emp_totalvdays }</li>
-		<li>잔여 연차일수: ${emp.emp_vleftdays }</li>
-
-
-
-		<br>
-
-	</ul>
-	<br>
-  <a href="UpdateForm.do?emp=${emp.emp_no}">수정하기</a>
-	<a href="list.do">목록</a>
-	
-	</div> --%>
 
 	<div class="container">
-		<!-- <form id = "empUpdate" method="post" action="/emp/empUpdateForm"> -->
+		 <!-- <form id = "empUpdate" method="post" action="/emp/empUpdateForm"> --> 
 
 		<table class="table table-bordered table-hover"
 			style="text-align: center; border: 1px solid #dddddd;">
@@ -121,135 +70,80 @@
 			<tbody>
 				<tr>
 					<td style="width: 110px;"><h5>사번</h5></td>
-					<td>${emp.emp_no }<%-- <input class="form-control" type="text" id="emp_no"
-								name="emp_no" maxlength="20" placeholder="사번을 입력하세요" value = "${emp.emp_no }"> --%></td>
-					<!-- <td style="width: 110px;"><button class="btn btn-primary"
-									onclick="registerCheckFunction();" type="button">중복체크</button></td> -->
+					<td>${emp.emp_no }
 				</tr>
 				<tr>
 					<td style="width: 110px;"><h5>성명</h5></td>
-					<td>${emp.emp_name }<%-- <input class="form-control" type="text" id="emp_name"
-								name="emp_name" maxlength="20" placeholder="성명을 입력하세요" value = "${emp.emp_name }"> --%></td>
+					<td>${emp.emp_name }</td>
 				</tr>
 				<tr>
 					<td style="width: 110px;"><h5>비밀번호</h5></td>
-					<td colspan="2">${emp.emp_pass }<%-- <input onkeyup="passwordCheckFunction();"
-								class="form-control" type="password" id="emp_pass"
-								name="emp_pass" maxlength="20" placeholder="비밀번호를 입력하세요" value = "${emp.emp_pass }"> --%></td>
+					<td colspan="2">${emp.emp_pass }</td>
 				</tr>
 
 				<tr>
 					<td style="width: 110px;"><h5>성별</h5></td>
-					<td colspan="2">${emp.emp_gender}<!-- <div class="form-group"
-									style="text-align: center; margin: 0 auto;">
-									<div class="btn-group" data-toggle="buttons">
-										<label class="btn btn-primary active"> <input
-											type="radio" name="emp_gender" autocomplete="off" value="남자"
-											checked>남자
-										</label> <label class="btn btn-primary"> <input type="radio"
-											name="emp_gender" autocomplete="off" value="여자">여자
-										</label>
-									</div>
-								</div> -->
-					</td>
+					<td colspan="2">${emp.emp_gender}</td>
 				</tr>
 				<tr>
 					<td style="width: 110px;"><h5>주민등록번호</h5></td>
-					<td colspan="2">${emp.emp_socialNo }<%-- <input class="form-control" type="text"
-								id="emp_socialNo" name="emp_socialNo" maxlength="20"
-								placeholder="주민등록번호를 입력하세요" value = "${emp.emp_socialNo }"> --%></td>
+					<td colspan="2">${emp.emp_socialNo }</td>
 				</tr>
 				<tr>
 					<td style="width: 110px;"><h5>부서번호</h5></td>
-					<td colspan="2">${emp.dept_no }<%-- <input class="form-control" type="text"
-								id="dept_no" name="dept_no" maxlength="20"
-								placeholder="부서번호를 입력하세요" value = "${emp.dept_no }"> --%></td>
+					<td colspan="2">${emp.dept_no }</td>
 				</tr>
 				<tr>
 					<td style="width: 110px;"><h5>직급번호</h5></td>
-					<td colspan="2">${emp.grade_no }<%-- <input class="form-control" type="text"
-								id="grade_no" name="grade_no" maxlength="20"
-								placeholder="직급번호를 입력하세요" value = "${emp.grade_no }"> --%></td>
+					<td colspan="2">${emp.grade_no }</td>
 				</tr>
 				<tr>
 					<td style="width: 110px;"><h5>연락처</h5></td>
-					<td colspan="2">${emp.emp_cellphone }<%-- <input class="form-control" type="text"
-								id="emp_cellphone" name="emp_cellphone" maxlength="20"
-								placeholder="연락처를 입력하세요" value = "${emp.emp_cellphone }"> --%></td>
+					<td colspan="2">${emp.emp_cellphone }</td>
 				</tr>
 				<tr>
 					<td style="width: 110px;"><h5>내선번호</h5></td>
-					<td colspan="2">${emp.emp_extension }<%-- <input class="form-control" type="text"
-								id="emp_extension" name="emp_extension" maxlength="20"
-								placeholder="내선번호를 입력하세요" value = "${emp.emp_extension }"> --%></td>
+					<td colspan="2">${emp.emp_extension }</td>
 				</tr>
 				<tr>
 					<td style="width: 110px;"><h5>입사일</h5></td>
-					<td colspan="2">${emp.emp_hiredate }<%-- <input class="form-control" type="text"
-								id="emp_hiredate" name="emp_hiredate" maxlength="20"
-								placeholder="입사일을 입력하세요" value = "${emp.emp_hiredate }"> --%></td>
+					<td colspan="2">${emp.emp_hiredate }</td>
 				</tr>
 				<tr>
 					<td style="width: 110px;"><h5>퇴사일</h5></td>
-					<td colspan="2">${emp.emp_retiredate }<%-- <input class="form-control" type="text"
-								id="emp_retiredate" name="emp_retiredate" maxlength="20"
-								placeholder="퇴사일을 입력하세요" value = "${emp.emp_retiredate }" --%></td>
+					<td colspan="2">${emp.emp_retiredate }</td>
 				</tr>
 				<tr>
 					<td style="width: 110px;"><h5>고용상태</h5></td>
-					<td colspan="2">${emp.emp_empstate }<!-- <div class="form-group"
-									style="text-align: center; margin: 0 auto;">
-									<div class="btn-group" data-toggle="buttons">
-										<label class="btn btn-primary active"> <input
-											type="radio" name="emp_empstate" autocomplete="off" value="재직"
-											checked>재직
-										</label> <label class="btn btn-primary"> <input type="radio"
-											name="emp_empstate" autocomplete="off" value="퇴사">퇴사
-										</label>
-									</div>
-								</div> -->
+					<td colspan="2">${emp.emp_empstate }
 					</td>
 				</tr>
 				<tr>
 					<td style="width: 110px;"><h5>총 연차일수</h5></td>
-					<td colspan="2">${emp.emp_totalvdays }<%-- <input class="form-control" type="text"
-								id="emp_totalvdays" name="emp_totalvdays" maxlength="20"
-								placeholder="총 연차일수를 입력하세요" value = "${emp.emp_totalvdays }"> --%></td>
+					<td colspan="2">${emp.emp_totalvdays }</td>
 				</tr>
 				<tr>
 					<td style="width: 110px;"><h5>잔여 연차일수</h5></td>
-					<td colspan="2">${emp.emp_vleftdays }<%-- <input class="form-control" type="text"
-								id="emp_vleftdays" name="emp_vleftdays" maxlength="20"
-								placeholder="잔여 연차일수를 입력하세요" value = "${emp.emp_vleftdays }"> --%></td>
+					<td colspan="2">${emp.emp_vleftdays }</td>
 				</tr>
 
 				<tr>
-					<td style="text-align: left" colspan="3">
-						<!-- <h5 style="color: red;" id="passwordCheckMessage"></h5><input class="btn btn-primary pull-right" type="submit" value="수정"/> -->
-						<h5 style="color: red;" id="passwordCheckMessage"></h5>
-						<a class="btn btn-default pull-right" value="목록"
-						href="/emp/empList">목록</a>
-						<h5 style="color: red;" id="passwordCheckMessage"></h5>
-						<a class="btn btn-default pull-right" value="목록"
-						href="/emp/empUpdateForm?emp_no=${emp.emp_no}">수정하기</a>
-					</td>
-				</tr>
+					<td style="text-align: right" colspan="3">
+					<span style="float:right">
+						<button data-oper='empListAction' class="btn btn-default">목록</button>
+						<button data-oper='empOperForm' class="btn btn-default">수정</button>
+					</span>
+				</td>
+			</tr>
 
 			</tbody>
 		</table>
 
-	<%-- 	<form id="empListAction" action="emp/empList" method="get">
-			<input type='hidden' name='emp_no' id='emp_no'
-				value='<c:out value="${emp.emp_no }"/>'> <input
-				type='hidden' name='pageNum'
-				value='<c:out value="${empcri.pageNum }"/>'> <input
-				type='hidden' name='amount'
-				value='<c:out value="${empcri.amount }"/>'>
-		</form>
- --%>
+	 	
+ 
 
 
-		<form id="empOperForm" action="emp/empUpdateForm" method="get">
+		 <form id='empOperForm' action='emp/empUpdateForm' method="get">
 			<input type='hidden' name='emp_no' id='emp_no'
 				value='<c:out value="${emp.emp_no }"/>'> 
 				<input type='hidden' name='pageNum' 
@@ -257,31 +151,82 @@
 				<input type='hidden' name='amount'
 				value='<c:out value="${empcri.amount }"/>'>
 		</form>
-
+		
+ 		<form id="empListAction" action="emp/empList" method="get">
+			<input type='hidden' name='emp_no' id='emp_no'
+				value='<c:out value="${emp.emp_no }"/>'>
+			<input type='hidden' name='pageNum' 
+			    value='<c:out value="${empcri.pageNum }"/>'> 
+			<input type='hidden' name='amount'
+				value='<c:out value="${empcri.amount }"/>'>
+		</form>
 		<!-- </form> -->
 	</div>
+	
+	<div align="center">
+	
+	
+	</div>
+	
+<script type="text/javascript">
+$(document).ready(function() {
+  
+  var empListAction =$("#empListAction");
+  var empOperForm = $("#empOperForm"); 
+  
+  $("button[data-oper='empListAction']").on("click", function(e){
+	   e.preventDefault(); 
+	  console.log('console..............');
+    empListAction.find("#emp_no").remove(); 
+    empListAction.attr("action","/emp/empList")
+    empListAction.submit();
+  });
+  
+  $("button[data-oper='empOperForm']").on("click", function(e){
+    empOperForm.attr("action","/emp/empUpdateForm").submit();
+  });  
+  
+});
+</script>
 
-	 <!-- <script type="text/javascript">
+	 <!--  <script type="text/javascript">
 		$(document).ready(
 				function() {
 					var empListAction = $('#empListAction');
 					var empUpdateForm = $('#empUpdateForm');
-
-					$("button[data-oper='update']").on(
+					var empActionForm =$('#empActionForm');
+				$(".empMove")
+					.on(
 							"click",
 							function(e) {
-								updateFormAction.attr("action",
-										"/emp/empUpdateForm").submit();
+
+								e.preventDefault();
+								empActionForm
+										.append("<input type='hidden' name='emp_no' value='"
+												+ $(this)
+														.attr(
+																"href")
+												+ "'>");
+								empActionForm.attr(
+										"action",
+										"/emp/empDetail/empUpdateForm");
+								empActionForm.submit();
+
 							});
-
-					$("button[data-oper='list']").on("click", function(e) {
-						listAction.find("#emp_no").remove();
-						listAction.attr("action", "/emp/empList")
-						listAction.submit();
-					});
-
 				});
-	</script> -->
+	</script>  -->
 
 </body>
 </html>
+
+
+<%-- <li>사번: ${emp.emp_no }</li>
+		<li>성명: ${emp.emp_name }</li>
+		<li>비밀번호: ${emp.emp_pass}</li>
+		<li>성별: ${emp.emp_gender}</li>
+		<li>주민등록번호: ${emp.emp_socialNo }</li>
+		<li>부서번호: ${emp.dept_no}</li>
+		<li>직급번호: ${emp.grade_no }</li>
+		<li>연락처: ${emp.emp_cellphone }</li>
+		<li>내선번호: ${emp.emp_extension }</li>
+		<li>입사일: ${emp.emp_hiredate }</li> --%>
