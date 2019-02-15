@@ -1,5 +1,6 @@
 package kosta.starware.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Select;
@@ -35,5 +36,12 @@ public interface ApprovalMapper {
 	public int appDdUpdate(DisbursementDoc disbursementDoc);
 	public int appDraftUpdate(DraftDoc draftDoc);
 	public int appVacationUpdate(VacationDoc vacationDoc);
+	
+	
+	
+	//내가 결재할 목록
+	public List<HashMap> resultApproval(String userID);
+	
+	
 
 }

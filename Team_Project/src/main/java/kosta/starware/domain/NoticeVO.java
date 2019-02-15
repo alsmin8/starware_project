@@ -1,7 +1,13 @@
 package kosta.starware.domain;
 
-import lombok.Data;
+import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class NoticeVO {
 
@@ -15,5 +21,7 @@ public class NoticeVO {
 	private String notice_endDate;
 	private String notice_state;
 	private int emp_no;
+	
+	private List<NoticeAttachVO> attachList;
 	
 }

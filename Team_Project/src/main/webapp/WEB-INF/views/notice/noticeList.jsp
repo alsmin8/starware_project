@@ -45,7 +45,8 @@
 
 
 <body>
-	<%-- <%
+<%
+		session.setAttribute("emp_no", "12301");
 		String emp_no = null;
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
@@ -53,10 +54,10 @@
 		if (emp_no == null) {
 			session.setAttribute("messageType", "오류메세지");
 			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
-			response.sendRedirect("login.jsp");
-			return;
+			/* response.sendRedirect("login.jsp");
+			return; */
 		}
-	%> --%>
+	%>
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed"
@@ -97,7 +98,8 @@
 	<div class="container">
 		<br><br><br>
 		<div>
-		<h3 style="display: inline">공지사항</h3>
+		<a href="/notice/noticeList"><h3 style="display: inline">공지사항</h3></a>
+		
 			<button data-oper='insert' class="btn btn-primary pull-right">글쓰기</button>
 		</div>
 	
@@ -138,7 +140,7 @@
 			<ul>
 				<c:if test="${noticeModel.prev}">
 					<li class="paginate_button previous"><a
-						href="${noticeModel.startPage -1}">Previous</a></li>
+						href="${noticeModel.startPage -1}"><</a></li>
 				</c:if>
 
 				<c:forEach var="num" begin="${noticeModel.startPage}"
@@ -150,7 +152,7 @@
 
 				<c:if test="${noticeModel.next}">
 					<li class="paginate_button next"><a
-						href="${noticeModel.endPage +1 }">Next</a></li>
+						href="${noticeModel.endPage +1 }">></a></li>
 				</c:if>
 			</ul>
 		</div>
@@ -173,15 +175,8 @@
 					<c:out value="${noticeModel.ncri.noticeSearchType eq 'C'?'selected':''}"/>>내용</option>
 				<option value="W"
 					<c:out value="${noticeModel.ncri.noticeSearchType eq 'W'?'selected':''}"/>>작성자</option>
-				<option value="TC"
-					<c:out value="${noticeModel.ncri.noticeSearchType eq 'TC'?'selected':''}"/>>제목
-					+ 내용</option>
-				<option value="TW"
-					<c:out value="${noticeModel.ncri.noticeSearchType eq 'TW'?'selected':''}"/>>제목
-					+ 작성자</option>
 				<option value="TWC"
-					<c:out value="${noticeModel.ncri.noticeSearchType eq 'TWC'?'selected':''}"/>>제목
-					+ 내용 + 작성자</option>
+					<c:out value="${noticeModel.ncri.noticeSearchType eq 'TWC'?'selected':''}"/>>전체</option>
 			</select>
 			<input type='text' name='noticeSearchKey'
 								value='<c:out value="${noticeModel.ncri.noticeSearchKey}"/>' /> <input

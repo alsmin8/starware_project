@@ -24,4 +24,9 @@
 	<context:component-scan base-package="kosta.starware.controller" />
 	<context:component-scan base-package="kosta.starware.exception" />
 	
+		<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+
+	</beans:bean>
+	
 </beans:beans>

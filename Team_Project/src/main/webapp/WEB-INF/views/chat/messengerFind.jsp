@@ -20,36 +20,17 @@
 <title>STARWARE(Groupware)</title>
 <script src="/resources/jquery.js" type="text/javascript"></script>
 <script src="/resources/js/bootstrap.js"></script>
-
 <script type="text/javascript">
-	function allUserFunction() {
-		$.ajax({
-			type : 'POST',
-			url : '/chat2/allUserCheck.json',
-			success : function(data) {
-				for (var i = 0; i < data.length; i++) {
-					addListUser(data[i].emp_no, data[i].emp_name);
-				}
-			}
-		});
-	}
-	function addListUser(emp_no, findID) {
-		console.log(emp_no);
-		$('#friendResult').append(
-				'<tbody><tr><td style="text-align: center;"><h3>사번 :' + emp_no +"&nbsp;&nbsp; 이름 : " + findID +'</h3><a href="/chat/messengerChat?toID=' + findID +
-				'" class="btn btn-primary pull-right">메신저보내기</a></td></tr></tbody>');
-	}
-		
 	function findFunction() {
 		var userID = $('#findID').val();
 		$.ajax({
 			type : 'POST',
-			url : '/chat2/userRegisterCheck.json',
+			url : '/chat2/userRegisterCheck',
 			data : {
 				userID : userID
 			},
 			success : function(result) {
-				console.log(result);
+				//console.log(result);
 				if (result == null || result =="" || result.length == 0) {
 					$('#checkMessage').html('사용자를 찾을수 없습니다.');
 					$('#checkType').attr('class','modal-content panel-warning');
@@ -69,34 +50,7 @@
 				'" class="btn btn-primary pull-right">메신저보내기</a></td>'+
 				'</tr></tbody>');
 	}
-	
- 	function getUnread() {
-		$.ajax({
-			type : "POST",
-			url : "/chat2/unleadAllChatlist",
-			data : {
-				userID : '<%=emp_name%>'
-			},
-			success : function(result) {
-				var count = Number(result);
-				if(count >= 1){
-					showUnread(result);
-				}else{
-					showUnread('');
-				}
-			}
-		});
-	}
-	function getInfiniteUnread() {
-		setInterval(function() {
-			getUnread();
-		}, 3000);
-	}
-	function showUnread(result) {
-		$('#unread').html(result);
-	}
 </script>
-
 </head>
 <body>
 	<nav class="navbar navbar-default">
@@ -119,7 +73,7 @@
 				<li><a href="/notice/noticeList">공지사항</a></li>
 				<li><a href="/attend/attendInsert">출퇴근관리</a></li>
 				<li><a href="/emp/empList">인사관리</a></li>
-				<li><a href="/schedule/schduleMain">일정관리</a></li>
+				<li><a href="/schedule/scheduleMain">일정관리</a></li>
 				<li class="active"><a href="/chat/messengerFind">메세지함<span id="unread" class="label label-info"></span></a></li>
 			</ul>
 			
@@ -134,6 +88,10 @@
 		</div>
 	</nav>
 	<div class="container">
+		<div>
+			<button class="btn btn-primary" onclick="location.href='/chat/messengerUnread'">안읽은메신저 보관함으로 이동</button>
+		</div>
+	
 		<table class="table table-bordered table-hover"
 			style="text-align: center; border: 1px solid #dddddd">
 			<thead>
@@ -173,10 +131,9 @@
 		aria-hidden="true">
 		<div class="vertical-alignment-helper">
 			<div class="modal-dialog vertical-align-center">
-				<div
-					class="modal-content <%if (messageType.equals("오류메세지"))
+				<div class="modal-content <%if (messageType.equals("오류메세지"))
 					out.println("panel-warning");
-				else
+					else
 					out.println("panel-success");%>">
 					<div class="modal-header panel-heading">
 						<button type="button" class="close" data-dismiss="modal">
@@ -226,15 +183,17 @@
 			</div>
 		</div>
 	</div>
+	<!-- 로그인시 아래 js 실행 -->
  	<%
 		if(emp_no != null){
-
 	%>
+	<script src="/resources/chatMethod.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			allUserFunction();
-			getUnread();
-			getInfiniteUnread();
+			var emp_name = '<%=emp_name%>';
+			allUserFunction(emp_name);
+			getUnread(emp_name);
+			getInfiniteUnread(emp_name);
 		});
 	</script>
 	<%

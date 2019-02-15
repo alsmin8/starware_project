@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import kosta.starware.domain.EmpCriteria;
 import kosta.starware.domain.EmpVO;
 import kosta.starware.mapper.EmpMapper;
 import lombok.AllArgsConstructor;
@@ -39,10 +40,18 @@ public class EmpServiceImpl implements EmpService {
 
 	}
 
-	@Override
+	/*@Override
 	public List<EmpVO> empGetList() {
 		log.info("empGetList.......");
 		return mapper.empGetList();
+	}*/
+	
+	@Override
+	public List<EmpVO> empGetList(EmpCriteria empcri) {
+		
+		log.info("get List with empcritria" + empcri);
+		
+		return mapper.empGetListWithPaging(empcri);
 	}
 
 }

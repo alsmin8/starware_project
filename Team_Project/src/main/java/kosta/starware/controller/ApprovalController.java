@@ -1,5 +1,10 @@
 package kosta.starware.controller;
 
+import java.util.HashMap;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -274,7 +279,13 @@ public class ApprovalController {
 	}
 
 	@GetMapping("/applist_result")
-	public void result() {
+	public void result(HttpSession session, Model model) {
+		log.info("applist_result 시작 : ");
+		String userID = (String) session.getAttribute("emp_no");
+		List<HashMap> applist_result =approvalservice.resultApproval(userID);
+		
+		log.info(applist_result);
+		model.addAttribute("applist_result", applist_result);
 
 	}
 

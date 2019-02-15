@@ -1,12 +1,15 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale = 1">
-<link rel="stylesheet" href="css/bootstrap.css">
-<link rel="stylesheet" href="css/custom.css">
+<link rel="stylesheet" href="/resources/css/bootstrap.css">
+<link rel="stylesheet" href="/resources/css/custom.css">
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
@@ -17,8 +20,6 @@
 	};
 </script>
 <title>STARWARE(Groupware)</title>
-<script src="jquery.js" type="text/javascript"></script>
-<script src="js/bootstrap.js"></script>
 
 
 </head>
@@ -87,14 +88,14 @@
 
 
 		<hr>
-		<form action="insertActionProject.pro" method="post"
-			enctype="multipart/form-data">
-			<input type="hidden" name="emp_No" value="${emp_no }">
+		<form role="form" action="/project/insertProjectForm" method="post">
+			<input type="hidden" name="emp_No" value="${emp_no}">
+
 			<table class="table table-bordered table-hover"
 				style="text-align: center; border: 1px solid #dddddd;">
 				<thead>
 					<tr>
-						<th colspan="5"><h4>프로젝트 수정</h4></th>
+						<th colspan="5"><h4>프로젝트 등록</h4></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -107,12 +108,15 @@
 						<td><h5>프로젝트 종류</h5></td>
 						<td colspan="2"><select name="project_Kind"
 							onChange="getSelectValue(this.form);" class="form-control">
-								<option value="${project.project_Kind }">품질개선</option>
+								<%--<option value="${project.project_Kind }">품질개선</option>
 								<option value="${project.project_Kind }">검증</option>
 								<option value="${project.project_Kind }">유지보수</option>
-								<option value="${project.project_Kind }">개발</option>
-						</select> <input class="form-control" name="project_Kind" type="text"
-							maxlength="20" value="${project.project_Kind }"></td>
+								<option value="${project.project_Kind }">개발</option> --%>
+								<option value="품질개선">품질개선</option>
+								<option value="검증">검증</option>
+								<option value="유지보수">유지보수</option>
+								<option value="개발">개발</option>
+						</select></td>
 					</tr>
 
 					<tr>
@@ -123,12 +127,15 @@
 						<td style="width: 110px;"><h5>진행상태</h5></td>
 						<td colspan="2"><select name="project_Situation"
 							onChange="getSelectValue(this.form);" class="form-control">
-								<option value="${project.project_Situation }">예정</option>
+								<%-- 								<option value="${project.project_Situation }">예정</option>
 								<option value="${project.project_Situation }">완료</option>
 								<option value="${project.project_Situation }">보류</option>
-								<option value="${project.project_Situation }">폐기</option>
-								<input class="form-control" type="text" name="project_Situation"
-								maxlength="20">
+								<option value="${project.project_Situation }">폐기</option> --%>
+								<option value="예정">예정</option>
+								<option value="완료">완료</option>
+								<option value="보류">보류</option>
+								<option value="폐기">폐기</option>
+
 						</select>
 					</tr>
 
@@ -150,9 +157,12 @@
 						<td style="width: 110px;"><h5>계획종료일</h5></td>
 						<td colspan="2"><input class="form-control" type="date"
 							id="project_End_Date" name="project_End_Date" maxlength="20"></td>
-
 					</tr>
-					
+					<tr>
+						<td style="width: 110px;"><h5>기간</h5></td>
+						<td colspan="2"><input class="form-control" type="number"
+							id="project_Term" name="project_Term" maxlength="20"></td>
+					</tr>
 					<tr>
 
 						<td style="width: 110px;"><h5>내용</h5></td>
@@ -160,19 +170,25 @@
 								cols="120" name="project_Contents" maxlength="20"></textarea></td>
 						<td colspan="2" rowspan="2"></td>
 					</tr>
-					<tr>
+
+
+					<!-- 					<tr>
 						<td style="width: 110px;"><h5>첨부파일</h5></td>
 						<td colspan="2"><input class="form-control" type="file"
-							id="project_File" name="project_File" maxlength="20"
-							></td>
-					</tr>
+							id="project_File" name="project_File" maxlength="20"></td>
+					</tr> -->
 
 
 				</tbody>
 			</table>
 			
-			<input type="submit" class="btn btn-primary pull" value="프로젝트 저장" style="margin-left: 485px">
-			<input type="button" class="btn btn-primary pull" value="프로젝트 목록" onclick="location.href='listActionProject.pro';">
+			<!-- <button type="submit" class="btn btn-primary pull">프로젝트 저장</button>
+			<button type="reset" class="btn btn-primary pull">프로젝트 목록</button> -->
+			
+			<input type="submit" class="btn btn-primary pull" value="프로젝트 저장"
+				style="margin-left: 485px"> <input type="button"
+				class="btn btn-primary pull" value="프로젝트 목록"
+				onclick="location.href='listProjectForm'">
 		</form>
 	</div>
 </body>

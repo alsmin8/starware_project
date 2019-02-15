@@ -1,18 +1,19 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale = 1">
-<link rel="stylesheet" href="css/bootstrap.css">
-<link rel="stylesheet" href="css/custom.css">
+<link rel="stylesheet" href="/resources/css/bootstrap.css">
+<link rel="stylesheet" href="/resources/css/custom.css">
 <title>STARWARE(Groupware)</title>
-<script src="jquery.js" type="text/javascript"></script>
-<script src="js/bootstrap.js"></script>
-<link rel="stylesheet" href="css/detailProject.css">
-
+<script src="/resources/jquery.js" type="text/javascript"></script>
+<script src="/resources/js/bootstrap.js"></script>
+<link rel="stylesheet" href="/resources/css/detailProject.css">
 
 </head>
 <body>
@@ -117,20 +118,26 @@
 			<td>내용</td>
 			<td>${project.project_Contents }</td>
 		</tr>
-		<tr>
+<%-- 		<tr>
 			<td>첨부파일</td>
 			<td><a href="download.jsp?filename=${project.project_File }">${project.project_File }</a></td>
-		</tr>
+		</tr> --%>
 
 	</table>
-	<hr>
-	<form style="text-align: center">
-		<input class="btn btn-primary pull" type="button" value="수정" onclick="location.href='updateFormProject.pro?project_No=${project.project_No}';"> 
-		<input class="btn btn-primary pull" type="button" value="삭제" onclick="location.href='deleteFormProject.pro?project_No=${project.project_No}';">
-		<input class="btn btn-primary pull" type="button" value="목록" onclick="location.href='listActionProject.pro';">
+<%-- 	<form style="text-align: center">
+	<button data-oper="updateProjectForm" class="btn btn-primary pull">
+		<a href="/project/updateProjectForm?project_No= <c:out value="#{project.project_No}"/>">수정하기</a></button>
+	<button data-oper="deleteProjectForm" class="btn btn-primary pull">
+		<a href="/project/deleteProjectForm?project_No= <c:out value="#{project.project_No}"/>">삭제하기</a></button>
+	<button data-oper="listProjectForm" class="btn btn-primary pull">
+		<a href="/project/listProjectForm">목록</a></button>
+	</form> --%>
+	 <form style="text-align: center">
+		<input class="btn btn-primary pull" type="button" value="수정" onclick="location.href='updateProjectForm?project_No=${project.project_No}';"> 
+		<input class="btn btn-primary pull" type="button" value="삭제" onclick="location.href='deleteProjectForm?project_No=${project.project_No}';">
+		<input class="btn btn-primary pull" type="button" value="목록" onclick="location.href='listProjectForm'">
 		<span style="float: right;"><input class="btn btn-primary pull" type="button" value="게시판" onclick="location.href='boardFormProject.pro?project_No=${project.project_No}&project_Writer=${project.project_Writer }';"></span>
 	</form>
-	
 	
 	</div>
 	
