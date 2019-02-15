@@ -2,6 +2,7 @@ package kosta.starware.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +18,9 @@ public class CategoryServiceImpl implements CategoryService {
 	CategoryMapper mapper;
 
 	@Override
-	public int insertCgr(CategoryVO vo) {
+	public int insertCgr(CategoryVO category) {
 
-		return mapper.insertCgr(vo);
+		return mapper.insertCgr(category);
 	}
 	
 	@Override
@@ -29,9 +30,34 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 	
 	@Override
-	public List<CategoryVO> listCgr() {
+	public List<CategoryVO> listCgr(int emp_no) {
 		
-		return mapper.listCgr();
+		return mapper.listCgr(emp_no);
+	}
+	
+	@Override
+	public int updateCgr(CategoryVO category) {
+		return mapper.updateCgr(category);
+	}
+	
+	@Override
+	public CategoryVO getCgr(int category_no, int emp_no) {
+		
+		CategoryVO category = mapper.getCgr(category_no, emp_no);
+		
+		category.setAttendees(mapper.getCgrByCno(category_no));
+		System.out.println("category.........."+category);
+		return category;
+	}
+	
+	@Override
+	public int addAttendee(CategoryVO category) {
+		return mapper.addAttendee(category);
+	}
+	
+	@Override
+	public int deleteCgr(int category_no, int emp_no) {
+		return mapper.deleteCgr(category_no, emp_no);
 	}
 
 }
