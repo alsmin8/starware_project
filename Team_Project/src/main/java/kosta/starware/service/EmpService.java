@@ -11,6 +11,8 @@ public interface EmpService {
 	
 	public EmpVO empGet(int emp_no);
 	
+	public EmpVO empDept(int dept_no);
+	
 	public boolean empUpdate (EmpVO emp);
 	
 	//public List<EmpVO> empGetList();
