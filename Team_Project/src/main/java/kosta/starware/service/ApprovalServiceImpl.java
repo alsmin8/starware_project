@@ -1,5 +1,7 @@
 package kosta.starware.service;
 
+import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,6 +12,7 @@ import kosta.starware.domain.AppCriteria;
 import kosta.starware.domain.Approval;
 import kosta.starware.domain.DisbursementDoc;
 import kosta.starware.domain.DraftDoc;
+import kosta.starware.domain.EmpDTO;
 import kosta.starware.domain.VacationDoc;
 import kosta.starware.mapper.ApprovalMapper;
 import lombok.AllArgsConstructor;
@@ -78,23 +81,23 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return approvalmapper.appDraftDetail(app_no);
 	}
 	//delete
-		@Override
-		public boolean appDelete(int app_no) {
-			log.info("delete..........."+app_no);
-			return approvalmapper.appDelete(app_no)==1;
-		}
-		public boolean appDraftDelete(int app_no) {
-			log.info("delete..........."+app_no);
-			return approvalmapper.appDraftDelete(app_no)==1;
-		}
-		public boolean appDdDelete(int app_no) {
-			log.info("delete..........."+app_no);
-			return approvalmapper.appDdDelete(app_no)==1;
-		}
-		public boolean appVacationDelete(int app_no) {
-			log.info("delete..........."+app_no);
-			return approvalmapper.appVacationDelete(app_no)==1;
-		}
+	@Override
+	public boolean appDelete(int app_no) {
+		log.info("delete..........."+app_no);
+		return approvalmapper.appDelete(app_no)==1;
+	}
+	public boolean appDraftDelete(int app_no) {
+		log.info("delete..........."+app_no);
+		return approvalmapper.appDraftDelete(app_no)==1;
+	}
+	public boolean appDdDelete(int app_no) {
+		log.info("delete..........."+app_no);
+		return approvalmapper.appDdDelete(app_no)==1;
+	}
+	public boolean appVacationDelete(int app_no) {
+		log.info("delete..........."+app_no);
+		return approvalmapper.appVacationDelete(app_no)==1;
+	}
 	//update
 	@Override
 	public boolean appUpdate(Approval approval) {
@@ -104,8 +107,6 @@ public class ApprovalServiceImpl implements ApprovalService {
 	
 	@Override
 	public boolean appDdUpdate(DisbursementDoc disbursementDoc) {
-		
-	
 		return approvalmapper.appDdUpdate(disbursementDoc)==1;
 	}
 
@@ -131,11 +132,33 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public List<HashMap> resultApproval(String userID) {
 		log.info("resultapproval 시작 : ");
 		List<HashMap> list = approvalmapper.resultApproval(userID);
-
-		log.info(list);
+		//log.info(list);
 		return list;
 	}
-
 	
+	@Override
+	public HashMap resultDetail(String app_no, String app_kind) {
+		log.info("resultDetail 시작 : ");
+		HashMap detailinfo = null;
+		
+		if(app_kind.equals("기안서")){
+			detailinfo = approvalmapper.resultDetail_D(app_no, app_kind);
+			Date date = (Date) detailinfo.get("STARTDATE");
+			log.info("날짜 데이터 " + date);
+		}else if(app_kind.equals("지출결의서")){
+			detailinfo = approvalmapper.resultDetail_DD(app_no, app_kind);
+		}else{
+			detailinfo = approvalmapper.resultDetail_VD(app_no, app_kind);
+		}
+		
+		log.info(detailinfo);
+		return detailinfo;
+	}
+
+	@Override
+	public List<EmpDTO> listJsonEmp(){
+		List<EmpDTO> list = approvalmapper.listJsonEmp();
+		return list;
+	}
 
 }

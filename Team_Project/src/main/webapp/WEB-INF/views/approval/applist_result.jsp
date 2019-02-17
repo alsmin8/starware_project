@@ -105,7 +105,7 @@ text-align: center;
 		</thead>
 		<tbody id="result_detail">
 		<c:forEach var="Approval" items="${applist_result}">
-			<tr data-app_no="${Approval.APP_NO}">
+			<tr data-app_no="${Approval.APP_NO}", data-app_kind="${Approval.APP_KIND}">
 				<td>${Approval.APP_NO}</td>
 				<td>${Approval.APP_KIND}</td>
 				<td>${Approval.APP_TITLE}</td>
@@ -176,12 +176,12 @@ text-align: center;
 					<input class="form-control" name='content' value='content' readonly="readonly">
 				</div>
 				<div class="form-group">
-					<label>기안일자</label> 
-					<input class="form-control" name='startDate' value='2018-01-01 13:13' readonly="readonly">
+					<label>기안일자</label>
+					<input class="form-control" name='startDate' value='startDate' readonly="readonly">
 				</div>
 				<div class="form-group">
-					<label>완료일자</label> 
-					<input class="form-control" name='endDate' value='2018-01-01 13:13' readonly="readonly">
+					<label>완료일자</label>
+					<input class="form-control" name='endDate' value='endDate' readonly="readonly">
 				</div>
 				<div class="form-group">
 					<label>기안자</label> 
@@ -215,42 +215,44 @@ text-align: center;
 	var modalRejectBtn = $("#modalRejectBtn");
 
 	//상세 조회 클릭 이벤트 처리 
-    $(".result_detail").on("click", "tr", function(e){
+    $("#result_detail").on("click", "tr", function(e){
     // tr를 왜 두번째에 넣어줬냐 동적으로 하기위해 - 있는 tr이 아닙니다.
 	    var detailNum = $(this).data("app_no"); //app_no를 뽑아냄
-	
-	  	function getDetail(detailNum) {
-			$.ajax({
-				type: 'POST',
-				url : '/approval2/getDetail.json',
-				data : {
-					app_no : detailNum
-				},
-				success : function(result){
-					console.log(result);
-					modalInputKind.val(result.kind);
-					modalInputTitle.val(result.title);
-					modalInputContent.val(result.content);
-					modalInputStartDate.val(result.startDate);
-					modalInputEndDate.val(result.endDate);
-					modalInputWriter.val(result.writer);
-					
-			        modal.data("app_no", result.app_no);
-			        
-			        modal.find("button[id !='modalCloseBtn']").hide();
-			        modalAcceptBtn.show();
-			        modalRejectBtn.show();
-			        
-			        $(".modal").modal("show");
-				}
-			})
-	    }	//getDetail 메소드 종료
-    });	//result_detail 클릭버튼 이벤트 종료
+	    var detailKind = $(this).data("app_kind"); //app_kind를 뽑아냄
+		console.log("누름");
+		console.log(detailNum);
+		console.log(detailKind);
+
+		$.ajax({
+			type: 'POST',
+			url : '/approval2/getDatail.json',
+			data : {
+				app_no : detailNum,
+				app_kind : detailKind
+			},
+			success : function(result){
+				console.log(result);
+				modalInputKind.val(result.KIND);
+				modalInputTitle.val(result.TITLE);
+				modalInputContent.val(result.CONTENT);
+				modalInputStartDate.val(result.STARTDATE);
+				modalInputEndDate.val(result.ENDDATE);
+				modalInputWriter.val(result.WRITER);
+				
+		        modal.data("app_no", result.APP_NO);
+		        
+		        modal.find("button[id !='modalCloseBtn']").hide();
+		        modalAcceptBtn.show();
+		        modalRejectBtn.show();
+		        
+		        $(".modal").modal("show");
+			}
+		})//getDetail 메소드 종료
+    });	//result_detail 클릭버튼 이벤트 종료 
     modalAcceptBtn.on("click", function(e){
-        function getAccept(){
 			$.ajax({
 				type: 'POST',
-				url : '',
+				url : 'approval2/getAccept',
 				data : {
 					app_no: modal.data("app_no"), 
 					power_defult: '승인'
@@ -259,19 +261,16 @@ text-align: center;
 					console.log(result);
 					alret(result);
 					$(".modal").modal('hide');
-					location.href="/approval/applist_result";
+					//location.href="/approval/applist_result";
 				}
-			})
-	    }	//getAccept 메소드 종료
+			})//getAccept 메소드 종료
         
     });	//modalAcceptBtn 이벤트 종료
 
     modalRejectBtn.on("click", function (e){
-
-        function getReject(){
 			$.ajax({
 				type: 'POST',
-				url : '',
+				url : 'approval2/getReject',
 				data : {
 	        		app_no: modal.data("app_no"), 
 	        		power_defult: '거절'
@@ -280,12 +279,13 @@ text-align: center;
 					console.log(result);
 					alret(result);
 					$(".modal").modal('hide');
-					location.href="/approval/applist_result";
+					//location.href="/approval/applist_result";
 				}
-			})
-	    }	//getReject 메소드 종료
-  	}); //modalRejectBtn 이벤트 종료
-    
+			})//getReject 메소드 종료
+  	}); //modalRejectBtn 이벤트 종료 
+    $("#modalCloseBtn").on("click", function(e){
+    	modal.modal('hide');
+    });
 </script>
 
 </body>

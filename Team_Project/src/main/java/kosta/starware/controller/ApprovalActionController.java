@@ -1,11 +1,18 @@
 package kosta.starware.controller;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import kosta.starware.domain.Approval;
+import kosta.starware.domain.EmpDTO;
+import kosta.starware.domain.EmpVO;
 import kosta.starware.service.ApprovalService;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
@@ -21,11 +28,33 @@ public class ApprovalActionController {
 	private ApprovalService approvalservice;
 	
 	@RequestMapping("/getDatail.json")
-	public ResponseEntity<String> allUserCheck(){
-		log.info("allUserCheck");	
-		//ArrayList<EmpDTO> emplist = service.getAllUser();
-		//log.info(emplist);
-		//service.getAllUser()
+	public ResponseEntity<HashMap> getDatail(@RequestParam String app_no,@RequestParam String app_kind){
+		log.info("getDatail : 가져온 번호 => " + app_no + " 가져온 문서종류 => " + app_kind);	
+		HashMap detail = approvalservice.resultDetail(app_no, app_kind);
+		
+		log.info(detail);
+		return new ResponseEntity<>(detail ,HttpStatus.OK);
+	}
+	
+	@RequestMapping("/getAccept")
+	public ResponseEntity<String> getAccept(){
+		log.info("getAccept");	
+
 		return new ResponseEntity<>("success" ,HttpStatus.OK);
+	}
+	
+	@RequestMapping("/getReject")
+	public ResponseEntity<String> getReject(){
+		log.info("getReject");	
+
+		return new ResponseEntity<>("success" ,HttpStatus.OK);
+	}
+	@RequestMapping(value ="/listJsonEmp", produces = "application/json")
+	public ResponseEntity<List<EmpDTO>> listJsonEmp(){
+		log.info("listJsonEmp");	
+
+		List<EmpDTO> list = null;
+		//approvalservice.listJsonEmp();
+		return new ResponseEntity<>(list ,HttpStatus.OK);
 	}
 }

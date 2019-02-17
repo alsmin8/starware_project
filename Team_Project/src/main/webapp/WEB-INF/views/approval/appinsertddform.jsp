@@ -79,8 +79,6 @@
 		 <%
 			String app_kind = request.getParameter("app_kind");
 		%> 
-
-
 		<form role="form" action="/approval/appinsertddform" method="post">
 			 <input type="hidden" name="app_kind" value="<%=app_kind%>">
 			<table class="table table-bordered table-hover"
@@ -128,15 +126,47 @@
 							name="etc" size="100"></td>
 					</tr>
 			</table>
+			<div class="container">
+					<label id="add-attendee" class="col-sm-2 control-label">결재권자 검색</label>
+				  	<div class="attendees-group col-sm-6" name = "search-attendee" onkeyup="startSuggest()">
+						<input type="text" class="form-control" id="temp" size="20" placeholder="이름으로 검색"></input>
+					</div>
+			 	<div id="suggest" class="col-sm-4">
+					<div id="suggestList" class="form-control" style="height:100px"></div>
+				</div>
+			</div>
 			<br>
 			<center>
 				<input type="submit" value="상신">
 			</center>
 		</form>
-
-
 	</div>
-
+<script type="text/javascript">
+function startSuggest(){
+	var keyword = $('#temp').val();
+	var params = "keyword=" + keyword;
+	console.log(keyword);
+	console.log(params);
+	/* $.ajax({
+		type : 'POST',
+		url : '/approval2/listJsonEmp',
+		data : params,
+		dataType : 'json',
+		success : function(data){
+			var html = "";
+			$.each(data, function(index, item) {
+				var str = item.dept_name;
+				console.log(typeof(str));
+				html += "<a href=javascript:select('"  + item.emp_name +"-"+item.dept_name+"-"+item.emp_no + "')>" + item.emp_name +"-"+item.dept_name+"-"+item.emp_no+"</a><br>";
+			});
+			console.log('성공');
+			var suggestList = document.getElementById("suggestList");
+			suggestList.innerHTML = html;
+			show('suggest');
+        }
+	}); */
+}
+</script>
 
 </body>
 </html>
