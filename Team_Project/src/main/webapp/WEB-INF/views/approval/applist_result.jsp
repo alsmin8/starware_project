@@ -18,6 +18,9 @@
 td{
 text-align: center;
 }
+modal-footer{
+text-align: center;
+}
 </style>
 
 </head>
@@ -100,7 +103,7 @@ text-align: center;
 		</thead>
 		<tbody id="result_detail">
 		<c:forEach var="Approval" items="${applist_result}">
-			<tr data-app_no="${Approval.APP_NO}", data-app_kind="${Approval.APP_KIND}">
+			<tr data-app_no="${Approval.APP_NO}", data-app_kind="${Approval.APP_KIND}", data-power_defult="${Approval.POWER_DEFULT}">
 				<td>${Approval.APP_NO}</td>
 				<td>${Approval.APP_KIND}</td>
 				<td>${Approval.APP_TITLE}</td>
@@ -121,7 +124,6 @@ text-align: center;
 	</table>
 	<br><br>
 	
-	
 	<!-- <form action="list.bit" method="post" >
 	<input type ="checkbox" name = "check" value = "연차신청서">연차신청서
 	<input type ="checkbox" name = "check" value = "지출결의서">지출결의서
@@ -141,13 +143,9 @@ text-align: center;
 	
 	<input type ="text" name = "searchKey" size = "10"></input>
 	<br><input type = "submit" value = "검색">
-	
 	</form> -->
 	
 	</div>
-
-
-
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -215,8 +213,7 @@ text-align: center;
     // tr를 왜 두번째에 넣어줬냐 동적으로 하기위해 - 있는 tr이 아닙니다.
 	    var detailNum = $(this).data("app_no"); //app_no를 뽑아냄
 	    var detailKind = $(this).data("app_kind"); //app_kind를 뽑아냄
-
-		console.log("누름");
+		var detailDefult = $(this).data("power_defult");
 	    console.log(emp_no);
 		console.log(detailNum);
 		console.log(detailKind);
@@ -238,10 +235,15 @@ text-align: center;
 				modalInputWriter.val(result.WRITER);
 				
 		        modal.data("app_no", result.APP_NO);
-		        
-		        modal.find("button[id !='modalCloseBtn']").hide();
-		        modalAcceptBtn.show();
-		        modalRejectBtn.show();
+		         
+		        if(detailDefult == '승인' || detailDefult == '거절'){
+		        	modal.find("button[id !='modalCloseBtn']").hide();
+		        }else{
+		        	modal.find("button[id !='modalCloseBtn']").hide();
+			        modalAcceptBtn.show();
+			        modalRejectBtn.show();
+		        }
+
 		        
 		        $(".modal").modal("show");
 			}
