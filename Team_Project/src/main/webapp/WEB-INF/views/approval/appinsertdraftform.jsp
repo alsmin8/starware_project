@@ -126,27 +126,31 @@
 <script type="text/javascript">
 function startSuggest(){
 	var keyword = $('#temp').val();
-	var params = "keyword=" + encodeURIComponent(keyword);
+	//var params = "keyword=" + encodeURIComponent(keyword);
 	console.log(keyword);
-	console.log(params);
-	/* $.ajax({
+	//console.log(params);
+	$.ajax({
 		type : 'POST',
 		url : '/approval2/listJsonEmp',
-		data : params,
+		data : {keyword : keyword},
 		dataType : 'json',
 		success : function(data){
+			console.log(data);
 			var html = "";
+			if(data == null || data.length == 0){
+				return;
+			}
 			$.each(data, function(index, item) {
 				var str = item.dept_name;
-				console.log(typeof(str));
-				html += "<a href=javascript:select('"  + item.emp_name +"-"+item.dept_name+"-"+item.emp_no + "')>" + item.emp_name +"-"+item.dept_name+"-"+item.emp_no+"</a><br>";
+				//console.log(typeof(str));
+				html += "<a href=javascript:select('"  + item.EMP_NAME +"-"+item.DEPT_NAME+"-"+item.EMP_NO + "')>" + item.EMP_NAME +"-"+item.DEPT_NAME+"-"+item.EMP_NO+"</a><br>";
 			});
 			console.log('성공');
 			var suggestList = document.getElementById("suggestList");
 			suggestList.innerHTML = html;
-			show('suggest');
+			//show('suggest');
         }
-	}); */
+	});
 }
 </script>
 	

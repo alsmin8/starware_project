@@ -49,7 +49,7 @@ public interface ApprovalMapper {
 	public HashMap resultDetail_D(@Param("app_no") String app_no,@Param("app_kind") String app_kind);
 	public HashMap resultDetail_DD(@Param("app_no") String app_no,@Param("app_kind") String app_kind);
 	public HashMap resultDetail_VD(@Param("app_no") String app_no,@Param("app_kind") String app_kind);
-	public List<EmpDTO> listJsonEmp();
 	public int accept(PowerDTO powerDTO);
 	public int reject(PowerDTO powerDTO);
+	public List<HashMap> listJsonEmp();
 }

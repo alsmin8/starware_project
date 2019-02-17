@@ -52,11 +52,14 @@ public class ApprovalActionController {
 		return new ResponseEntity<>("success", HttpStatus.OK);
 	}
 	@RequestMapping(value ="/listJsonEmp", produces = "application/json")
-	public ResponseEntity<List<EmpDTO>> listJsonEmp(){
-		log.info("listJsonEmp");	
-
-		List<EmpDTO> list = null;
-		//approvalservice.listJsonEmp();
-		return new ResponseEntity<>(list ,HttpStatus.OK);
+	public ResponseEntity<List<HashMap>> listJsonEmp(@RequestParam String keyword){
+		log.info("listJsonEmp");
+		if(keyword == null || keyword == ""){
+			return null;
+		}else{
+			List<HashMap> list = approvalservice.listJsonEmp(keyword);
+			log.info(list);
+			return new ResponseEntity<>(list ,HttpStatus.OK);
+		}
 	}
 }

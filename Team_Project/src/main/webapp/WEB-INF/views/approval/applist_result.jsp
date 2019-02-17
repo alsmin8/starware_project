@@ -230,8 +230,8 @@ text-align: center;
 				modalInputKind.val(result.KIND);
 				modalInputTitle.val(result.TITLE);
 				modalInputContent.val(result.CONTENT);
-				modalInputStartDate.val(result.STARTDATE);
-				modalInputEndDate.val(result.ENDDATE);
+				modalInputStartDate.val(result.STARTDATE.toISOString().substr(0,10));
+				modalInputEndDate.val(result.ENDDATE.toISOString().substr(0,10));
 				modalInputWriter.val(result.WRITER);
 				
 		        modal.data("app_no", result.APP_NO);

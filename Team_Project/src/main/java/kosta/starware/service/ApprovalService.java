@@ -41,6 +41,6 @@ public interface ApprovalService {
 	public HashMap resultDetail(String app_no, String app_kind);
 	public int resultAccept(PowerDTO powerDTO);
 	public int resultReject(PowerDTO powerDTO);
-	public List<EmpDTO> listJsonEmp();
+	public List<HashMap> listJsonEmp(String keyword);
 	
 }

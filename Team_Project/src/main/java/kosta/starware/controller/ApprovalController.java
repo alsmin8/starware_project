@@ -299,14 +299,23 @@ public class ApprovalController {
 
 	}
 
-	@GetMapping("/applist_result")
-	public void result(HttpSession session, Model model) {
+	@RequestMapping("/applist_result")
+	public String result(HttpSession session, Model model) {
 		log.info("applist_result 시작 : ");
 		String userID = (String) session.getAttribute("emp_no");
-		List<HashMap> applist_result =approvalservice.resultApproval(userID);
+		String userName = (String) session.getAttribute("emp_name");
 		
-		log.info(applist_result);
-		model.addAttribute("applist_result", applist_result);
+		if (userID == null || userName == null) {
+			session.setAttribute("messageType", "오류메세지");
+			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
+			return "redirect:/login";
+		}else{
+			List<HashMap> applist_result =approvalservice.resultApproval(userID);
+			//log.info(applist_result);
+			model.addAttribute("applist_result", applist_result);
+			return "/approval/applist_result";
+		}
+
 
 	}
 
