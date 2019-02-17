@@ -9,6 +9,7 @@ import kosta.starware.domain.Approval;
 import kosta.starware.domain.DisbursementDoc;
 import kosta.starware.domain.DraftDoc;
 import kosta.starware.domain.EmpDTO;
+import kosta.starware.domain.PowerDTO;
 import kosta.starware.domain.VacationDoc;
 
 public interface ApprovalService {
@@ -38,6 +39,8 @@ public interface ApprovalService {
 	//내가 결재할 목록
 	public List<HashMap> resultApproval(String userID);
 	public HashMap resultDetail(String app_no, String app_kind);
+	public int resultAccept(PowerDTO powerDTO);
+	public int resultReject(PowerDTO powerDTO);
 	public List<EmpDTO> listJsonEmp();
 	
 }

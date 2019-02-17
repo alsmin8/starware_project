@@ -26,12 +26,6 @@ td {
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
 		}
-		/* 		if (emp_no == null) {
-					session.setAttribute("messageType", "오류메세지");
-					session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
-					response.sendRedirect("login.jsp");
-					return;
-				} */
 	%>
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
@@ -60,11 +54,11 @@ td {
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="buton" aria-haspopup="true"
-					aria-expanded="false">회원관리<span class="caret"></span>
-				</a>
+					aria-expanded="false">회원관리<span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="/logoutaction">로그아웃</a></li>
-					</ul></li>
+					</ul>
+				</li>
 			</ul>
 
 		</div>

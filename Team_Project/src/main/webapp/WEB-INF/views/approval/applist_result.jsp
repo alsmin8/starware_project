@@ -27,11 +27,6 @@ text-align: center;
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
 		}
-		if (emp_no == null) {
-			session.setAttribute("messageType", "오류메세지");
-			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
-
-		}
 	%>
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
@@ -213,13 +208,16 @@ text-align: center;
 	
 	var modalAcceptBtn = $("#modalAcceptBtn");
 	var modalRejectBtn = $("#modalRejectBtn");
-
+    var emp_no = <%=emp_no%>;
+	
 	//상세 조회 클릭 이벤트 처리 
     $("#result_detail").on("click", "tr", function(e){
     // tr를 왜 두번째에 넣어줬냐 동적으로 하기위해 - 있는 tr이 아닙니다.
 	    var detailNum = $(this).data("app_no"); //app_no를 뽑아냄
 	    var detailKind = $(this).data("app_kind"); //app_kind를 뽑아냄
+
 		console.log("누름");
+	    console.log(emp_no);
 		console.log(detailNum);
 		console.log(detailKind);
 
@@ -255,6 +253,7 @@ text-align: center;
 				url : 'approval2/getAccept',
 				data : {
 					app_no: modal.data("app_no"), 
+					emp_no: emp_no,
 					power_defult: '승인'
 				},
 				success : function(result){
@@ -273,6 +272,7 @@ text-align: center;
 				url : 'approval2/getReject',
 				data : {
 	        		app_no: modal.data("app_no"), 
+					emp_no: emp_no,
 	        		power_defult: '거절'
 				},
 				success : function(result){

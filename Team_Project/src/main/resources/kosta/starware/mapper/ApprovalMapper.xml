@@ -105,6 +105,14 @@
 	</select>
 	
 	<!-- 결재할 목록 세부보기 -->
+	<update id="accept">
+		update power set vd_startdate=#{vd_startdate}, vd_enddate=#{vd_enddate}, vd_day=#{vd_day}, vd_contents=#{vd_contents}
+		where app_no=#{app_no}
+	</update>
+	
+	<update id="reject">
+		update power set power_defult=#{power_defult}, power_regdate= sysdate where app_no=#{app_no} and emp_no=#{emp_no}
+	</update>
 	
 	<select id="resultDetail_D" parameterType="map" resultType="java.util.HashMap">
 		select a.app_no as app_no, a.app_kind as kind, a.app_title as title, d.d_contents as content, a.app_startdate as startdate, a.app_enddate as enddate, e.emp_name as writer from approval a inner join disbursement_doc d on a.app_no = d.app_no inner join emp e on a.emp_no= e.emp_no where a.app_no = #{app_no} and a.app_kind = #{app_kind}
@@ -115,6 +123,8 @@
 	<select id="resultDetail_VD" parameterType="map" resultType="java.util.HashMap">
 		select a.app_no as app_no, a.app_kind as kind, a.app_title as title, vd.vd_contents as content, a.app_startdate as startdate, a.app_enddate as enddate, e.emp_name as writer from approval a inner join vacation_doc vd on a.app_no = vd.app_no inner join emp e on a.emp_no= e.emp_no where a.app_no = #{app_no} and a.app_kind = #{app_kind}
 	</select>
+	
+	<!-- 결재 진행 결과 -->
 	
 	<!-- EMP SEARCH -->
 	<select id="listJsonEmp" resultType="java.util.HashMap"> <!-- result객체에 한개의 로우가 담겨진다. 단, 컬럼명과 board객체의 변수명(이름)이 같아야한다. -->

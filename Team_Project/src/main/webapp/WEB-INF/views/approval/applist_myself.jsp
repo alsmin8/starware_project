@@ -27,12 +27,6 @@ text-align: center;
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
 		}
-/* 		if (emp_no == null) {
-			session.setAttribute("messageType", "오류메세지");
-			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
-			response.sendRedirect("login.jsp");
-			return;
-		} */
 	%>
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">

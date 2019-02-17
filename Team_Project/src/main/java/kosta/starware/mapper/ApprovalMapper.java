@@ -11,6 +11,7 @@ import kosta.starware.domain.Approval;
 import kosta.starware.domain.DisbursementDoc;
 import kosta.starware.domain.DraftDoc;
 import kosta.starware.domain.EmpDTO;
+import kosta.starware.domain.PowerDTO;
 import kosta.starware.domain.VacationDoc;
 
 public interface ApprovalMapper {
@@ -49,4 +50,6 @@ public interface ApprovalMapper {
 	public HashMap resultDetail_DD(@Param("app_no") String app_no,@Param("app_kind") String app_kind);
 	public HashMap resultDetail_VD(@Param("app_no") String app_no,@Param("app_kind") String app_kind);
 	public List<EmpDTO> listJsonEmp();
+	public int accept(PowerDTO powerDTO);
+	public int reject(PowerDTO powerDTO);
 }

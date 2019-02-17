@@ -1,6 +1,5 @@
 package kosta.starware.service;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +12,7 @@ import kosta.starware.domain.Approval;
 import kosta.starware.domain.DisbursementDoc;
 import kosta.starware.domain.DraftDoc;
 import kosta.starware.domain.EmpDTO;
+import kosta.starware.domain.PowerDTO;
 import kosta.starware.domain.VacationDoc;
 import kosta.starware.mapper.ApprovalMapper;
 import lombok.AllArgsConstructor;
@@ -138,17 +138,25 @@ public class ApprovalServiceImpl implements ApprovalService {
 	
 	@Override
 	public HashMap resultDetail(String app_no, String app_kind) {
-		log.info("resultDetail 시작 : ");
+		System.out.println("resultDetail 시작 : ");
 		HashMap detailinfo = null;
 		
-		if(app_kind.equals("기안서")){
+		if(app_kind.equals("지출결의서")){
+			System.out.println("지출결의서");
 			detailinfo = approvalmapper.resultDetail_D(app_no, app_kind);
-			Date date = (Date) detailinfo.get("STARTDATE");
-			log.info("날짜 데이터 " + date);
-		}else if(app_kind.equals("지출결의서")){
+			System.out.println(detailinfo);
+			//Date date = (Date) detailinfo.get("STARTDATE");
+			//log.info("날짜 데이터 " + date);
+		}else if(app_kind.equals("기안서")){
+			System.out.println("기안서");
 			detailinfo = approvalmapper.resultDetail_DD(app_no, app_kind);
-		}else{
+			System.out.println(detailinfo);
+		}else if(app_kind.equals("연차신청서")){
+			System.out.println("연차신청서");
 			detailinfo = approvalmapper.resultDetail_VD(app_no, app_kind);
+			System.out.println(detailinfo);
+		}else{
+			
 		}
 		
 		log.info(detailinfo);
@@ -156,9 +164,25 @@ public class ApprovalServiceImpl implements ApprovalService {
 	}
 
 	@Override
+	public int resultAccept(PowerDTO powerDTO) {
+		int result = approvalmapper.accept(powerDTO);
+		// TODO Auto-generated method stub
+		return result;
+	}
+
+	@Override
+	public int resultReject(PowerDTO powerDTO) {
+		int result = approvalmapper.reject(powerDTO);
+		// TODO Auto-generated method stub
+		return result;
+	}
+	
+	@Override
 	public List<EmpDTO> listJsonEmp(){
 		List<EmpDTO> list = approvalmapper.listJsonEmp();
 		return list;
 	}
+
+
 
 }
