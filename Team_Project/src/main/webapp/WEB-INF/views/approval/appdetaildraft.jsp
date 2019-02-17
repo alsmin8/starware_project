@@ -22,7 +22,7 @@ text-align: center;
 
 </head>
 <body>
-<%-- 	<%
+	<%
 		String emp_no = null;
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
@@ -36,7 +36,7 @@ text-align: center;
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="login.jsp">STARWARE</a>
+			<a class="navbar-brand" href="/login">STARWARE</a>
 		</div>
 
 		<div class="collapse navbar-collapse"
@@ -80,7 +80,7 @@ text-align: center;
 				}
 			%>
 		</div>
-	</nav> --%>
+	</nav>
 	
 	<div class="container">
 	<%
