@@ -77,4 +77,16 @@ public class ProjectBoardController {
 		
 	}
 	
+	@RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, value = "/move/{project_Board_No}", consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE})
+	public ResponseEntity<String> move(@RequestBody ProjectBoardVO board, @PathVariable("project_Board_No") int project_Board_No){
+		
+		board.setProject_Board_No(project_Board_No);
+		
+		log.info("project_Board_No : " + project_Board_No);
+		
+		log.info("modify : " + board);
+		
+		return service.move(board) == 1 ? new ResponseEntity<>("success",HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
 }

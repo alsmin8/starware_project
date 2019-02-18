@@ -16,6 +16,6 @@ public interface ProjectBoardMapper {
 	
 	public int update(ProjectBoardVO board);
 	
-	//public int move()
+	public int move(ProjectBoardVO board);
 
 }
