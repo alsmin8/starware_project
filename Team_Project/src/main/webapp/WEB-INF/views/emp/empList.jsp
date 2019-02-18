@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!CTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html> -->
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -228,62 +228,88 @@
 		<div class='row'>
 			<div class="col-lg-12">
 
-				<form id='empSearchForm' action="/emp/empList" method='get'>
+				<form id='empSearchForm' action="/emp/empList" method='get' id="empSearch">
 					<select name='empSearchType'>
-						<option value="">--</option>
-						<option value="N">성명</option>
-						<option value="E">사번</option>
-						<option value="D">부서번호</option>
-						<option value="G">직급번호</option>
-						<option value="S">재직상태</option>
-						<option value="NE">성명 or 사번</option>
-						<option value="ND">성명 or 부서번호</option>
-						<option value="NG">성명 or 직급번호</option>
-						<option value="NS">성명 or 재직상태</option>
-						<option value="ED">사번 or 부서번호</option>
-						<option value="EG">사번 or 직급번호</option>
-						<option value="ES">사번 or 재직상태</option>
-						<option value="DG">부서번호 or 직급번호</option>
-						<option value="DS">부서번호 or 재직상태</option>
-						<option value="GS">직급번호 or 재직상태</option>
-						<option value="NED">성명 or 사번 or 부서번호</option>
-						<option value="NEG">성명 or 사번 or 직급번호</option>
-						<option value="NES">성명 or 사번 or 재직상태</option>
-						<option value="EDG">사번 or 부서번호 or 직급번호</option>
-						<option value="EDS">사번 or 부서번호 or 재직상태</option>
-						<option value="DGS">부서번호 or 직급번호 or 재직상태</option>
-						<option value="NEDG">성명 or 사번 or 부서번호 or 직급번호</option>
-						<option value="NEDS">성명 or 사번 or 부서번호 or 재직상태</option>
-						<option value="EDGS">사번 or 부서번호 or 직급번호 or 재직상태</option>
-						<option value="NDGS">성명 or 부서번호 or 직급번호 or 재직상태</option>
-						<option value="NEGS">성명 or 사번 or 직급번호 or 재직상태</option>
-						<option value="NEDGS">성명 or 사번 or 부서번호 or 직급번호 or 재직상태</option>
-					</select> <input type='text' name='empSearchKeyword' />
-					 <input
-						type='hidden' name='pageNum' value='${pageMaker.empcri.pageNum }' />
-					<input type='hidden' name='amount'
-						value='${pageMaker.empcri.amount }' />
+						<option value=""
+						<c:out value="${empPageMaker.empcri.empSearchType == null?'selected':'' }"/>>--</option>
+						<option value="N"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'N'?'selected':'' }"/>>성명</option>
+						<option value="E"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'E'?'selected':'' }"/>>사번</option>
+						<option value="D"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'D'?'selected':'' }"/>>부서번호</option>
+						<option value="G"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'G'?'selected':'' }"/>>직급번호</option>
+						<option value="S"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'S'?'selected':'' }"/>>재직상태</option>
+						<option value="NE"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'NE'?'selected':'' }"/>>성명 or 사번</option>
+						<option value="ND"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'ND'?'selected':'' }"/>>성명 or 부서번호</option>
+						<option value="NG"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'NG'?'selected':'' }"/>>성명 or 직급번호</option>
+						<option value="NS"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'NS'?'selected':'' }"/>>성명 or 재직상태</option>
+						<option value="ED"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'ED'?'selected':'' }"/>>사번 or 부서번호</option>
+						<option value="EG"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'EG'?'selected':'' }"/>>사번 or 직급번호</option>
+						<option value="ES"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'ES'?'selected':'' }"/>>사번 or 재직상태</option>
+						<option value="DG"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'DG'?'selected':'' }"/>>부서번호 or 직급번호</option>
+						<option value="DS"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'DS'?'selected':'' }"/>>부서번호 or 재직상태</option>
+						<option value="GS"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'GS'?'selected':'' }"/>>직급번호 or 재직상태</option>
+						<option value="NED"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'NED'?'selected':'' }"/>>성명 or 사번 or 부서번호</option>
+						<option value="NEG"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'NEG'?'selected':'' }"/>>성명 or 사번 or 직급번호</option>
+						<option value="NES"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'NES'?'selected':'' }"/>>성명 or 사번 or 재직상태</option>
+						<option value="EDG"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'EDG'?'selected':'' }"/>>사번 or 부서번호 or 직급번호</option>
+						<option value="EDS"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'EDS'?'selected':'' }"/>>사번 or 부서번호 or 재직상태</option>
+						<option value="DGS"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'DGS'?'selected':'' }"/>>부서번호 or 직급번호 or 재직상태</option>
+						<option value="NEDG"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'NEDG'?'selected':'' }"/>>성명 or 사번 or 부서번호 or 직급번호</option>
+						<option value="NEDS"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'NEDS'?'selected':'' }"/>>성명 or 사번 or 부서번호 or 재직상태</option>
+						<option value="EDGS"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'EDGS'?'selected':'' }"/>>사번 or 부서번호 or 직급번호 or 재직상태</option>
+						<option value="NDGS"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'NDGS'?'selected':'' }"/>>성명 or 부서번호 or 직급번호 or 재직상태</option>
+						<option value="NEGS"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'NEGS'?'selected':'' }"/>>성명 or 사번 or 직급번호 or 재직상태</option>
+						<option value="NEDGS"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'NEDGS'?'selected':'' }"/>>성명 or 사번 or 부서번호 or 직급번호 or 재직상태</option>
+					</select> 
+					<input type='text' name='empSearchKeyword' />
+					<input type='hidden' name='pageNum' value='${pageMaker.empcri.pageNum }' />
+					<input type='hidden' name='amount' value='${pageMaker.empcri.amount }' />
 					<button class='btn btn-default'>Search</button>
 				</form>
-
 			</div>
 		</div>
 	</div>
 
 	<script type="text/javascript">
-		var empSearchForm = $("#empSearchForm");
-		$("#empSearchForm button").on("click", function(e) {
-			if (!empSearchForm.find("option:selected").val()) {
+		var empSearch = $("#empSearch");
+		$("#empSearch button").on("click", function(e) {
+			if (!empSearch.find("option:selected").val()) {
 				alert("검색종류를 선택하세요");
 				return false;
 			}
-			if (!empSearchForm.find("input[name='empSearchKeyword']").val()) {
+			if (!empSearch.find("input[name='empSearchKeyword']").val()) {
 				alert("키워드를 입력하세요");
 				return false;
 			}
-			empSearchForm.find("input[name='pageNum']").val("1");
+			empSearch.find("input[name='pageNum']").val("1");
 			e.preventDefault();
-			empSearchForm.submit();
+			empSearch.submit();
 
 		});
 	</script>

@@ -24,7 +24,7 @@ public class EmpCriteria {
 		this.amount = amount;
 	}
 	
-	public String[] getempSearchTypeArr() {
+	public String[] getEmpSearchArr() {
 		return empSearchType == null? new String[] {}: empSearchType.split("");
 	}
 

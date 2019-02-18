@@ -16,7 +16,7 @@ select * from emp where emp_no > 0
 
 	<sql id="criteria">
 		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
-			<foreach item='empSearchType' collection="empSearchTypeArr">
+			<foreach item='empSearchType' collection="empSearchArr">
 				<trim prefix="OR">
 					<choose>
 						<when test="empSearchType == 'N'.toString()">
@@ -38,7 +38,6 @@ select * from emp where emp_no > 0
 						<when test="empSearchType == 'S'.toString()">
 							emp_empstate like '%'||#{empSearchKeyword}||'%'
 						</when>
-
 					</choose>
 				</trim>
 			</foreach>
@@ -77,7 +76,7 @@ where
 
 
 	<!-- 인사관리 x 전자결재 시작 -->
-	<select id="empDept" resultType="kosta.starware.domain.EmpVO">
+	<select id="empDept" resultType="kosta.starware.domain.DeptVO">
 <![CDATA[
 SELECT *
 FROM EMP
@@ -86,7 +85,7 @@ ON EMP.DEPT_NO = DEPT.DEPT_NO
 ]]>
 	</select>
 	
-<select id="empGrade" resultType="kosta.starware.domain.EmpVO">
+<select id="empGrade" resultType="kosta.starware.domain.GradeVO">
 <![CDATA[
 SELECT *
 FROM EMP
@@ -104,8 +103,6 @@ ON EMP.GRADE_NO = GRADE.GRADE_NO
    select * from grade where grade_no = #{grade_no}
  </select>
 <!-- 인사관리 x 전자결재 끝 -->
-
-
 
 	<insert id="empInsert">
 		insert into emp (emp_no, emp_name, emp_pass,
