@@ -130,8 +130,8 @@
 				<tr>
 					<td style="text-align: right" colspan="3">
 					<span style="float:right">
-						<button data-oper='empListAction' class="btn btn-default">목록</button>
-						<button data-oper='empOperForm' class="btn btn-default">수정</button>
+						<button type = "submit" data-oper='empListAction' class="btn btn-default">목록</button>
+						<button type = "submit" data-oper='empOperForm' class="btn btn-default">수정</button>
 					</span>
 				</td>
 			</tr>

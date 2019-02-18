@@ -23,5 +23,7 @@ public interface EmpMapper {
 	public EmpVO empDeptGet(int emp_no);
 	
 	public int empUpdate (EmpVO emp);
+	
+	public int empGetTotalCount(EmpCriteria empcri);
 
 }

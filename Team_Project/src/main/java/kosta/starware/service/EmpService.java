@@ -18,5 +18,7 @@ public interface EmpService {
 	//public List<EmpVO> empGetList();
 	/*List<EmpVO>*/
 	public List<EmpVO> empGetList(EmpCriteria empcri);
+	
+	public int empGetTotal(EmpCriteria empcri);
 
 }

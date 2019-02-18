@@ -62,6 +62,12 @@ public class EmpServiceImpl implements EmpService {
 		return mapper.empGetListWithPaging(empcri);
 	}
 	
+	@Override
+	public int empGetTotal(EmpCriteria empcri) {
+		log.info("get total count");
+		return mapper.empGetTotalCount(empcri);
+	}
+	
 	
 
 }
