@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,35 +18,11 @@ import kosta.starware.domain.AppPageDTO;
 import kosta.starware.domain.Approval;
 import kosta.starware.domain.DisbursementDoc;
 import kosta.starware.domain.DraftDoc;
-import kosta.starware.domain.EmpDTO;
 import kosta.starware.domain.EmpVO;
 import kosta.starware.domain.VacationDoc;
-import kosta.starware.mapper.ApprovalMapper;
 import kosta.starware.service.ApprovalService;
 import kosta.starware.service.EmpService;
 import lombok.AllArgsConstructor;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-import kosta.starware.domain.VacationDoc;
-import kosta.starware.mapper.ApprovalMapper;
-import kosta.starware.service.ApprovalService;
-import kosta.starware.service.EmpService;
-import lombok.AllArgsConstructor;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-import kosta.starware.domain.VacationDoc;
-import kosta.starware.mapper.ApprovalMapper;
-import kosta.starware.service.ApprovalService;
-import kosta.starware.service.EmpService;
-import lombok.AllArgsConstructor;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-import kosta.starware.domain.VacationDoc;
-import kosta.starware.mapper.ApprovalMapper;
-import kosta.starware.service.ApprovalService;
-import kosta.starware.service.EmpService;
-import lombok.AllArgsConstructor;
-import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 @Controller
@@ -310,7 +285,7 @@ public class ApprovalController {
 			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
 			return "redirect:/login";
 		}else{
-			List<HashMap> applist_result =approvalservice.resultApproval(userID);
+			List<HashMap> applist_result = approvalservice.resultApproval(userID);
 			//log.info(applist_result);
 			model.addAttribute("applist_result", applist_result);
 			return "/approval/applist_result";

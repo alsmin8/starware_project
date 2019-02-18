@@ -36,17 +36,17 @@ public class ApprovalActionController {
 	@RequestMapping("/getAccept")
 	public ResponseEntity<String> getAccept(PowerDTO powerDTO){
 		log.info("getAccept" + powerDTO);	
-		//int accept = approvalservice.resultAccept(powerDTO);
-		//return accept==1 ? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		return new ResponseEntity<>("success", HttpStatus.OK);
+		int accept = approvalservice.resultAccept(powerDTO);
+		return accept==1 ? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		//return new ResponseEntity<>("success", HttpStatus.OK);
 	}
 	
 	@RequestMapping("/getReject")
 	public ResponseEntity<String> getReject(PowerDTO powerDTO){
 		log.info("getReject" + powerDTO);
-		//int reject = approvalservice.resultReject(powerDTO);
-		//return reject==1 ? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		return new ResponseEntity<>("success", HttpStatus.OK);
+		int reject = approvalservice.resultReject(powerDTO);
+		return reject==1 ? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		//return new ResponseEntity<>("success", HttpStatus.OK);
 	}
 	@RequestMapping(value ="/listJsonEmp", produces = "application/json")
 	public ResponseEntity<List<HashMap>> listJsonEmp(@RequestParam String keyword){
