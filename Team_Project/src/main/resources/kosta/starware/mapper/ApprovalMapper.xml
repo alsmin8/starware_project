@@ -101,7 +101,7 @@
 	<!-- 내가 결재할 목록 -->
 	
 	<select id="resultApproval" parameterType="String" resultType="java.util.HashMap">
-		select a.app_no, a.app_kind, a.APP_TITLE, a.APP_Startdate, pw.power_regdate, pw.POWER_DEFULT, a.emp_no from approval a inner join power pw on a.app_no = pw.app_no where pw.emp_no = #{emp_no}
+		select a.app_no, a.app_kind, a.APP_TITLE, a.APP_Startdate, pw.power_regdate, pw.POWER_DEFULT, a.emp_no, e.emp_name from approval a inner join power pw on a.app_no = pw.app_no inner join emp e on a.emp_no = e.emp_no	where pw.emp_no = #{emp_no}
 	</select>
 	
 	<!-- 결재할 목록 세부보기 -->
