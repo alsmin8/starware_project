@@ -23,5 +23,4 @@ public interface CategoryService {
 	
 	public int deleteCgr(@Param("category_no") int category_no, @Param("emp_no") int emp_no);
 
-	public int updateColorCgr(CategoryVO category);
 }

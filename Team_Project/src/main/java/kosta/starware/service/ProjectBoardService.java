@@ -15,7 +15,5 @@ public interface ProjectBoardService {
 	public int remove(int project_Board_No);
 	
 	public int modify(ProjectBoardVO board);
-	
-	public int move(ProjectBoardVO board);
 
 }

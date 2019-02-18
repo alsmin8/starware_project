@@ -6,12 +6,10 @@ import org.springframework.stereotype.Service;
 
 import kosta.starware.domain.ProjectBoardVO;
 import kosta.starware.mapper.ProjectBoardMapper;
-import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
 @Service
 @Log4j
-@AllArgsConstructor
 public class ProjectBoardServiceImpl implements ProjectBoardService {
 
 	private ProjectBoardMapper mapper;
@@ -24,6 +22,8 @@ public class ProjectBoardServiceImpl implements ProjectBoardService {
 		return mapper.insert(vo);
 	}
 
+	
+
 	@Override
 	public List<ProjectBoardVO> getList(int project_No) {
 		
@@ -32,6 +32,8 @@ public class ProjectBoardServiceImpl implements ProjectBoardService {
 		return mapper.list(project_No);
 		
 	}
+
+
 
 	@Override
 	public ProjectBoardVO get(int project_Board_No) {
@@ -56,15 +58,5 @@ public class ProjectBoardServiceImpl implements ProjectBoardService {
 		
 		return mapper.update(board);
 	}
-
-	@Override
-	public int move(ProjectBoardVO board) {
-		
-		log.info("move......" + board);
-		
-		return mapper.move(board);
-	}
-	
-	
 
 }

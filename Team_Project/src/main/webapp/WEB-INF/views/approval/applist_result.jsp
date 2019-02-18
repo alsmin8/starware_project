@@ -64,7 +64,6 @@ text-align: center;
 					</ul>
 				</li>
 			</ul>
-
 		</div>
 	</nav>
 	
@@ -117,13 +116,13 @@ text-align: center;
 					 <fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd"/>
 				</td>
 				<td>${Approval.POWER_DEFULT}</td>
-				<td>${Approval.EMP_NO}</td>
+				<td>${Approval.EMP_NAME}(${Approval.EMP_NO})</td>
 			</tr>
 		</c:forEach>
 		</tbody>
 	</table>
 	<br><br>
-	
+
 	<!-- <form action="list.bit" method="post" >
 	<input type ="checkbox" name = "check" value = "연차신청서">연차신청서
 	<input type ="checkbox" name = "check" value = "지출결의서">지출결의서
@@ -181,6 +180,11 @@ text-align: center;
 					<input class="form-control" name='writer' value='writer' readonly="readonly">
 				</div>
 			</div>
+			<div id="container">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      			<canvas id="drawCanvas" width="200" height="150" style=" position: relative; border: 1px solid #000;"></canvas>
+			</div>
+			
 			<div class="modal-footer">
 				<button id='modalAcceptBtn' type="button" class="btn btn-primary">accept</button>
 				<button id='modalRejectBtn' type="button" class="btn btn-danger">reject</button>
@@ -192,7 +196,6 @@ text-align: center;
 	<!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-	
 	
 	
 <script type="text/javascript">
@@ -230,8 +233,8 @@ text-align: center;
 				modalInputKind.val(result.KIND);
 				modalInputTitle.val(result.TITLE);
 				modalInputContent.val(result.CONTENT);
-				modalInputStartDate.val(result.STARTDATE.toISOString().substr(0,10));
-				modalInputEndDate.val(result.ENDDATE.toISOString().substr(0,10));
+				modalInputStartDate.val(displayTime(result.STARTDATE));
+				modalInputEndDate.val(displayTime(result.ENDDATE));
 				modalInputWriter.val(result.WRITER);
 				
 		        modal.data("app_no", result.APP_NO);
@@ -252,7 +255,7 @@ text-align: center;
     modalAcceptBtn.on("click", function(e){
 			$.ajax({
 				type: 'POST',
-				url : 'approval2/getAccept',
+				url : '/approval2/getAccept',
 				data : {
 					app_no: modal.data("app_no"), 
 					emp_no: emp_no,
@@ -260,7 +263,7 @@ text-align: center;
 				},
 				success : function(result){
 					console.log(result);
-					alret(result);
+					alert(result);
 					$(".modal").modal('hide');
 					//location.href="/approval/applist_result";
 				}
@@ -271,7 +274,7 @@ text-align: center;
     modalRejectBtn.on("click", function (e){
 			$.ajax({
 				type: 'POST',
-				url : 'approval2/getReject',
+				url : '/approval2/getReject',
 				data : {
 	        		app_no: modal.data("app_no"), 
 					emp_no: emp_no,
@@ -279,7 +282,7 @@ text-align: center;
 				},
 				success : function(result){
 					console.log(result);
-					alret(result);
+					alert(result);
 					$(".modal").modal('hide');
 					//location.href="/approval/applist_result";
 				}
@@ -288,6 +291,97 @@ text-align: center;
     $("#modalCloseBtn").on("click", function(e){
     	modal.modal('hide');
     });
+    function displayTime(timeValue) {
+    	var today = new Date();
+    	var gap = today.getTime() - timeValue;
+    	var dateObj = new Date(timeValue);
+    		
+    	var hh = dateObj.getHours();
+    	var mi = dateObj.getMinutes();
+    	var ss = dateObj.getSeconds();
+    	var yy = dateObj.getFullYear();
+    	var mm = dateObj.getMonth() + 1;
+    	var dd = dateObj.getDate();
+    	
+    	return [yy, '/',(mm > 9 ? '' : '0') + mm, '/',(dd > 9 ? '' : '0') + dd, ' - ' , (hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi, ':',(ss > 9 ? '' : '0') + ss].join('');
+    };
+</script>
+
+
+<script type="text/javascript">
+    //window가 load 될때 Event Listener를 등록 하여 준다.
+    if(window.addEventListener){
+        window.addEventListener('load', InitEvent, false);
+    }
+    var canvas, context, tool;
+    function InitEvent ()
+    {
+        // Canvas 객체를 탐색 한다.
+        canvas = document.getElementById('drawCanvas');
+        if (!canvas) {
+          alert('캔버스 객체를 찾을 수 없음');
+          return;
+        }
+        if (!canvas.getContext){
+          alert('Drawing Contextf를 찾을 수 없음');
+          return;
+        }
+        // 2D canvas context를 가져 온다.
+        context = canvas.getContext('2d');
+        if (!context){
+          alert('getContext() 함수를 호출 할 수 없음');
+          return;
+        }
+        // tool_pencil 함수의 인스턴스를 생성 한다.
+        tool = new tool_pencil();
+        // Canvas에 mousedown, mousemove, mouseup 이벤트 리스너를 추가한다.
+        canvas.addEventListener('mousedown', ev_canvas, false);
+        canvas.addEventListener('mousemove', ev_canvas, false);
+        canvas.addEventListener('mouseup',   ev_canvas, false);
+    }//InitEvent end
+    // 마우스 이동을 추적 하여 그리기 작업을 수행 한다.
+
+    function tool_pencil (){
+        var tool = this;
+        this.started = false;
+        // 마우스를 누를때 그리기 작업을 시작 한다.
+        this.mousedown = function (ev){
+            context.beginPath();
+            context.moveTo(ev._x, ev._y);
+            tool.started = true;
+        };
+        // 마우스가 이동 할때(mousemove) 마다 호출 된다.
+        this.mousemove = function (ev){
+            if (tool.started){
+                context.lineTo(ev._x, ev._y);
+                context.stroke();
+            }
+        };
+        // 마우스 좌측 버튼을 놓았을때(mouseup) 호출 된다. 
+        this.mouseup = function (ev){
+          if (tool.started){
+                tool.mousemove(ev);
+                tool.started = false;
+          }
+        };
+    }// tool_pencil end
+
+    // Canvas요소 내의 좌표를 결정 한다.
+    function ev_canvas (ev)
+    {
+        if (ev.layerX || ev.layerX == 0){ // Firefox 브라우저
+          ev._x = ev.layerX;
+          ev._y = ev.layerY;
+        }else if (ev.offsetX || ev.offsetX == 0){ // Opera 브라우저
+          ev._x = ev.offsetX;
+          ev._y = ev.offsetY;
+        }
+        // tool의 이벤트 핸들러를 호출한다.
+        var func = tool[ev.type];
+        if (func){
+            func(ev);
+        }
+    }//ev_canvas end
 </script>
 
 </body>

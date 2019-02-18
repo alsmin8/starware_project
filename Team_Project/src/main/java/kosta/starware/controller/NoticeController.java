@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,7 +24,6 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,7 +31,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kosta.starware.domain.NoticeAttachFileDTO;
-import kosta.starware.domain.NoticeAttachVO;
 import kosta.starware.domain.NoticeCriteria;
 import kosta.starware.domain.NoticePageDTO;
 import kosta.starware.domain.NoticeVO;
@@ -283,14 +280,8 @@ public class NoticeController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<String>("deleted", HttpStatus.OK);
-	}
-	
-	
-	
-	
-	
-	
-	}
+	}	
+}
 	
 	
 	

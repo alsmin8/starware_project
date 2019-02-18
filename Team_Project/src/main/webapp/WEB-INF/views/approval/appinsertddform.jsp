@@ -168,9 +168,27 @@ function startSuggest(){
 			console.log('성공');
 			var suggestList = document.getElementById("suggestList");
 			suggestList.innerHTML = html;
-			//show('suggest');
+			show('suggest');
         }
 	});
+}
+function show(elementId){
+	var element = document.getElementById(elementId);
+	console.log(element);
+	if(element){
+		element.style.display="";
+	}
+}
+function select(selectKeyword1){
+	selectKeyword = selectKeyword1.substring(selectKeyword1.lastIndexOf('-')+1); 
+	//hide('suggest');
+	$('.attendees-group').append('<div class="checkbox-inline"><label><input type="checkbox" name="attendees" id="person" value="'+ selectKeyword +'">'+selectKeyword1+'</label></div>&nbsp&nbsp');
+}
+function hide(elementId){
+	var element = document.getElementById(elementId);
+	if(element){
+		element.style.display="none";
+	}
 }
 </script>
 
