@@ -171,11 +171,13 @@ public class ApprovalServiceImpl implements ApprovalService {
 		List<PowerDTO> list = approvalmapper.powerCount(app_no);
 		for(int i = 0; i<list.size(); i++){
 			if(list.size() == 1 && list.get(i).getPower_defult().equals("승인")){
+				System.out.println("승인");
 				approvalmapper.approvalAcceptUpdate(app_no);
 			}else if(list.get(i).getPower_defult().equals("거절")){
+				System.out.println("거절");
 				approvalmapper.approvalRejectUpdate(app_no);
 			}else{
-				
+				System.out.println("else");
 			}
 		}
 		return result;
@@ -189,11 +191,13 @@ public class ApprovalServiceImpl implements ApprovalService {
 		List<PowerDTO> list = approvalmapper.powerCount(app_no);
 		for(int i = 0; i<list.size(); i++){
 			if(list.size() == 1 && list.get(i).getPower_defult().equals("승인")){
+				System.out.println("승인");
 				approvalmapper.approvalAcceptUpdate(app_no);
 			}else if(list.get(i).getPower_defult().equals("거절")){
+				System.out.println("거절");
 				approvalmapper.approvalRejectUpdate(app_no);
 			}else{
-				
+				System.out.println("else");
 			}
 		}
 		return result;

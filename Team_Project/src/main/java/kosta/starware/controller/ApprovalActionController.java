@@ -29,7 +29,7 @@ public class ApprovalActionController {
 	public ResponseEntity<HashMap> getDatail(@RequestParam String app_no,@RequestParam String app_kind){
 		log.info("getDatail : 가져온 번호 => " + app_no + " 가져온 문서종류 => " + app_kind);	
 		HashMap detail = approvalservice.resultDetail(app_no, app_kind);
-		log.info(detail);
+		//log.info(detail);
 		return detail != null ? new ResponseEntity<>(detail ,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
@@ -55,7 +55,7 @@ public class ApprovalActionController {
 			return null;
 		}else{
 			List<HashMap> list = approvalservice.listJsonEmp(keyword);
-			log.info(list);
+			//log.info(list);
 			return new ResponseEntity<>(list ,HttpStatus.OK);
 		}
 	}

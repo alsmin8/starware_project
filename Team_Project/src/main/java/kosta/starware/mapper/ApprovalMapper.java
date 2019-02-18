@@ -54,6 +54,7 @@ public interface ApprovalMapper {
 	public HashMap resultDetail_VD(@Param("app_no") String app_no,@Param("app_kind") String app_kind);
 	public int accept(PowerDTO powerDTO);
 	public int reject(PowerDTO powerDTO);
+	
 	// 전체 결재목록 검사,업데이트
 	public List<PowerDTO> powerCount(String app_no);
 	public int approvalAcceptUpdate(String app_no);
