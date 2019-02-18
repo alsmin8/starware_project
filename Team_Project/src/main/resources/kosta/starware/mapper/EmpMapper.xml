@@ -85,11 +85,24 @@ JOIN DEPT
 ON EMP.DEPT_NO = DEPT.DEPT_NO
 ]]>
 	</select>
+	
+<select id="empGrade" resultType="kosta.starware.domain.EmpVO">
+<![CDATA[
+SELECT *
+FROM EMP
+JOIN GRADE
+ON EMP.GRADE_NO = GRADE.GRADE_NO
+]]>
+	</select>		
 
-	<select id="empDeptGet" resultType="kosta.starware.domain.EmpVO">
+	<select id="empDeptGet" resultType="kosta.starware.domain.DeptVO">
 		select * from dept where
 		dept_no = #{dept_no}
 	</select>
+	
+	<select id ="empGradeGet" resultType="kosta.starware.domain.GradeVO">
+   select * from grade where grade_no = #{grade_no}
+ </select>
 <!-- 인사관리 x 전자결재 끝 -->
 
 

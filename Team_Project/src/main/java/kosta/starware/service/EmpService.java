@@ -4,6 +4,7 @@ import java.util.List;
 
 import kosta.starware.domain.EmpCriteria;
 import kosta.starware.domain.EmpVO;
+import kosta.starware.domain.GradeVO;
 
 public interface EmpService {
 	
@@ -20,5 +21,7 @@ public interface EmpService {
 	public List<EmpVO> empGetList(EmpCriteria empcri);
 	
 	public int empGetTotal(EmpCriteria empcri);
+	
+	public GradeVO empGradeGet(int grade_no);
 
 }

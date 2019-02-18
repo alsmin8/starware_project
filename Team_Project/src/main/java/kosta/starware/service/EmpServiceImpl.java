@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import kosta.starware.domain.EmpCriteria;
 import kosta.starware.domain.EmpVO;
+import kosta.starware.domain.GradeVO;
 import kosta.starware.mapper.EmpMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -38,6 +39,14 @@ public class EmpServiceImpl implements EmpService {
 		
 		return mapper.empDept(dept_no);
 	}
+	
+	
+	 @Override
+	   public GradeVO empGradeGet(int grade_no){
+	      log.info("empDept.........." + grade_no);
+	      
+	      return mapper.empGradeGet(grade_no);
+	   }
 	
 	
 	@Override

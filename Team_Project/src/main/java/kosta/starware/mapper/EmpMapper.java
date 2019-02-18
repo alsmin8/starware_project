@@ -4,6 +4,7 @@ import java.util.List;
 
 import kosta.starware.domain.EmpCriteria;
 import kosta.starware.domain.EmpVO;
+import kosta.starware.domain.GradeVO;
 
 public interface EmpMapper {
 
@@ -25,5 +26,7 @@ public interface EmpMapper {
 	public int empUpdate (EmpVO emp);
 	
 	public int empGetTotalCount(EmpCriteria empcri);
+	
+	public GradeVO empGradeGet(int grade_no);
 
 }
