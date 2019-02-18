@@ -59,5 +59,10 @@ public class CategoryServiceImpl implements CategoryService {
 	public int deleteCgr(int category_no, int emp_no) {
 		return mapper.deleteCgr(category_no, emp_no);
 	}
+	
+	@Override
+	public int updateColorCgr(CategoryVO category) {
+		return mapper.updateColorCgr(category);
+	}
 
 }

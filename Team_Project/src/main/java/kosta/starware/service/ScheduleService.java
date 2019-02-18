@@ -1,4 +1,4 @@
-package kosta.starware.mapper;
+package kosta.starware.service;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import kosta.starware.domain.ScheduleVO;
 
-public interface ScheduleMapper {
+public interface ScheduleService {
 	
 	public int insertSch(ScheduleVO schedule);
 	
@@ -14,8 +14,8 @@ public interface ScheduleMapper {
 	
 	public List<ScheduleVO> listSch(int emp_no);
 	
-	public List<ScheduleVO> listEmpBySno(int schedule_no);
+	public ScheduleVO getSch(int schedule_no, int emp_no);
 	
-	public ScheduleVO getSch(@Param("schedule_no") int schedule_no, @Param("emp_no") int emp_no);
+	public List<ScheduleVO> listEmpBySno(int schedule_no);
 	
 }

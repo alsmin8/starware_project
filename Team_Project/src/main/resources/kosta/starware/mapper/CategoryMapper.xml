@@ -5,19 +5,29 @@
 <mapper namespace="kosta.starware.mapper.CategoryMapper">
 
   <insert id="insertCgr">
-  	insert into category values(cgr_seq.nextval, #{emp_no}, #{category_name}, #{category_color}, 1)
+  	<selectKey resultType="int" keyProperty="category_no" order="BEFORE">
+        select MAX(category_no)+1 from category        
+    </selectKey>
+  		insert into category values(#{category_no}, #{emp_no}, #{category_name}, #{category_color}, 1)
   </insert>
-  
+
   <insert id="addAttendee">
-  	insert into category values(#{category_no}, #{emp_no}, #{category_name}, #{category_color}, 1)
+  	insert into category values(#{category_no}, ${emp_no}, #{category_name}, #{category_color}, 1)
   </insert>
+<!--   	<selectKey resultType="int" keyProperty="category_no" order="BEFORE">
+        select MAX(category_no)+1 from category        
+    </selectKey>
+  		insert all
+  	 <foreach item="item" index="index" collection="attendees">
+  		 into category values(#{category_no}, ${item}, #{category_name}, #{category_color}, 1)
+  	</foreach> -->
   
   <select id="listEmp" resultType="kosta.starware.domain.EmpVO">
   	select emp_no, emp_name, dept_name from emp e, dept d where e.dept_no = d.dept_no
   </select>
   
   <select id="listCgr" resultType="kosta.starware.domain.CategoryVO">
-	select * from category where emp_no = #{emp_no}
+	select * from category where emp_no = #{emp_no} order by category_no
   </select>
   
   <select id="getCgr" resultType="kosta.starware.domain.CategoryVO">
@@ -29,7 +39,11 @@
   </select>
   
   <update id="updateCgr">
-  	update category set category_name = #{category_name}, category_color = #{category_color} where category_no = #{category_no}
+  	update category set category_name = #{category_name} where category_no = #{category_no}
+  </update>
+  
+  <update id="updateColorCgr">
+  	update category set category_color = #{category_color} where category_no = #{category_no} and emp_no = #{emp_no}
   </update>
   
   <delete id="deleteCgr">
