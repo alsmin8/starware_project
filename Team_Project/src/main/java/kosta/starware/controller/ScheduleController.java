@@ -6,10 +6,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kosta.starware.domain.CategoryVO;
 import kosta.starware.domain.EmpVO;
@@ -25,10 +29,10 @@ public class ScheduleController {
 	@Setter(onMethod_=@Autowired)
 	CategoryService service;
 	
+	// 등록 (post)
 	@PostMapping("/insertCgr")
 	public String insertCgr(CategoryVO category) {
 		System.out.println("vo............"+category);
-		category.setEmp_no(12305);
 		service.insertCgr(category);
 		
 		if(category.getAttendees()!=null) {
@@ -43,13 +47,16 @@ public class ScheduleController {
 		return "redirect:/schedule/scheduleMain";
 	}
 	
+	
 	@GetMapping("/scheduleMain")
 	public String toMain() {
 		System.out.println("성공......................");
 		
-		return "/schedule/scheduleMain";
+		return "/schedule/scheduleMain2";
 	}
 	
+	
+	// 사원 목록 조회 (get)
 	@ResponseBody
 	@GetMapping("/listEmp")
 	public List<EmpVO> listEmp(@RequestParam String keyword) {
@@ -71,14 +78,48 @@ public class ScheduleController {
 		return keywordList;
 	}
 	
+	
+	// 목록 조회 (get)
 	@ResponseBody
 	@GetMapping("/listCgr")
-	public List<CategoryVO> listCgr() {
+	public List<CategoryVO> listCgr(@RequestParam("emp_no") int emp_no) {
 		
-		List<CategoryVO> list = service.listCgr();
-		
+		List<CategoryVO> list = service.listCgr(emp_no);
+		System.out.println("list.........."+list);
 		return list;
 		
+	}
+	
+	@ResponseBody
+	@GetMapping("/getCgr")
+	public CategoryVO updateCgr(@RequestParam("category_no") int category_no, @RequestParam("emp_no") int emp_no) {
+		
+		CategoryVO category = service.getCgr(category_no, emp_no);
+		System.out.println("category.........."+category);
+		return category;
+		
+	}
+	
+	// 수정 (put)
+	@PostMapping("/updateCgr")
+	public String updateCgr(CategoryVO category) {
+		System.out.println(category);
+		System.out.println(category.getAttendees());
+		if(category.getAttendees()!=null) {
+			for(int i = 0; i < category.getAttendees().size(); i++) {
+				category.setEmp_no(category.getAttendees().get(i));
+				service.addAttendee(category);
+			}
+		}
+		service.updateCgr(category);
+		return "redirect:/schedule/scheduleMain";
+	}
+	
+	@PostMapping("/deleteCgr")
+	public String deleteCgr(CategoryVO category) {
+		System.out.println(category);
+		service.deleteCgr(category.getCategory_no(), category.getEmp_no());
+		return "redirect:/schedule/scheduleMain";
 	}
 
 }

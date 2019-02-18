@@ -3,12 +3,15 @@ package kosta.starware.mapper;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import kosta.starware.domain.AppCriteria;
 import kosta.starware.domain.Approval;
 import kosta.starware.domain.DisbursementDoc;
 import kosta.starware.domain.DraftDoc;
+import kosta.starware.domain.EmpDTO;
+import kosta.starware.domain.PowerDTO;
 import kosta.starware.domain.VacationDoc;
 
 public interface ApprovalMapper {
@@ -43,7 +46,10 @@ public interface ApprovalMapper {
 	
 	//내가 결재할 목록
 	public List<HashMap> resultApproval(String userID);
-	
-	
-
+	public HashMap resultDetail_D(@Param("app_no") String app_no,@Param("app_kind") String app_kind);
+	public HashMap resultDetail_DD(@Param("app_no") String app_no,@Param("app_kind") String app_kind);
+	public HashMap resultDetail_VD(@Param("app_no") String app_no,@Param("app_kind") String app_kind);
+	public List<EmpDTO> listJsonEmp();
+	public int accept(PowerDTO powerDTO);
+	public int reject(PowerDTO powerDTO);
 }

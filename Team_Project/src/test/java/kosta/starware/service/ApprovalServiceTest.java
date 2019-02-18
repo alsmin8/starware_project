@@ -65,12 +65,23 @@ public class ApprovalServiceTest {
 		log.info("updateresult"+approvalservice.appUpdate(approval));
 	}*/
 	
-	@Test
+/*	@Test
 	public void testResultapproval(){
 		log.info("testApproval :");
 		
 		String userID = "12304";
 		List<HashMap> list = approvalservice.resultApproval(userID);
+
+		log.info("list :" +list);
+	}*/
+	
+	@Test
+	public void testResultDetail(){
+		log.info("testApproval :");
+		
+		String app_no = "2";
+		String app_kind = "기안서";
+		HashMap list = approvalservice.resultDetail(app_no, app_kind);
 
 		log.info("list :" +list);
 	}

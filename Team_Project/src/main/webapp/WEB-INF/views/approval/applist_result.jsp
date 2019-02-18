@@ -18,6 +18,9 @@
 td{
 text-align: center;
 }
+modal-footer{
+text-align: center;
+}
 </style>
 
 </head>
@@ -27,12 +30,6 @@ text-align: center;
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
 		}
-/* 		if (emp_no == null) {
-			session.setAttribute("messageType", "오류메세지");
-			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
-			response.sendRedirect("login.jsp");
-			return;
-		} */
 	%>
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
@@ -93,21 +90,24 @@ text-align: center;
 	<div class="container" id="applist">
 		<h2>내가 진행할 결재목록</h2><br>
 	<table class="type04">
-		<tr>
-			<td>글번호</td>
-			<td>문서종류</td>
-			<td>제      목</td>
-			<td>기안일자</td>
-			<td>상신일자</td>
-			<td>본인승인결과</td>
-			<td>기안자</td>
-		</tr>
-		<c:forEach var="Approval" items="${applist_result}">
+		<thead>
 			<tr>
-				<td><a href="detail.bit?seq=${Approval.APP_NO}&app_kind=${Approval.APP_KIND}">${Approval.APP_NO}</a></td>
+				<td>글번호</td>
+				<td>문서종류</td>
+				<td>제      목</td>
+				<td>기안일자</td>
+				<td>상신일자</td>
+				<td>본인승인결과</td>
+				<td>기안자</td>
+			</tr>
+		</thead>
+		<tbody id="result_detail">
+		<c:forEach var="Approval" items="${applist_result}">
+			<tr data-app_no="${Approval.APP_NO}", data-app_kind="${Approval.APP_KIND}", data-power_defult="${Approval.POWER_DEFULT}">
+				<td>${Approval.APP_NO}</td>
 				<td>${Approval.APP_KIND}</td>
 				<td>${Approval.APP_TITLE}</td>
-				
+				<%-- <a href="detail.bit?seq=${Approval.APP_NO}&app_kind=${Approval.APP_KIND}"></a> --%>
 				<td>
 					 <fmt:parseDate var="dateString" value="${Approval.APP_STARTDATE}" pattern="yyyy-MM-dd"/>
 					 <fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd"/>
@@ -120,9 +120,9 @@ text-align: center;
 				<td>${Approval.EMP_NO}</td>
 			</tr>
 		</c:forEach>
+		</tbody>
 	</table>
 	<br><br>
-	
 	
 	<!-- <form action="list.bit" method="post" >
 	<input type ="checkbox" name = "check" value = "연차신청서">연차신청서
@@ -143,8 +143,152 @@ text-align: center;
 	
 	<input type ="text" name = "searchKey" size = "10"></input>
 	<br><input type = "submit" value = "검색">
-	
 	</form> -->
+	
 	</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">결재 승인 내용 및 창</h4>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label>문서종류</label> 
+					<input class="form-control" name='kind' value='kind!!!!' readonly="readonly">
+				</div>      
+				<div class="form-group">
+					<label>제목</label> 
+					<input class="form-control" name='title' value='New Title!!!!' readonly="readonly">
+				</div>
+				<div class="form-group">
+					<label>작성내용</label> 
+					<input class="form-control" name='content' value='content' readonly="readonly">
+				</div>
+				<div class="form-group">
+					<label>기안일자</label>
+					<input class="form-control" name='startDate' value='startDate' readonly="readonly">
+				</div>
+				<div class="form-group">
+					<label>완료일자</label>
+					<input class="form-control" name='endDate' value='endDate' readonly="readonly">
+				</div>
+				<div class="form-group">
+					<label>기안자</label> 
+					<input class="form-control" name='writer' value='writer' readonly="readonly">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button id='modalAcceptBtn' type="button" class="btn btn-primary">accept</button>
+				<button id='modalRejectBtn' type="button" class="btn btn-danger">reject</button>
+				<button id='modalCloseBtn' type="button" class="btn btn-default">Close</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+	
+	
+	
+<script type="text/javascript">
+	var modal = $(".modal");
+	var modalInputKind = modal.find("input[name='kind']");
+	var modalInputTitle = modal.find("input[name='title']");
+	var modalInputContent = modal.find("input[name='content']");
+	var modalInputStartDate = modal.find("input[name='startDate']");
+	var modalInputEndDate = modal.find("input[name='endDate']");
+	var modalInputWriter = modal.find("input[name='writer']");
+	
+	var modalAcceptBtn = $("#modalAcceptBtn");
+	var modalRejectBtn = $("#modalRejectBtn");
+    var emp_no = <%=emp_no%>;
+	
+	//상세 조회 클릭 이벤트 처리 
+    $("#result_detail").on("click", "tr", function(e){
+    // tr를 왜 두번째에 넣어줬냐 동적으로 하기위해 - 있는 tr이 아닙니다.
+	    var detailNum = $(this).data("app_no"); //app_no를 뽑아냄
+	    var detailKind = $(this).data("app_kind"); //app_kind를 뽑아냄
+		var detailDefult = $(this).data("power_defult");
+	    console.log(emp_no);
+		console.log(detailNum);
+		console.log(detailKind);
+
+		$.ajax({
+			type: 'POST',
+			url : '/approval2/getDatail.json',
+			data : {
+				app_no : detailNum,
+				app_kind : detailKind
+			},
+			success : function(result){
+				console.log(result);
+				modalInputKind.val(result.KIND);
+				modalInputTitle.val(result.TITLE);
+				modalInputContent.val(result.CONTENT);
+				modalInputStartDate.val(result.STARTDATE);
+				modalInputEndDate.val(result.ENDDATE);
+				modalInputWriter.val(result.WRITER);
+				
+		        modal.data("app_no", result.APP_NO);
+		         
+		        if(detailDefult == '승인' || detailDefult == '거절'){
+		        	modal.find("button[id !='modalCloseBtn']").hide();
+		        }else{
+		        	modal.find("button[id !='modalCloseBtn']").hide();
+			        modalAcceptBtn.show();
+			        modalRejectBtn.show();
+		        }
+
+		        
+		        $(".modal").modal("show");
+			}
+		})//getDetail 메소드 종료
+    });	//result_detail 클릭버튼 이벤트 종료 
+    modalAcceptBtn.on("click", function(e){
+			$.ajax({
+				type: 'POST',
+				url : 'approval2/getAccept',
+				data : {
+					app_no: modal.data("app_no"), 
+					emp_no: emp_no,
+					power_defult: '승인'
+				},
+				success : function(result){
+					console.log(result);
+					alret(result);
+					$(".modal").modal('hide');
+					//location.href="/approval/applist_result";
+				}
+			})//getAccept 메소드 종료
+        
+    });	//modalAcceptBtn 이벤트 종료
+
+    modalRejectBtn.on("click", function (e){
+			$.ajax({
+				type: 'POST',
+				url : 'approval2/getReject',
+				data : {
+	        		app_no: modal.data("app_no"), 
+					emp_no: emp_no,
+	        		power_defult: '거절'
+				},
+				success : function(result){
+					console.log(result);
+					alret(result);
+					$(".modal").modal('hide');
+					//location.href="/approval/applist_result";
+				}
+			})//getReject 메소드 종료
+  	}); //modalRejectBtn 이벤트 종료 
+    $("#modalCloseBtn").on("click", function(e){
+    	modal.modal('hide');
+    });
+</script>
+
 </body>
 </html>

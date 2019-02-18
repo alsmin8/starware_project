@@ -10,6 +10,8 @@ select * from emp where emp_no > 0
 ]]>
 </select>
 
+
+
 <select id ="empGetListWithPaging" resultType="kosta.starware.domain.EmpVO">
 
 <![CDATA[
@@ -27,6 +29,22 @@ where rn > (#{pageNum} -1) * #{amount}
 ]]>
 
 </select>
+
+<!-- 인사관리 x 전자결재 -->
+<select id ="empDept" resultType="kosta.starware.domain.EmpVO">
+<![CDATA[
+SELECT *
+FROM EMP
+JOIN DEPT
+ON EMP.DEPT_NO = DEPT.DEPT_NO
+]]>
+</select>
+
+<select id="empDeptGet" resultType="kosta.starware.domain.EmpVO">
+select * from dept where dept_no = #{dept_no}
+</select>
+
+
 
 <insert id ="empInsert">
 insert into emp (emp_no, emp_name, emp_pass, emp_gender, emp_socialNo, dept_no, grade_no, emp_cellphone, 

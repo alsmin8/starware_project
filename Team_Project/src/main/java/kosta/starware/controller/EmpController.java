@@ -53,7 +53,7 @@ public class EmpController {
 	}
 	
 	//사원상세정보 처리 (교재에 있는 코드)
-	@RequestMapping({"/empDetail","/empUpdateForm"})
+	/*@RequestMapping({"/empDetail","/empUpdateForm"})
 	public void empGet(@RequestParam("emp_no") int emp_no, 
 			@ModelAttribute("empcri") EmpCriteria empcri, Model model) {
 		
@@ -61,13 +61,13 @@ public class EmpController {
 		
 		model.addAttribute("emp", service.empGet(emp_no));
 		
-	}
+	}*/
 	//사원상세정보 처리
-/*	@RequestMapping("/empDetail")
+	@RequestMapping("/empDetail")
 	public void empDetail(@RequestParam("emp_no") int emp_no, 
 			@ModelAttribute("empcri") EmpCriteria empcri, Model model){
 		model.addAttribute("emp", service.empGet(emp_no));
-		log.info(model);
+		//log.info(model);
 	}
 		
 	//사원정보수정
@@ -89,7 +89,7 @@ public class EmpController {
 		rttr.addAttribute("pageNum", empcri.getPageNum());
 		rttr.addAttribute("amount", empcri.getAmount());
 		return "redirect:/emp/empList";
-		}*/
+		}
 	
 
 	//사원정보수정 화면처리 메소드(추가)
