@@ -46,6 +46,9 @@
 </style>
 
 <script>
+
+//데이트 피커 날짜 제한
+
 	$(function() {
 		$("#from").datepicker({
 			dateFormat : 'yy-mm-dd'
@@ -145,30 +148,66 @@
 			<tr>
 			<td style="width:110px"><h5>사원명</h5></td>
 			<td style="text-align: left">
-				<input type="text" name="searchEmpNo" size="6">
-				 <button type="submit" data-oper='insert' class="btn btn-default">조회</button>
+				<input type="text" name="searchName" size="6" value='<c:out value="${attendModel.attcri.searchName}"/>' />
+				 <button type="submit" class="btn btn-default">조회</button>
 			</td>
 			</tr>
 			<tr>
 			<td style="width:110px"><h5>기간</h5></td>
 			<td style="text-align: left">
-				시작일 <input type="text" id="from" name="from">
-				 ~ 종료일 <input type="text" id="to" name="to"> 
-				 <button type="submit" data-oper='insert' class="btn btn-default">조회</button>
+				시작일 <input type="text" id="from" name="from" value='<c:out value="${attendModel.attcri.from}"/>' />
+				 ~ 종료일 <input type="text" id="to" name="to" value='<c:out value="${attendModel.attcri.to 
+				 }"/>' />
+			<input type='hidden' name='pageNum' value='<c:out value="${attendModel.attcri.pageNum}"/>' />
+			<input type='hidden' name='amount'	value='<c:out value="${attendModel.attcri.amount}"/>' />
+				 <button type="submit" class="btn btn-default">조회</button>
+			
 			</td>
 			</tr>
 		</tbody>
 		</table>
-		
 		</form>
+		
+		<script type="text/javascript">
+		$(document).ready(function(){
+			var searchForm=$("#searchForm");
+			var from=searchForm.find("input[name='from']").val();
+			var to=searchForm.find("input[name='to']").val();
+			
+			$("#searchForm button").on("click", function(e){
+				searchForm.find("input[name='pageNum']").val("1"); //1페이지 설정
+				e.preventDefault();
+				
+				if(from.value==''){
+					window.alert('날짜를 정확히 입력해야 합니다.');
+					document.searchForm.from.focus();
+					document.searchForm.to.focus();
+					return false;
+				}
+				
+				console.log(from);
+				console.log(to);
+				searchForm.submit();
+				
+				
+			});
+			
+			
+		});
+		</script>		
+		
+		
+		
+		
+		
 
 		<table class="type04">
 			<tr>
-				<td>사원명</td>
-				<td>날짜</td>
-				<td>출근시간</td>
-				<td>퇴근시간</td>
-				<td>지각여부</td>
+				<td><b>사원명</b></td>
+				<td><b>날짜</b></td>
+				<td><b>출근시간</b></td>
+				<td><b>퇴근시간</b></td>
+				<td><b>지각여부</b></td>
 			</tr>
 			<c:forEach var="attend" items="${total }">
 				<tr>
@@ -216,7 +255,9 @@
 	<form id='attendAction' action='/attend/attendTotalRecord' method='get'>
 	<input type="hidden" name="pageNum" value='${attendModel.attcri.pageNum }'>
 	<input type="hidden" name="amount" value='${attendModel.attcri.amount }'>
-	
+	<input type='hidden' name='searchName' value='<c:out value="${ attendModel.attcri.searchName }"/>'>
+	<input type='hidden' name='from' value='<c:out value="${ attendModel.attcri.from }"/>'>
+	<input type='hidden' name='to' value='<c:out value="${ attendModel.attcri.to }"/>'>
 	</form>
 
 
@@ -224,6 +265,7 @@
 
 	</div>
 
+<!-- 페이징 처리 액션 처리 -->
 <script type="text/javascript">
 $(document).ready(function(){
 	

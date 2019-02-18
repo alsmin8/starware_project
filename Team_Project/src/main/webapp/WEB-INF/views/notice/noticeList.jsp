@@ -178,12 +178,9 @@
 				<option value="TWC"
 					<c:out value="${noticeModel.ncri.noticeSearchType eq 'TWC'?'selected':''}"/>>전체</option>
 			</select>
-			<input type='text' name='noticeSearchKey'
-								value='<c:out value="${noticeModel.ncri.noticeSearchKey}"/>' /> <input
-								type='hidden' name='pageNum'
-								value='<c:out value="${noticeModel.ncri.pageNum}"/>' /> <input
-								type='hidden' name='amount'
-								value='<c:out value="${noticeModel.ncri.amount}"/>' />
+			<input type='text' name='noticeSearchKey' value='<c:out value="${noticeModel.ncri.noticeSearchKey}"/>' /> 
+			<input type='hidden' name='pageNum' value='<c:out value="${noticeModel.ncri.pageNum}"/>' />
+			<input type='hidden' name='amount'	value='<c:out value="${noticeModel.ncri.amount}"/>' />
 			<button class='btn btn-default'>검색</button>
 		</form>
 

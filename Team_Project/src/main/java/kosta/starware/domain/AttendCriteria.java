@@ -10,7 +10,12 @@ import lombok.ToString;
 public class AttendCriteria {
 
 	private int pageNum;
-	private int amount; //ÇÑ ÆäÀÌÁö¿¡ ¸î °³ º¸¿©ÁÙÁö
+	private int amount; //ëª‡ ê°œì”© ë³´ì—¬ì¤„ì§€...
+	
+	private String searchName;
+	
+	private String from;
+	private String to;
 	
 	public AttendCriteria(){
 		this(1, 10);

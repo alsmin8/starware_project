@@ -38,6 +38,7 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
+				<li><a href="loginafter.jsp">메인</a></li>
   <li><a href="/approval/applist_alllist">전자결재</a></li>
             <li><a href="/project/projectList">협업지원</a></li>
             <li><a href="/notice/noticeList">공지사항</a></li>

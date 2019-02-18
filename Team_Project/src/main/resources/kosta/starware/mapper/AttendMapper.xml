@@ -6,54 +6,96 @@
 
 
 
-<!-- 리절트타입 사용하는 경우 -->
-<!-- <select id="totalRecordWithPaging" resultType="kosta.starware.domain.AttendVO">
-	<![CDATA[
-	select attend_date,emp_no, attend_startTime, attend_endTime,
-	attend_stateNo
-	from
-	(select /*+index_desc(attend XPKATTEND) */	
-	rownum rn, attend_date,emp_no, attend_startTime, attend_endTime,
-	attend_stateNo
-	from attend
-	where rownum<=#{pageNum}*#{amount}
-	)
-		where rn>(#{pageNum}-1)*#{amount}
 
-	]]>
+	<insert id="insertAttend">
+		insert into attend values
+		(to_date(sysdate,
+		'YY-MM-DD'), #{emp_no},
+		to_char(sysdate, 'HH24:MI:SS'),'',
+		#{attend_stateNo}
+		)
+	</insert>
 
-</select> -->
+	<update id="insertLeave">
+		update attend set
+		attend_endTime=#{attend_endTime},
+		attend_stateNo=#{attend_stateNo}
+		WHERE
+		TO_CHAR(attend_date,'YYYY-MM-DD')=TO_CHAR(sysdate, 'YYYY-MM-DD')
+		AND
+		emp_no=#{emp_no}
+	</update>
 
 
-<select id="totalRecordWithPaging" resultType="kosta.starware.domain.AttendVO">
+	<select id="totalRecordWithPaging" resultType="kosta.starware.domain.AttendVO">
 <![CDATA[
 	select * from 
 	(select /*+index_desc(attend XPKATTEND) */	
 	rownum rn, a.emp_no, a.attend_date, e.emp_name, a.attend_startTime, a.attend_endTime, a.attend_stateNo
 	from attend a, emp e
-	where a.emp_no=e.emp_no
+	]]>
+		<trim prefix="WHERE" prefixOverrides="AND">
+			a.emp_no=e.emp_no
+			<if test="searchName!=null">
+				and emp_name like #{searchName}
+			</if>
+			<if test="from!=null and to!=null">
+				and to_date(attend_date, 'yy-mm-dd HH24:MI:SS') BETWEEN
+				to_char(#{from}) AND to_char(#{to})
+			</if>
+		</trim>
+
+	<![CDATA[
 	and rownum<=#{pageNum}*#{amount}
 	)
 		where rn>(#{pageNum}-1)*#{amount}
 
 	]]>
 
-</select>
+
+	</select>
 
 
-<select id="empRecordWithPaging" resultType="kosta.starware.domain.AttendVO">
-select attend_date,emp_no, attend_startTime, attend_endTime,
-	attend_stateNo
-	from attend
-	where emp_no=12301
-	order by TO_CHAR(attend_date, 'YYYY-MM-DD HH24:MI:SS') desc
 
-</select>
 
-<select id="getAttendTotal" resultType="int">
-select count(*) from attend
 
-</select>
+
+
+	<select id="empRecordWithPaging" resultType="kosta.starware.domain.AttendVO">
+<![CDATA[
+select * from
+(select /*+index_desc(attend XPKATTEND) */	
+	rownum rn, a.emp_no, a.attend_date, e.emp_name, a.attend_startTime, a.attend_endTime, a.attend_stateNo
+	from attend a, emp e
+	where a.emp_no=e.emp_no
+	and a.emp_no=#{emp_no}
+)
+]]>
+
+	</select>
+
+	
+	<select id="getAttendTotal" resultType="int">
+	<![CDATA[
+	select count(*) from 
+	(select /*+index_desc(attend XPKATTEND) */	
+	rownum rn, a.emp_no, a.attend_date, e.emp_name, a.attend_startTime, a.attend_endTime, a.attend_stateNo
+	from attend a, emp e
+	]]>
+		<trim prefix="WHERE" prefixOverrides="AND">
+			a.emp_no=e.emp_no
+			<if test="searchName!=null">
+				and emp_name like #{searchName}
+			</if>
+			<if test="from!=null and to!=null">
+				and to_date(attend_date, 'yy-mm-dd HH24:MI:SS') BETWEEN
+				to_char(#{from}) AND to_char(#{to})
+			</if>
+		</trim>
+	)
+	</select>
+	
+	
 
 </mapper>
 

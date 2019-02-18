@@ -43,7 +43,7 @@ input[type="submit"] {
 </style>
 </head>
 <body>
-<%-- <%
+ <%
 		String emp_no = null;
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
@@ -51,10 +51,8 @@ input[type="submit"] {
 		if (emp_no == null) {
 			session.setAttribute("messageType", "오류메세지");
 			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
-			response.sendRedirect("login.jsp");
-			return;
 		} 
-	%> --%>
+	%>
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed"
@@ -69,6 +67,7 @@ input[type="submit"] {
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
+				<li><a href="loginafter.jsp">메인</a></li>
 			  <li><a href="/approval/applist_alllist">전자결재</a></li>
             <li><a href="/project/projectList">협업지원</a></li>
             <li><a href="/notice/noticeList">공지사항</a></li>
@@ -114,26 +113,89 @@ input[type="submit"] {
 <h3>출퇴근 기록부</h3> <br><br>
 <center>
 <h4>${emp_name } 사원님, 현재 시각은 <%= sf.format(nowTime) %> 입니다.</h4><br>
-<form action="insert.att">
-<input type="hidden" name="emp_no" value="${emp_no }">
-<input type="hidden" name="attend_date">
+<form id="insertForm">
+<input type="hidden" name="emp_no" value="<%=emp_no%>">
+<!-- <input type="hidden" name="attend_date">
 <input type="hidden" name="attend_startTime">
 <input type="hidden" name="attend_endTime">
-<input type="hidden" name="attend_stateNo">
-<input type="submit" value="출근">
+-->
+<button class="InsertButton" id="attButton" type="submit">출근</button>
 </form><br><br>
 
 
-<form action="leave.att">
-<input type="hidden" name="emp_no" value="${emp_no }">
-<input type="hidden" name="attend_date" >
-<input type="hidden" name="attend_endTime" >
-<input type="hidden" name="attend_stateNo">
-<input type="submit" value="퇴근">
+<form id="leaveForm">
+<input type="hidden" name="emp_no" value="<%=emp_no%>">
+<input type="hidden" name="attend_startTime">
+<input type="hidden" name="attend_endTime">
+<button class="InsertButton" id="leaveButton" type="submit">퇴근</button>
 </form>
 
 </center>
 </div>
+
+
+<script>
+$(document).ready(function(e){
+	var attendForm=$("#insertForm");
+	var leaveForm=$("#leaveForm");
+	
+	var emp_no=leaveForm.find("input[name='emp_no']").val();
+	//var attend_date=$("attend_date").val();
+	var attend_startTime=leaveForm.find("input[name='attend_startTime']").val();
+	var attend_endTime=leaveForm.find("input[name='attend_endTime']").val();
+	
+	
+	var allData={"emp_no": emp_no , 
+			"attend_startTime": attend_startTime,
+			"attend_endTime" : attend_endTime
+			};
+	
+	$("#attButton").on("click", function(e){
+		e.preventDefault();
+		console.log("clicked..");
+		
+		$.ajax({
+			url : '/attend/attendAction',
+			data : allData,
+			type : 'POST',
+			success : function(result){
+				alert(result);
+			},
+			  error:function(jqXHR, textStatus, errorThrown){
+		            alert("이미 출근하셨습니다.");
+			  }
+			
+		});
+	
+	})
+	
+
+	$("#leaveButton").on("click", function(e){
+		e.preventDefault();
+		console.log("clicked...");
+		
+		$.ajax({
+			url : '/attend/leaveAction',
+			data : allData,
+			type : 'POST',
+			success : function(result){
+				console.log(result);
+				alert(result);
+			}
+			
+			
+		});
+		
+		
+		
+	})
+	
+	
+})
+
+
+</script>
+
 
 <!-- Modal  추가 -->
 			<div class="modal fade" id="AttendModal" tabindex="-1" role="dialog"
@@ -191,6 +253,8 @@ input[type="submit"] {
 					
 					}); */
 </script>
+
+
 
 
 

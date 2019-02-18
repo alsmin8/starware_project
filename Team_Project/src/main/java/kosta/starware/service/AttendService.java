@@ -13,5 +13,8 @@ public interface AttendService {
 	
 	public int getAttendTotalService(AttendCriteria attcri);
 	
+	public int insertAttendService(AttendVO attend);
+	
+	public int insertLeaveService(AttendVO attend);
 	
 }

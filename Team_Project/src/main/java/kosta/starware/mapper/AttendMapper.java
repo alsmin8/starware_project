@@ -13,6 +13,11 @@ public interface AttendMapper {
 	
 	public int getAttendTotal(AttendCriteria attcri);
 	
+	public int insertAttend(AttendVO attend);
+	
+	public int insertLeave(AttendVO attend);
+	
+	
 	
 	
 	

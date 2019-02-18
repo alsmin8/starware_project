@@ -15,7 +15,7 @@
 <script src="/resources/js/bootstrap.js"></script>
 </head>
 <body>
-<%-- <%
+ <%
 		String emp_no = null;
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
@@ -23,10 +23,10 @@
 		if (emp_no == null) {
 			session.setAttribute("messageType", "오류메세지");
 			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
-			response.sendRedirect("login.jsp");
-			return;
+			/* response.sendRedirect("login.jsp");
+			return; */
 		}
-	%> --%>
+	%> 
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed"
@@ -41,6 +41,7 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
+				<li><a href="loginafter.jsp">메인</a></li>
 			  <li><a href="/approval/applist_alllist">전자결재</a></li>
             <li><a href="/project/projectList">협업지원</a></li>
             <li><a href="/notice/noticeList">공지사항</a></li>
@@ -86,11 +87,11 @@
 	</div>
 		<div id="empRecordTab" class="container">
 	
-<h3>${emp_name }사원님의 출퇴근 기록지</h3>
+<h3>${emp_name } 사원님의 출퇴근 기록지</h3>
 
 <form action="empRecord.att" method="post">
 <br>	
-	<input type="hidden" name="emp_no" value=12301>
+	<input type="hidden" name="emp_no" value="<%=emp_no%>">
 	<select name="year">
 	<option value="2019">2019</option>
 	<option value="2018">2018</option>
@@ -123,6 +124,7 @@
 
 <table class="type04">
 <tr>
+	<td>사원명</td>
 	<td>날짜</td>
 	<td>출근시각</td>
 	<td>퇴근시각</td>
@@ -134,6 +136,7 @@
 	 --%>
 	<c:forEach var="li" items="${list}">
 		<tr>
+			<td>${li.emp_name }</td>
 			<td>
 			<fmt:parseDate var="dateString"
 							value="${li.attend_date}" pattern="yyyy-MM-dd" /> <fmt:formatDate
