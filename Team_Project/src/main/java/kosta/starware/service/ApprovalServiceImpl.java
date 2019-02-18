@@ -1,5 +1,6 @@
 package kosta.starware.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -156,7 +157,6 @@ public class ApprovalServiceImpl implements ApprovalService {
 			detailinfo = approvalmapper.resultDetail_VD(app_no, app_kind);
 			System.out.println(detailinfo);
 		}else{
-			
 		}
 		
 		log.info(detailinfo);
@@ -178,9 +178,21 @@ public class ApprovalServiceImpl implements ApprovalService {
 	}
 	
 	@Override
-	public List<EmpDTO> listJsonEmp(){
-		List<EmpDTO> list = approvalmapper.listJsonEmp();
-		return list;
+	public List<HashMap> listJsonEmp(String keyword){
+		List<HashMap> list = approvalmapper.listJsonEmp();
+		
+		List keywordList = new ArrayList();
+		
+		if(keyword == null || keyword.equals("")){
+			keywordList = null;
+		}
+		
+		for(int i=0;i<list.size();i++){
+			if(((String) list.get(i).get("EMP_NAME")).startsWith(keyword)){
+				keywordList.add(list.get(i));
+			}
+		}
+		return keywordList;
 	}
 
 
