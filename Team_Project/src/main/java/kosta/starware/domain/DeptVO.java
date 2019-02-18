@@ -7,5 +7,5 @@ public class DeptVO {
    private int dept_no;
    private String dept_name;
    private int DEPT_SUPERIOR;
-   
+   //
 }

@@ -54,7 +54,7 @@ public class EmpController {
 	public void empInsert() {
 		
 	}
-	
+	//
 	//사원상세정보 처리 (교재에 있는 코드)
 	/*@RequestMapping({"/empDetail","/empUpdateForm"})
 	public void empGet(@RequestParam("emp_no") int emp_no, 

@@ -77,12 +77,12 @@ where
 
 	<!-- 인사관리 x 전자결재 시작 -->
 	<select id="empDept" resultType="kosta.starware.domain.DeptVO">
-<![CDATA[
+
 SELECT *
 FROM EMP
 JOIN DEPT
 ON EMP.DEPT_NO = DEPT.DEPT_NO
-]]>
+
 	</select>
 	
 <select id="empGrade" resultType="kosta.starware.domain.GradeVO">
