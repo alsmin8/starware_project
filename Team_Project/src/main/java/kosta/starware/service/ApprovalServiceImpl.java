@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kosta.starware.domain.AppCriteria;
 import kosta.starware.domain.Approval;
@@ -128,7 +129,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 	
 	
 	
-	
+	//list<hashmap>으로 jsp에 출력하고자 하는 column 값 반환
 	@Override
 	public List<HashMap> resultApproval(String userID) {
 		log.info("resultapproval 시작 : ");
@@ -137,6 +138,8 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return list;
 	}
 	
+	
+	//리스트에서 누른 상세정보를 hashmap으로 반환(위와 출력하고자 하는 정보가 다름)
 	@Override
 	public HashMap resultDetail(String app_no, String app_kind) {
 		System.out.println("resultDetail 시작 : ");
@@ -158,12 +161,13 @@ public class ApprovalServiceImpl implements ApprovalService {
 			System.out.println(detailinfo);
 		}else{
 		}
-		
 		log.info(detailinfo);
 		return detailinfo;
 	}
-
+	
+	//승인에 대한 처리서비스
 	@Override
+	@Transactional
 	public int resultAccept(PowerDTO powerDTO) {
 		int result = approvalmapper.accept(powerDTO);
 		
@@ -182,8 +186,11 @@ public class ApprovalServiceImpl implements ApprovalService {
 		}
 		return result;
 	}
-
+	
+	
+	//거절에 대한 처리서비스
 	@Override
+	@Transactional
 	public int resultReject(PowerDTO powerDTO) {
 		int result = approvalmapper.reject(powerDTO);
 		
@@ -203,6 +210,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return result;
 	}
 	
+	//각 전자결재에 대해 insert시 결재권자 검색서비스
 	@Override
 	public List<HashMap> listJsonEmp(String keyword){
 		List<HashMap> list = approvalmapper.listJsonEmp();
@@ -217,7 +225,8 @@ public class ApprovalServiceImpl implements ApprovalService {
 		}
 		return keywordList;
 	}
-
+	
+	//검색한 결재권자를 db에 저장서비스
 	@Override
 	public String appInsert(Approval approval, List<HashMap> attendees) {
 		log.info("insert::::::::::"+approval);
@@ -236,7 +245,6 @@ public class ApprovalServiceImpl implements ApprovalService {
 			}
 			return "success";
 		}
-
 	}
 
 }
