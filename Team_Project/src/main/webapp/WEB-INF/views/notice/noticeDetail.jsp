@@ -45,7 +45,7 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-			<li><a href="loginafter.jsp">메인</a></li>
+			<li><a href="/loginafter">메인</a></li>
      <li><a href="/approval/applist_alllist">전자결재</a></li>
             <li><a href="/project/projectList">협업지원</a></li>
             <li class="active"><a href="/notice/noticeList">공지사항</a></li>
@@ -61,7 +61,7 @@
 					aria-expanded="false">회원관리<span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a href="logoutaction.jsp">로그아웃</a></li>
+						<li><a href="/logoutaction">로그아웃</a></li>
 					</ul></li>
 			</ul>
 

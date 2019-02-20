@@ -41,7 +41,7 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a href="loginafter.jsp">메인</a></li>
+				<li><a href="/loginafter">메인</a></li>
 			  <li><a href="/approval/applist_alllist">전자결재</a></li>
             <li><a href="/project/projectList">협업지원</a></li>
             <li><a href="/notice/noticeList">공지사항</a></li>
@@ -57,7 +57,7 @@
 					aria-expanded="false">회원관리<span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a href="logoutaction.jsp">로그아웃</a></li>
+						<li><a href="/logoutaction">로그아웃</a></li>
 					</ul></li>
 			</ul>
 
@@ -78,6 +78,9 @@
 			$('#tab1').click(function() {
 				location.href="attendInsert"
 			});
+			$('#tab2').click(function(){
+				location.href="attendEmpRecord";
+			})
 			$('#tab3').click(function() {
 				location.href="attendTotalRecord"
 			});
@@ -89,73 +92,127 @@
 	
 <h3>${emp_name } 사원님의 출퇴근 기록지</h3>
 
-<form action="empRecord.att" method="post">
+<form method="post" id="searchForm">
 <br>	
 	<input type="hidden" name="emp_no" value="<%=emp_no%>">
-	<select name="year">
-	<option value="2019">2019</option>
-	<option value="2018">2018</option>
-	<option value="2017">2017</option>
-	<option value="2016">2016</option>
-	<option value="2015">2015</option>
-	</select> 년
 	
-	<select name="month">
-	<option value="01">01</option>
-	<option value="02">02</option>
-	<option value="03">03</option>
-	<option value="04">04</option>
-	<option value="05">05</option>
-	<option value="06">06</option>
-	<option value="07">07</option>
-	<option value="08">08</option>
-	<option value="09">09</option>
-	<option value="10">10</option>
-	<option value="11">11</option>
-	<option value="12">12</option>
-	</select> 월
-	<input type="submit" value="검색">
+	<table class="table table-bordered table-hover"
+				style="text-align: center; border: 1px solid #dddddd;">
+		<tbody>
+		<tr>
+		<td style="width:110px"><h5>조회기간</h5></td>
+		<td style="text-align: left">
+		<input type="text" name="year" size="5" placeholder="YYYY">년
+		<input type="text" name="month" size="3" placeholder="MM">월
+		&nbsp;<button type="submit" class="btn btn-default">조회</button>
+		</td>
+		<tr>
+		</tbody>
+		</table>
+
 </form>
 
 
-<br>
-<br>
 
+<script type="text/javascript">
+$(document).ready(function(){
+	var searchForm=$("#searchForm");
 
-<table class="type04">
-<tr>
-	<td>사원명</td>
-	<td>날짜</td>
-	<td>출근시각</td>
-	<td>퇴근시각</td>
-	<td>지각여부</td>
-	<td>결근여부</td>	
+	var emp_no=searchForm.find("input[name='emp_no']").val();
 	
-<%-- 	<c:if test="${li.search.year }!=null">${li.search.year }년</c:if>
-	<c:if test="${li.search.month }!=null">${li.search.month }월의 기록입니다</c:if>
-	 --%>
-	<c:forEach var="li" items="${list}">
-		<tr>
-			<td>${li.emp_name }</td>
-			<td>
-			<fmt:parseDate var="dateString"
-							value="${li.attend_date}" pattern="yyyy-MM-dd" /> <fmt:formatDate
-							value="${dateString}" pattern="yyyy-MM-dd" />
-			</td>
-			<td>${li.attend_startTime}</td>
-			<td>${li.attend_endTime }</td>
-			<td>
-			<c:set var="check" value="${fn:substring(li.attend_startTime, 0,2) }${fn:substring(li.attend_startTime, 3,5) }"></c:set>
-					<fmt:parseNumber var="timeCheck" value="${check }"></fmt:parseNumber>
-					<c:set var="checkNum" value="901"/>
-					<c:if test="${timeCheck >=checkNum }">지각</c:if>
+	console.log("emp_no:"+emp_no);
+	
+	
+	$("#searchForm button").on("click", function(e){
+		e.preventDefault();
+		
+	var year=searchForm.find("input[name='year']").val();
+	var month=searchForm.find("input[name='month']").val();
+	var allData={"emp_no" : emp_no, "year" : year, "month" : month};
+
+		//console.log(allData);
+		
+		$.ajax({
+			url : '/attend/listEmpRecord',
+			data : allData,
+			type : 'POST',
+			dataType :"json",
+			success : function(result){
+				$('#record-tbl > tbody').empty();
+				$.each(result, function(index, item){
 			
-			</td>
-			<td> </td>
-		</tr>
+					if(item.emp_no==emp_no){
+						
+						//퇴근값 null 인 경우
+						if(item.attend_endTime==null){
+							item.attend_endTime="";
+						}
+						
+						var str="";
+						str+='<tbody><tr><td>'+item.emp_name+'</td>';
+						str+='<td>'+displayDate(item.attend_date)+'</td>';
+						str+='<td>'+item.attend_startTime+'</td>';
+						str+='<td>'+item.attend_endTime+'</td>';
+						str+='<td>'+lateCheck(item.attend_startTime)+'</td></tr></tbody>';
+							
+					}
+					$('#record-tbl').append(str);	
+				});
+			}
+		}) //ajax 끝
+})
+
+});
+
+
+</script>
+
+<script>
+
+// 날짜 필요 없는 거 제거
+function displayDate(timeValue) {
+	var today = new Date();
+	var gap = today.getTime() - timeValue;
+	var dateObj = new Date(timeValue);
+		
+	var yy = dateObj.getFullYear();
+	var mm = dateObj.getMonth() + 1;
+	var dd = dateObj.getDate();
 	
-	</c:forEach>
+	return [yy, '/',(mm > 9 ? '' : '0') + mm, '/',(dd > 9 ? '' : '0') + dd].join('');
+};
+
+
+//지각 여부 체크
+function lateCheck(StringValue){
+
+		var hourCheck=StringValue.substring(0,2);
+		var minuteCheck=StringValue.substring(3,5);
+		var hourMinute=Number(hourCheck)+minuteCheck;
+		
+		if(hourMinute>=901){
+			var lateCheck="지각";
+		}else{
+			var lateCheck="";
+		}
+		return lateCheck;
+};
+
+</script>
+
+
+<table id="record-tbl" class="type04">
+<thead>
+<tr>
+	<td><b>사원명</b></td>
+	<td><b>날짜</b></td>
+	<td><b>출근시각</b></td>
+	<td><b>퇴근시각</b></td>
+	<td><b>지각여부</b></td>
+</tr>
+</thead>
 	 
+
 </table>
 
 </div>

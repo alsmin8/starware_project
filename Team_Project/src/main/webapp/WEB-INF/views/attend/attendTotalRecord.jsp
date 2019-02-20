@@ -122,14 +122,17 @@
   <li class="active"><a id="tab3" href="#attendTotalTab" role="tab" data-toggle="tab" font-weight="bold" style="font-size:11pt; font-weight:bold">근태 기록지(관리자)</a></li>
 </ul>
 	<script type="text/javascript">
-		$(function() {
-			$('#tab1').click(function() {
-				location.href="attendInsert"
-			});
-			$('#tab2').click(function() {
-				location.href="attendEmpRecord"
-			});
+	$(function() {
+		$('#tab1').click(function() {
+			location.href="attendInsert"
 		});
+		$('#tab2').click(function(){
+			location.href="attendEmpRecord";
+		})
+		$('#tab3').click(function() {
+			location.href="attendTotalRecord"
+		});
+	});
 	
 	</script>   
 	</div>
@@ -141,7 +144,7 @@
 		<br>
 		<br>
 		<br>
-		<form id="searchForm" action="/attend/attendTotalRecord" method="post">
+		<form id="searchForm" action="/attend/attendTotalRecord" method="post" onsubmit="return checkForm();">
 		<table class="table table-bordered table-hover"
 				style="text-align: center; border: 1px solid #dddddd;">
 		<tbody>
@@ -171,22 +174,11 @@
 		<script type="text/javascript">
 		$(document).ready(function(){
 			var searchForm=$("#searchForm");
-			var from=searchForm.find("input[name='from']").val();
-			var to=searchForm.find("input[name='to']").val();
 			
 			$("#searchForm button").on("click", function(e){
 				searchForm.find("input[name='pageNum']").val("1"); //1페이지 설정
 				e.preventDefault();
-				
-				if(from.value==''){
-					window.alert('날짜를 정확히 입력해야 합니다.');
-					document.searchForm.from.focus();
-					document.searchForm.to.focus();
-					return false;
-				}
-				
-				console.log(from);
-				console.log(to);
+			
 				searchForm.submit();
 				
 				
@@ -194,7 +186,24 @@
 			
 			
 		});
-		</script>		
+		</script>
+		
+		<script>
+		function checkForm(){
+			var searchForm=$("#searchForm");
+			var from=searchForm.find("input[name='from']").val();
+			var to=searchForm.find("input[name='to']").val();
+			
+				if(from.length===0&&to.length>=2){
+					window.alert('시작일을 정확히 입력해야 합니다.');
+					return false;
+				}
+				if(to.length===0&&from.length>=2){
+					window.alert('종료일을 정확히 입력해야 합니다.');
+					return false;
+				}
+		}
+		</script>
 		
 		
 		

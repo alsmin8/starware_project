@@ -72,7 +72,7 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-					<li><a href="loginafter.jsp">메인</a></li>
+					<li><a href="/loginafter">메인</a></li>
      <li><a href="/approval/applist_alllist">전자결재</a></li>
             <li><a href="/project/projectList">협업지원</a></li>
             <li class="active"><a href="/notice/noticeList">공지사항</a></li>
@@ -88,7 +88,7 @@
 					aria-expanded="false">회원관리<span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a href="logoutaction.jsp">로그아웃</a></li>
+						<li><a href="/logoutaction">로그아웃</a></li>
 					</ul></li>
 			</ul>
 
@@ -108,12 +108,12 @@
 
 		<table class="type04">
 			<tr>
-				<td>글번호</td>
-				<td>분류</td>
-				<td>제목</td>
-				<td>작성자</td>
-				<td>작성일</td>
-				<td>조회수</td>
+				<td><b>글번호</b></td>
+				<td><b>분류</b></td>
+				<td><b>제목</b></td>
+				<td><b>작성자</b></td>
+				<td><b>작성일</b></td>
+				<td><b>조회수</b></td>
 			</tr>
 
 			<c:forEach var="notice" items="${noticeList }">
