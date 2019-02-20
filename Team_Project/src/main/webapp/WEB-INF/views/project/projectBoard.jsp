@@ -25,10 +25,11 @@
 			<button type="button" class="navbar-toggle collapsed"
 				data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
 				aria-expended="false">
-				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
+				<span class="icon-bar"></span> 
+				<span class="icon-bar"></span> 
+				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="login.jsp">STARWARE</a>
+			<a class="navbar-brand" href="/login">STARWARE</a>
 		</div>
 
 		<div class="collapse navbar-collapse"
@@ -64,7 +65,7 @@
 					aria-expanded="false">회원관리<span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a href="logoutaction.jsp">로그아웃</a></li>
+						<li><a href="/logoutaction">로그아웃</a></li>
 					</ul></li>
 			</ul>
 
@@ -80,8 +81,8 @@
 		<hr>
 		<div align="center">
 			<form>
-				<input class="btn btn-primary pull" type="button" value="프로젝트 목록" onclick="location.href='/project/list';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input class="btn btn-primary pull" type="button" value="프로젝트  상세보기" onclick="location.href='/project/get';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input class="btn btn-primary pull" type="button" value="프로젝트 목록" onclick="location.href='/project/projectList';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input class="btn btn-primary pull" type="button" value="프로젝트  상세보기" onclick="location.href='/project/projectDetail?project_No=${project.project_No}';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<input class="btn btn-primary pull" type="button" value="프로젝트 진행도">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<input class="btn btn-primary pull" type="button" value="프로젝트 업무 분담">
 			</form>
@@ -188,8 +189,7 @@
 							return;
 							
 						}
-						
-							
+
 						for(var i=0, len = list.length || 0; i < len; i++){
 							if(list[i].project_Board_Position == 0){
 								str += "<li data-project_Board_No='"+list[i].project_Board_No+"' data-project_Board_Postion='"+list[i].project_Board_Position+"'>" + list[i].project_Board_Contents + "</li>";
@@ -327,8 +327,6 @@
 				var doinglist = $("#doinglist");
 				var donelist = $("#donelist");
 				
-				
-				
 				$("#todolist").on("mousedown","li",function(e) {
 					
 					var project_Board_No = $(this).data("project_board_no");
@@ -338,9 +336,7 @@
 						var board = {project_Board_No : project_Board_No, project_Board_Position: 1};
 						
 						doinglist.html(this);
-						
-						//console.log(this);
-						
+
 						projectboardservice.move(board, function(result) {
 							
 							//alert(result);
@@ -362,8 +358,6 @@
 						
 						donelist.html(this);
 						
-						//console.log(this);
-						
 						projectboardservice.move(board, function(result) {
 							
 							//alert(result);
@@ -384,8 +378,6 @@
 						var board = {project_Board_No : project_Board_No, project_Board_Position: 0};
 						
 						todolist.html(this);
-						
-						//console.log(this);
 						
 						projectboardservice.move(board, function(result) {
 							

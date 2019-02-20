@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -88,7 +89,9 @@
 		</div>
 	</nav>
 		<div class="container">
+		
 		<div class="row">
+		
 			<div class="col-xs-2">
 				<button type="button" class="btn btn-default btn-lg btn-block">기본</button>
 				<button type="button" class="btn btn-default btn-lg btn-block">업무지원</button>
@@ -104,23 +107,32 @@
 							</tr>
 						</tbody>
 					</table>
+
+				<div class="col-xs-10">
+					<img src="/resources/img/logo2.PNG" width="900px">
+				</div>
 			</div>
 		</div>
+		
+		
+		
 	</div>
 	<br>
 	<div class="container">
 		<table class="table table-bordered table-hover"
 			style="text-align: center; border: 5px solid #eeeeee;">
 			<tbody>
+			<c:forEach var="notice" items="${noticeList }" begin="0" end="2">
 				<tr>
-					<td colspan="3"><h5>리스트1</h5></td>
+					<td colspan="3"><h5><a class="move" href="/notice/noticeDetail?notice_no=${notice.notice_no}"><c:out value="${notice.notice_title }"/></a></h5></td>
 				</tr>
-				<tr>
+				<!-- <tr>
 					<td colspan="3"><h5>리스트2</h5></td>
 				</tr>
 				<tr>
 					<td colspan="3"><h5>리스트3</h5></td>
-				</tr>
+				</tr> -->
+			</c:forEach>
 			</tbody>
 			<tfoot>
 				<tr>
