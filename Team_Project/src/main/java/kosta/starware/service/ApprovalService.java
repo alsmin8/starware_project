@@ -44,6 +44,6 @@ public interface ApprovalService {
 	public List<HashMap> listJsonEmp(String keyword);
 		
 	//보류 결재권자 인설트
-	public String appInsert(Approval approval, List<Integer> attendees);
+	public void appInsert(Approval approval, List<Integer> attendees);
 	
 }
