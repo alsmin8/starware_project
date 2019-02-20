@@ -68,23 +68,13 @@
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="/loginafter">메인</a></li>
-<<<<<<< HEAD
 				<li><a href="/approval/applist_alllist">전자결재</a></li>
-				<li><a href="/project/listProjectForm">협업지원</a></li>
+				<li><a href="/project/projectList">협업지원</a></li>
 				<li><a href="/notice/noticeList">공지사항</a></li>
 				<li><a href="/attend/attendInsert">출퇴근관리</a></li>
-				<li><a href="list.do">인사관리</a></li>
-				<li><a href="calendar_main.jsp">일정관리</a></li>
+				<li><a href="/emp/empList">인사관리</a></li>
+				<li><a href="/schedule/scheduleMain">일정관리</a></li>
 				<li><a href="/chat/messengerFind">메세지함<span id="unlead" class="label label-info"></span></a></li>
-=======
-            	<li><a href="/approval/applist_alllist">전자결재</a></li>
-            	<li><a href="/project/projectList">협업지원</a></li>
-            	<li><a href="/notice/noticeList">공지사항</a></li>
-            	<li><a href="/attend/attendInsert">출퇴근관리</a></li>
-           	 	<li><a href="/emp/empList">인사관리</a></li>
-            	<li><a href="/schedule/scheduleMain">일정관리</a></li>
-            	<li><a href="/chat/messengerFind">메세지함<span id="unread" class="label label-info"></span></a></li>
->>>>>>> branch 'master' of https://github.com/alsmin8/starware_project.git
 			</ul>
 
 			<ul class="nav navbar-nav navbar-right">
