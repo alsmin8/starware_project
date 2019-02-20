@@ -71,8 +71,8 @@ public class ApprovalController {
 	}
 
 	@PostMapping("/appinsertddform")
-	public String appDdInsert(Approval approval, DisbursementDoc disbursementdoc, RedirectAttributes rttr) {
-		log.info("appInsert::" + approval + "appInsert::" + disbursementdoc);
+	public String appDdInsert(Approval approval, DisbursementDoc disbursementdoc,@RequestParam("attendees") List<Integer> attendees, RedirectAttributes rttr) {
+		log.info("appInsert::" + approval + "appInsert::" + disbursementdoc + " attendees::" + attendees);
 		approvalservice.appInsert(approval);
 		approvalservice.appDdInsert(disbursementdoc);
 
@@ -81,15 +81,17 @@ public class ApprovalController {
 	}
 
 	@PostMapping("/appinsertdraftform")
-	public String appDraftInsert(Approval approval, DraftDoc draftDoc) {
-		approvalservice.appInsert(approval);
+	public String appDraftInsert(Approval approval, DraftDoc draftDoc,@RequestParam("attendees") List<Integer> attendees) {
+		log.info("appInsert::" + approval + "appInsert::" + draftDoc + " attendees::" + attendees);
+		approvalservice.appInsert(approval, attendees);
 		approvalservice.appDraftInsert(draftDoc);
 		
 		return "redirect:/approval/applist_alllist";
 	}
 
 	@PostMapping("/appinsertvacationform")
-	public String appVacationInsert(Approval approval, VacationDoc vacationDoc, RedirectAttributes rttr) {
+	public String appVacationInsert(Approval approval, VacationDoc vacationDoc,@RequestParam("attendees") List<Integer> attendees, RedirectAttributes rttr) {
+		log.info("appInsert::" + approval + "appInsert::" + vacationDoc + " attendees::" + attendees);
 		approvalservice.appInsert(approval);
 		approvalservice.appVacationInsert(vacationDoc);
 		rttr.addFlashAttribute("result", approval.getApp_no());

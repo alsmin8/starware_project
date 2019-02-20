@@ -45,7 +45,7 @@ public interface ApprovalMapper {
 	
 	//결재권자 추가
 	public List<HashMap> listJsonEmp();
-	public int powerInsert(@Param("app_no") String app_no,@Param("emp_no") String emp_no);
+	public int powerInsert(@Param("app_no") int app_no,@Param("emp_no") int emp_no);
 	
 	//내가 결재할 목록
 	public List<HashMap> resultApproval(String userID);

@@ -228,19 +228,19 @@ public class ApprovalServiceImpl implements ApprovalService {
 	
 	//검색한 결재권자를 db에 저장서비스
 	@Override
-	public String appInsert(Approval approval, List<HashMap> attendees) {
-		log.info("insert::::::::::"+approval);
+	public String appInsert(Approval approval, List<Integer> attendees) {
+		System.out.println("insert::::::::::"+approval);
 		approvalmapper.appInsertSelectKey(approval);
 		
-		String app_no = Integer.toString(approval.getApp_no());
-		log.info("app_no : " + approval.getApp_no() + " 숫자 app_no : " +  app_no);
+		int app_no = approval.getApp_no();
+		System.out.println("app_no : " + app_no);
 		
-		log.info("attendees 정보 : " + attendees);
+		System.out.println("attendees 정보 : " + attendees);
 		if(attendees.size() == 0 || attendees == null){
-			return "NULL";
+			return "null";
 		}else{
 			for(int i=0; i<attendees.size(); i++){
-				String emp_no = (String) attendees.get(i).get("attendees");
+				int emp_no = attendees.get(i);
 				approvalmapper.powerInsert(app_no, emp_no);
 			}
 			return "success";
