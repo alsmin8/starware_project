@@ -39,7 +39,7 @@ public class AttendController {
 	public String attendAction(AttendVO attend){
 		log.info("attendAction...");
 		return service.insertAttendService(attend)==1 ?
-				"Ãâ±Ù ±â·Ï ¿Ï·á": "ÀÌ¹Ì Ãâ±ÙÇÏ¼Ì½À´Ï´Ù.";
+				"ì¶œê·¼ ê¸°ë¡ ì™„ë£Œ": "ì´ë¯¸ ì¶œê·¼í•˜ì…¨ìŠµë‹ˆë‹¤.";
 	}
 	
 	@ResponseBody
@@ -48,7 +48,7 @@ public class AttendController {
 		log.info("LeaveAction...");
 
 		return service.insertLeaveService(attend)==1 ?
-				"Åğ±Ù ±â·Ï ¿Ï·á" : "ÀÌ¹Ì Åğ±ÙÇÏ¼Ì½À´Ï´Ù.";
+				"í‡´ê·¼ ê¸°ë¡ ì™„ë£Œ" : "ì´ë¯¸ í‡´ê·¼í•˜ì…¨ìŠµë‹ˆë‹¤.";
 		
 	}
 	
