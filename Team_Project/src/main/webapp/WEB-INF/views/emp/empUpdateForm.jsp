@@ -1,7 +1,9 @@
 ﻿
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -66,13 +68,13 @@
 		</div>
 	</nav>
 	
-	<%-- <div class="container">
 	
-	<h1>사원 정보</h1>
+	
+	<div class="container">
 
-<h3>사원정보수정</h3>
-<hr>
-<form action="UpdateAction.do" method="post">
+	
+	
+	<%-- 
 	
 	사번 : <input type="text" name="emp_no" value = "${emp.emp_no }"><br>
 	성명 : <input type="text" name="emp_name" value = "${emp.emp_name }"><br>
@@ -86,43 +88,16 @@
 	입사일 : <input type="text" name="emp_hiredate" value = "${emp.emp_hiredate }"><br>
 	퇴사일 : <input type="text" name="emp_retiredate" value = "${emp.emp_retiredate }"><br>
 	고용상태 : <input type="text" name="emp_empstate" value = "${emp.emp_empstate }"><br>
-	
-	<!-- 셀렉트 형태(수정시 DB에서 데이터 유지가 안되는 상태, 일단은 inputtype으로 사용하자 -->
-	 <select type = "hidden" name="emp_empstate">
-			<option value="선택">${emp.emp_empstate }</option>
-			<option value="재직">재직</option>
-			<option value="퇴사">퇴사</option>
-			</select><br> 
-			
+		
 	총 연차일수 : <input type="text" name="emp_totalvdays" value = "${emp.emp_totalvdays }"><br>
 	잔여 연차일수 : <input type="text" name="emp_vleftdays" value = "${emp.emp_vleftdays }"><br>
 	 
-	<br>
+	> --%>
 	
-	<input type="text" name="emp_empstate" value = "${emp.emp_empstate }">
-	
-	<input type="submit" value="수정">
-	<a href="list.do">목록</a>
-	</form>
-
-	
-	
-	
-	
-	
-	</div> --%>
-	
-	<div class="container">
-			<!-- <form method="post" action="/emp/empUpdateForm"> -->
-			
-			<form role="form" id="form" name="form" action="empUpdate" method="post" >
-	<%-- <input type="hidden" name="notice_no" value="${notice.notice_no}">
-	<input type="hidden" name="notice_hitCount" value="${notice.notice_hitCount}">
-	<input type="hidden" name="notice_regdate" value="${notice.notice_regdate}">
-	<input type="hidden" name="emp_no" value="${emp_no}"> --%>
-	<input type='hidden' name='pageNum' value='<c:out value="${empcri.pageNum }"/>'>
-    <input type='hidden' name='amount' value='<c:out value="${empcri.amount }"/>'>
-	
+	<form id="empForm" name="empForm" action="/emp/empUpdate" method="post" >
+	<input type="hidden" name="emp_no" value="${emp.emp_no }">
+	<input type='hidden' name='pageNum' value='<c:out value="${empcri.pageNum}" />'>
+    <input type='hidden' name='amount' value='<c:out value="${empcri.amount}" />'>
 			
 				<table class="table table-bordered table-hover"
 					style="text-align: center; border: 1px solid #dddddd;">
@@ -156,22 +131,7 @@
 								name="emp_gender" maxlength="20" placeholder="성별을 입력하세요" value = "${emp.emp_gender }"></td>
 						</tr>
 						
-						<!-- <tr>
-							<td style="width: 110px;"><h5>성별</h5></td>
-							<td colspan="2">
-								<div class="form-group"
-									style="text-align: center; margin: 0 auto;">
-									<div class="btn-group" data-toggle="buttons">
-										<label class="btn btn-primary active"> <input
-											type="radio" name="emp_gender" autocomplete="off" value="남자"
-											checked>남자
-										</label> <label class="btn btn-primary"> <input type="radio"
-											name="emp_gender" autocomplete="off" value="여자">여자
-										</label>
-									</div>
-								</div>
-							</td>
-						</tr> -->
+						
 						<tr>
 							<td style="width: 110px;"><h5>주민등록번호</h5></td>
 							<td colspan="2"><input class="form-control" type="text"
@@ -220,22 +180,7 @@
 								id="emp_empstate" name="emp_empstate" maxlength="20"
 								placeholder="고용상태를 입력하세요" value = "${emp.emp_empstate }"></td>
 						</tr>
-						<!-- <tr>
-							<td style="width: 110px;"><h5>고용상태</h5></td>
-							<td colspan="2">
-								<div class="form-group"
-									style="text-align: center; margin: 0 auto;">
-									<div class="btn-group" data-toggle="buttons">
-										<label class="btn btn-primary active"> <input
-											type="radio" name="emp_empstate" autocomplete="off" value="재직"
-											checked>재직
-										</label> <label class="btn btn-primary"> <input type="radio"
-											name="emp_empstate" autocomplete="off" value="퇴사">퇴사
-										</label>
-									</div>
-								</div>
-							</td>
-						</tr> -->
+				
 						<tr>
 							<td style="width: 110px;"><h5>총 연차일수</h5></td>
 							<td colspan="2"><input class="form-control" type="text"
@@ -249,15 +194,70 @@
 								placeholder="잔여 연차일수를 입력하세요" value = "${emp.emp_vleftdays }"></td>
 						</tr>
 											
+						
+						
 						<tr>
-							<td style="text-align: left" colspan="3"><h5 style="color: red;" id="passwordCheckMessage"></h5><input class="btn btn-primary pull-right" type="submit" value="수정"/> 
-							<h5 style="color: red;" id="passwordCheckMessage"></h5><a class="btn btn-default pull-right" value="목록" href="/emp/empList">목록</a> </td>
-						</tr>
+					<td style="text-align: right" colspan="3">
+					<span style="float:right">
+						<button type="submit" data-oper='List' class="btn btn-default">목록</button>
+						<button type="submit" data-oper='Update' class="btn btn-default">수정</button>
+					</span>
+				</td>
+			</tr>
 						
 					</tbody>
 				</table>
 			</form>
 		</div>
+	
+	
+	
+	
+	
+<script type="text/javascript">
+$(document).ready(function() {
+  
+  var empUpdateForm =$("#empForm");
+  
+  
+  $('button').on("click", function(e){
+	  
+	   e.preventDefault(); 
+	  
+	  var empOperation = $(this).data("oper");
+	  
+	  console.log(empOperation);
+	 //여기부터 잘못된거같다 
+	  if(empOperation === 'Update'){
+		  empUpdateForm.attr("action", "/emp/empUpdate");
+		  
+	  }else if(empOperation === 'List'){
+		
+		empUpdateForm.attr("action", "/emp/empList").attr("method", "get");
+	 	
+		var pageNumTag = $("input[name='pageNum']").clone();
+		var amountTag = $("input[name='amount']").clone();
+		
+		empUpdateForm.empty();
+		empUpdateForm.append(pageNumTag);
+		empUpdateForm.append(amountTag);
+	  }
+	 
+	  empUpdateForm.submit();
+	  
+  });
+  });
+</script>
+
+
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 </body>

@@ -18,7 +18,11 @@
 td{
 text-align: center;
 }
+modal-footer{
+text-align: center;
+}
 </style>
+
 
 </head>
 <body>
@@ -27,12 +31,6 @@ text-align: center;
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
 		}
-/* 		if (emp_no == null) {
-			session.setAttribute("messageType", "오류메세지");
-			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
-			response.sendRedirect("login.jsp");
-			return;
-		} */
 	%>
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
@@ -67,7 +65,6 @@ text-align: center;
 					</ul>
 				</li>
 			</ul>
-
 		</div>
 	</nav>
 	
@@ -93,21 +90,24 @@ text-align: center;
 	<div class="container" id="applist">
 		<h2>내가 진행할 결재목록</h2><br>
 	<table class="type04">
-		<tr>
-			<td>글번호</td>
-			<td>문서종류</td>
-			<td>제      목</td>
-			<td>기안일자</td>
-			<td>상신일자</td>
-			<td>본인승인결과</td>
-			<td>기안자</td>
-		</tr>
-		<c:forEach var="Approval" items="${applist_result}">
+		<thead>
 			<tr>
-				<td><a href="detail.bit?seq=${Approval.APP_NO}&app_kind=${Approval.APP_KIND}">${Approval.APP_NO}</a></td>
+				<td>글번호</td>
+				<td>문서종류</td>
+				<td>제      목</td>
+				<td>기안일자</td>
+				<td>상신일자</td>
+				<td>본인승인결과</td>
+				<td>기안자</td>
+			</tr>
+		</thead>
+		<tbody id="result_detail">
+		<c:forEach var="Approval" items="${applist_result}">
+			<tr data-app_no="${Approval.APP_NO}", data-app_kind="${Approval.APP_KIND}", data-power_defult="${Approval.POWER_DEFULT}">
+				<td>${Approval.APP_NO}</td>
 				<td>${Approval.APP_KIND}</td>
 				<td>${Approval.APP_TITLE}</td>
-				
+				<%-- <a href="detail.bit?seq=${Approval.APP_NO}&app_kind=${Approval.APP_KIND}"></a> --%>
 				<td>
 					 <fmt:parseDate var="dateString" value="${Approval.APP_STARTDATE}" pattern="yyyy-MM-dd"/>
 					 <fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd"/>
@@ -117,13 +117,13 @@ text-align: center;
 					 <fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd"/>
 				</td>
 				<td>${Approval.POWER_DEFULT}</td>
-				<td>${Approval.EMP_NO}</td>
+				<td>${Approval.EMP_NAME}(${Approval.EMP_NO})</td>
 			</tr>
 		</c:forEach>
+		</tbody>
 	</table>
 	<br><br>
-	
-	
+
 	<!-- <form action="list.bit" method="post" >
 	<input type ="checkbox" name = "check" value = "연차신청서">연차신청서
 	<input type ="checkbox" name = "check" value = "지출결의서">지출결의서
@@ -143,8 +143,247 @@ text-align: center;
 	
 	<input type ="text" name = "searchKey" size = "10"></input>
 	<br><input type = "submit" value = "검색">
-	
 	</form> -->
+	
 	</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">결재 승인 내용 및 창</h4>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label>문서종류</label> 
+					<input class="form-control" name='kind' value='kind!!!!' readonly="readonly">
+				</div>      
+				<div class="form-group">
+					<label>제목</label> 
+					<input class="form-control" name='title' value='New Title!!!!' readonly="readonly">
+				</div>
+				<div class="form-group">
+					<label>작성내용</label> 
+					<input class="form-control" name='content' value='content' readonly="readonly">
+				</div>
+				<div class="form-group">
+					<label>기안일자</label>
+					<input class="form-control" name='startDate' value='startDate' readonly="readonly">
+				</div>
+				<div class="form-group">
+					<label>완료일자</label>
+					<input class="form-control" name='endDate' value='endDate' readonly="readonly">
+				</div>
+				<div class="form-group">
+					<label>기안자</label> 
+					<input class="form-control" name='writer' value='writer' readonly="readonly">
+				</div>
+			</div>
+			<div id="container">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      			<canvas id="drawCanvas" width="200" height="150" style=" position: relative; border: 1px solid #000;"></canvas>
+			</div>
+			
+			<div class="modal-footer">
+				<button id='modalAcceptBtn' type="button" class="btn btn-primary">accept</button>
+				<button id='modalRejectBtn' type="button" class="btn btn-danger">reject</button>
+				<button id='modalCloseBtn' type="button" class="btn btn-default">Close</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+	
+	
+<script type="text/javascript">
+	var modal = $(".modal");
+	var modalInputKind = modal.find("input[name='kind']");
+	var modalInputTitle = modal.find("input[name='title']");
+	var modalInputContent = modal.find("input[name='content']");
+	var modalInputStartDate = modal.find("input[name='startDate']");
+	var modalInputEndDate = modal.find("input[name='endDate']");
+	var modalInputWriter = modal.find("input[name='writer']");
+	
+	var modalAcceptBtn = $("#modalAcceptBtn");
+	var modalRejectBtn = $("#modalRejectBtn");
+    var emp_no = <%=emp_no%>;
+	
+	//상세 조회 클릭 이벤트 처리 
+    $("#result_detail").on("click", "tr", function(e){
+    // tr를 왜 두번째에 넣어줬냐 동적으로 하기위해 - 있는 tr이 아닙니다.
+	    var detailNum = $(this).data("app_no"); //app_no를 뽑아냄
+	    var detailKind = $(this).data("app_kind"); //app_kind를 뽑아냄
+		var detailDefult = $(this).data("power_defult");
+	    console.log(emp_no);
+		console.log(detailNum);
+		console.log(detailKind);
+
+		$.ajax({
+			type: 'POST',
+			url : '/approval2/getDatail.json',
+			data : {
+				app_no : detailNum,
+				app_kind : detailKind
+			},
+			success : function(result){
+				console.log(result);
+				modalInputKind.val(result.KIND);
+				modalInputTitle.val(result.TITLE);
+				modalInputContent.val(result.CONTENT);
+				modalInputStartDate.val(displayTime(result.STARTDATE));
+				modalInputEndDate.val(displayTime(result.ENDDATE));
+				modalInputWriter.val(result.WRITER);
+				
+		        modal.data("app_no", result.APP_NO);
+		         
+		        if(detailDefult == '승인' || detailDefult == '거절'){
+		        	modal.find("button[id !='modalCloseBtn']").hide();
+		        }else{
+		        	modal.find("button[id !='modalCloseBtn']").hide();
+			        modalAcceptBtn.show();
+			        modalRejectBtn.show();
+		        }
+
+		        
+		        $(".modal").modal("show");
+			}
+		})//getDetail 메소드 종료
+    });	//result_detail 클릭버튼 이벤트 종료 
+    modalAcceptBtn.on("click", function(e){
+			$.ajax({
+				type: 'POST',
+				url : '/approval2/getAccept',
+				data : {
+					app_no: modal.data("app_no"), 
+					emp_no: emp_no,
+					power_defult: '승인'
+				},
+				success : function(result){
+					console.log(result);
+					alert(result);
+					$(".modal").modal('hide');
+					//location.href="/approval/applist_result";
+				}
+			})//getAccept 메소드 종료
+        
+    });	//modalAcceptBtn 이벤트 종료
+
+    modalRejectBtn.on("click", function (e){
+			$.ajax({
+				type: 'POST',
+				url : '/approval2/getReject',
+				data : {
+	        		app_no: modal.data("app_no"), 
+					emp_no: emp_no,
+	        		power_defult: '거절'
+				},
+				success : function(result){
+					console.log(result);
+					alert(result);
+					$(".modal").modal('hide');
+					//location.href="/approval/applist_result";
+				}
+			})//getReject 메소드 종료
+  	}); //modalRejectBtn 이벤트 종료 
+    $("#modalCloseBtn").on("click", function(e){
+    	modal.modal('hide');
+    });
+    function displayTime(timeValue) {
+    	var today = new Date();
+    	var gap = today.getTime() - timeValue;
+    	var dateObj = new Date(timeValue);
+    		
+    	var hh = dateObj.getHours();
+    	var mi = dateObj.getMinutes();
+    	var ss = dateObj.getSeconds();
+    	var yy = dateObj.getFullYear();
+    	var mm = dateObj.getMonth() + 1;
+    	var dd = dateObj.getDate();
+    	
+    	return [yy, '/',(mm > 9 ? '' : '0') + mm, '/',(dd > 9 ? '' : '0') + dd, ' - ' , (hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi, ':',(ss > 9 ? '' : '0') + ss].join('');
+    };
+</script>
+
+
+<script type="text/javascript">
+    //window가 load 될때 Event Listener를 등록 하여 준다.
+    if(window.addEventListener){
+        window.addEventListener('load', InitEvent, false);
+    }
+    var canvas, context, tool;
+    function InitEvent ()
+    {
+        // Canvas 객체를 탐색 한다.
+        canvas = document.getElementById('drawCanvas');
+        if (!canvas) {
+          alert('캔버스 객체를 찾을 수 없음');
+          return;
+        }
+        if (!canvas.getContext){
+          alert('Drawing Contextf를 찾을 수 없음');
+          return;
+        }
+        // 2D canvas context를 가져 온다.
+        context = canvas.getContext('2d');
+        if (!context){
+          alert('getContext() 함수를 호출 할 수 없음');
+          return;
+        }
+        // tool_pencil 함수의 인스턴스를 생성 한다.
+        tool = new tool_pencil();
+        // Canvas에 mousedown, mousemove, mouseup 이벤트 리스너를 추가한다.
+        canvas.addEventListener('mousedown', ev_canvas, false);
+        canvas.addEventListener('mousemove', ev_canvas, false);
+        canvas.addEventListener('mouseup',   ev_canvas, false);
+    }//InitEvent end
+    // 마우스 이동을 추적 하여 그리기 작업을 수행 한다.
+
+    function tool_pencil (){
+        var tool = this;
+        this.started = false;
+        // 마우스를 누를때 그리기 작업을 시작 한다.
+        this.mousedown = function (ev){
+            context.beginPath();
+            context.moveTo(ev._x, ev._y);
+            tool.started = true;
+        };
+        // 마우스가 이동 할때(mousemove) 마다 호출 된다.
+        this.mousemove = function (ev){
+            if (tool.started){
+                context.lineTo(ev._x, ev._y);
+                context.stroke();
+            }
+        };
+        // 마우스 좌측 버튼을 놓았을때(mouseup) 호출 된다. 
+        this.mouseup = function (ev){
+          if (tool.started){
+                tool.mousemove(ev);
+                tool.started = false;
+          }
+        };
+    }// tool_pencil end
+
+    // Canvas요소 내의 좌표를 결정 한다.
+    function ev_canvas (ev)
+    {
+        if (ev.layerX || ev.layerX == 0){ // Firefox 브라우저
+          ev._x = ev.layerX;
+          ev._y = ev.layerY;
+        }else if (ev.offsetX || ev.offsetX == 0){ // Opera 브라우저
+          ev._x = ev.offsetX;
+          ev._y = ev.offsetY;
+        }
+        // tool의 이벤트 핸들러를 호출한다.
+        var func = tool[ev.type];
+        if (func){
+            func(ev);
+        }
+    }//ev_canvas end
+</script>
+
 </body>
 </html>

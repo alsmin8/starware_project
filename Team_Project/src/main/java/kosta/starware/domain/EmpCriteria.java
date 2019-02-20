@@ -12,6 +12,9 @@ public class EmpCriteria {
 	private int pageNum;
 	private int amount;
 	
+	private String empSearchType;
+	private String empSearchKeyword;
+	
 	public EmpCriteria() {
 		this(1,5);
 	}
@@ -20,5 +23,10 @@ public class EmpCriteria {
 		this.pageNum = pageNum;
 		this.amount = amount;
 	}
+	
+	public String[] getEmpSearchArr() {
+		return empSearchType == null? new String[] {}: empSearchType.split("");
+	}
 
 }
+//

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kosta.starware.mapper.ProjectBoardMapper">
+
+	<insert id="insert">
+		insert into project_board values(project_board2_no_seq.nextval, #{project_Board_Writer}, #{project_Board_Contents}, sysdate, #{project_Board_Position},#{project_No})
+	</insert>
+	
+	<select id="list" resultType="kosta.starware.domain.ProjectBoardVO">
+		select * from project_board where project_no = #{project_No}
+	</select>
+	
+	<select id="read" resultType="kosta.starware.domain.ProjectBoardVO">
+		select * from project_board where project_board_no = #{project_Board_No}
+	</select>
+	
+	<delete id="delete">
+		delete from project_board where project_board_no = #{project_Board_No}
+	</delete>
+	
+	<update id="update">
+		update project_board set project_board_contents = #{project_Board_Contents} where project_board_no = #{project_Board_No}
+	</update>
+	
+	<update id="move">
+		update project_board set project_board_position = #{project_Board_Position} where project_board_no = #{project_Board_No}
+	</update>
+	
+	<delete id="deleteAll">
+		delete project_board where project_no = #{project_No}
+	</delete>
+
+</mapper>

@@ -31,14 +31,17 @@ public class EmpController {
 		log.info("empList: " + empcri);
 		model.addAttribute("empList", service.empGetList(empcri));
 		/*int total=service.empGetList(empcri);*/
-		model.addAttribute("empPageMaker", new EmpPageDTO(empcri, 100));
+		//model.addAttribute("empPageMaker", new EmpPageDTO(empcri, 100));
+		int empTotal = service.empGetTotal(empcri);
+		log.info("total: " + empTotal);
+		model.addAttribute("empPageMaker", new EmpPageDTO(empcri, empTotal));
 		
 	}
 	
 	//사원정보입력
 	@PostMapping("/empInsertForm")
 	public String empInsert(EmpVO emp, RedirectAttributes rttr) {
-		log.info("empInsert: " + emp);
+		//log.info("empInsert: " + emp);
 		
 		service.empInsert(emp);
 		
@@ -51,9 +54,9 @@ public class EmpController {
 	public void empInsert() {
 		
 	}
-	
+	//
 	//사원상세정보 처리 (교재에 있는 코드)
-	@RequestMapping({"/empDetail","/empUpdateForm"})
+	/*@RequestMapping({"/empDetail","/empUpdateForm"})
 	public void empGet(@RequestParam("emp_no") int emp_no, 
 			@ModelAttribute("empcri") EmpCriteria empcri, Model model) {
 		
@@ -61,13 +64,13 @@ public class EmpController {
 		
 		model.addAttribute("emp", service.empGet(emp_no));
 		
-	}
+	}*/
 	//사원상세정보 처리
-/*	@RequestMapping("/empDetail")
+	@RequestMapping("/empDetail")
 	public void empDetail(@RequestParam("emp_no") int emp_no, 
 			@ModelAttribute("empcri") EmpCriteria empcri, Model model){
 		model.addAttribute("emp", service.empGet(emp_no));
-		log.info(model);
+		//log.info(model);
 	}
 		
 	//사원정보수정
@@ -79,20 +82,42 @@ public class EmpController {
 		log.info(model);
 	}
 	
-	@PostMapping("/empUpdateForm")
-	public String empUpdate(EmpVO emp, @ModelAttribute("cri") EmpCriteria empcri, RedirectAttributes rttr) {
-		log.info("empUpdate: " + emp);
+	@PostMapping("/empUpdate")
+	public String empUpdate(EmpVO emp, @ModelAttribute("empcri") EmpCriteria empcri, RedirectAttributes rttr) {
+		log.info("### empUpdate: ");
 		
-		if (service.empUpdate(emp)) {
+		service.empUpdate(emp);
+		 
+		rttr.addAttribute("pageNum", empcri.getPageNum());
+		rttr.addAttribute("amount", empcri.getAmount());
+		//rttr.addFlashAttribute("result", notice.getNotice_no());
+		
+		return "redirect:/emp/empList";
+		
+	}
+		
+		
+		/*if (service.empUpdate(emp)) {
 			rttr.addFlashAttribute("result", "success");
 		}
 		rttr.addAttribute("pageNum", empcri.getPageNum());
 		rttr.addAttribute("amount", empcri.getAmount());
+		
 		return "redirect:/emp/empList";
-		}*/
+	}*/
 	
 
+	// 테스트
+	/*@PostMapping("/empUpdate")
+	public String empUpdate(){
+		log.info("### empUpdate: ");
+		
+		return "";
+	}*/
+	
+	
+		
 	//사원정보수정 화면처리 메소드(추가)
 
-	}
+}
 

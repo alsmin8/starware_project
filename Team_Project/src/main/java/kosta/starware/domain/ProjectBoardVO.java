@@ -14,6 +14,6 @@ public class ProjectBoardVO {
 	private String project_Board_Contents;
 	private String project_Board_Regdate;
 	private int project_Board_Position;
-	private int project_No;
+	private Integer project_No;
 	
 }

@@ -36,19 +36,20 @@ text-align: center;
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="login.jsp">STARWARE</a>
+			<a class="navbar-brand" href="/login">STARWARE</a>
 		</div>
 
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li class="active"><a href=loginafter.jsp>메인</a></li>
-				<li><a href="list.bit">전자결재</a></li>
-				<li><a href="listActionProject.pro">협업지원</a></li>
-				<li><a href="list.not">공지사항</a></li>
-				<li><a href="list.jsp">인사관리</a></li>
-				<li><a href="calendar_main.jsp">일정관리</a></li>
-				<li><a href="messengerFind.jsp">메세지함</a></li>
+				<li><a href="/loginafter">메인</a></li>
+				<li class="active"><a href="/approval/applist_alllist">전자결재</a></li>
+				<li><a href="/project/projectList">협업지원</a></li>
+				<li><a href="/notice/noticeList">공지사항</a></li>
+				<li><a href="/attend/attendInsert">출퇴근관리</a></li>
+				<li><a href="/emp/empList">인사관리</a></li>
+				<li><a href="/schedule/scheduleMain">일정관리</a></li>
+				<li><a href="/chat/messengerFind">메세지함<span id="unread" class="label label-info"></span></a></li>
 			</ul>
 			<%
 				if (emp_no == null) {
@@ -59,7 +60,7 @@ text-align: center;
 					aria-expanded="false">접속하기<span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a href="main.jsp">로그인</a></li>
+						<li><a href="/login">로그인</a></li>
 					</ul></li>
 			</ul>
 			<%
@@ -84,7 +85,8 @@ text-align: center;
 	
 	
 	
-	<form action="/approval/appupdatedraftform?app_no=${approval.app_no}&app_kind=${approval.app_kind}" method="post">	
+	<form action="/approval/appupdatedraftform?app_no=${approval.app_no}&app_kind=${approval.app_kind}
+	&pageNum=${appCriteria.pageNum}&amount=${appCriteria.amount}" method="post">	
 		<table class="table table-bordered table-hover"
 				style="text-align: center; border: 1px solid #dddddd;">
 				<thead>
@@ -93,15 +95,15 @@ text-align: center;
 					</tr>
 			<tr>
 				<td style="width: 110px;">이 름</td>
-				<td><input class="form-control" type="text" name="emp_name" value=${emp.emp_name }></td>
+				<td><input class="form-control" type="text" name="emp_name" value=${emp.emp_name } readonly="readonly"></td>
 				<td style="width: 110px;">사 번</td>
-				<td><input class="form-control" type="text" name="emp_no" value= ${emp.emp_no}></td>
+				<td><input class="form-control" type="text" name="emp_no" value= ${emp.emp_no} readonly="readonly"></td>
 			</tr>	
 			<tr>
 				<td style="width: 110px;">부 서</td>
-				<td><input class="form-control" type="text" name="dept_name" value=""></td>
+				<td><input class="form-control" type="text" name="dept_name" value="${dept.dept_name}" readonly="readonly"></td>
 				<td style="width: 110px;">직 급</td>
-				<td><input class="form-control" type="text" name="grade_name" value=""></td>
+				<td><input class="form-control" type="text" name="grade_name" value="${grade.grade_name}" readonly="readonly"></td>
 			</tr>
 			<tr>
 				<td style="width: 110px;">제 목</td>

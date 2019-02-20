@@ -102,12 +102,38 @@ var projectboardservice = (function() {
 		
 	}
 	
+	function move(project_Board_Position, callback, error) {
+		
+		//console.log("project_Board_No : " + project_Board_Position.project_Board_No);
+		
+		$.ajax({
+			
+			type : 'put',
+			url : "/projectboard/move/" + project_Board_Position.project_Board_No,
+			data : JSON.stringify(project_Board_Position),
+			contentType : "application/json; charset=utf-8",
+			success : function(result, status, xhr) {
+				if(callback){
+					callback(result);
+				}
+			},
+			error : function(xhr, status, er) {
+				if(error){
+					error(er);
+				}
+			}
+			
+		});
+		
+	}
+	
 	return{
 		add : add,
 		getList : getList,
 		remove : remove,
 		update : update,
-		get : get
+		get : get,
+		move : move
 	};
 
 })();

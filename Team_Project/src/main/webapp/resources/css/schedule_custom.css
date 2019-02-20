@@ -1,0 +1,125 @@
+.top-nav {
+	align:right;
+	position: absolute;
+	right: 400px;
+	top: 120px;
+		
+}
+
+table {
+	table-layout: fixed;
+	border-spacing: 0px;
+}
+
+.new {
+	text-align: center;
+	background-color: #5858FA;
+	color: white;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	border-color: #5858FA;
+	border-radius: 5px;
+}
+
+.new>a {
+	color: white;
+}
+
+#mask {  
+  position:absolute;  
+  left:0;
+  top:0;
+  z-index:9000;  
+  background-color:#000;  
+  display:none;  
+}
+
+.modal {
+      display: none;
+      position:absolute;  
+      left:100px;
+      top:100px;
+      z-index:10000;
+      width: 600px;
+      height: 600px;
+    }
+    
+.color {
+		width: 24px;
+		height: 24px;
+		display: inline-block;
+}
+
+.colorModalList {
+		width: 24px;
+		height: 24px;
+		display: inline-block;
+}
+
+.colorMainList {
+		width: 16px;
+		height: 16px;
+		display: inline-block;
+}
+
+.color-select {
+				display: none; 
+				width: 20px;
+				height: 20px;
+				border: 2px solid #bcbcbc;
+				cursor: pointer;
+}
+
+#suggestList a {
+	padding: 0px;
+	text-decoration: none;
+	color: black;
+	border-bottom-color: white;
+}
+
+#delete-btn {
+	border-style: none;
+	font-weight: 1000;
+	background-color: white;
+}
+
+#calendar-info {
+	z-index: 1000px;
+	position: absolute;
+	left: 65px;
+	top: 260px;
+	width: 290px;
+	height: 500px;
+}
+
+.list {
+	height: 260px;
+}
+
+#calendar-sub-info {
+	display:none;
+	z-index: 2000px;
+	position: absolute;
+	left: 280px;
+	top: 270px;
+	width: 120px;
+	height: 200px;
+}
+
+#delete-btn {
+	border-style: none;
+	font-weight: 1000;
+	background-color: white;
+}
+
+#mylist {
+	z-index: 1000px;
+}
+
+.title {
+	text-align: center;
+}
+ #mylist tr  {
+ 	border:0px;
+	text-align: center;
+} 

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -99,15 +100,17 @@
 		<table class="table table-bordered table-hover"
 			style="text-align: center; border: 5px solid #eeeeee;">
 			<tbody>
+			<c:forEach var="notice" items="${noticeList }" begin="0" end="2">
 				<tr>
-					<td colspan="3"><h5>리스트1</h5></td>
+					<td colspan="3"><h5>${notice.notice_title }</h5></td>
 				</tr>
-				<tr>
+				<!-- <tr>
 					<td colspan="3"><h5>리스트2</h5></td>
 				</tr>
 				<tr>
 					<td colspan="3"><h5>리스트3</h5></td>
-				</tr>
+				</tr> -->
+			</c:forEach>
 			</tbody>
 			<tfoot>
 				<tr>

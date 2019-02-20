@@ -8,76 +8,36 @@
   	<![CDATA[select * from schedule where bno > 0 order by bno]]>
   </select> -->
 
-  <insert id="insert">
-  	insert into schedule (schedule_no, schedule_title, schedule_contents, emp_no) values(100, #{schedule_title}, #{schedule_contents}, #{emp_no})
+  <insert id="insertSch">
+  	<selectKey resultType="int" keyProperty="schedule_no" order="BEFORE">
+        select MAX(schedule_no)+1 from schedule        
+    </selectKey>
+  		insert into 
+  		schedule(schedule_no, emp_no, category_no, schedule_title, schedule_contents, schedule_regdate, schedule_starttime, schedule_endtime) 
+  		values(#{schedule_no}, #{emp_no}, #{category_no}, #{schedule_title}, #{schedule_contents}, sysdate, #{schedule_starttime}, #{schedule_endtime})
+  </insert>
+
+  <insert id="addAttendeeSch">
+  	insert into 
+  	schedule(schedule_no, emp_no, category_no, schedule_title, schedule_contents, schedule_regdate, schedule_starttime, schedule_endtime) 
+  		values(#{schedule_no}, #{emp_no}, #{category_no}, #{schedule_title}, #{schedule_contents}, sysdate, #{schedule_starttime}, #{schedule_endtime})
   </insert>
   
-  <!--   
-  <insert id="insertSelectKey">
-  	<selectKey keyProperty="bno" order="BEFORE" resultType="long">
-  		select seq_board.nextval from dual
-  	</selectKey>
-  	insert into tbl_board (bno, title, content, writer) values(#{bno}, #{title}, #{content}, #{writer})
-  </insert>
-  
-  <select id="read" resultType="org.zerock.domain.BoardVO">
-  	select * from tbl_board where bno = #{bno}
+  <select id="listSch" resultType="kosta.starware.domain.ScheduleVO">
+  	select distinct schedule_no, s.category_no as category_no, s.emp_no as emp_no, schedule_title, schedule_contents, schedule_starttime, schedule_endtime, category_name, category_color, attcount 
+  	from schedule s, category c where s.category_no = c.category_no and s.emp_no = #{emp_no} order by schedule_no
   </select>
   
-  <delete id="delete">
-  	delete from tbl_board where bno = #{bno}
-  </delete>
-  
-  <update id="update">
-  	update tbl_board set title = #{title}, content = #{content}, writer = #{writer}, updateDate = sysdate where bno = #{bno}
-  </update>
-  
-  <select id="getListWithPaging" resultType="org.zerock.domain.BoardVO">
-  		<![CDATA[
-  			select bno, title, writer, content, regdate, updatedate, replycnt, hitcount
-  			from (select /*+INDEX_DESC(tbl_board pk_board)*/ rownum rn, bno, title, writer, content, regdate, updatedate, replycnt, hitcount
-  					from tbl_board where 
-  		]]>
-  			<include refid="criteria"></include>
-  		<![CDATA[
-  			rownum <= #{pageNum}*#{amount}) 
-  		where rn >(#{pageNum}-1)*#{amount}
-  		]]>
-  		
+  <select id="getSch" resultType="kosta.starware.domain.ScheduleVO">
+  	select distinct schedule_no, s.category_no as category_no, s.emp_no as emp_no, schedule_title, schedule_contents, schedule_starttime, schedule_endtime, category_name, category_color, attcount 
+  	from schedule s, category c where s.category_no = c.category_no and s.emp_no = #{emp_no} and schedule_no = #{schedule_no} order by schedule_no
   </select>
   
-  <select id="getTotalCount" resultType="int">
-  	select count(*) from tbl_board where 
-  		<include refid="criteria"></include>
-  	bno > 0
+  <select id="listEmpBySno" resultType="kosta.starware.domain.ScheduleVO">
+  	select s.emp_no, emp_name, dept_name from schedule s, emp e, dept d where s.emp_no = e.emp_no and e.dept_no = d.dept_no and schedule_no = #{schedule_no}
   </select>
   
-  <update id="updateReplyCnt">
-  	update tbl_board set replycnt = replycnt + #{amt} where bno = #{bno}
-  </update>
+ 
   
-  <update id="updateHitCnt">
-  	update tbl_board set hitcount = hitcount + 1 where bno = #{bno}
-  </update>
-  
-  <sql id="criteria">
-  	<trim prefix="(" suffix=") and" prefixOverrides="or">
-  			<foreach item='type' collection="typeArr">
-  				<trim prefix="or">
-  					<choose>
-  						<when test="type=='T'.toString()">
-  							title like '%'||#{keyword}||'%'
-  						</when>
-  						<when test="type=='C'.toString()">
-  							content like '%'||#{keyword}||'%'
-  						</when>
-  						<when test="type=='W'.toString()">
-  							writer like '%'||#{keyword}||'%'
-  						</when>
-  					</choose>
-  				</trim>
-  			</foreach>
-  		</trim>
-  </sql> -->
 
 </mapper>

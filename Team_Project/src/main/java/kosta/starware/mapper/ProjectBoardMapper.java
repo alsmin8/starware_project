@@ -8,7 +8,7 @@ public interface ProjectBoardMapper {
 	
 	public int insert(ProjectBoardVO vo);
 	
-	public List<ProjectBoardVO> list(int project_No);
+	public List<ProjectBoardVO> list(Integer project_No);
 	
 	public ProjectBoardVO read(int project_Board_No);
 	
@@ -16,6 +16,8 @@ public interface ProjectBoardMapper {
 	
 	public int update(ProjectBoardVO board);
 	
-	//public int move()
+	public int move(ProjectBoardVO board);
+	
+	public void deleteAll(Integer project_No);
 
 }

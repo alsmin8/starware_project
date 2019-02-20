@@ -1,5 +1,6 @@
 package kosta.starware.service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -7,11 +8,14 @@ import kosta.starware.domain.AppCriteria;
 import kosta.starware.domain.Approval;
 import kosta.starware.domain.DisbursementDoc;
 import kosta.starware.domain.DraftDoc;
+import kosta.starware.domain.EmpDTO;
+import kosta.starware.domain.PowerDTO;
 import kosta.starware.domain.VacationDoc;
 
 public interface ApprovalService {
 	
 	public List<Approval> appList(AppCriteria appcri);
+	public int getTotal(AppCriteria appcri);
 	//insert
 	public void appInsert(Approval approval);
 	public void appDdInsert(DisbursementDoc disbursementDoc);
@@ -35,5 +39,9 @@ public interface ApprovalService {
 	
 	//내가 결재할 목록
 	public List<HashMap> resultApproval(String userID);
+	public HashMap resultDetail(String app_no, String app_kind);
+	public int resultAccept(PowerDTO powerDTO);
+	public int resultReject(PowerDTO powerDTO);
+	public List<HashMap> listJsonEmp(String keyword);
 	
 }

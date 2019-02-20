@@ -4,15 +4,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kosta.starware.domain.EmpDTO;
+import kosta.starware.domain.NoticeCriteria;
 import kosta.starware.domain.UserVO;
+import kosta.starware.service.NoticeService;
 import kosta.starware.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 @Controller
@@ -20,19 +25,28 @@ import lombok.extern.log4j.Log4j;
 @AllArgsConstructor
 public class UserController {
 
+	@Setter(onMethod_ = @Autowired)
 	private UserService service;
+	
+	@Setter(onMethod_ = @Autowired)
+	private NoticeService noticeService;
 
 	@GetMapping("/login")
-	public String login(HttpSession session) {
+	public String login(HttpSession session, Model model, NoticeCriteria ncri) {
+		
+		model.addAttribute("noticeList", noticeService.listNoticeService(ncri));
+		
 		if(session.getAttribute("emp_no") == null || session.getAttribute("emp_no").equals("")){
 			return "/login";
 		}else{
+
 			return "/loginafter";
 		}
+	
 	}
 
 	@PostMapping("/login")
-	public String loginafter(UserVO vo, HttpSession session) throws Exception {
+	public String loginafter(UserVO vo, HttpSession session, Model model, NoticeCriteria ncri) throws Exception {
 
 		int num = service.loginCheck(vo);
 
@@ -61,16 +75,17 @@ public class UserController {
 
 				session.setAttribute("emp_no", String.valueOf(dto.getEmp_no()));
 				session.setAttribute("emp_name", dto.getEmp_name());
+				
+				model.addAttribute("noticeList", noticeService.listNoticeService(ncri));
+				
 				return "/loginafter";
 			}
-
 		}
-
 	}
 
 	@RequestMapping("/loginafter")
-	public void loginafter() {
-
+	public void loginafter(Model model, NoticeCriteria ncri) {
+		model.addAttribute("noticeList", noticeService.listNoticeService(ncri));
 	}
 
 	@RequestMapping("/logoutaction")

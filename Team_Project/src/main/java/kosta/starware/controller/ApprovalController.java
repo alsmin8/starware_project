@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,10 +18,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import kosta.starware.domain.AppCriteria;
 import kosta.starware.domain.AppPageDTO;
 import kosta.starware.domain.Approval;
+import kosta.starware.domain.DeptVO;
 import kosta.starware.domain.DisbursementDoc;
 import kosta.starware.domain.DraftDoc;
 import kosta.starware.domain.EmpDTO;
 import kosta.starware.domain.EmpVO;
+import kosta.starware.domain.GradeVO;
 import kosta.starware.domain.VacationDoc;
 import kosta.starware.mapper.ApprovalMapper;
 import kosta.starware.service.ApprovalService;
@@ -62,8 +65,13 @@ public class ApprovalController {
 	@GetMapping("/applist_alllist")
 	public void appList(Model model, AppCriteria appcri) {
 		log.info("list.........................." + approvalservice.appList(appcri));
+		int total = approvalservice.getTotal(appcri);
 		model.addAttribute("list", approvalservice.appList(appcri));
-		model.addAttribute("appPageMaker", new AppPageDTO(appcri, 13));
+		model.addAttribute("appPageMaker", new AppPageDTO(appcri, total));
+		log.info("tooooootaaaall"+total);
+		model.addAttribute("app_kind", appcri.getApp_kind());
+		model.addAttribute("app_situation", appcri.getApp_situation());
+		//model.addAttribute("type", appcri.getCheck());
 	}
 
 	// 문서종류선택
@@ -123,27 +131,43 @@ public class ApprovalController {
 
 	@GetMapping("/whichappdetail") //어떤 디테일 폼으로 갈건지
 	public String applist( @RequestParam("app_kind") String app_kind,
-			@RequestParam("app_no") int app_no , Model model) {
+			@RequestParam("app_no") int app_no , Model model,@ModelAttribute("appCriteria")AppCriteria appCriteria) {
 
 		if (app_kind.equals("기안서")) {
 			Approval appr = approvalservice.appDetail(app_no);
 			int empNo = appr.getEmp_no();
 			EmpVO emp = empService.empGet(empNo);
+			
+			int dept_no = emp.getDept_no();
+			DeptVO dept = empService.empDeptGet(dept_no);
+			String dept_name = dept.getDept_name();
+			
+			int grade_no = emp.getGrade_no();
+			GradeVO grade = empService.empGradeGet(grade_no);
+			String grade_name = grade.getGrade_name();
+			log.info(dept_name);
+			log.info(grade_name);
+			
+			model.addAttribute("dept", empService.empDeptGet(dept_no));
+			model.addAttribute("grade", empService.empGradeGet(grade_no));
 			model.addAttribute("approval",approvalservice.appDetail(app_no));
 			model.addAttribute("draftdoc",approvalservice.appDraftDetail(app_no));
 			model.addAttribute("emp",emp);
-			
-			return "approval/appdetaildraft";
+			return "/approval/appdetaildraft";
 			
 		} else if (app_kind.equals("지출결의서")) {
+			model.addAttribute("emp", empService.empGet(approvalservice.appDetail(app_no).getEmp_no()));
 			model.addAttribute("approval", approvalservice.appDetail(app_no));
 			model.addAttribute("disbursementdoc", approvalservice.appDdDetail(app_no));
-			model.addAttribute("emp", empService.empGet(approvalservice.appDetail(app_no).getEmp_no()));
+			model.addAttribute("dept", empService.empDeptGet( empService.empGet( approvalservice.appDetail(app_no).getEmp_no() ).getDept_no()));
+			model.addAttribute("grade", empService.empGradeGet(empService.empGet( approvalservice.appDetail(app_no).getEmp_no() ).getGrade_no()));		
 			return "/approval/appdetaildd";
 		} else {
+			model.addAttribute("emp", empService.empGet(approvalservice.appDetail(app_no).getEmp_no()));
 			model.addAttribute("approval", approvalservice.appDetail(app_no));
 			model.addAttribute("vacationdoc", approvalservice.appVacationDetail(app_no));
-			model.addAttribute("emp", empService.empGet(approvalservice.appDetail(app_no).getEmp_no()));
+			model.addAttribute("dept", empService.empDeptGet( empService.empGet( approvalservice.appDetail(app_no).getEmp_no() ).getDept_no()));
+			model.addAttribute("grade", empService.empGradeGet(empService.empGet( approvalservice.appDetail(app_no).getEmp_no() ).getGrade_no()));		
 			return "/approval/appdetailvacation";
 		}
 	}
@@ -159,99 +183,128 @@ public class ApprovalController {
 
 	@GetMapping("/appdetaildraft")
 	public void appDraftDetail(@RequestParam("app_no") int app_no, @RequestParam("app_kind") String app_kind,
-			 Model model, RedirectAttributes rttr) {
+			 Model model, RedirectAttributes rttr,@ModelAttribute("appCriteria")AppCriteria appCriteria) {
 		
 		Approval appr = approvalservice.appDetail(app_no); 
 		int empId = appr.getEmp_no();
 		model.addAttribute("emp", empService.empGet(empId));
 		model.addAttribute("approval", approvalservice.appDetail(app_no));
 		model.addAttribute("draftdoc", approvalservice.appDraftDetail(app_no));
-		rttr.addAttribute("app_no", app_no);
-		rttr.addAttribute("app_kind", app_kind);
+		rttr.addAttribute ("pageNum",appCriteria.getPageNum());
+		rttr.addAttribute ("amount",appCriteria.getAmount());
 		log.info("go!!!!!!!!!!!!!!!!");
 	}
 
 	@GetMapping("/appdetailvacation")
 	public void appVacationDetail(@RequestParam("app_no") int app_no, @RequestParam("app_kind") String app_kind,
-			Model model) {
-
+			Model model,RedirectAttributes rttr,@ModelAttribute("appCriteria")AppCriteria appCriteria) {
+		model.addAttribute("emp", empService.empGet(approvalservice.appDetail(app_no).getEmp_no()));
+		log.info("appdetailvacation");
 		model.addAttribute("approval", approvalservice.appDetail(app_no));
 		model.addAttribute("vacationdoc", approvalservice.appVacationDetail(app_no));
+		rttr.addAttribute ("pageNum",appCriteria.getPageNum());
+		rttr.addAttribute ("amount",appCriteria.getAmount());
 	}
 
 	@GetMapping("/appdetaildd")
 	public void appDdDetail(@RequestParam("app_no") int app_no, Model model, @RequestParam("app_kind") String app_kind,
-			RedirectAttributes rttr) {
+			RedirectAttributes rttr,@ModelAttribute("appCriteria")AppCriteria appCriteria) {
 		log.info("/appdetaildd");
-		//model.addAttribute("emp", EmpService.empGet(approvalservice.appDetail(app_no).getEmp_no()));
+		model.addAttribute("emp", empService.empGet(approvalservice.appDetail(app_no).getEmp_no()));
 		model.addAttribute("approval", approvalservice.appDetail(app_no));
 		model.addAttribute("disbursementdoc", approvalservice.appDdDetail(app_no));
 		rttr.addAttribute("app_no", app_no);
 		rttr.addAttribute("app_kind", app_kind);
+		rttr.addAttribute ("pageNum",appCriteria.getPageNum());
+		rttr.addAttribute ("amount",appCriteria.getAmount());
 	
 		
 	}
 	//-----------------------------------------update
 	@GetMapping("/appupdateddform")
 	public void appUpdate(@RequestParam("app_no") int app_no, @RequestParam("app_kind") String app_kind, Model model,
-			RedirectAttributes rttr, Approval approval, DisbursementDoc disbursementDoc){
+			RedirectAttributes rttr, Approval approval, DisbursementDoc disbursementDoc,@ModelAttribute("appCriteria")AppCriteria appCriteria){
+		model.addAttribute("emp", empService.empGet(approvalservice.appDetail(app_no).getEmp_no()));
 		model.addAttribute("approval", approvalservice.appDetail(app_no));
 		model.addAttribute("disbursementdoc", approvalservice.appDdDetail(app_no));
+		model.addAttribute("dept", empService.empDeptGet( empService.empGet( approvalservice.appDetail(app_no).getEmp_no() ).getDept_no()));
+		model.addAttribute("grade", empService.empGradeGet(empService.empGet( approvalservice.appDetail(app_no).getEmp_no() ).getGrade_no()));
 		rttr.addAttribute("app_no", app_no);
 		rttr.addAttribute("app_kind", app_kind);
+		rttr.addAttribute ("pageNum",appCriteria.getPageNum());
+		rttr.addAttribute ("amount",appCriteria.getAmount());
 		log.info("bbb;;;;;;;;;;"+app_kind);
 	}
 	
 	@PostMapping("/appupdateddform")
 	public String appDdUpdate(Approval approval, DisbursementDoc disbursementDoc, RedirectAttributes rttr,@RequestParam("app_no") int app_no
-			,@RequestParam("app_kind") String app_kind) {
+			,@RequestParam("app_kind") String app_kind, @ModelAttribute("appCriteria")AppCriteria appCriteria) {
 		
 		approvalservice.appUpdate(approval);
 		approvalservice.appDdUpdate(disbursementDoc);
+		
 		rttr.addAttribute("app_no", app_no);
 		rttr.addAttribute("app_kind", app_kind);
+		rttr.addAttribute ("pageNum",appCriteria.getPageNum());
+		rttr.addAttribute ("amount",appCriteria.getAmount());
 		log.info("aaadd;;;;;;;;;;"+app_no);
 		
 		return "redirect:/approval/appdetaildd";
 	}
 	@GetMapping("/appupdatedraftform")
 	public void appUpdate(@RequestParam("app_no") int app_no, @RequestParam("app_kind") String app_kind, Model model,
-			RedirectAttributes rttr, Approval approval, DraftDoc draftDoc){
+			RedirectAttributes rttr, Approval approval, DraftDoc draftDoc,@ModelAttribute("appCriteria")AppCriteria appCriteria){
+		model.addAttribute("emp", empService.empGet(approvalservice.appDetail(app_no).getEmp_no()));
 		model.addAttribute("approval", approvalservice.appDetail(app_no));
 		model.addAttribute("draftdoc", approvalservice.appDraftDetail(app_no));
+		model.addAttribute("dept", empService.empDeptGet( empService.empGet( approvalservice.appDetail(app_no).getEmp_no() ).getDept_no()));
+		model.addAttribute("grade", empService.empGradeGet(empService.empGet( approvalservice.appDetail(app_no).getEmp_no() ).getGrade_no()));
 		rttr.addAttribute("app_no", app_no);
 		rttr.addAttribute("app_kind", app_kind);
+		rttr.addAttribute ("pageNum",appCriteria.getPageNum());
+		rttr.addAttribute ("amount",appCriteria.getAmount());
+		
 		log.info("bbb;;;;;;;;;;"+app_kind);
 	}
 	@PostMapping("/appupdatedraftform")
 	public String appDraftUpdate(Approval approval, DraftDoc draftDoc, RedirectAttributes rttr, @RequestParam("app_no") int app_no, 
-			@RequestParam("app_kind") String app_kind){
+			@RequestParam("app_kind") String app_kind,@ModelAttribute("appCriteria")AppCriteria appCriteria){
 		log.info("update........!!!" + draftDoc);
 		approvalservice.appUpdate(approval);
 		approvalservice.appDraftUpdate(draftDoc);
 		rttr.addAttribute("app_no", app_no);
 		rttr.addAttribute("app_kind", app_kind);
+		rttr.addAttribute ("pageNum",appCriteria.getPageNum());
+		rttr.addAttribute ("amount",appCriteria.getAmount());
 		log.info("aaadraft;;;;;;;;;;"+app_no);
+		
 		return "redirect:/approval/appdetaildraft";
 	}
 	@GetMapping("/appupdatevacationform")
 	public void appUpdate(@RequestParam("app_no") int app_no, @RequestParam("app_kind") String app_kind, Model model,
-			RedirectAttributes rttr, Approval approval,VacationDoc vacationDoc){
+			RedirectAttributes rttr, Approval approval,VacationDoc vacationDoc,@ModelAttribute("appCriteria")AppCriteria appCriteria){
+		model.addAttribute("emp", empService.empGet(approvalservice.appDetail(app_no).getEmp_no()));
 		model.addAttribute("approval", approvalservice.appDetail(app_no));
 		model.addAttribute("vacationdoc", approvalservice.appVacationDetail(app_no));
-		rttr.addAttribute("app_no", app_no);
-		rttr.addAttribute("app_kind", app_kind);
+		model.addAttribute("dept", empService.empDeptGet( empService.empGet( approvalservice.appDetail(app_no).getEmp_no() ).getDept_no()));
+		model.addAttribute("grade", empService.empGradeGet(empService.empGet( approvalservice.appDetail(app_no).getEmp_no() ).getGrade_no()));
+		rttr.addAttribute ("pageNum",appCriteria.getPageNum());
+		rttr.addAttribute ("amount",appCriteria.getAmount());
+		/*rttr.addAttribute("app_no", app_no);
+		rttr.addAttribute("app_kind", app_kind);*/
 		
 	}
 	@PostMapping("/appupdatevacationform")
-	public String appDraftUpdate(Approval approval, VacationDoc vacationDoc, RedirectAttributes rttr, @RequestParam("app_no") int app_no, 
-			@RequestParam("app_kind") String app_kind){
+	/*public String appDraftUpdate(Approval approval, VacationDoc vacationDoc, RedirectAttributes rttr, @RequestParam("app_no") int app_no, 
+			@RequestParam("app_kind") String app_kind,@ModelAttribute("appCriteria")AppCriteria appCriteria)*/
+	public String appDraftUpdate(Approval approval, VacationDoc vacationDoc, RedirectAttributes rttr,@ModelAttribute("appCriteria")AppCriteria appCriteria){
 		log.info("update........!!!" + vacationDoc);
 		approvalservice.appUpdate(approval);
 		approvalservice.appVacationUpdate(vacationDoc);
-		rttr.addAttribute("app_no", app_no);
-		rttr.addAttribute("app_kind", app_kind);
-		
+		rttr.addAttribute("app_no", approval.getApp_no());
+		rttr.addAttribute("app_kind", approval.getApp_kind());
+		rttr.addAttribute ("pageNum",appCriteria.getPageNum());
+		rttr.addAttribute ("amount",appCriteria.getAmount());
 		return "redirect:/approval/appdetailvacation";
 	}
 	
@@ -271,42 +324,55 @@ public class ApprovalController {
 	 * return "redirect:/approval/applist_alllist"; }
 	 */
 	@GetMapping({ "/appdeletedraft" })
-	public String appDraftDelete(@RequestParam("app_no") int app_no, RedirectAttributes rttr) {
+	public String appDraftDelete(@RequestParam("app_no") int app_no, RedirectAttributes rttr,@ModelAttribute("appCriteria")AppCriteria appCriteria) {
 		approvalservice.appDraftDelete(app_no);
 		approvalservice.appDelete(app_no);
-
+		rttr.addAttribute ("pageNum",appCriteria.getPageNum());
+		rttr.addAttribute ("amount",appCriteria.getAmount());
 		return "redirect:/approval/applist_alllist";
 	}
 
 	@GetMapping({ "/appdeletedd" })
-	public String appDdDelete(@RequestParam("app_no") int app_no, RedirectAttributes rttr) {
+	public String appDdDelete(@RequestParam("app_no") int app_no, RedirectAttributes rttr,@ModelAttribute("appCriteria")AppCriteria appCriteria) {
 		approvalservice.appDdDelete(app_no);
 		approvalservice.appDelete(app_no);
-
+		rttr.addAttribute ("pageNum",appCriteria.getPageNum());
+		rttr.addAttribute ("amount",appCriteria.getAmount());
 		return "redirect:/approval/applist_alllist";
 	}
 
 	@GetMapping({ "/appdeletevacation" })
-	public String appVacationDelete(@RequestParam("app_no") int app_no, RedirectAttributes rttr) {
+	public String appVacationDelete(@RequestParam("app_no") int app_no, RedirectAttributes rttr,@ModelAttribute("appCriteria")AppCriteria appCriteria) {
 		approvalservice.appVacationDelete(app_no);
 		approvalservice.appDelete(app_no);
-
+		rttr.addAttribute ("pageNum",appCriteria.getPageNum());
+		rttr.addAttribute ("amount",appCriteria.getAmount());
 		return "redirect:/approval/applist_alllist";
 	}
+
 
 	@GetMapping("/applist_myself")
 	public void mySelf() {
 
 	}
 
-	@GetMapping("/applist_result")
-	public void result(HttpSession session, Model model) {
+	@RequestMapping("/applist_result")
+	public String result(HttpSession session, Model model) {
 		log.info("applist_result 시작 : ");
 		String userID = (String) session.getAttribute("emp_no");
-		List<HashMap> applist_result =approvalservice.resultApproval(userID);
+		String userName = (String) session.getAttribute("emp_name");
 		
-		log.info(applist_result);
-		model.addAttribute("applist_result", applist_result);
+		if (userID == null || userName == null) {
+			session.setAttribute("messageType", "오류메세지");
+			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
+			return "redirect:/login";
+		}else{
+			List<HashMap> applist_result =approvalservice.resultApproval(userID);
+			//log.info(applist_result);
+			model.addAttribute("applist_result", applist_result);
+			return "/approval/applist_result";
+		}
+
 
 	}
 

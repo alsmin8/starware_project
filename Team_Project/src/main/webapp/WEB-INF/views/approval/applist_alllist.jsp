@@ -26,12 +26,6 @@ td {
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
 		}
-		/* 		if (emp_no == null) {
-					session.setAttribute("messageType", "오류메세지");
-					session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
-					response.sendRedirect("login.jsp");
-					return;
-				} */
 	%>
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
@@ -41,30 +35,30 @@ td {
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="login.jsp">STARWARE</a>
+			<a class="navbar-brand" href="/login">STARWARE</a>
 		</div>
 
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a href="loginafter.jsp">메인</a></li>
-				<li class="active"><a href="list.bit">전자결재</a></li>
-				<li><a href="listActionProject.pro">협업지원</a></li>
-				<li><a href="list.not">공지사항</a></li>
-				<li><a href="resource_main.jsp">출퇴근관리</a></li>
-				<li><a href="list.do">인사관리</a></li>
-				<li><a href="calendar_main.jsp">일정관리</a></li>
-				<li><a href="messengerFind.jsp">메세지함</a></li>
+				<li><a href="/loginafter">메인</a></li>
+				<li class="active"><a href="/approval/applist_alllist">전자결재</a></li>
+				<li><a href="/project/projectList">협업지원</a></li>
+				<li><a href="/notice/noticeList">공지사항</a></li>
+				<li><a href="/attend/attendInsert">출퇴근관리</a></li>
+				<li><a href="/emp/empList">인사관리</a></li>
+				<li><a href="/schedule/scheduleMain">일정관리</a></li>
+				<li><a href="/chat/messengerFind">메세지함<span id="unread" class="label label-info"></span></a></li>
 			</ul>
 
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="buton" aria-haspopup="true"
-					aria-expanded="false">회원관리<span class="caret"></span>
-				</a>
+					aria-expanded="false">회원관리<span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="logoutaction.jsp">로그아웃</a></li>
-					</ul></li>
+						<li><a href="/logoutaction">로그아웃</a></li>
+					</ul>
+				</li>
 			</ul>
 
 		</div>
@@ -95,6 +89,19 @@ td {
 	<div class="container" id="applist">
 		<h2>전자결재목록</h2>
 		<br> <a class=newapproval href="appselectform">새 결재 상신</a>
+		
+		<ul class="nav navbar-nav navbar-left">
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown" role="buton" aria-haspopup="true"
+					aria-expanded="false">문서별 검색<span class="caret"></span>
+				</a>
+					<ul class="dropdown-menu">
+						<li><a href ="/approval/applist_alllist?app_kind=기안서">기안서</a></li>
+						<li><a href ="/approval/applist_alllist?app_kind=지출결의서">지출결의서</a></li>
+						<li><a href ="/approval/applist_alllist?app_kind=연차신청서">연차신청서</a></li>
+						
+					</ul></li>
+			</ul>	
 		<!-- <script type="text/javascript">
 	$(document).ready(
 			$(function(){
@@ -129,7 +136,7 @@ td {
 							value="${Approval.app_enddate}" pattern="yyyy-MM-dd" /> <fmt:formatDate
 							value="${dateString}" pattern="yyyy-MM-dd" /></td>
 					<td>${Approval.app_situation}</td>
-					<td>${Approval.emp_no}</td>
+					<td>${Approval.emp_name}</td>
 				</tr>
 			</c:forEach>
 
@@ -175,23 +182,27 @@ td {
 				<br>
 
 
-				<form action="list.bit" method="post">
-					<input type="checkbox" name="check" value="연차신청서">연차신청서 <input
-						type="checkbox" name="check" value="지출결의서">지출결의서 <input
-						type="checkbox" name="check" value="기안서">기안서 <br> <input
+				<form id="actionForm" action="/approval/applist_alllist" method="get">
+					 <!-- <input
 						type="checkbox" name="time" value="approval_time">기간 <input
 						type="date" name="time" value="app_startdate">~ <input
-						type="date" name="time" value="app_enddate"> <br> <input
-						type="radio" name="app_situation" value="결재요청">결재요청 <input
-						type="radio" name="app_situation" value="결재중">결재중 <input
-						type="radio" name="app_situation" value="반려">반려 <input
-						type="radio" name="app_situation" value="승인">승인
+						type="date" name="time" value="app_enddate"> <br> -->
+						<input type="radio" name="app_situation" value="결재요청">결재요청
+				    	<input type="radio" name="app_situation" value="결재중">결재중 
+						<input type="radio" name="app_situation" value="반려">반려 
+						<input type="radio" name="app_situation" value="승인">승인
 
 					<!-- 	<input type ="checkbox" name = "vd_title" value = "vd_title">제목
 	<input type ="text" name = "searchKey" size = "10"></input> -->
 
 					<!-- <input type ="text" name = "searchKey" size = "10"></input> -->
 					<br>
+					<input type='hidden' name='pageNum' value='${appPageMaker.appcri.pageNum }'>
+				<input type='hidden' name='amount' value='${appPageMaker.appcri.amount }'>
+				<%-- <input type='hidden' name='app_kind' value='${appPageMaker.appcri.app_kind }'> --%>
+				<%-- <input type='hidden' name='time' value='${appPageMaker.appcri.time }'>--%>
+				<%--  <input type='hidden' name='app_situation' value='${appPageMaker.appcri.app_situation }'> --%>
+					
 					<input type="submit" value="검색">
 
 				</form>
