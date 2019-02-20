@@ -184,6 +184,7 @@ text-align: center;
 			<div id="container">
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       			<canvas id="drawCanvas" width="200" height="150" style=" position: relative; border: 1px solid #000;"></canvas>
+      			<div class="uploadResult"></div>
 			</div>
 			
 			<div class="modal-footer">
@@ -197,119 +198,7 @@ text-align: center;
 	<!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-	
-	
-<script type="text/javascript">
-	var modal = $(".modal");
-	var modalInputKind = modal.find("input[name='kind']");
-	var modalInputTitle = modal.find("input[name='title']");
-	var modalInputContent = modal.find("input[name='content']");
-	var modalInputStartDate = modal.find("input[name='startDate']");
-	var modalInputEndDate = modal.find("input[name='endDate']");
-	var modalInputWriter = modal.find("input[name='writer']");
-	
-	var modalAcceptBtn = $("#modalAcceptBtn");
-	var modalRejectBtn = $("#modalRejectBtn");
-    var emp_no = <%=emp_no%>;
-	
-	//상세 조회 클릭 이벤트 처리 
-    $("#result_detail").on("click", "tr", function(e){
-    // tr를 왜 두번째에 넣어줬냐 동적으로 하기위해 - 있는 tr이 아닙니다.
-	    var detailNum = $(this).data("app_no"); //app_no를 뽑아냄
-	    var detailKind = $(this).data("app_kind"); //app_kind를 뽑아냄
-		var detailDefult = $(this).data("power_defult");
-	    console.log(emp_no);
-		console.log(detailNum);
-		console.log(detailKind);
 
-		$.ajax({
-			type: 'POST',
-			url : '/approval2/getDatail.json',
-			data : {
-				app_no : detailNum,
-				app_kind : detailKind
-			},
-			success : function(result){
-				console.log(result);
-				modalInputKind.val(result.KIND);
-				modalInputTitle.val(result.TITLE);
-				modalInputContent.val(result.CONTENT);
-				modalInputStartDate.val(displayTime(result.STARTDATE));
-				modalInputEndDate.val(displayTime(result.ENDDATE));
-				modalInputWriter.val(result.WRITER);
-				
-		        modal.data("app_no", result.APP_NO);
-		         
-		        if(detailDefult == '승인' || detailDefult == '거절'){
-		        	modal.find("button[id !='modalCloseBtn']").hide();
-		        }else{
-		        	modal.find("button[id !='modalCloseBtn']").hide();
-			        modalAcceptBtn.show();
-			        modalRejectBtn.show();
-		        }
-
-		        
-		        $(".modal").modal("show");
-			}
-		})//getDetail 메소드 종료
-    });	//result_detail 클릭버튼 이벤트 종료 
-    modalAcceptBtn.on("click", function(e){
-   		//var canvas = document.getElementbyID('drawCanvas');
-    	//var Image = canvas.toDataURL();
-		$.ajax({
-			type: 'POST',
-			url : '/approval2/getAccept',
-			data : {
-				app_no: modal.data("app_no"), 
-				emp_no: emp_no,
-				power_defult: '승인'
-			},
-			success : function(result){
-				console.log(result);
-				alert(result);
-				$(".modal").modal('hide');
-				location.href="/approval/applist_result";
-			}
-		})//getAccept 메소드 종료
-        
-    });	//modalAcceptBtn 이벤트 종료
-
-    modalRejectBtn.on("click", function (e){
-			$.ajax({
-				type: 'POST',
-				url : '/approval2/getReject',
-				data : {
-	        		app_no: modal.data("app_no"), 
-					emp_no: emp_no,
-	        		power_defult: '거절'
-				},
-				success : function(result){
-					console.log(result);
-					alert(result);
-					$(".modal").modal('hide');
-					location.href="/approval/applist_result";
-				}
-			})//getReject 메소드 종료
-  	}); //modalRejectBtn 이벤트 종료 
-    $("#modalCloseBtn").on("click", function(e){
-    	modal.modal('hide');
-    	context.clearRect(0, 0, canvas.width, canvas.height);
-    });
-    function displayTime(timeValue) {
-    	var today = new Date();
-    	var gap = today.getTime() - timeValue;
-    	var dateObj = new Date(timeValue);
-    		
-    	var hh = dateObj.getHours();
-    	var mi = dateObj.getMinutes();
-    	var ss = dateObj.getSeconds();
-    	var yy = dateObj.getFullYear();
-    	var mm = dateObj.getMonth() + 1;
-    	var dd = dateObj.getDate();
-    	
-    	return [yy, '/',(mm > 9 ? '' : '0') + mm, '/',(dd > 9 ? '' : '0') + dd, ' - ' , (hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi, ':',(ss > 9 ? '' : '0') + ss].join('');
-    };
-</script>
 
 <script type="text/javascript">
     //window가 load 될때 Event Listener를 등록 하여 준다.
@@ -386,6 +275,133 @@ text-align: center;
         }
     }//ev_canvas end
 </script>
+	
+<script type="text/javascript">
+	var modal = $(".modal");
+	var modalInputKind = modal.find("input[name='kind']");
+	var modalInputTitle = modal.find("input[name='title']");
+	var modalInputContent = modal.find("input[name='content']");
+	var modalInputStartDate = modal.find("input[name='startDate']");
+	var modalInputEndDate = modal.find("input[name='endDate']");
+	var modalInputWriter = modal.find("input[name='writer']");
+	
+	
+	var modalAcceptBtn = $("#modalAcceptBtn");
+	var modalRejectBtn = $("#modalRejectBtn");
+    var emp_no = <%=emp_no%>;
+	
+	//상세 조회 클릭 이벤트 처리 
+    $("#result_detail").on("click", "tr", function(e){
+    // tr를 왜 두번째에 넣어줬냐 동적으로 하기위해 - 있는 tr이 아닙니다.
+	    var detailNum = $(this).data("app_no"); //app_no를 뽑아냄
+	    var detailKind = $(this).data("app_kind"); //app_kind를 뽑아냄
+		var detailDefult = $(this).data("power_defult");
 
+	    console.log(emp_no);
+		console.log(detailNum);
+		console.log(detailKind);
+		//console.log(modalInputCanvas);
+		$.ajax({
+			type: 'POST',
+			url : '/approval2/getDatail.json',
+			data : {
+				app_no : detailNum,
+				app_kind : detailKind,
+				emp_no : emp_no
+			},
+			success : function(result){
+				console.log(result);
+				modalInputKind.val(result.KIND);
+				modalInputTitle.val(result.TITLE);
+				modalInputContent.val(result.CONTENT);
+				modalInputStartDate.val(displayTime(result.STARTDATE));
+				modalInputEndDate.val(displayTime(result.ENDDATE));
+				modalInputWriter.val(result.WRITER);
+				
+
+				if(result.UPLOAD == null || result.UPLOAD =={} || result.UPLOAD == ""){
+
+				}else{
+					var fileCallPath = encodeURIComponent(result.UPLOAD);
+					var canvas=document.getElementById("drawCanvas");
+					var context=canvas.getContext('2d');
+					var image=new Image();
+					image.onload=function(){
+					context.drawImage(image,0,0,canvas.width,canvas.height);
+					};
+					image.src= "/approval2/display?fileName="+ fileCallPath;
+				}
+				 
+		        modal.data("app_no", result.APP_NO);
+		         
+		        if(detailDefult == '승인' || detailDefult == '거절'){
+		        	modal.find("button[id !='modalCloseBtn']").hide();
+		        }else{
+		        	modal.find("button[id !='modalCloseBtn']").hide();
+			        modalAcceptBtn.show();
+			        modalRejectBtn.show();
+		        }
+		        $(".modal").modal("show");
+			}
+		})//getDetail 메소드 종료
+    });	//result_detail 클릭버튼 이벤트 종료 
+    modalAcceptBtn.on("click", function(e){
+    	var Image = document.getElementById('drawCanvas').toDataURL();
+		$.ajax({
+			type: 'POST',
+			url : '/approval2/getAccept',
+			data : {
+				app_no: modal.data("app_no"), 
+				emp_no: emp_no,
+				power_defult: '승인',
+				DataURL : Image
+			},
+			success : function(result){
+				alert(result);
+				$(".modal").modal('hide');
+				location.href="/approval/applist_result";
+			}
+		})//getAccept 메소드 종료
+        
+    });	//modalAcceptBtn 이벤트 종료
+
+    modalRejectBtn.on("click", function (e){
+    	var Image = document.getElementById('drawCanvas').toDataURL();
+		$.ajax({
+			type: 'POST',
+			url : '/approval2/getReject',
+			data : {
+        		app_no: modal.data("app_no"), 
+				emp_no: emp_no,
+        		power_defult: '거절',
+				DataURL : Image
+			},
+			success : function(result){
+				alert(result);
+				$(".modal").modal('hide');
+				location.href="/approval/applist_result";
+			}
+		})//getReject 메소드 종료
+  	}); //modalRejectBtn 이벤트 종료 
+    $("#modalCloseBtn").on("click", function(e){
+    	modal.modal('hide');
+    	$(".uploadResult").html('');
+    	context.clearRect(0, 0, canvas.width, canvas.height);
+    });
+    function displayTime(timeValue) {
+    	var today = new Date();
+    	var gap = today.getTime() - timeValue;
+    	var dateObj = new Date(timeValue);
+    		
+    	var hh = dateObj.getHours();
+    	var mi = dateObj.getMinutes();
+    	var ss = dateObj.getSeconds();
+    	var yy = dateObj.getFullYear();
+    	var mm = dateObj.getMonth() + 1;
+    	var dd = dateObj.getDate();
+    	
+    	return [yy, '/',(mm > 9 ? '' : '0') + mm, '/',(dd > 9 ? '' : '0') + dd, ' - ' , (hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi, ':',(ss > 9 ? '' : '0') + ss].join('');
+    };
+</script>
 </body>
 </html>

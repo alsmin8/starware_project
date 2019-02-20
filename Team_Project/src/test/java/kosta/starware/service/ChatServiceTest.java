@@ -56,7 +56,7 @@ public class ChatServiceTest {
 
 	}*/
 	
-	@Test
+/*	@Test
 	public void testunleadUserChatlist(){
 		log.info("unleadUserChatlist(각 안읽은 유저마다 표시하기위해서  : ");
 		String userID = "홍길동";
@@ -65,7 +65,7 @@ public class ChatServiceTest {
 		int result = chatService.unleadUserChatlist(userID, toID);
 
 		log.info("결과값 확인" + result);
-	}
+	}*/
 	
 	
 }

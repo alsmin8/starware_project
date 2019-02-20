@@ -50,9 +50,9 @@ public interface ApprovalMapper {
 	
 	//내가 결재할 목록
 	public List<HashMap> resultApproval(String userID);
-	public HashMap resultDetail_D(@Param("app_no") String app_no,@Param("app_kind") String app_kind);
-	public HashMap resultDetail_DD(@Param("app_no") String app_no,@Param("app_kind") String app_kind);
-	public HashMap resultDetail_VD(@Param("app_no") String app_no,@Param("app_kind") String app_kind);
+	public HashMap resultDetail_D(@Param("app_no") String app_no,@Param("app_kind") String app_kind,@Param("emp_no") String emp_no);
+	public HashMap resultDetail_DD(@Param("app_no") String app_no,@Param("app_kind") String app_kind,@Param("emp_no") String emp_no);
+	public HashMap resultDetail_VD(@Param("app_no") String app_no,@Param("app_kind") String app_kind,@Param("emp_no") String emp_no);
 	public int accept(PowerDTO powerDTO);
 	public int reject(PowerDTO powerDTO);
 	

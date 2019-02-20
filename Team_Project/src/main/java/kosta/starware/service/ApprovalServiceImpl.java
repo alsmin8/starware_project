@@ -125,7 +125,6 @@ public class ApprovalServiceImpl implements ApprovalService {
 	}
 	@Override
 	public int getTotal(AppCriteria appcri) {
-		
 		return approvalmapper.getTotalCount(appcri);
 	}
 
@@ -146,23 +145,23 @@ public class ApprovalServiceImpl implements ApprovalService {
 	
 	//리스트에서 누른 상세정보를 hashmap으로 반환(위와 출력하고자 하는 정보가 다름)
 	@Override
-	public HashMap resultDetail(String app_no, String app_kind) {
+	public HashMap resultDetail(String app_no, String app_kind, String emp_no) {
 		System.out.println("resultDetail 시작 : ");
 		HashMap detailinfo = null;
 		
 		if(app_kind.equals("지출결의서")){
 			System.out.println("지출결의서");
-			detailinfo = approvalmapper.resultDetail_D(app_no, app_kind);
+			detailinfo = approvalmapper.resultDetail_D(app_no, app_kind,emp_no);
 			System.out.println(detailinfo);
 			//Date date = (Date) detailinfo.get("STARTDATE");
 			//log.info("날짜 데이터 " + date);
 		}else if(app_kind.equals("기안서")){
 			System.out.println("기안서");
-			detailinfo = approvalmapper.resultDetail_DD(app_no, app_kind);
+			detailinfo = approvalmapper.resultDetail_DD(app_no, app_kind, emp_no);
 			System.out.println(detailinfo);
 		}else if(app_kind.equals("연차신청서")){
 			System.out.println("연차신청서");
-			detailinfo = approvalmapper.resultDetail_VD(app_no, app_kind);
+			detailinfo = approvalmapper.resultDetail_VD(app_no, app_kind, emp_no);
 			System.out.println(detailinfo);
 		}else{
 		}
@@ -174,6 +173,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 	@Override
 	@Transactional
 	public int resultAccept(PowerDTO powerDTO) {
+		System.out.println(powerDTO.getUpload());
 		int result = approvalmapper.accept(powerDTO);
 		
 		String app_no = powerDTO.getApp_no();
@@ -192,11 +192,11 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return result;
 	}
 	
-	
 	//거절에 대한 처리서비스
 	@Override
 	@Transactional
 	public int resultReject(PowerDTO powerDTO) {
+		System.out.println(powerDTO.getUpload());
 		int result = approvalmapper.reject(powerDTO);
 		
 		String app_no = powerDTO.getApp_no();

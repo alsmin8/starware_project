@@ -118,7 +118,7 @@
 		<table class="table table-bordered table-hover"
 			style="text-align: center; border: 5px solid #eeeeee;">
 			<tbody>
-			<c:forEach var="notice" items="${noticeList }" begin="0" end="2">
+			<c:forEach var="notice" items="${noticeList}" begin="0" end="2">
 				<tr>
 					<td colspan="3"><h5><a class="move" href="/notice/noticeDetail?notice_no=${notice.notice_no}"><c:out value="${notice.notice_title }"/></a></h5></td>
 				</tr>

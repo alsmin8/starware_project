@@ -39,12 +39,11 @@ public interface ApprovalService {
 	
 	//내가 결재할 목록
 	public List<HashMap> resultApproval(String userID);
-	public HashMap resultDetail(String app_no, String app_kind);
+	public HashMap resultDetail(String app_no, String app_kind, String emp_no);
 	public int resultAccept(PowerDTO powerDTO);
 	public int resultReject(PowerDTO powerDTO);
 	public List<HashMap> listJsonEmp(String keyword);
 		
 	//보류 결재권자 인설트
 	public void appInsert(Approval approval, List<Integer> attendees);
-	
 }
