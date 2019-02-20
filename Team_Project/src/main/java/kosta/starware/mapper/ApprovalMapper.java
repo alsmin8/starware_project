@@ -44,6 +44,9 @@ public interface ApprovalMapper {
 	public int appVacationUpdate(VacationDoc vacationDoc);
 	
 	
+	//결재권자 추가
+	public List<HashMap> listJsonEmp();
+	public int powerInsert(@Param("app_no") int app_no,@Param("emp_no") int emp_no);
 	
 	//내가 결재할 목록
 	public List<HashMap> resultApproval(String userID);
@@ -52,5 +55,10 @@ public interface ApprovalMapper {
 	public HashMap resultDetail_VD(@Param("app_no") String app_no,@Param("app_kind") String app_kind);
 	public int accept(PowerDTO powerDTO);
 	public int reject(PowerDTO powerDTO);
-	public List<HashMap> listJsonEmp();
+	
+	// 전체 결재목록 검사,업데이트
+	public List<PowerDTO> powerCount(String app_no);
+	public int approvalAcceptUpdate(String app_no);
+	public int approvalRejectUpdate(String app_no);
+
 }

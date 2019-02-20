@@ -172,6 +172,14 @@
 			<td>${project.project_Situation }</td>
 		</tr>
 		<tr>
+			<td>프로젝트 종류</td>
+			<td>${project.project_Kind }</td>
+		</tr>
+		<tr>
+			<td>진행상태</td>
+			<td>${project.project_Situation }</td>
+		</tr>
+		<tr>
 			<td>내용</td>
 			<td>${project.project_Contents }</td>
 		</tr>

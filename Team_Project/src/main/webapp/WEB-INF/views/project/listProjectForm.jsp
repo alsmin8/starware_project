@@ -131,7 +131,9 @@
 			<c:forEach var="project" items="${listProjectForm }">
 				<tr>
 					<td>${project.project_No}</td>
-					<td><a class='projectMove' href='<c:out value="${project.project_No}"/>'> <c:out value="${project.project_Title}" /></a></td>
+					<td><a class='projectMove'
+						href='<c:out value="${project.project_No}"/>'> <c:out
+								value="${project.project_Title}" /></a></td>
 					<td>${project.project_Writer}</td>
 					<td>${project.project_Manager}</td>
 					<td>${project.project_Term }</td>

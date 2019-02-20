@@ -18,7 +18,7 @@
 td{
 text-align: center;
 }
-modal-footer{
+.modal-content>.modal-footer{
 text-align: center;
 }
 </style>
@@ -254,21 +254,23 @@ text-align: center;
 		})//getDetail 메소드 종료
     });	//result_detail 클릭버튼 이벤트 종료 
     modalAcceptBtn.on("click", function(e){
-			$.ajax({
-				type: 'POST',
-				url : '/approval2/getAccept',
-				data : {
-					app_no: modal.data("app_no"), 
-					emp_no: emp_no,
-					power_defult: '승인'
-				},
-				success : function(result){
-					console.log(result);
-					alert(result);
-					$(".modal").modal('hide');
-					//location.href="/approval/applist_result";
-				}
-			})//getAccept 메소드 종료
+   		//var canvas = document.getElementbyID('drawCanvas');
+    	//var Image = canvas.toDataURL();
+		$.ajax({
+			type: 'POST',
+			url : '/approval2/getAccept',
+			data : {
+				app_no: modal.data("app_no"), 
+				emp_no: emp_no,
+				power_defult: '승인'
+			},
+			success : function(result){
+				console.log(result);
+				alert(result);
+				$(".modal").modal('hide');
+				location.href="/approval/applist_result";
+			}
+		})//getAccept 메소드 종료
         
     });	//modalAcceptBtn 이벤트 종료
 
@@ -285,12 +287,13 @@ text-align: center;
 					console.log(result);
 					alert(result);
 					$(".modal").modal('hide');
-					//location.href="/approval/applist_result";
+					location.href="/approval/applist_result";
 				}
 			})//getReject 메소드 종료
   	}); //modalRejectBtn 이벤트 종료 
     $("#modalCloseBtn").on("click", function(e){
     	modal.modal('hide');
+    	context.clearRect(0, 0, canvas.width, canvas.height);
     });
     function displayTime(timeValue) {
     	var today = new Date();
@@ -307,7 +310,6 @@ text-align: center;
     	return [yy, '/',(mm > 9 ? '' : '0') + mm, '/',(dd > 9 ? '' : '0') + dd, ' - ' , (hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi, ':',(ss > 9 ? '' : '0') + ss].join('');
     };
 </script>
-
 
 <script type="text/javascript">
     //window가 load 될때 Event Listener를 등록 하여 준다.

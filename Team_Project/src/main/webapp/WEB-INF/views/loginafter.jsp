@@ -17,10 +17,6 @@
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
 		}
- 		if (emp_no == null) {
-			session.setAttribute("messageType", "오류메세지");
-			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
-		}
 	%>
 <script type="text/javascript">
 	function getUnread() {
@@ -46,7 +42,7 @@
 		}, 3000);
 	}
 	function showUnread(result) {
-		$('#unlead').html(result);
+		$('#unread').html(result);
 	}
 </script>
 </head>

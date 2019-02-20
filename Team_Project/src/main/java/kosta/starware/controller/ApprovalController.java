@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,36 +21,12 @@ import kosta.starware.domain.Approval;
 import kosta.starware.domain.DeptVO;
 import kosta.starware.domain.DisbursementDoc;
 import kosta.starware.domain.DraftDoc;
-import kosta.starware.domain.EmpDTO;
 import kosta.starware.domain.EmpVO;
 import kosta.starware.domain.GradeVO;
 import kosta.starware.domain.VacationDoc;
-import kosta.starware.mapper.ApprovalMapper;
 import kosta.starware.service.ApprovalService;
 import kosta.starware.service.EmpService;
 import lombok.AllArgsConstructor;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-import kosta.starware.domain.VacationDoc;
-import kosta.starware.mapper.ApprovalMapper;
-import kosta.starware.service.ApprovalService;
-import kosta.starware.service.EmpService;
-import lombok.AllArgsConstructor;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-import kosta.starware.domain.VacationDoc;
-import kosta.starware.mapper.ApprovalMapper;
-import kosta.starware.service.ApprovalService;
-import kosta.starware.service.EmpService;
-import lombok.AllArgsConstructor;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-import kosta.starware.domain.VacationDoc;
-import kosta.starware.mapper.ApprovalMapper;
-import kosta.starware.service.ApprovalService;
-import kosta.starware.service.EmpService;
-import lombok.AllArgsConstructor;
-import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 @Controller
@@ -103,30 +79,47 @@ public class ApprovalController {
 	public void appinsertvacationform() {
 	}
 
+	@Transactional
 	@PostMapping("/appinsertddform")
-	public String appDdInsert(Approval approval, DisbursementDoc disbursementdoc, RedirectAttributes rttr) {
-		log.info("appInsert::" + approval + "appInsert::" + disbursementdoc);
-		approvalservice.appInsert(approval);
-		approvalservice.appDdInsert(disbursementdoc);
+	public String appDdInsert(Approval approval, DisbursementDoc disbursementdoc,@RequestParam("attendees") List<Integer> attendees) {
+		log.info("appInsert::" + approval + "appInsert::" + disbursementdoc + " attendees::" + attendees);
+		if(attendees.size() == 0 || attendees == null){
+			return "redirect:/approval/applist_alllist";
+		}else{
+			approvalservice.appInsert(approval);
+			approvalservice.appDdInsert(disbursementdoc);
 
-		rttr.addFlashAttribute("result", approval.getApp_no());
-		return "redirect:/approval/applist_alllist";
+			//rttr.addFlashAttribute("result", approval.getApp_no());
+			return "redirect:/approval/applist_alllist";
+		}
 	}
-
+	
+	@Transactional
 	@PostMapping("/appinsertdraftform")
-	public String appDraftInsert(Approval approval, DraftDoc draftDoc) {
-		approvalservice.appInsert(approval);
-		approvalservice.appDraftInsert(draftDoc);
-		
-		return "redirect:/approval/applist_alllist";
+	public String appDraftInsert(Approval approval, DraftDoc draftDoc,@RequestParam("attendees") List<Integer> attendees) {
+		log.info("appInsert::" + approval + "appInsert::" + draftDoc + " attendees::" + attendees);
+		if(attendees.size() == 0 || attendees == null){
+			return "redirect:/approval/applist_alllist";
+		}else{
+			approvalservice.appInsert(approval, attendees);
+			approvalservice.appDraftInsert(draftDoc);
+			
+			return "redirect:/approval/applist_alllist";
+		}
 	}
-
+	
+	@Transactional
 	@PostMapping("/appinsertvacationform")
-	public String appVacationInsert(Approval approval, VacationDoc vacationDoc, RedirectAttributes rttr) {
-		approvalservice.appInsert(approval);
-		approvalservice.appVacationInsert(vacationDoc);
-		rttr.addFlashAttribute("result", approval.getApp_no());
-		return "redirect:/approval/applist_alllist";
+	public String appVacationInsert(Approval approval, VacationDoc vacationDoc,@RequestParam("attendees") List<Integer> attendees) {
+		log.info("appInsert::" + approval + "appInsert::" + vacationDoc + " attendees::" + attendees);
+		if(attendees.size() == 0 || attendees == null){
+			return "redirect:/approval/applist_alllist";
+		}else{
+			approvalservice.appInsert(approval);
+			approvalservice.appVacationInsert(vacationDoc);
+			//rttr.addFlashAttribute("result", approval.getApp_no());
+			return "redirect:/approval/applist_alllist";
+		}
 	}
 
 	@GetMapping("/whichappdetail") //어떤 디테일 폼으로 갈건지
@@ -367,7 +360,7 @@ public class ApprovalController {
 			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
 			return "redirect:/login";
 		}else{
-			List<HashMap> applist_result =approvalservice.resultApproval(userID);
+			List<HashMap> applist_result = approvalservice.resultApproval(userID);
 			//log.info(applist_result);
 			model.addAttribute("applist_result", applist_result);
 			return "/approval/applist_result";

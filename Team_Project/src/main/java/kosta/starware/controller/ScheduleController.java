@@ -29,7 +29,7 @@ public class ScheduleController {
 	@Setter(onMethod_=@Autowired)
 	CategoryService service;
 	
-	// µî·Ï (post)
+	// ï¿½ï¿½ï¿½ (post)
 	@PostMapping("/insertCgr")
 	public String insertCgr(CategoryVO category) {
 		System.out.println("vo............"+category);
@@ -39,24 +39,24 @@ public class ScheduleController {
 			for(int i = 0; i < category.getAttendees().size(); i++) {
 				category.setEmp_no(category.getAttendees().get(i));
 				service.insertCgr(category);
-				System.out.println("¼º°ø......................"+i);
+				System.out.println("ï¿½ï¿½ï¿½ï¿½......................"+i);
 			}
 		}
 		
-		System.out.println("¼º°ø......................");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½......................");
 		return "redirect:/schedule/scheduleMain";
 	}
 	
 	
 	@GetMapping("/scheduleMain")
 	public String toMain() {
-		System.out.println("¼º°ø......................");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½......................");
 		
-		return "/schedule/scheduleMain2";
+		return "/schedule/scheduleMain";
 	}
 	
 	
-	// »ç¿ø ¸ñ·Ï Á¶È¸ (get)
+	// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ (get)
 	@ResponseBody
 	@GetMapping("/listEmp")
 	public List<EmpVO> listEmp(@RequestParam String keyword) {
@@ -79,7 +79,7 @@ public class ScheduleController {
 	}
 	
 	
-	// ¸ñ·Ï Á¶È¸ (get)
+	// ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ (get)
 	@ResponseBody
 	@GetMapping("/listCgr")
 	public List<CategoryVO> listCgr(@RequestParam("emp_no") int emp_no) {
@@ -100,7 +100,7 @@ public class ScheduleController {
 		
 	}
 	
-	// ¼öÁ¤ (put)
+	// ï¿½ï¿½ï¿½ï¿½ (put)
 	@PostMapping("/updateCgr")
 	public String updateCgr(CategoryVO category) {
 		System.out.println(category);

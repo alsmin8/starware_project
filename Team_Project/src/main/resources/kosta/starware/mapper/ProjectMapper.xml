@@ -5,72 +5,70 @@
 
 <mapper namespace="kosta.starware.mapper.ProjectMapper">
 
-	<select id="getListProject" resultType="kosta.starware.domain.ProjectDTO">
-		<![CDATA[
+
+	<select resultType="kosta.starware.domain.ProjectDTO" id="getListProject">
+
+<![CDATA[
 		select * from project where project_No > 0
 		]]>
 	</select>
 
+
 	<insert id="registerProject">
-		<selectKey keyProperty="project_No" order="BEFORE"
-			resultType="int">
-			select project_No_seq.nextval from dual
-		</selectKey>
-		insert into project
-		values
-		(#{project_No},#{project_Title},#{project_Contents},#{project_Kind},#{project_Writer},#{project_Manager},#{project_Members},
-		#{project_Term},#{project_Start_Date},#{project_End_Date},sysdate,
-		#{project_Situation},12301)
+
+		<selectKey resultType="int" order="BEFORE" keyProperty="project_No">select
+			project_No_seq.nextval from dual </selectKey>
+		insert into
+		projectvalues(#{project_No},#{project_Title},#{project_Contents},#{project_Kind},#{project_Writer},#{project_Manager},#{project_Members},#{project_Term},#{project_Start_Date},#{project_End_Date},sysdate,#{project_Situation},12301)
 	</insert>
 
-	<select id="readProject" resultType="kosta.starware.domain.ProjectDTO">
-		select * from project where
-		project_No = #{project_No}
-	</select>
+	<select resultType="kosta.starware.domain.ProjectDTO" id="readProject">select
+		* from project whereproject_No = #{project_No} </select>
 
-	<delete id="removeProject">
-		delete project where project_No = #{project_No}
+	<delete id="removeProject">delete project where project_No = #{project_No}
 	</delete>
 
-	<update id="modifyProject"> update project
-		set project_Title=#{project_Title},
-		project_Contents=#{project_Contents},
-		project_Kind=#{project_Kind},
-		project_Writer=#{project_Writer},
-		project_Manager=#{project_Manager},
-		project_Members=#{project_Members},
-		project_Term=#{project_Term},
-		project_Start_Date=#{project_Start_Date},
-		project_End_Date=#{project_End_Date},
-		project_Regdate=sysdate,
-		project_Situation=#{project_Situation}
-		where
-		project_No=#{project_No}
+	<update id="modifyProject"> update projectset
+		project_Title=#{project_Title},project_Contents=#{project_Contents},project_Kind=#{project_Kind},project_Writer=#{project_Writer},project_Manager=#{project_Manager},project_Members=#{project_Members},project_Term=#{project_Term},project_Start_Date=#{project_Start_Date},project_End_Date=#{project_End_Date},project_Regdate=sysdate,project_Situation=#{project_Situation}whereproject_No=#{project_No}
 	</update>
-	
+
+
 	<sql id="criteria">
-		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
-			<foreach item='projectSearchType' collection="projectSearchArr">
+
+
+		<trim prefixOverrides="OR" suffix=") AND " prefix="(">
+
+
+			<foreach collection="projectSearchArr" item="projectSearchType">
+
+
 				<trim prefix="OR">
+
+
 					<choose>
-						<when test="projectSearchType=='T'.toString()">
-							project_Title like '%'||#{projectSearchKey}||'%'
+
+						<when test="projectSearchType=='T'.toString()">project_Title like '%'||#{projectSearchKey}||'%'
 						</when>
-						<when test="projectSearchType=='C'.toString()">
-							project_Contents like
-							'%'||#{projectSearchKey}||'%'
+
+						<when test="projectSearchType=='C'.toString()">project_Contents like'%'||#{projectSearchKey}||'%'
 						</when>
-						<when test="projectSearchType=='W'.toString()">
-							emp_no like '%'||#{projectSearchKey}||'%'
-						</when>
+
+						<when test="projectSearchType=='W'.toString()">emp_no like '%'||#{projectSearchKey}||'%' </when>
+
 					</choose>
+
 				</trim>
+
 			</foreach>
+
 		</trim>
+
 	</sql>
 
-	<select id="getListPagingProject" resultType="kosta.starware.domain.ProjectDTO">
-	<![CDATA[
+
+	<select resultType="kosta.starware.domain.ProjectDTO" id="getListPagingProject">
+
+<![CDATA[
 		select project_No, project_Title, project_Contents, project_Kind, project_Writer,project_Manager,project_Members,
 			project_Term,project_Start_Date,project_End_Date,project_Regdate,project_Situation,emp_No
 		from(
@@ -81,9 +79,9 @@
 			project
 		where
 	]]>
-	<include refid="criteria" />
-	
-	<![CDATA[
+		<include refid="criteria" />
+
+<![CDATA[
      	 rownum <= #{pageNum} * #{amount}
      	 )
  	 where rn > (#{pageNum} -1) * #{amount}   
@@ -91,13 +89,11 @@
 	]]>
 	</select>
 
-	<select id="getTotalCountProject" resultType="int">
+
+	<select resultType="int" id="getTotalCountProject">
 		select count(*) from project where
-
-	<include refid="criteria"></include>
-
+		<include refid="criteria" />
 		project_No > 0
 	</select>
-
 
 </mapper>

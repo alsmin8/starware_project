@@ -84,7 +84,6 @@ public class ChatActionController {
 	public String unleadAllChatlist(@RequestParam String userID){
 		log.info("unleadAllChatlist");		
 		String count = String.valueOf(service.unleadAllChatlist(userID));
-		
 		return count;
 	}
 	
