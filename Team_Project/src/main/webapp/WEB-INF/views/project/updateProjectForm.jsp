@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+	<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -13,12 +13,62 @@
 <title>STARWARE(Groupware)</title>
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
 <script src="/resources/jquery.js" type="text/javascript"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="/resources/js/bootstrap.js"></script>
+<style>
+.uploadResult {
+	width: 100%;
+	background-color: gray;
+}
 
+.uploadResult ul {
+	display: flex;
+	flex-flow: row;
+	justify-content: center;
+	align-items: center;
+}
+
+.uploadResult ul li {
+	list-style: none;
+	padding: 10px;
+	align-content: center;
+	text-align: center;
+}
+
+.uploadResult ul li img {
+	width: 100px;
+}
+
+.uploadResult ul li span {
+	color: white;
+}
+
+.bigPictureWrapper {
+	position: absolute;
+	display: none;
+	justify-content: center;
+	align-items: center;
+	top: 0%;
+	width: 100%;
+	height: 100%;
+	background-color: gray;
+	z-index: 100;
+	background: rgba(255, 255, 255, 0.5);
+}
+
+.bigPicture {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.bigPicture img {
+	width: 600px;
+}
+</style>
 <script>
 	function getSelectValue(frm) {
 		frm.project_Situation.value = frm.situation.options[frm.situation.selectedIndex].text;
@@ -48,14 +98,15 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a href="loginafter.jsp">메인</a></li>
-				<li><a href="list.bit">전자결재</a></li>
-				<li class="active"><a href="listActionProject.pro">협업지원</a></li>
-				<li><a href="list.not">공지사항</a></li>
-				<li><a href="resource_main.jsp">출퇴근관리</a></li>
-				<li><a href="list.do">인사관리</a></li>
-				<li><a href="calendar_main.jsp">일정관리</a></li>
-				<li><a href="messengerFind.jsp">메세지함</a></li>
+				<li><a href="/loginafter">메인</a></li>
+				<li><a href="/approval/applist_alllist">전자결재</a></li>
+				<li><a href="/project/listProjectForm">협업지원</a></li>
+				<li><a href="/notice/noticeList">공지사항</a></li>
+				<li><a href="/attend/attendInsert">출퇴근관리</a></li>
+				<li><a href="/emp/empList">인사관리</a></li>
+				<li><a href="/schedule/scheduleMain">일정관리</a></li>
+				<li class="active"><a href="/chat/messengerFind">메세지함<span
+						id="unread" class="label label-info"></span></a></li>
 			</ul>
 			<%
 				if (emp_no == null) {
@@ -90,15 +141,18 @@
 
 
 	<div class="container">
-	<form role="form" id="form" name="form" action="updateProject" method="post" >
-	<input type="hidden" name="project_No" value="${project.project_No}">
-	<input type="hidden" name="emp_no" value="${emp_no}">
-	<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum }"/>'>
-    <input type='hidden' name='amount' value='<c:out value="${cri.amount }"/>'>
-    
-<%--  		<form action="updateProject" method="post">
-			<input type="hidden" name="emp_No" value="${emp_No}"> <input
-				type="hidden" name="project_No" value="${project.project_No}"> --%>
+		<form role="form" id="form" name="form" action="updateProject"
+			method="post">
+			<input type="hidden" name="project_No" value="${project.project_No}">
+			<input type="hidden" name="emp_no" value="${emp_no}"> <input
+				type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
+			<input type='hidden' name='amount'
+				value='<c:out value="${cri.amount}"/>'> <input type='hidden'
+				name='projectSearchType'
+				value='<c:out value="${pageMaker.cri.projectSearchType}"/>'>
+			<input type='hidden' name='projectSearchKey'
+				value='<c:out value="${pageMaker.cri.projectSearchKey }"/>'>
+
 			<table class="table table-bordered table-hover"
 				style="text-align: center; border: 1px solid #dddddd;">
 				<thead>
@@ -176,64 +230,268 @@
 								cols="120" name="project_Contents">${project.project_Contents }</textarea></td>
 						<td colspan="2" rowspan="2"></td>
 					</tr>
-					<%-- 					<tr>
-						<td style="width: 110px;"><h5>첨부파일</h5></td>
-						<td colspan="2"><input class="form-control" type="file"
-							id="project_File" name="project_File" maxlength="20"
-							value="${project.project_File }">기존파일:
-							${project.project_File }</td>
-					</tr> --%>
 
 				</tbody>
 			</table>
-	<button type="submit" data-oper='list' class="btn btn-primary pull" style="margin-left: 485px">프로젝트 목록</button>
-	<button type="submit" data-oper='update' class="btn btn-primary pull" style="text-align: center;">프로젝트 수정</button>
-<!-- 
-	<input type="submit" class="btn btn-primary pull" value="프로젝트 수정" data-oper='update' style="margin-left: 485px">
-	<input type="submit" data-oper='list' class="btn btn-primary pull" value="프로젝트 목록" onclick="location.href='listProjectForm'"
-				style="text-align: center;"> -->
-				
-						</form>
+			<div class='bigPictureWrapper'>
+				<div class='bigPicture'></div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">Files</div>
+						<!-- /.panel-heading -->
+						<div class="panel-body">
+						<input type="file" name="uploadFile" multiple="multiple">
+					</div>
+					<div class="uploadResult">
+						<ul>
+						</ul>
+					</div>
+					</div>
+						<!--  end panel-body -->
+					</div>
+					<!--  end panel-body -->
+				</div>
+				<!-- end panel -->
+			</div>
+			<!-- /.row -->
+
+			<button type="submit" data-oper='list' class="btn btn-primary pull"	style="margin-left: 485px">프로젝트 수정 취소</button>
+			<button type="submit" data-oper='update' class="btn btn-primary pull" style="text-align: center;">프로젝트 수정</button>
+		</form>
 	</div>
+
+	<script type="text/javascript">
+		$(document).ready(
+				function() {
+					var updateProjectForm = $("form");
+					var Title = document.form.project_Title;
+					var Contents = document.form.project_Contents;
+
+					$('button').on(
+							"click",
+							function(e) {
+								e.preventDefault();
+								var projectoper = $(this).data("oper");
+								console.log(projectoper);
+
+								if (projectoper === 'update') {
+
+									if (Title.value == ''
+											|| Contents.value == '') {
+										window.alert("제목과 내용을 입력해야 합니다.")
+										document.form.project_Title.focus();
+										document.form.project_Contents.focus();
+										return false;
+									}
+
+									updateProjectForm.attr("action",
+											"/project/updateProjectForm");
+
+								} else if (projectoper === 'list') {
+									updateProjectForm.attr("action",
+											"/project/listProjectForm").attr(
+											"method", "get");
+
+									var pageNumTag = $("input[name='pageNum']")
+											.clone();
+									var amountTag = $("input[name='amount']")
+											.clone();
+									var keywordTag = $(
+											"input[name='ProjectSearchKey']")
+											.clone();
+									var typeTag = $(
+											"input[name='ProjectSearchType']")
+											.clone();
+
+									updateProjectForm.empty();
+									updateProjectForm.append(pageNumTag);
+									updateProjectForm.append(amountTag);
+									updateProjectForm.append(keywordTag);
+									updateProjectForm.append(typeTag);
+								}
+								updateProjectForm.submit();
+							});
+				});
+	</script>
 	
 	<script type="text/javascript">
 	$(document).ready(function() {
-		var updateProjectForm=$("form");
-    	var Title=document.form.project_Title;
-		var Contents=document.form.project_Contents;
-	
-	$('button').on("click", function(e){
-		e.preventDefault();
-		var projectoper=$(this).data("oper");
-		console.log(projectoper);
-		
-		if(projectoper==='update'){
-			
-			if(Title.value==''||Contents.value==''){
-				  window.alert("제목과 내용을 입력해야 합니다.")
-				  document.form.project_Title.focus();
-				  document.form.project_Contents.focus();
-				  return false;}
-		
-			updateProjectForm.attr("action", "/project/updateProjectForm");
-			
-		}else if(projectoper==='list'){
-			projectUpdateForm.attr("action", "/project/listProjectForm").attr("method", "get");
-			
-			var pageNumTag = $("input[name='pageNum']").clone();
-		    var amountTag = $("input[name='amount']").clone();
-		  	var keywordTag = $("input[name='keyword']").clone();
-		    var typeTag = $("input[name='type']").clone(); 
-			
-		    updateProjectForm.empty();
-		    updateProjectForm.append(pageNumTag);
-		    updateProjectForm.append(amountTag);
+		  (function(){
 		    
-		}
-		updateProjectForm.submit();
+		    var project_No = '<c:out value="${project.project_No}"/>';
+		    
+		    $.getJSON("/project/getAttachList", {project_No:project_No}, function(arr){
+		    
+		      console.log(arr);
+		      
+		      var str = "";
+
+
+		      $(arr).each(function(i, attach){
+		    	  
+		            var fileCallPath =  encodeURIComponent( attach.project_uploadPath+ "/s_"+attach.project_uuid +"_"+attach.project_fileName);
+
+		            str += "<li data-path='"+attach.project_uploadPath+"' data-uuid='"+attach.project_uuid+"' "
+		            str += "data-filename='"+attach.project_fileName+"'><div>";
+		            str += "<span> "+ attach.project_fileName+"</span><br/>";
+		            str += "<button type='button' data-file=\'"+fileCallPath+""
+		            str += " class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+		            str += "<img src='/resources/images/attach.png'></a>";
+		            str += "</div>";
+		            str +"</li>";
+		       });
+		      
+		      $(".uploadResult ul").html(str);
+		      
+		    });//end getjson
+		  })();//end function
 	});
-});
+	
+	  $(".uploadResult").on("click", "button", function(e){
+		    
+		    console.log("delete file");
+		      
+		    if(confirm("Remove this file? ")){
+		    
+		      var targetLi = $(this).closest("li");
+		      targetLi.remove();
+		    }
+		  });  
+		
+	  var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+	  var maxSize = 5242880; //5MB
+	  
+	  function checkExtension(fileName, fileSize){
+	    
+	    if(fileSize >= maxSize){
+	      alert("파일 사이즈 초과");
+	      return false;
+	    }
+	    
+	    if(regex.test(fileName)){
+	      alert("해당 종류의 파일은 업로드할 수 없습니다.");
+	      return false;
+	    }
+	    return true;
+	  }
+	  
+	  $("input[type='file']").change(function(e){
+
+		    var formData = new FormData();
+		    
+		    var inputFile = $("input[name='uploadFile']");
+		    
+		    var files = inputFile[0].files;
+		    
+		    for(var i = 0; i < files.length; i++){
+
+		      if(!checkExtension(files[i].name, files[i].size) ){
+		        return false;
+		      }
+		      formData.append("uploadFile", files[i]);
+		      
+		    }
+		    
+		    $.ajax({
+		      url: '/project/uploadAjaxAction',
+		      processData: false, 
+		      contentType: false,data: 
+		      formData,type: 'POST',
+		      dataType:'json',
+		        success: function(result){
+		          console.log(result); 
+				  showUploadResult(result); //업로드 결과 처리 함수 
+
+		      }
+		    }); //$.ajax
+		    
+	  });
+		    function showUploadResult(uploadResultArr){
+			    
+		        if(!uploadResultArr || uploadResultArr.length == 0){ return; }
+		        
+		        var uploadUL = $(".uploadResult ul");
+		        
+		        var str ="";
+		        
+		        $(uploadResultArr).each(function(i, obj){
+		    			var fileCallPath =  encodeURIComponent( obj.project_uploadPath+"/"+ obj.project_uuid +"_"+obj.project_fileName);			      
+		    		    var fileLink = fileCallPath.replace(new RegExp(/\\/g),"/");
+		    		      
+		    			str += "<li "
+		    			str += "data-path='"+obj.project_uploadPath+"' data-uuid='"+obj.project_uuid+"' data-filename='"+obj.project_fileName+"' ><div>";
+		    			str += "<span> "+ obj.project_fileName+"</span>";
+		    			str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' " 
+		    			str += "class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+		    			str += "<img src='/resources/images/attach.png'></a>";
+		    			str += "</div>";
+		    			str +"</li>";
+		        });
+		        
+		        uploadUL.append(str);
+		      }
 </script>
+		    
+<script type="text/javascript">
+		    $(document).ready(function() {
+
+
+		  	  var formObj = $("form");
+
+		  	  $('button').on("click", function(e){
+		  	    
+		  	    e.preventDefault(); 
+		  	    
+		  	    var operation = $(this).data("oper");
+		  	    
+		  	    console.log(operation);
+		  	    
+		  	    if(operation === 'remove'){
+		  	      formObj.attr("action", "/project/remove");
+		  	      
+		  	    }else if(operation === 'list'){
+		  	      //move to list
+		  	      formObj.attr("action", "/project/listProjectForm").attr("method","get");
+		  	      
+		  	      var pageNumTag = $("input[name='pageNum']").clone();
+		  	      var amountTag = $("input[name='amount']").clone();
+		  	      var keywordTag = $("input[name='projectSearchKey']").clone();
+		  	      var typeTag = $("input[name='projectSearchType']").clone();      
+		  	      
+		  	      formObj.empty();
+		  	      
+		  	      formObj.append(pageNumTag);
+		  	      formObj.append(amountTag);
+		  	      formObj.append(keywordTag);
+		  	      formObj.append(typeTag);	  
+		  	      
+		  	    }else if(operation === 'update'){
+		  	        
+		  	        console.log("submit clicked");
+		  	        
+		  	        var str = "";
+		  	        
+		  	        $(".uploadResult ul li").each(function(i, obj){
+		  	          
+		  	          var jobj = $(obj);
+		  	          
+		  	          console.dir(jobj);
+		  	          
+		  	          str += "<input type='hidden' name='attachList["+i+"].project_fileName' value='"+jobj.data("filename")+"'>";
+		  	          str += "<input type='hidden' name='attachList["+i+"].project_uuid' value='"+jobj.data("uuid")+"'>";
+		  	          str += "<input type='hidden' name='attachList["+i+"].project_uploadPath' value='"+jobj.data("path")+"'>";
+		  	          
+		  	        });
+		  	        formObj.append(str).submit();
+		          }
+		      
+		  	    formObj.submit();
+		  	  });
+		    });
+	</script>
 
 
 </body>

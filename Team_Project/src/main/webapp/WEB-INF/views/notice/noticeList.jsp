@@ -33,11 +33,14 @@
 	text-align:center;
 	text-decoration:none;
 }
-.pagination ul li a:hover, ul li a:focus {
+.pagination ul li a:hover, ul li a:focus, .active > a{
 	color:#fff;
-	border:1px solid #4d86d1;
-	background-color:#4d86d1;
+	border:1px solid #8BD2CC;
+	background-color:#8BD2CC;
 }
+
+
+
 </style>
 
 </head>
@@ -66,7 +69,7 @@
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="login.jsp">STARWARE</a>
+			<a class="navbar-brand" href="/login">STARWARE</a>
 		</div>
 
 		<div class="collapse navbar-collapse"

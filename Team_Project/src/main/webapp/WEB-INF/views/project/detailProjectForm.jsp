@@ -14,7 +14,53 @@
 <script src="/resources/jquery.js" type="text/javascript"></script>
 <script src="/resources/js/bootstrap.js"></script>
 <link rel="stylesheet" href="/resources/css/detailProject.css">
+<style>
+.uploadResult {
+  width:100%;
+  background-color: gray;
+}
+.uploadResult ul{
+  display:flex;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
+}
+.uploadResult ul li {
+  list-style: none;
+  padding: 10px;
+  align-content: center;
+  text-align: center;
+}
+.uploadResult ul li img{
+  width: 100px;
+}
+.uploadResult ul li span {
+  color:white;
+}
+.bigPictureWrapper {
+  position: absolute;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  top:0%;
+  width:100%;
+  height:100%;
+  background-color: gray; 
+  z-index: 100;
+  background:rgba(255,255,255,0.5);
+}
+.bigPicture {
+  position: relative;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.bigPicture img {
+  width:600px;
+}
+
+</style>
 </head>
 <body>
 	<%
@@ -37,14 +83,14 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a href="loginafter.jsp">메인</a></li>
-				<li><a href="list.bit">전자결재</a></li>
-				<li class="active"><a href="listActionProject.pro">협업지원</a></li>
-				<li><a href="list.not">공지사항</a></li>
-				<li><a href="resource_main.jsp">출퇴근관리</a></li>
-				<li><a href="list.do">인사관리</a></li>
-				<li><a href="calendar_main.jsp">일정관리</a></li>
-				<li><a href="messengerFind.jsp">메세지함</a></li>
+            <li><a href="/loginafter">메인</a></li>
+            <li><a href="/approval/applist_alllist">전자결재</a></li>
+            <li><a href="/project/listProjectForm">협업지원</a></li>
+            <li><a href="/notice/noticeList">공지사항</a></li>
+            <li><a href="/attend/attendInsert">출퇴근관리</a></li>
+            <li><a href="/emp/empList">인사관리</a></li>
+            <li><a href="/schedule/scheduleMain">일정관리</a></li>
+            <li class="active"><a href="/chat/messengerFind">메세지함<span id="unread" class="label label-info"></span></a></li>
 			</ul>
 			<%
 				if (emp_no == null) {
@@ -115,15 +161,44 @@
 			<td>${project.project_End_Date }</td>
 		</tr>
 		<tr>
+			<td>프로젝트 종류</td>
+			<td>${project.project_Kind }</td>
+		</tr>
+		<tr>
+			<td>진행상태</td>
+			<td>${project.project_Situation }</td>
+		</tr>
+		<tr>
 			<td>내용</td>
 			<td>${project.project_Contents }</td>
 		</tr>
-<%-- 		<tr>
-			<td>첨부파일</td>
-			<td><a href="download.jsp?filename=${project.project_File }">${project.project_File }</a></td>
-		</tr> --%>
-
 	</table>
+	
+			<div class='bigPictureWrapper'>
+  <div class='bigPicture'>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+
+      <div class="panel-heading">Files</div>
+      <!-- /.panel-heading -->
+      <div class="panel-body">
+        
+        <div class='uploadResult'> 
+          <ul>
+          </ul>
+        </div>
+      </div>
+      <!--  end panel-body -->
+    </div>
+    <!--  end panel-body -->
+  </div>
+  <!-- end panel -->
+</div>
+<!-- /.row -->
 	
 	
 	<button data-oper="update" class="btn btn-primary pull" style="text-align: center">수정하기</button>
@@ -135,46 +210,106 @@
 	<input type='hidden' name='project_No' id='project_No' value='<c:out value="${project.project_No}"/>'>
 	<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
 	<input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
+	<input type='hidden' name='projectSearchType' value='<c:out value="${cri.projectSearchType}"/>'>
+    <input type='hidden' name='projectSearchKey' value='<c:out value="${cri.projectSearchKey}"/>'>
 	</form>
 	
 	<form id='deleteFormAction' action="project/deleteProjectForm" method="get">
 	<input type='hidden' name='project_No' id='project_No' value='<c:out value="${project.project_No}"/>'>
 	<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
 	<input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
+	<input type='hidden' name='projectSearchType' value='<c:out value="${cri.projectSearchType}"/>'>
+    <input type='hidden' name='projectSearchKey' value='<c:out value="${cri.projectSearchKey}"/>'>
 	</form>
 	
 	<form id='updateFormAction' action="project/updateProjectForm" method="get">
 	<input type='hidden' name='project_No' id='project_No' value='<c:out value="${project.project_No}"/>'>
 	<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
 	<input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
+	<input type='hidden' name='projectSearchType' value='<c:out value="${cri.projectSearchType}"/>'>
+    <input type='hidden' name='projectSearchKey' value='<c:out value="${cri.projectSearchKey}"/>'>
 	</form>
 	
-	<script type="text/javascript">
-$(document).ready(function() {
-	var listAction = $("#listAction");
-	var updateFormAction = $("#updateFormAction");
-	var deleteFormAction = $("#deleteFormAction");
+<script type="text/javascript">
+$(document).ready(function () {
+	 
+		(function(){
+			
+	  var project_No = '<c:out value="${project.project_No}"/>';
+	  
+	  $.getJSON("/project/getAttachList", {project_No: project_No}, function(arr){
+		
+		  console.log(arr);
+		  
+		  var str="";
+		  
+		  $(arr).each(function(i, attach){
+		         if(attach.project_fileName){
+/*  		             var fileCallPath =  encodeURIComponent( attach.project_uploadPath+ "/s_"+attach.project_uuid +"_"+attach.project_fileName);
+		             
+ 		             str += "<li data-path='"+attach.project_uploadPath+"' data-uuid='"+attach.project_uuid+"' data-filename='"+attach.project_fileName+"'><div>";
+		             str += "<img src='/project/display?project_fileName="+fileCallPath+"'>";
+		             str += "</div>";
+		             str +"</li>";
+		           }else{ */
+		               
+		             str += "<li data-path='"+attach.project_uploadPath+"' data-uuid='"+attach.project_uuid+"' data-filename='"+attach.project_fileName+"'><div>";
+		             str += "<span> "+ attach.project_fileName+"</span><br/>";
+		             str += "<img src='/resources/images/attach.png'></a>";
+		             str += "</div>";
+		             str +"</li>";
+		          } 
+		         });
+		         
+		         $(".uploadResult ul").html(str);
+		         
+		         
+		       });//end getjson
 
-	$("button[data-oper='update']").on("click", function(e) {
-		updateFormAction.attr("action", "/project/updateProjectForm").submit();
+		      
+		    })();//end function
+
+$(".uploadResult").on("click","li", function(e){
+    
+    //console.log("view image");
+    
+    var liObj = $(this);
+    
+    var path = encodeURIComponent(liObj.data("path")+"/" + liObj.data("uuid")+"_" + liObj.data("filename"));
+    
+    if(liObj.data("uuid") == null){
+    	showImage(path.replace(new RegExp(/\\/g),"/"));
+    }else {
+      //download 
+      self.location ="/project/download?fileName="+path
+    }
+    
+});
+  });
+  
+</script>
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		var listAction = $("#listAction");
+		var updateFormAction = $("#updateFormAction");
+		var deleteFormAction = $("#deleteFormAction");
+
+		$("button[data-oper='update']").on("click", function(e) {
+			updateFormAction.attr("action", "/project/updateProjectForm").submit();
 	}); 
 
-	$("button[data-oper='list']").on("click", function(e) {
-		listAction.find("#project_No").remove();
-		listAction.attr("action", "/project/listProjectForm")
-		listAction.submit();
+		$("button[data-oper='list']").on("click", function(e) {
+			listAction.find("#project_No").remove();
+			listAction.attr("action", "/project/listProjectForm")
+			listAction.submit();
 	});
 	
-	$("button[data-oper='delete']").on("click", function(e) {
-		deleteFormAction.attr("action", "/project/deleteProjectForm").submit();
+		$("button[data-oper='delete']").on("click", function(e) {
+			deleteFormAction.attr("action", "/project/deleteProjectForm").submit();
 	}); 
-
 	
-	
-
-});
-
-
+	});
 </script>
 	
 	</div>

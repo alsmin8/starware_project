@@ -18,11 +18,6 @@
 	list-style: none;
 	float: left;
 	display: inline;
-	
-}
-
-.pagination div{
-	text-align: center;
 }
 
 .pagination ul li {
@@ -34,8 +29,8 @@
 	padding: 4px;
 	margin-right: 3px;
 	width: 30px;
-	color: #000;x
-	font: bold 12px tahoma;
+	color: #000;
+	x font: bold 12px tahoma;
 	border: 1px solid #eee;
 	text-align: center;
 	text-decoration: none;
@@ -69,14 +64,15 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a href="loginafter.jsp">메인</a></li>
-				<li><a href="list.bit">전자결재</a></li>
-				<li class="active"><a href="listActionProject.pro">협업지원</a></li>
-				<li><a href="list.not">공지사항</a></li>
-				<li><a href="resource_main.jsp">출퇴근관리</a></li>
-				<li><a href="list.do">인사관리</a></li>
-				<li><a href="calendar_main.jsp">일정관리</a></li>
-				<li><a href="messengerFind.jsp">메세지함</a></li>
+				<li><a href="/loginafter">메인</a></li>
+				<li><a href="/approval/applist_alllist">전자결재</a></li>
+				<li><a href="/project/listProjectForm">협업지원</a></li>
+				<li><a href="/notice/noticeList">공지사항</a></li>
+				<li><a href="/attend/attendInsert">출퇴근관리</a></li>
+				<li><a href="/emp/empList">인사관리</a></li>
+				<li><a href="/schedule/scheduleMain">일정관리</a></li>
+				<li class="active"><a href="/chat/messengerFind">메세지함<span
+						id="unread" class="label label-info"></span></a></li>
 			</ul>
 			<%
 				if (emp_no == null) {
@@ -113,10 +109,13 @@
 		<h3 align="center">
 			프로젝트 목록 보기</a>
 		</h3>
-		<hr>
+		
+				<form action="insertProjectForm" style="text-align: right">
+			<a href="insertProjectForm" class="btn btn-primary pull"
+				type="submit">프로젝트 생성하기</a>
+			<form id="insertFormAction" action="project/insertProjectForm"
+				method="get"></form></form>
 
-		<form id="insertFormAction" action="project/insertProjectForm"
-			method="get"></form>
 		<table class="type04">
 			<tr>
 				<td>No</td>
@@ -131,23 +130,24 @@
 
 			<c:forEach var="project" items="${listProjectForm }">
 				<tr>
- 					<td>${project.project_No}</td>
-<%-- 					<td><a href="detailProjectForm?project_No=${project.project_No }">${project.project_Title}</a></td> --%>
-					<td><a class='projectMove' href='<c:out value="${project.project_No}"/>'>
-					<c:out value="${project.project_Title}"/></a>
-					</td>
+					<td>${project.project_No}</td>
+					<td><a class='projectMove'
+						href='<c:out value="${project.project_No}"/>'> <c:out
+								value="${project.project_Title}" /></a></td>
 					<td>${project.project_Writer}</td>
 					<td>${project.project_Manager}</td>
 					<td>${project.project_Term }</td>
-					<td>${project.project_Start_Date}</td>
-					<td>${project.project_End_Date}</td>
+					<td><fmt:parseDate var="project_Start_Date"	value="${project.project_Start_Date}" pattern="yyyy-MM-dd"/> <fmt:formatDate value="${project_Start_Date}"
+							pattern="yyyy-MM-dd" /></td>
+					<td><fmt:parseDate var="project_End_Date"	value="${project.project_End_Date}" pattern="yyyy-MM-dd"
+							scope="page" /> <fmt:formatDate value="${project_End_Date}"
+							pattern="yyyy-MM-dd" /></td>
 					<td>${project.project_Regdate}</td>
 				</tr>
 			</c:forEach>
 		</table>
 
-		<div class="pagination">
-			<ul>
+			<div class="pagination">
 				<c:if test="${pageMaker.prev}">
 					<li class="paginate_button previous"><a
 						href="${pageMaker.startPage -1}">Previous</a></li>
@@ -164,59 +164,111 @@
 					<li class="paginate_button next"><a
 						href="${pageMaker.endPage +1 }">Next</a></li>
 				</c:if>
-			</ul>
-		</div>
+			</div>
 
-		<form id='projectAction' action="/project/listProjectForm"
-			method='get'>
-			<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
-			<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
-			<input type='hidden' name='projectSearchType'
-				value='<c:out value="${pageMaker.cri.projectSearchType}"/>'>
-			<input type='hidden' name='projectSearchKey'
-				value='<c:out value="${pageMaker.cri.projectSearchKey }"/>'>
-		</form>
+			<!-- 검색 -->
+			<form action="listProjectForm" method="get" id="searchProject">
+				<select name=projectSearchType style="text-align: center"
+					class="btn btn-primary pull">
+					<option value=""
+						<c:out value="${pageMaker.cri.projectSearchType == null?'selected':''}"/>>--</option>
+					<option value="T"
+						<c:out value="${pageMaker.cri.projectSearchType eq 'T'?'selected':''}"/>>제목</option>
+					<option value="C"
+						<c:out value="${pageMaker.cri.projectSearchType eq 'C'?'selected':''}"/>>내용</option>
+					<option value="W"
+						<c:out value="${pageMaker.cri.projectSearchType eq 'W'?'selected':''}"/>>작성자</option>
+					<option value="TC"
+						<c:out value="${pageMaker.cri.projectSearchType eq 'TC'?'selected':''}"/>>제목
+						+ 내용</option>
+					<option value="TW"
+						<c:out value="${pageMaker.cri.projectSearchType eq 'TW'?'selected':''}"/>>제목
+						+ 작성자</option>
+					<option value="TWC"
+						<c:out value="${pageMaker.cri.projectSearchType eq 'TWC'?'selected':''}"/>>제목
+						+ 내용 + 작성자</option>
+				</select> <input type='text' name='projectSearchKey'
+					class="btn btn-primary pull"
+					value='<c:out value="${pageMaker.cri.projectSearchKey}"/>' /> <input
+					type='hidden' name='pageNum'
+					value='<c:out value="${pageMaker.cri.pageNum}"/>' /> <input
+					type='hidden' name='amount'
+					value='<c:out value="${pageMaker.cri.amount}"/>' />
+				<button class='btn btn-primary pull'>검색</button>
+				<input type="button" class="btn btn-primary pull"
+					value="검색 전 목록으로 돌아가기" onclick="location.href='listProjectForm'">
+			</form>
 
 
-		<form action="listProjectForm" method="get" id="searcProject" class="btn btn-primary pull">
-			<select name=projectSearchType style="text-align: center" class="btn btn-primary pull">
-				<option value=""
-					<c:out value="${pageMaker.cri.projectSearchType == null?'selected':''}"/>>--</option>
-				<option value="T"
-					<c:out value="${pageMaker.cri.projectSearchType eq 'T'?'selected':''}"/>>제목</option>
-				<option value="C"
-					<c:out value="${pageMaker.cri.projectSearchType eq 'C'?'selected':''}"/>>내용</option>
-				<option value="W"
-					<c:out value="${pageMaker.cri.projectSearchType eq 'W'?'selected':''}"/>>작성자</option>
-				<option value="TC"
-					<c:out value="${pageMaker.cri.projectSearchType eq 'TC'?'selected':''}"/>>제목
-					+ 내용</option>
-				<option value="TW"
-					<c:out value="${pageMaker.cri.projectSearchType eq 'TW'?'selected':''}"/>>제목
-					+ 작성자</option>
-				<option value="TWC"
-					<c:out value="${pageMaker.cri.projectSearchType eq 'TWC'?'selected':''}"/>>제목
-					+ 내용 + 작성자</option>
-			</select>
-			<input type='text' name='projectSearchKey' class="btn btn-primary pull"
-				value='<c:out value="${pageMaker.cri.projectSearchKey}"/>' /> <input
-				type='hidden' name='pageNum'
-				value='<c:out value="${pageMaker.cri.pageNum}"/>' /> <input
-				type='hidden' name='amount'
-				value='<c:out value="${pageMaker.cri.amount}"/>' />
-			<button class='btn btn-primary pull' style="text-align: center">검색</button>
-		</form>
+			<form id='projectAction' action="/project/listProjectForm"
+				method='get'>
+				<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
+				<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+				<input type='hidden' name='projectSearchType'
+					value='<c:out value="${pageMaker.cri.projectSearchType}"/>'>
+				<input type='hidden' name='projectSearchKey'
+					value='<c:out value="${pageMaker.cri.projectSearchKey }"/>'>
+			</form>
 
-		<form action="insertProjectForm" style="text-align: right;">
-			<a href="insertProjectForm" class="btn btn-primary pull"
-				type="submit">프로젝트 생성하기</a>
-		</form>
+			<form id='listAction' action="project/listProjectForm" method="get">
+				<input type='hidden' name='project_No' id='project_No'
+					value='<c:out value="${project.project_No}"/>'> <input
+					type='hidden' name='pageNum'
+					value='<c:out value="${cri.pageNum}"/>'> <input
+					type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
+				<input type='hidden' name='projectSearchType'
+					value='<c:out value="${pageMaker.cri.projectSearchType}"/>'>
+				<input type='hidden' name='projectSearchKey'
+					value='<c:out value="${pageMaker.cri.projectSearchKey }"/>'>
+			</form>
+			<!-- Modal  추가 -->
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+				aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="myModalLabel">starware</h4>
+						</div>
+						<div class="modal-body">처리가 완료되었습니다.</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary"
+								data-dismiss="modal">Close</button>
+						</div>
+					</div>
+					<!-- /.modal-content -->
+				</div>
+				<!-- /.modal-dialog -->
+			</div>
+			<!-- /.modal -->
 	</div>
 
 	<script type="text/javascript">
 		$(document)
 				.ready(
 						function() {
+
+							var result = '<c:out value="${result}"/>';
+
+							checkModal(result);
+
+							history.replaceState({}, null, null);
+
+							function checkModal(result) {
+
+								if (result === '' || history.state) {
+									return;
+								}
+
+								if (parseInt(result) > 0) {
+									$(".modal-body").html(
+											"게시글 " + parseInt(result)
+													+ " 번이 등록되었습니다.");
+								}
+
+								$("#myModal").modal("show");
+							}
 
 							var projectAction = $("#projectAction");
 							var searchProject = $("#searchProject");
@@ -245,8 +297,9 @@
 																+ $(this).attr(
 																		"href")
 																+ "'>");
-												projectAction.attr("action",
-														"/project/detailProjectForm");
+												projectAction
+														.attr("action",
+																"/project/detailProjectForm");
 												projectAction.submit();
 											});
 

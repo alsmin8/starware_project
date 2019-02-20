@@ -100,11 +100,17 @@
 			<td>종료일: ${notice.notice_endDate }</td>
 		</tr>
 
-		<tr>
-			<td colspan=2>파일 : <a
-				href=""></a></td>
-		</tr>
+		<!-- <tr>
+			<td colspan=2>파일 : <a href=""></a></td>
+		</tr> -->
 	</table>
+
+	<div class='uploadResult'>
+	<ul>
+	</ul>
+	</div>
+
+
 
 	<br>
 
@@ -136,6 +142,76 @@
 </div>
 
 
+<script>
+//파일 첨부 파일 가지고 오기
+ $(document).ready(function(){
+	
+	 (function(){
+
+		var notice_no='<c:out value="${notice.notice_no}"/>';
+	
+		$.getJSON("/notice/getAttachList", {notice_no: notice_no}, function(arr){
+			console.log(arr);
+			
+			var str="";
+			
+			$(arr).each(function(i, attach){
+			
+				
+				
+				
+				//여기 조건 이상..ㅠ
+		         if(attach.type){
+		        	 /* var fileCallPath =  encodeURIComponent( attach.notice_uploadPath+ "/s_"+attach.notice_uuid +"_"+attach.notice_fileName);
+		        	 		             
+		        	  str += "<li data-path='"+attach.notice_uploadPath+"' data-uuid='"+attach.notice_uuid+"' data-filename='"+attach.notice_fileName+"'><div>";
+		        	 str += "<img src='/notice/display?fileName="+fileCallPath+"'>";
+		        	 str += "</div>";
+		        	 str +"</li>"; */
+		        	  }else{ 
+		        	 		               
+		        	 str += "<li data-path='"+attach.notice_uploadPath+"' data-uuid='"+attach.notice_uuid+"' data-filename='"+attach.notice_fileName+"'><div>";
+		        	 str += "<span> "+ attach.notice_fileName+"</span>";
+		        	 str += "<img src='/resources/images/notice_attach.jpg' style='width: 30px; height: 30px;'></a>";
+		        	 str += "</div>";
+		        	 str +"</li>";
+		        	 	  } 
+		        	   });
+		        	 		         
+		        $(".uploadResult ul").html(str);
+			
+		}); //end getJSON	
+	})(); //end function
+	
+	
+	
+	 $(".uploadResult").on("click","li", function(e){
+		   
+		    var liObj = $(this);
+		    
+		    var path = encodeURIComponent(liObj.data("path")+"/" + liObj.data("uuid")+"_" + liObj.data("filename"));
+		    
+		    if(liObj.data("uuid") == null){
+		    	//showImage(path.replace(new RegExp(/\\/g),"/"));
+		    }else {
+		      //download 
+		      self.location ="/notice/download?fileName="+path
+		    }
+		    
+		});
+	
+	
+	
+	 
+ });
+
+
+
+</script>
+
+
+
+
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -157,13 +233,16 @@ $(document).ready(function() {
 		deleteFormAction.attr("action", "/notice/noticeDeleteForm").submit();
 	}); 
 
-	
-	
 
 });
 
 
 </script>
+
+
+
+
+
 
 </body>
 </html>
