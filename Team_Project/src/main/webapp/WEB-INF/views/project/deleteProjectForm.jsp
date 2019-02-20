@@ -11,31 +11,8 @@
 <link rel="stylesheet" href="/resources/css/bootstrap.css">
 <link rel="stylesheet" href="/resources/css/custom.css">
 <title>STARWARE(Groupware)</title>
-<!-- <script type="text/javascript">
-
-$(document).ready(function(){
-	
-	var formObj = $("form")
-	;
-	
-	$('button').on("click", function(e){
-		e.preventDefault();
-		var operation = $(this).data("oper");
-		
-		console.log(operation);
-		
-		if(operation == 'deleteProjectForm'){
-			formObj.attr("action", "/project/deleteProjectForm");
-		}else if(operation == 'listProjectForm'){
-			self.location = '/project/listProjectForm'
-			return;
-		}
-		formObj.submit();
-	})
-})
-</script> -->
-
-
+<script src="/resources/jquery.js" type="text/javascript"></script>
+<script src="/resources/js/bootstrap.js"></script>
 
 </head>
 <body>
@@ -59,14 +36,14 @@ $(document).ready(function(){
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a href="loginafter.jsp">메인</a></li>
-				<li><a href="list.bit">전자결재</a></li>
-				<li class="active"><a href="listActionProject.pro">협업지원</a></li>
-				<li><a href="list.not">공지사항</a></li>
-				<li><a href="resource_main.jsp">출퇴근관리</a></li>
-				<li><a href="list.do">인사관리</a></li>
-				<li><a href="calendar_main.jsp">일정관리</a></li>
-				<li><a href="messengerFind.jsp">메세지함</a></li>
+            <li><a href="/loginafter">메인</a></li>
+            <li><a href="/approval/applist_alllist">전자결재</a></li>
+            <li><a href="/project/listProjectForm">협업지원</a></li>
+            <li><a href="/notice/noticeList">공지사항</a></li>
+            <li><a href="/attend/attendInsert">출퇴근관리</a></li>
+            <li><a href="/emp/empList">인사관리</a></li>
+            <li><a href="/schedule/scheduleMain">일정관리</a></li>
+            <li class="active"><a href="/chat/messengerFind">메세지함<span id="unread" class="label label-info"></span></a></li>
 			</ul>
 			<%
 				if (emp_no == null) {
@@ -100,19 +77,55 @@ $(document).ready(function(){
 	</nav>
 	
 	<div class="container">
-	
-<!-- 	<button type="submit" data-oper='deleteProjectForm' class="btn btn-primary pull" na></button>
- -->	
-	<form action="deleteProjectForm">
 		<div align="center">
 		<b>정말 삭제하시겠습니까</b> <br><br>
-		<input class="btn btn-primary pull" type="submit" value="네">
-		<input class="btn btn-primary pull" type="button" value="아니오" onclick="location.href='listProjectForm'">
-		</div>
-	</form>
+	<button class="btn btn-primary pull" data-oper='delete'>네</button>
+	<button class="btn btn-primary pull" data-oper='list'>아니오</button>
+
+</div>
+
+<form id="listAction" action="/project/listProjectForm" method="get">
+	<input type='hidden' name='project_No' id='project_No' value='<c:out value="${project.project_No }"/>'>
+	<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum }"/>'>
+	<input type='hidden' name='amount' value='<c:out value="${cri.amount }"/>'>
+	<input type='hidden' name='projectSearchType' value='<c:out value="${cri.projectSearchType}"/>'>
+    <input type='hidden' name='projectSearchKey' value='<c:out value="${cri.projectSearchKey}"/>'>
+</form>
+
+<form id="deleteAction" action="project/deleteProject" method="get">
+	<input type='hidden' name='project_No' id='project_No' value='<c:out value="${project.project_No }"/>'>
+	<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum }"/>'>
+	<input type='hidden' name='amount' value='<c:out value="${cri.amount }"/>'>
+	<input type='hidden' name='projectSearchType' value='<c:out value="${cri.projectSearchType}"/>'>
+    <input type='hidden' name='projectSearchKey' value='<c:out value="${cri.projectSearchKey}"/>'>
+</form>
+
+
+</div>
+	
+	<script type="text/javascript">
+$(document).ready(function() {
+	var listAction = $("#listAction");
+	var deleteAction = $("#deleteAction");
+
+
+	$("button[data-oper='list']").on("click", function(e) {
+		listAction.find("#project_No").remove();
+		listAction.attr("action", "/project/listProjectForm")
+		listAction.submit();
+	});
+	
+	$("button[data-oper='delete']").on("click", function(e) {
+		deleteAction.attr("action", "deleteProject").submit();
+	}); 
+
 	
 	
-	</div>
+
+});
+
+
+</script>
 	
 	
 </body>

@@ -12,13 +12,32 @@
 <link rel="stylesheet" href="/resources/css/custom.css">
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
-<script type="text/javascript">
-	function getSelectValue(frm) {
-		frm.project_Situation.value = frm.situation.options[frm.situation.selectedIndex].text;
-		frm.project_Kind.value = frm.Kind.options[frm.Kind.selectedIndex].text;
-	};
-</script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="/resources/js/bootstrap.js"></script>
+<style>
+.uploadResult {
+	width: 100%;
+	background-color: gray;
+}
+
+.uploadResult ul {
+	display: flex;
+	flex-flow: row;
+	justify-content: center;
+	align-items: center;
+}
+
+.uploadResult ul li {
+	list-style: none;
+	padding: 10px;
+}
+
+.uploadResult ul li img {
+	width: 100px;
+}
+</style>
+
 <title>STARWARE(Groupware)</title>
 
 
@@ -44,14 +63,15 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a href="loginafter.jsp">메인</a></li>
-				<li><a href="list.bit">전자결재</a></li>
-				<li class="active"><a href="listActionProject.pro">협업지원</a></li>
-				<li><a href="list.not">공지사항</a></li>
-				<li><a href="resource_main.jsp">출퇴근관리</a></li>
-				<li><a href="list.do">인사관리</a></li>
-				<li><a href="calendar_main.jsp">일정관리</a></li>
-				<li><a href="messengerFind.jsp">메세지함</a></li>
+				<li><a href="/loginafter">메인</a></li>
+				<li><a href="/approval/applist_alllist">전자결재</a></li>
+				<li><a href="/project/listProjectForm">협업지원</a></li>
+				<li><a href="/notice/noticeList">공지사항</a></li>
+				<li><a href="/attend/attendInsert">출퇴근관리</a></li>
+				<li><a href="/emp/empList">인사관리</a></li>
+				<li><a href="/schedule/scheduleMain">일정관리</a></li>
+				<li class="active"><a href="/chat/messengerFind">메세지함<span
+						id="unread" class="label label-info"></span></a></li>
 			</ul>
 			<%
 				if (emp_no == null) {
@@ -84,13 +104,11 @@
 		</div>
 	</nav>
 
+
 	<div class="container">
-
-
-		<hr>
-		<form role="form" action="/project/insertProjectForm" method="post">
-			<input type="hidden" name="emp_No" value="${emp_no}">
-
+		<form role="form" action="insertProject" method="post">
+			
+			<input type="hidden" name="emp_No" value="12301">
 			<table class="table table-bordered table-hover"
 				style="text-align: center; border: 1px solid #dddddd;">
 				<thead>
@@ -108,10 +126,6 @@
 						<td><h5>프로젝트 종류</h5></td>
 						<td colspan="2"><select name="project_Kind"
 							onChange="getSelectValue(this.form);" class="form-control">
-								<%--<option value="${project.project_Kind }">품질개선</option>
-								<option value="${project.project_Kind }">검증</option>
-								<option value="${project.project_Kind }">유지보수</option>
-								<option value="${project.project_Kind }">개발</option> --%>
 								<option value="품질개선">품질개선</option>
 								<option value="검증">검증</option>
 								<option value="유지보수">유지보수</option>
@@ -126,17 +140,12 @@
 
 						<td style="width: 110px;"><h5>진행상태</h5></td>
 						<td colspan="2"><select name="project_Situation"
-							onChange="getSelectValue(this.form);" class="form-control">
-								<%-- 								<option value="${project.project_Situation }">예정</option>
-								<option value="${project.project_Situation }">완료</option>
-								<option value="${project.project_Situation }">보류</option>
-								<option value="${project.project_Situation }">폐기</option> --%>
+							onChange="getSelectValue" class="form-control">
 								<option value="예정">예정</option>
 								<option value="완료">완료</option>
 								<option value="보류">보류</option>
 								<option value="폐기">폐기</option>
-
-						</select>
+						</select></td>
 					</tr>
 
 					<tr>
@@ -170,26 +179,160 @@
 								cols="120" name="project_Contents" maxlength="20"></textarea></td>
 						<td colspan="2" rowspan="2"></td>
 					</tr>
-
-
-					<!-- 					<tr>
-						<td style="width: 110px;"><h5>첨부파일</h5></td>
-						<td colspan="2"><input class="form-control" type="file"
-							id="project_File" name="project_File" maxlength="20"></td>
-					</tr> -->
-
-
 				</tbody>
 			</table>
-			
-			<!-- <button type="submit" class="btn btn-primary pull">프로젝트 저장</button>
-			<button type="reset" class="btn btn-primary pull">프로젝트 목록</button> -->
-			
-			<input type="submit" class="btn btn-primary pull" value="프로젝트 저장"
-				style="margin-left: 485px"> <input type="button"
-				class="btn btn-primary pull" value="프로젝트 목록"
-				onclick="location.href='listProjectForm'">
+				<div class="row">
+					<div class="uploadDiv">
+						<input type="file" name="uploadFile" multiple>
+					</div>
+					<div class="uploadResult">
+						<ul>
+						</ul>
+					</div>
+					</div>
+			<button type="submit" class="btn btn-primary pull" style="margin-left: 485px">프로젝트 저장</button>
+			<input type="button" class="btn btn-primary pull" value="프로젝트 목록" onclick="location.href='listProjectForm'">
 		</form>
 	</div>
+	
+	<script type="text/javascript">
+		$(document).ready(function(e){
+			
+			 var formObj = $("form[role='form']");
+			  
+			  $("button[type='submit']").on("click", function(e){
+			    
+			    e.preventDefault();
+			    
+			    console.log("submit clicked");
+			    
+			    var str = "";
+			    
+			    $(".uploadResult ul li").each(function(i, obj){
+			      
+			      var jobj = $(obj);
+			      
+			      console.dir(jobj);
+			      console.log("-------------------------");
+			      console.log(jobj.data("filename"));
+			      
+			      
+			      str += "<input type='hidden' name='attachList["+i+"].project_fileName' value='"+jobj.data("filename")+"'>";
+			      str += "<input type='hidden' name='attachList["+i+"].project_uuid' value='"+jobj.data("uuid")+"'>";
+			      str += "<input type='hidden' name='attachList["+i+"].project_uploadPath' value='"+jobj.data("path")+"'>";
+			      
+			    });
+			    
+			    console.log(str);
+			    
+			    formObj.append(str).submit();
+			    
+			  });
+		
+		  var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+		  var maxSize = 5242880; //5MB
+		  
+		  function checkExtension(fileName, fileSize){
+		    
+		    if(fileSize >= maxSize){
+		      alert("파일 사이즈 초과");
+		      return false;
+		    }
+		    
+		    if(regex.test(fileName)){
+		      alert("해당 종류의 파일은 업로드할 수 없습니다.");
+		      return false;
+		    }
+		    return true;
+		  }
+		  
+		  $("input[type='file']").change(function(e){
+
+			    var formData = new FormData();
+			    
+			    var inputFile = $("input[name='uploadFile']");
+			    
+			    var files = inputFile[0].files;
+			    
+			    for(var i = 0; i < files.length; i++){
+
+			      if(!checkExtension(files[i].name, files[i].size) ){
+			        return false;
+			      }
+			      formData.append("uploadFile", files[i]);
+			      
+			    }
+			    
+			    $.ajax({
+			      url: '/project/uploadAjaxAction',
+			      processData: false, 
+			      contentType: false,data: 
+			      formData,type: 'POST',
+			      dataType:'json',
+			        success: function(result){
+			          console.log(result); 
+					  showUploadResult(result); //업로드 결과 처리 함수 
+
+			      }
+			    }); //$.ajax
+			    
+		  });
+			    function showUploadResult(uploadResultArr){
+				    
+			        if(!uploadResultArr || uploadResultArr.length == 0){ return; }
+			        
+			        var uploadUL = $(".uploadResult ul");
+			        
+			        var str ="";
+			        
+			        $(uploadResultArr).each(function(i, obj){
+			    			var fileCallPath =  encodeURIComponent( obj.project_uploadPath+"/"+ obj.project_uuid +"_"+obj.project_fileName);			      
+			    		    var fileLink = fileCallPath.replace(new RegExp(/\\/g),"/");
+			    		      
+			    			str += "<li "
+			    			str += "data-path='"+obj.project_uploadPath+"' data-uuid='"+obj.project_uuid+"' data-filename='"+obj.project_fileName+"' ><div>";
+			    			str += "<span> "+ obj.project_fileName+"</span>";
+			    			str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' " 
+			    			str += "class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+			    			str += "<img src='/resources/images/attach.png'></a>";
+			    			str += "</div>";
+			    			str +"</li>";
+			        });
+			        
+			        uploadUL.append(str);
+			      }
+
+			    $(".uploadResult").on("click", "button", function(e){
+				    
+			        console.log("delete file");
+			          
+			        var targetFile = $(this).data("file");
+			        var type = $(this).data("type");
+			        
+			        var targetLi = $(this).closest("li");
+			        
+			        $.ajax({
+			          url: '/project/deleteFile',
+			          data: {fileName: targetFile, type:type},
+			          dataType:'text',
+			          type: 'POST',
+			            success: function(result){
+			               alert(result);
+			               
+			               targetLi.remove();
+			             }
+			        }); //$.ajax
+			       });
+			    
+			  });  
+	</script>
+	<script type="text/javascript">
+	function getSelectValue(frm) {
+		frm.project_Situation.value = frm.situation.option[frm.project_Situation.selectedIndex].text;
+		frm.project_Kind.value = frm.Kind.option[frm.project_Kind.selectedIndex].text;
+	};
+</script>
+	
+	
 </body>
 </html>

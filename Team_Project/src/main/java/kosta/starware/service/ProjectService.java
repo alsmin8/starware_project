@@ -2,6 +2,7 @@ package kosta.starware.service;
 
 import java.util.List;
 
+import kosta.starware.domain.ProjectAttachVO;
 import kosta.starware.domain.ProjectCriteria;
 import kosta.starware.domain.ProjectDTO;
 
@@ -18,5 +19,9 @@ public interface ProjectService {
 	public List<ProjectDTO> getList(ProjectCriteria cri);
 	
 	public int getTotal(ProjectCriteria cri);
+	
+	public List<ProjectAttachVO> getAttachList(int project_No);
+	
+	
 
 }

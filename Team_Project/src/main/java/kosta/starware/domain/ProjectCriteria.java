@@ -1,5 +1,9 @@
 package kosta.starware.domain;
 
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.queryParam;
+
+import org.springframework.web.util.UriComponentsBuilder;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -28,5 +32,16 @@ public class ProjectCriteria {
 	public String[] getprojectSearchArr(){
 		
 		return projectSearchType == null? new String[] {}: projectSearchType.split("");
+	}
+	
+	public String getListLink(){
+		
+		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("")
+				.queryParam("pageNum", this.getPageNum())
+				.queryParam("amount", this.getAmount())
+				.queryParam("ProjectSearchType", this.getProjectSearchType())
+				.queryParam("ProjectSearchKey", this.getProjectSearchKey());
+		
+		return builder.toUriString();
 	}
 }

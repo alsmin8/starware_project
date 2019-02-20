@@ -68,7 +68,7 @@
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="/loginafter">메인</a></li>
 				<li><a href="/approval/applist_alllist">전자결재</a></li>
-				<li><a href="listActionProject.pro">협업지원</a></li>
+				<li><a href="/project/listProjectForm">협업지원</a></li>
 				<li><a href="/notice/noticeList">공지사항</a></li>
 				<li><a href="/attend/attendInsert">출퇴근관리</a></li>
 				<li><a href="list.do">인사관리</a></li>
