@@ -9,5 +9,6 @@ public interface NoticeAttachMapper {
 	public void insert(NoticeAttachVO navo);
 	public void delete(String notice_uuid);
 	public List<NoticeAttachVO> findByNoticeNo(int notice_no);
+	public void deleteAll(int notice_no);
 	
 }
