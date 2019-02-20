@@ -69,12 +69,7 @@
 	width: 600px;
 }
 </style>
-<script>
-	function getSelectValue(frm) {
-		frm.project_Situation.value = frm.situation.options[frm.situation.selectedIndex].text;
-		frm.project_Kind.value = frm.Kind.options[frm.Kind.selectedIndex].text;
-	};
-</script>
+
 
 </head>
 <body>
@@ -168,13 +163,16 @@
 							value="${project.project_Writer }"></td>
 
 						<td><h5>프로젝트 종류</h5></td>
-						<td colspan="2"><select name="project_Kind"
-							onChange="getSelectValue(this.form);" class="form-control">
+						<td colspan="2">
+						<form name="form">
+						<select name="project_Kind" class="form-control">
 								<option value="${project.project_Kind }">품질개선</option>
 								<option value="${project.project_Kind }">검증</option>
 								<option value="${project.project_Kind }">유지보수</option>
 								<option value="${project.project_Kind }">개발</option>
-						</select></td>
+						</select>
+						</form>
+						</td>
 					</tr>
 
 					<tr>
@@ -183,14 +181,15 @@
 							id="project_Manager" name="project_Manager" maxlength="20"
 							value="${project.project_Manager }"></td>
 
+						<form name="form">
 						<td style="width: 110px;"><h5>진행상태</h5></td>
-						<td colspan="2"><select name="project_Situation"
-							onChange="getSelectValue(this.form);" class="form-control">
+						<td colspan="2"><select name="project_Situation" class="form-control">
 								<option value="${project.project_Situation }">예정</option>
 								<option value="${project.project_Situation }">완료</option>
 								<option value="${project.project_Situation }">보류</option>
 								<option value="${project.project_Situation }">폐기</option>
 						</select>
+						</td></form>
 					</tr>
 
 					<tr>
@@ -492,6 +491,7 @@
 		  	  });
 		    });
 	</script>
+	
 
 
 </body>

@@ -124,8 +124,7 @@
 							value="${emp_name}"></td>
 
 						<td><h5>프로젝트 종류</h5></td>
-						<td colspan="2"><select name="project_Kind"
-							onChange="getSelectValue(this.form);" class="form-control">
+						<td colspan="2"><select name="project_Kind" class="form-control">
 								<option value="품질개선">품질개선</option>
 								<option value="검증">검증</option>
 								<option value="유지보수">유지보수</option>
@@ -139,8 +138,7 @@
 							id="project_Manager" name="project_Manager" maxlength="20"></td>
 
 						<td style="width: 110px;"><h5>진행상태</h5></td>
-						<td colspan="2"><select name="project_Situation"
-							onChange="getSelectValue" class="form-control">
+						<td colspan="2"><select name="project_Situation" class="form-control">
 								<option value="예정">예정</option>
 								<option value="완료">완료</option>
 								<option value="보류">보류</option>
@@ -326,12 +324,6 @@
 			    
 			  });  
 	</script>
-	<script type="text/javascript">
-	function getSelectValue(frm) {
-		frm.project_Situation.value = frm.situation.option[frm.project_Situation.selectedIndex].text;
-		frm.project_Kind.value = frm.Kind.option[frm.project_Kind.selectedIndex].text;
-	};
-</script>
 	
 	
 </body>

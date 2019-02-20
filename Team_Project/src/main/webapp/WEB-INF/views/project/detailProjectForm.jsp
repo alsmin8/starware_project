@@ -154,11 +154,14 @@
 		</tr>
 		<tr>
 			<td>계획시작일</td>
-			<td>${project.project_Start_Date }</td>
+			<td><fmt:parseDate var="project_Start_Date"	value="${project.project_Start_Date}" pattern="yyyy-MM-dd"/> <fmt:formatDate value="${project_Start_Date}"
+							pattern="yyyy-MM-dd" /></td>
 		</tr>
 		<tr>
 			<td>계획종료일</td>
-			<td>${project.project_End_Date }</td>
+			<td><fmt:parseDate var="project_End_Date"	value="${project.project_End_Date}" pattern="yyyy-MM-dd"
+							scope="page" /> <fmt:formatDate value="${project_End_Date}"
+							pattern="yyyy-MM-dd" /></td>
 		</tr>
 		<tr>
 			<td>프로젝트 종류</td>
