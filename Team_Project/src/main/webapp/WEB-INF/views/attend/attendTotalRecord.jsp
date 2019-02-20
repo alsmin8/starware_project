@@ -38,11 +38,12 @@
 	text-align:center;
 	text-decoration:none;
 }
-.pagination ul li a:hover, ul li a:focus {
+.pagination ul li a:hover, ul li a:focus, .active > a{
 	color:#fff;
-	border:1px solid #4d86d1;
-	background-color:#4d86d1;
+	border:1px solid #8BD2CC;
+	background-color:#8BD2CC;
 }
+
 </style>
 
 <script>
@@ -142,8 +143,8 @@
 
 		<h3>근태 일람표</h3>
 		<br>
-		<br>
-		<br>
+		
+		
 		<form id="searchForm" action="/attend/attendTotalRecord" method="post" onsubmit="return checkForm();">
 		<table class="table table-bordered table-hover"
 				style="text-align: center; border: 1px solid #dddddd;">
@@ -235,8 +236,7 @@
 				</tr>
 			</c:forEach>
 		</table>
-		<br> <br>
-
+		
 		<!-- 페이지처리 영역 -->
 		<div class="pagination">
 			<ul>
