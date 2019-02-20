@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kosta.starware.domain.AppCriteria;
 import kosta.starware.domain.Approval;
@@ -38,7 +39,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 	@Override
 	public void appInsert(Approval approval) {
 		log.info("insert::::::::::"+approval);
-		approvalmapper.appInsertSelectKey(approval);
+		approvalmapper.appInsertSelectKey(approval);		
 	}
 	@Override
 	public void appDdInsert(DisbursementDoc disbursementDoc) {
@@ -133,7 +134,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 	
 	
 	
-	
+	//list<hashmap>으로 jsp에 출력하고자 하는 column 값 반환
 	@Override
 	public List<HashMap> resultApproval(String userID) {
 		log.info("resultapproval 시작 : ");
@@ -142,6 +143,8 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return list;
 	}
 	
+	
+	//리스트에서 누른 상세정보를 hashmap으로 반환(위와 출력하고자 하는 정보가 다름)
 	@Override
 	public HashMap resultDetail(String app_no, String app_kind) {
 		System.out.println("resultDetail 시작 : ");
@@ -163,35 +166,63 @@ public class ApprovalServiceImpl implements ApprovalService {
 			System.out.println(detailinfo);
 		}else{
 		}
-		
 		log.info(detailinfo);
 		return detailinfo;
 	}
-
+	
+	//승인에 대한 처리서비스
 	@Override
+	@Transactional
 	public int resultAccept(PowerDTO powerDTO) {
 		int result = approvalmapper.accept(powerDTO);
-		// TODO Auto-generated method stub
-		return result;
-	}
-
-	@Override
-	public int resultReject(PowerDTO powerDTO) {
-		int result = approvalmapper.reject(powerDTO);
-		// TODO Auto-generated method stub
+		
+		String app_no = powerDTO.getApp_no();
+		List<PowerDTO> list = approvalmapper.powerCount(app_no);
+		for(int i = 0; i<list.size(); i++){
+			if(list.size() == 1 && list.get(i).getPower_defult().equals("승인")){
+				System.out.println("승인");
+				approvalmapper.approvalAcceptUpdate(app_no);
+			}else if(list.get(i).getPower_defult().equals("거절")){
+				System.out.println("거절");
+				approvalmapper.approvalRejectUpdate(app_no);
+			}else{
+				System.out.println("else");
+			}
+		}
 		return result;
 	}
 	
+	
+	//거절에 대한 처리서비스
+	@Override
+	@Transactional
+	public int resultReject(PowerDTO powerDTO) {
+		int result = approvalmapper.reject(powerDTO);
+		
+		String app_no = powerDTO.getApp_no();
+		List<PowerDTO> list = approvalmapper.powerCount(app_no);
+		for(int i = 0; i<list.size(); i++){
+			if(list.size() == 1 && list.get(i).getPower_defult().equals("승인")){
+				System.out.println("승인");
+				approvalmapper.approvalAcceptUpdate(app_no);
+			}else if(list.get(i).getPower_defult().equals("거절")){
+				System.out.println("거절");
+				approvalmapper.approvalRejectUpdate(app_no);
+			}else{
+				System.out.println("else");
+			}
+		}
+		return result;
+	}
+	
+	//각 전자결재에 대해 insert시 결재권자 검색서비스
 	@Override
 	public List<HashMap> listJsonEmp(String keyword){
 		List<HashMap> list = approvalmapper.listJsonEmp();
-		
 		List keywordList = new ArrayList();
-		
 		if(keyword == null || keyword.equals("")){
 			keywordList = null;
 		}
-		
 		for(int i=0;i<list.size();i++){
 			if(((String) list.get(i).get("EMP_NAME")).startsWith(keyword)){
 				keywordList.add(list.get(i));
@@ -199,7 +230,19 @@ public class ApprovalServiceImpl implements ApprovalService {
 		}
 		return keywordList;
 	}
-
-
-
+	
+	//검색한 결재권자를 db에 저장서비스
+	@Override
+	public void appInsert(Approval approval, List<Integer> attendees) {
+		int app_no = approval.getApp_no();
+		approvalmapper.appInsertSelectKey(approval);
+		
+		System.out.println("attendees 정보 : " + attendees);
+		System.out.println("app_no : " + app_no);
+		
+		for(int i=0; i<attendees.size(); i++){
+			int emp_no = attendees.get(i);
+			approvalmapper.powerInsert(app_no, emp_no);
+		}
+	}
 }

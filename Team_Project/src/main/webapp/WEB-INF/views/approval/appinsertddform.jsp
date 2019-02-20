@@ -143,12 +143,11 @@
 			</center>
 		</form>
 	</div>
+	
 <script type="text/javascript">
 function startSuggest(){
 	var keyword = $('#temp').val();
-	//var params = "keyword=" + keyword;
 	console.log(keyword);
-	//console.log(params);
 	$.ajax({
 		type : 'POST',
 		url : '/approval2/listJsonEmp',
@@ -162,7 +161,6 @@ function startSuggest(){
 			}
 			$.each(data, function(index, item) {
 				var str = item.dept_name;
-				//console.log(typeof(str));
 				html += "<a href=javascript:select('"  + item.EMP_NAME +"-"+item.DEPT_NAME+"-"+item.EMP_NO + "')>" + item.EMP_NAME +"-"+item.DEPT_NAME+"-"+item.EMP_NO+"</a><br>";
 			});
 			console.log('성공');

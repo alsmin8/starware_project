@@ -138,6 +138,24 @@
 
 
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 결재권자 등록, EMP SEARCH -->
+	<select id="listJsonEmp" resultType="java.util.HashMap"> <!-- result객체에 한개의 로우가 담겨진다. 단, 컬럼명과 board객체의 변수명(이름)이 같아야한다. -->
+		select e.*, dept_name from emp e join dept d on e.dept_no = d.dept_no
+	</select>
+	
+	<insert id="powerInsert" parameterType="map">
+		insert into power (app_no, emp_no, power_defult) values(#{app_no}, #{emp_no}, '대기중')
+	</insert>
+	
 	<!-- 내가 결재할 목록 -->
 
 	<select id="resultApproval" parameterType="String" resultType="java.util.HashMap">
@@ -183,9 +201,18 @@
 	</update>
 
 
-	<!-- EMP SEARCH -->
-	<select id="listJsonEmp" resultType="java.util.HashMap"> <!-- result객체에 한개의 로우가 담겨진다. 단, 컬럼명과 board객체의 변수명(이름)이 같아야한다. -->
-		select e.*, dept_name from emp e join dept d on e.dept_no = d.dept_no
+	
+	<select id="powerCount" resultType="kosta.starware.domain.PowerDTO">
+		select p.power_defult from approval a inner join power p on a.app_no = p.app_no where a.app_no =#{app_no} group by p.power_defult
 	</select>
+	
+	<update id="approvalAcceptUpdate">
+		update approval set app_situation = '승인' where app_no = #{app_no}
+	</update>	
+
+	<update id="approvalRejectUpdate">
+		update approval set app_situation = '반려' where app_no = #{app_no}
+	</update>
+
 
 </mapper>

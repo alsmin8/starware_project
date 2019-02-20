@@ -43,5 +43,8 @@ public interface ApprovalService {
 	public int resultAccept(PowerDTO powerDTO);
 	public int resultReject(PowerDTO powerDTO);
 	public List<HashMap> listJsonEmp(String keyword);
+		
+	//보류 결재권자 인설트
+	public void appInsert(Approval approval, List<Integer> attendees);
 	
 }

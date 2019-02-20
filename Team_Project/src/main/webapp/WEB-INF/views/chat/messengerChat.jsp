@@ -115,7 +115,7 @@
 		$('#chatList').scrollTop($('#chatList')[0].scrollHeight);
 	}
 
-	function getInfinitechatList() {
+ 	function getInfinitechatList() {
 		setInterval(function() {
 			chatListFunction(lastID);
 		}, 3000);
