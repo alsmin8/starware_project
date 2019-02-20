@@ -85,7 +85,8 @@ text-align: center;
 	
 	
 	
-	<form action="/approval/appupdatedraftform?app_no=${approval.app_no}&app_kind=${approval.app_kind}" method="post">	
+	<form action="/approval/appupdatedraftform?app_no=${approval.app_no}&app_kind=${approval.app_kind}
+	&pageNum=${appCriteria.pageNum}&amount=${appCriteria.amount}" method="post">	
 		<table class="table table-bordered table-hover"
 				style="text-align: center; border: 1px solid #dddddd;">
 				<thead>
@@ -94,15 +95,15 @@ text-align: center;
 					</tr>
 			<tr>
 				<td style="width: 110px;">이 름</td>
-				<td><input class="form-control" type="text" name="emp_name" value=${emp.emp_name }></td>
+				<td><input class="form-control" type="text" name="emp_name" value=${emp.emp_name } readonly="readonly"></td>
 				<td style="width: 110px;">사 번</td>
-				<td><input class="form-control" type="text" name="emp_no" value= ${emp.emp_no}></td>
+				<td><input class="form-control" type="text" name="emp_no" value= ${emp.emp_no} readonly="readonly"></td>
 			</tr>	
 			<tr>
 				<td style="width: 110px;">부 서</td>
-				<td><input class="form-control" type="text" name="dept_name" value=""></td>
+				<td><input class="form-control" type="text" name="dept_name" value="${dept.dept_name}" readonly="readonly"></td>
 				<td style="width: 110px;">직 급</td>
-				<td><input class="form-control" type="text" name="grade_name" value=""></td>
+				<td><input class="form-control" type="text" name="grade_name" value="${grade.grade_name}" readonly="readonly"></td>
 			</tr>
 			<tr>
 				<td style="width: 110px;">제 목</td>

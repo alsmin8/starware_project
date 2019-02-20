@@ -122,6 +122,11 @@ public class ApprovalServiceImpl implements ApprovalService {
 		// TODO Auto-generated method stub
 		return approvalmapper.appVacationUpdate(vacationDoc)==1;
 	}
+	@Override
+	public int getTotal(AppCriteria appcri) {
+		
+		return approvalmapper.getTotalCount(appcri);
+	}
 
 	
 	
