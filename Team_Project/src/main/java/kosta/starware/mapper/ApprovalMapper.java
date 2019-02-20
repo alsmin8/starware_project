@@ -19,6 +19,7 @@ public interface ApprovalMapper {
 	//@Select("select * from approval")
 	public List<Approval> appList();
 	public List<Approval> appPaging(AppCriteria cri);
+	public int getTotalCount(AppCriteria appcri);
  	//insert
 	public void appInsert(Approval approval);
 	public void appInsertSelectKey(Approval approval);

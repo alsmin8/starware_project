@@ -5,58 +5,84 @@
 <mapper namespace="kosta.starware.mapper.ApprovalMapper">
 
 	<select id="appList" resultType="kosta.starware.domain.Approval">
-		select * from approval order by app_no DESC
+		select * from approval order by
+		app_no DESC
 	</select>
-	<select id="appPaging" resultType="kosta.starware.domain.Approval"> 
-		<![CDATA[
-		select * from (select /*+INDEX_DESC(approval pk_XPKAPPROVAL)*/
-		rownum rn, app_no, app_kind, app_title, app_startdate, app_enddate, app_situation, emp_no
-		from approval where rownum <=#{pageNum}*#{amount})
-		where rn > (#{pageNum}-1)*#{amount}
-		]]>
+	<select id="appPaging" resultType="kosta.starware.domain.Approval">
+<![CDATA[
+
+		select * 
+		from ( select  /*+INDEX_DESC(a XPKAPPROVAL)*/ 
+		rownum rn, a.app_no, a.app_kind, a.app_title, a.app_startdate, a.app_enddate, a.app_situation, e.emp_name
+		from approval a, emp e 
+		where e.emp_no=a.emp_no and rownum <= #{pageNum}*#{amount} 
+		
+]]>
+		<if test="app_kind != null">
+			<trim prefix="and"> app_kind = #{app_kind, javaType=String,
+				jdbcType=VARCHAR} </trim>
+		</if>
+		<if test="app_situation != null">
+			<trim prefix="and"> app_situation = #{app_situation} </trim>
+		</if>
+		) 
+<![CDATA[
+
+			where rn > (#{pageNum}-1)*#{amount}
+			
+]]>
 	</select>
-	<!-- <insert id="appInsert">
-		insert into approval (app_no, app_kind, app_title, app_startdate, app_enddate, app_situation, emp_no)
-		values(app_no_seq.nextval, #{app_kind}, #{app_title}, sysdate, null, '결재요청', 12301)
-	</insert> -->
+	<!-- <insert id="appInsert"> insert into approval (app_no, app_kind, app_title, 
+		app_startdate, app_enddate, app_situation, emp_no) values(app_no_seq.nextval, 
+		#{app_kind}, #{app_title}, sysdate, null, '결재요청', 12301) </insert> -->
 
 	<insert id="appInsertSelectKey">
 		<selectKey keyProperty="app_no" order="BEFORE" resultType="int">
 			select app_no_seq.nextval from dual
 		</selectKey>
-		insert into approval (app_no, app_kind, app_title, app_startdate, app_enddate, app_situation, emp_no)
-		values (#{app_no},	#{app_kind}, #{app_title}, sysdate, null,'결재요청', #{emp_no})
-	
+		insert into approval (app_no, app_kind, app_title, app_startdate,
+		app_enddate, app_situation, emp_no)
+		values (#{app_no}, #{app_kind},
+		#{app_title}, sysdate, null,'결재요청', #{emp_no})
+
 	</insert>
 	<select id="getAppNo" resultType="int">
-	 select max(app_no) from approval 
+		select max(app_no) from approval
 	</select>
-	<insert id="appDdInsert" >
-		insert into disbursement_doc (app_no, d_no, d_idx, d_contents, d_usingdate, d_amount)
-		values (#{app_no}, d_no_seq.nextval, #{d_idx},#{d_contents}, #{d_usingdate}, #{d_amount})
+	<insert id="appDdInsert">
+		insert into disbursement_doc (app_no,
+		d_no, d_idx, d_contents, d_usingdate, d_amount)
+		values (#{app_no},
+		d_no_seq.nextval, #{d_idx},#{d_contents}, #{d_usingdate}, #{d_amount})
 	</insert>
 	<insert id="appDraftInsert">
 		insert into draft_doc (app_no, dd_no, dd_contents)
 		values (#{app_no}, dd_no_seq.nextval, #{dd_contents})
 	</insert>
 	<insert id="appVacationInsert">
-		insert into vacation_Doc (app_no, vd_no, vd_startdate, vd_enddate, vd_day, vd_contents)
-		values (#{app_no}, vd_no_seq.nextval, #{vd_startdate}, #{vd_enddate}, #{vd_day}, #{vd_contents})
+		insert into vacation_Doc (app_no, vd_no,
+		vd_startdate, vd_enddate, vd_day, vd_contents)
+		values (#{app_no},
+		vd_no_seq.nextval, #{vd_startdate}, #{vd_enddate}, #{vd_day},
+		#{vd_contents})
 	</insert>
 	<!-- DETAIL 문서보기 SQL!! -->
 	<select id="appDetail" resultType="kosta.starware.domain.Approval">
-	    select * from approval where app_no=#{app_no}
+		select * from approval where app_no=#{app_no}
 	</select>
 	<select id="appDdDetail" resultType="kosta.starware.domain.DisbursementDoc">
-		select * from disbursement_doc where app_no=#{app_no}
+		select * from
+		disbursement_doc where app_no=#{app_no}
 	</select>
 	<select id="appDraftDetail" resultType="kosta.starware.domain.DraftDoc">
-		select * from draft_doc where app_no=#{app_no}
+		select * from draft_doc
+		where app_no=#{app_no}
 	</select>
 	<select id="appVacationDetail" resultType="kosta.starware.domain.VacationDoc">
-		select * from vacation_doc where app_no=#{app_no}
+		select * from
+		vacation_doc where app_no=#{app_no}
 	</select>
-	
+
 	<!-- DELETE 삭제 SQL!! -->
 	<delete id="appDelete">
 		delete approval where app_no=#{app_no}
@@ -71,64 +97,95 @@
 		delete vacation_doc where app_no=#{app_no}
 	</delete>
 	<!-- UPDATE 수정 SQL!! -->
-	<update id="appUpdate" >
-		update approval set app_title=#{app_title}, app_startdate = sysdate
-		where app_no = #{app_no}
+	<update id="appUpdate">
+		update approval set
+		app_title=#{app_title}, app_startdate = sysdate
+		where app_no =
+		#{app_no}
 	</update>
 	<update id="appDraftUpdate" parameterType="kosta.starware.domain.DisbursementDoc">
-		update draft_doc set dd_contents=#{dd_contents}
+		update draft_doc set
+		dd_contents=#{dd_contents}
 		where app_no = #{app_no}
 	</update>
-	<update id="appDdUpdate" >
-		update disbursement_doc set d_contents=#{d_contents}, d_usingdate=#{d_usingdate}, d_amount=#{d_amount}
+	<update id="appDdUpdate">
+		update disbursement_doc set
+		d_contents=#{d_contents}, d_usingdate=#{d_usingdate},
+		d_amount=#{d_amount}
 		where app_no=#{app_no}
 	</update>
 	<update id="appVacationUpdate">
-		update vacation_doc set vd_startdate=#{vd_startdate}, vd_enddate=#{vd_enddate}, vd_day=#{vd_day}, vd_contents=#{vd_contents}
+		update vacation_doc set vd_startdate=#{vd_startdate},
+		vd_enddate=#{vd_enddate}, vd_day=#{vd_day}, vd_contents=#{vd_contents}
 		where app_no=#{app_no}
 	</update>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<!-- 내가 결재할 목록 -->
-	
-	<select id="resultApproval" parameterType="String" resultType="java.util.HashMap">
-		select a.app_no, a.app_kind, a.APP_TITLE, a.APP_Startdate, pw.power_regdate, pw.POWER_DEFULT, a.emp_no from approval a inner join power pw on a.app_no = pw.app_no where pw.emp_no = #{emp_no}
+	<select id="getTotalCount" resultType="int">
+		select count(*) from approval where app_no > 0
+		<if test="app_kind != null">
+			<trim prefix="and"> app_kind = #{app_kind, javaType=String,
+				jdbcType=VARCHAR} </trim>
+		</if>
+		<if test="app_situation != null">
+			<trim prefix="and"> app_situation = #{app_situation} </trim>
+		</if>
 	</select>
-	
+
+
+
+
+
+
+
+
+
+	<!-- 내가 결재할 목록 -->
+
+	<select id="resultApproval" parameterType="String" resultType="java.util.HashMap">
+		select a.app_no, a.app_kind, a.APP_TITLE, a.APP_Startdate,
+		pw.power_regdate, pw.POWER_DEFULT, a.emp_no from approval a inner join
+		power pw on a.app_no = pw.app_no where pw.emp_no = #{emp_no}
+	</select>
+
 	<!-- 결재할 목록 세부보기 -->
-	
+
 	<select id="resultDetail_D" parameterType="map" resultType="java.util.HashMap">
-		select a.app_no as app_no, a.app_kind as kind, a.app_title as title, d.d_contents as content, a.app_startdate as startdate, a.app_enddate as enddate, e.emp_name as writer from approval a inner join disbursement_doc d on a.app_no = d.app_no inner join emp e on a.emp_no= e.emp_no where a.app_no = #{app_no} and a.app_kind = #{app_kind}
+		select a.app_no as app_no, a.app_kind as kind, a.app_title as title,
+		d.d_contents as content, a.app_startdate as startdate, a.app_enddate
+		as enddate, e.emp_name as writer from approval a inner join
+		disbursement_doc d on a.app_no = d.app_no inner join emp e on
+		a.emp_no= e.emp_no where a.app_no = #{app_no} and a.app_kind =
+		#{app_kind}
 	</select>
 	<select id="resultDetail_DD" parameterType="map" resultType="java.util.HashMap">
-		select a.app_no as app_no, a.app_kind as kind, a.app_title as title, dd.dd_contents as content, a.app_startdate as startdate, a.app_enddate as enddate, e.emp_name as writer from approval a inner join draft_doc dd on a.app_no = dd.app_no inner join emp e on a.emp_no= e.emp_no where a.app_no = #{app_no} and a.app_kind = #{app_kind}
+		select a.app_no as app_no, a.app_kind as kind, a.app_title as title,
+		dd.dd_contents as content, a.app_startdate as startdate, a.app_enddate
+		as enddate, e.emp_name as writer from approval a inner join draft_doc
+		dd on a.app_no = dd.app_no inner join emp e on a.emp_no= e.emp_no
+		where a.app_no = #{app_no} and a.app_kind = #{app_kind}
 	</select>
 	<select id="resultDetail_VD" parameterType="map" resultType="java.util.HashMap">
-		select a.app_no as app_no, a.app_kind as kind, a.app_title as title, vd.vd_contents as content, a.app_startdate as startdate, a.app_enddate as enddate, e.emp_name as writer from approval a inner join vacation_doc vd on a.app_no = vd.app_no inner join emp e on a.emp_no= e.emp_no where a.app_no = #{app_no} and a.app_kind = #{app_kind}
+		select a.app_no as app_no, a.app_kind as kind, a.app_title as title,
+		vd.vd_contents as content, a.app_startdate as startdate, a.app_enddate
+		as enddate, e.emp_name as writer from approval a inner join
+		vacation_doc vd on a.app_no = vd.app_no inner join emp e on a.emp_no=
+		e.emp_no where a.app_no = #{app_no} and a.app_kind = #{app_kind}
 	</select>
-	
+
 	<!-- 결재 진행 결과 -->
 	<update id="accept">
-		update power set power_defult=#{power_defult}, power_regdate= sysdate where app_no=#{app_no} and emp_no=#{emp_no}
+		update power set power_defult=#{power_defult},
+		power_regdate= sysdate where app_no=#{app_no} and emp_no=#{emp_no}
 	</update>
-	
+
 	<update id="reject">
-		update power set power_defult=#{power_defult}, power_regdate= sysdate where app_no=#{app_no} and emp_no=#{emp_no}
+		update power set power_defult=#{power_defult},
+		power_regdate= sysdate where app_no=#{app_no} and emp_no=#{emp_no}
 	</update>
-	
-	
+
+
 	<!-- EMP SEARCH -->
 	<select id="listJsonEmp" resultType="java.util.HashMap"> <!-- result객체에 한개의 로우가 담겨진다. 단, 컬럼명과 board객체의 변수명(이름)이 같아야한다. -->
 		select e.*, dept_name from emp e join dept d on e.dept_no = d.dept_no
 	</select>
-	
+
 </mapper>

@@ -15,6 +15,7 @@ import kosta.starware.domain.VacationDoc;
 public interface ApprovalService {
 	
 	public List<Approval> appList(AppCriteria appcri);
+	public int getTotal(AppCriteria appcri);
 	//insert
 	public void appInsert(Approval approval);
 	public void appDdInsert(DisbursementDoc disbursementDoc);

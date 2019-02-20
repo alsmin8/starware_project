@@ -16,5 +16,8 @@ public class Approval {
 	
 	private String grade_name;
 	private String dept_name;
+	private String emp_name;
+	
+	
 	
 }

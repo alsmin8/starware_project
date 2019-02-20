@@ -114,9 +114,9 @@ tr {
 					</tr>
 					<tr>
 						<td style="width: 110px;">부 서</td>
-						<td><%-- ${dept_name} --%></td>
+						<td>${dept.dept_name}</td>
 						<td style="width: 110px;">직 급</td>
-						<td><%-- ${grade_name} --%></td>
+						<td>${grade.grade_name}</td>
 					</tr>
 					<tr>
 						<td style="width: 110px;">순 번</td>
@@ -150,7 +150,7 @@ tr {
 			<center>
 				<a href="/approval/appupdateddform?app_no=${approval.app_no}&app_kind=${approval.app_kind}">수정</a>&emsp;&emsp;&emsp;&emsp;&emsp; 
 				<a href="/approval/appdeletedd?app_no=${approval.app_no}">삭제</a>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-				<a href="/approval/applist_alllist" align="right">목록</a>
+				<a href="/approval/applist_alllist?app_kind=${appCriteria.app_kind }" align="right">목록</a>
 			</center>
 		</form>
 

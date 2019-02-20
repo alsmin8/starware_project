@@ -9,6 +9,13 @@ import lombok.ToString;
 @ToString
 
 public class AppCriteria {
+	private String[] check;
+	private String app_kind;
+	private String time;
+	private String app_startdate;
+	private String app_enddate;
+	private String app_situation;
+	private String searchKey;
 	
 	private int pageNum;
 	private int amount;

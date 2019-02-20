@@ -89,6 +89,19 @@ td {
 	<div class="container" id="applist">
 		<h2>전자결재목록</h2>
 		<br> <a class=newapproval href="appselectform">새 결재 상신</a>
+		
+		<ul class="nav navbar-nav navbar-left">
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown" role="buton" aria-haspopup="true"
+					aria-expanded="false">문서별 검색<span class="caret"></span>
+				</a>
+					<ul class="dropdown-menu">
+						<li><a href ="/approval/applist_alllist?app_kind=기안서">기안서</a></li>
+						<li><a href ="/approval/applist_alllist?app_kind=지출결의서">지출결의서</a></li>
+						<li><a href ="/approval/applist_alllist?app_kind=연차신청서">연차신청서</a></li>
+						
+					</ul></li>
+			</ul>	
 		<!-- <script type="text/javascript">
 	$(document).ready(
 			$(function(){
@@ -123,7 +136,7 @@ td {
 							value="${Approval.app_enddate}" pattern="yyyy-MM-dd" /> <fmt:formatDate
 							value="${dateString}" pattern="yyyy-MM-dd" /></td>
 					<td>${Approval.app_situation}</td>
-					<td>${Approval.emp_no}</td>
+					<td>${Approval.emp_name}</td>
 				</tr>
 			</c:forEach>
 
@@ -169,23 +182,27 @@ td {
 				<br>
 
 
-				<form action="list.bit" method="post">
-					<input type="checkbox" name="check" value="연차신청서">연차신청서 <input
-						type="checkbox" name="check" value="지출결의서">지출결의서 <input
-						type="checkbox" name="check" value="기안서">기안서 <br> <input
+				<form id="actionForm" action="/approval/applist_alllist" method="get">
+					 <!-- <input
 						type="checkbox" name="time" value="approval_time">기간 <input
 						type="date" name="time" value="app_startdate">~ <input
-						type="date" name="time" value="app_enddate"> <br> <input
-						type="radio" name="app_situation" value="결재요청">결재요청 <input
-						type="radio" name="app_situation" value="결재중">결재중 <input
-						type="radio" name="app_situation" value="반려">반려 <input
-						type="radio" name="app_situation" value="승인">승인
+						type="date" name="time" value="app_enddate"> <br> -->
+						<input type="radio" name="app_situation" value="결재요청">결재요청
+				    	<input type="radio" name="app_situation" value="결재중">결재중 
+						<input type="radio" name="app_situation" value="반려">반려 
+						<input type="radio" name="app_situation" value="승인">승인
 
 					<!-- 	<input type ="checkbox" name = "vd_title" value = "vd_title">제목
 	<input type ="text" name = "searchKey" size = "10"></input> -->
 
 					<!-- <input type ="text" name = "searchKey" size = "10"></input> -->
 					<br>
+					<input type='hidden' name='pageNum' value='${appPageMaker.appcri.pageNum }'>
+				<input type='hidden' name='amount' value='${appPageMaker.appcri.amount }'>
+				<%-- <input type='hidden' name='app_kind' value='${appPageMaker.appcri.app_kind }'> --%>
+				<%-- <input type='hidden' name='time' value='${appPageMaker.appcri.time }'>--%>
+				<%--  <input type='hidden' name='app_situation' value='${appPageMaker.appcri.app_situation }'> --%>
+					
 					<input type="submit" value="검색">
 
 				</form>
