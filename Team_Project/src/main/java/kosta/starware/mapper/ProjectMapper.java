@@ -15,7 +15,7 @@ public interface ProjectMapper {
 	
 	public ProjectDTO readProject(int project_No);
 	
-	public int removeProject(int project_No);////////////////
+	public int removeProject(int project_No);
 	
 	public int modifyProject(ProjectDTO project);
 	

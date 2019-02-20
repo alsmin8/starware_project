@@ -1,6 +1,7 @@
 package kosta.starware.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,5 +25,6 @@ public class ProjectDTO {
 	private String project_Regdate;
 	private String project_Situation;
 	private int emp_No;
-
+	
+	private List<ProjectAttachVO> attachList;
 }
