@@ -114,13 +114,13 @@
 	<!-- 결재할 목록 세부보기 -->
 	
 	<select id="resultDetail_D" parameterType="map" resultType="java.util.HashMap">
-		select a.app_no as app_no, a.app_kind as kind, a.app_title as title, d.d_contents as content, a.app_startdate as startdate, a.app_enddate as enddate, e.emp_name as writer from approval a inner join disbursement_doc d on a.app_no = d.app_no inner join emp e on a.emp_no= e.emp_no where a.app_no = #{app_no} and a.app_kind = #{app_kind}
+		select /*+index_desc(a XPKAPPROVAL)*/ a.app_no as app_no, a.app_kind as kind, a.app_title as title, d.d_contents as content, a.app_startdate as startdate, a.app_enddate as enddate, e.emp_name as writer from approval a inner join disbursement_doc d on a.app_no = d.app_no inner join emp e on a.emp_no= e.emp_no where a.app_no = #{app_no} and a.app_kind = #{app_kind}
 	</select>
 	<select id="resultDetail_DD" parameterType="map" resultType="java.util.HashMap">
-		select a.app_no as app_no, a.app_kind as kind, a.app_title as title, dd.dd_contents as content, a.app_startdate as startdate, a.app_enddate as enddate, e.emp_name as writer from approval a inner join draft_doc dd on a.app_no = dd.app_no inner join emp e on a.emp_no= e.emp_no where a.app_no = #{app_no} and a.app_kind = #{app_kind}
+		select /*+index_desc(a XPKAPPROVAL)*/ a.app_no as app_no, a.app_kind as kind, a.app_title as title, dd.dd_contents as content, a.app_startdate as startdate, a.app_enddate as enddate, e.emp_name as writer from approval a inner join draft_doc dd on a.app_no = dd.app_no inner join emp e on a.emp_no= e.emp_no where a.app_no = #{app_no} and a.app_kind = #{app_kind}
 	</select>
 	<select id="resultDetail_VD" parameterType="map" resultType="java.util.HashMap">
-		select a.app_no as app_no, a.app_kind as kind, a.app_title as title, vd.vd_contents as content, a.app_startdate as startdate, a.app_enddate as enddate, e.emp_name as writer from approval a inner join vacation_doc vd on a.app_no = vd.app_no inner join emp e on a.emp_no= e.emp_no where a.app_no = #{app_no} and a.app_kind = #{app_kind}
+		select /*+index_desc(a XPKAPPROVAL)*/ a.app_no as app_no, a.app_kind as kind, a.app_title as title, vd.vd_contents as content, a.app_startdate as startdate, a.app_enddate as enddate, e.emp_name as writer from approval a inner join vacation_doc vd on a.app_no = vd.app_no inner join emp e on a.emp_no= e.emp_no where a.app_no = #{app_no} and a.app_kind = #{app_kind}
 	</select>
 	
 	<!-- 결재 진행 결과 -->
