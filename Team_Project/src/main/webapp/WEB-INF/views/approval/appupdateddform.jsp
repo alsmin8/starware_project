@@ -85,7 +85,7 @@ text-align: center;
 	
 	<form action="/approval/appupdateddform?app_no=${approval.app_no}&app_kind=${approval.app_kind}
 	&pageNum=${appCriteria.pageNum}&amount=${appCriteria.amount}" method="post">
-	
+		<input type="hidden" id="app_title" value=${appCriteria.app_title }/>
 		<table class="table table-bordered table-hover"
 				style="text-align: center; border: 1px solid #dddddd;">
 				<thead>
@@ -137,6 +137,26 @@ text-align: center;
 	
 	</div>
 	
+	<script>
+	
+	var str = $('input[name=d_usingdate]').val();
+	var str1 = displayDate(str);
+	console.log(typeof(str1));
+	$('input[name=d_usingdate]').val(str1);
+
+// 날짜 필요 없는 거 제거
+function displayDate(timeValue) {
+   var today = new Date();
+   var gap = today.getTime() - timeValue;
+   var dateObj = new Date(timeValue);
+      
+   var yy = dateObj.getFullYear();
+   var mm = dateObj.getMonth() + 1;
+   var dd = dateObj.getDate();
+   
+   return [yy, '-',(mm > 9 ? '' : '0') + mm, '-',(dd > 9 ? '' : '0') + dd].join('');
+};
+</script>
 	
 </body>
 </html>

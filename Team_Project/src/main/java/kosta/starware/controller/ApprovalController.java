@@ -72,6 +72,7 @@ public class ApprovalController {
 		model.addAttribute("app_kind", appcri.getApp_kind());
 		model.addAttribute("app_situation", appcri.getApp_situation());
 		//model.addAttribute("type", appcri.getCheck());
+		
 	}
 
 	// 문서종류선택
@@ -92,23 +93,39 @@ public class ApprovalController {
 	}
 
 	@GetMapping("/appinsertddform")
-	public void appinsertddform() {
+	public void appinsertddform(HttpSession session, Model model) {
+		int emp_no =Integer.parseInt((String)session.getAttribute("emp_no"));
+		log.info("emppiddddddddddddddddddd"+emp_no);
+		EmpVO emp = empService.empGet(emp_no);
+		int dept_no = emp.getDept_no();
+		DeptVO dept = empService.empDeptGet(dept_no);
+		model.addAttribute("dept",dept);
+		int grade_no = emp.getGrade_no();
+		GradeVO grade = empService.empGradeGet(grade_no);
+		model.addAttribute("grade",grade);
+		
 	}
 
 	@GetMapping("/appinsertdraftform")
-	public void appinsertdraftform() {
+	public void appinsertdraftform(HttpSession session, Model model) {
+		int emp_no =Integer.parseInt((String)session.getAttribute("emp_no"));
+		model.addAttribute("dept",empService.empDeptGet(empService.empGet(emp_no).getDept_no()));
+		model.addAttribute("grade", empService.empGradeGet(empService.empGet(emp_no).getGrade_no()));
 	}
 
 	@GetMapping("/appinsertvacationform")
-	public void appinsertvacationform() {
+	public void appinsertvacationform(HttpSession session, Model model) {
+		int emp_no =Integer.parseInt((String)session.getAttribute("emp_no"));
+		model.addAttribute("dept",empService.empDeptGet(empService.empGet(emp_no).getDept_no()));
+		model.addAttribute("grade", empService.empGradeGet(empService.empGet(emp_no).getGrade_no()));
 	}
 
 	@PostMapping("/appinsertddform")
-	public String appDdInsert(Approval approval, DisbursementDoc disbursementdoc, RedirectAttributes rttr) {
+	public String appDdInsert(Approval approval, DisbursementDoc disbursementdoc, RedirectAttributes rttr, Model model,HttpSession session) {
+		
 		log.info("appInsert::" + approval + "appInsert::" + disbursementdoc);
 		approvalservice.appInsert(approval);
 		approvalservice.appDdInsert(disbursementdoc);
-
 		rttr.addFlashAttribute("result", approval.getApp_no());
 		return "redirect:/approval/applist_alllist";
 	}
@@ -190,6 +207,7 @@ public class ApprovalController {
 		model.addAttribute("emp", empService.empGet(empId));
 		model.addAttribute("approval", approvalservice.appDetail(app_no));
 		model.addAttribute("draftdoc", approvalservice.appDraftDetail(app_no));
+		// model.addAttribute("power", approvalservice.appPowerGet(app_no));/////////////////////////////////////////
 		rttr.addAttribute ("pageNum",appCriteria.getPageNum());
 		rttr.addAttribute ("amount",appCriteria.getAmount());
 		log.info("go!!!!!!!!!!!!!!!!");
@@ -213,6 +231,8 @@ public class ApprovalController {
 		model.addAttribute("emp", empService.empGet(approvalservice.appDetail(app_no).getEmp_no()));
 		model.addAttribute("approval", approvalservice.appDetail(app_no));
 		model.addAttribute("disbursementdoc", approvalservice.appDdDetail(app_no));
+		/*model.addAttribute("power", approvalservice.appPowerGet(app_no, 12302))*/;///////////////////////////////////////////////////
+		/*log.info("app_no............................"+approvalservice.appPowerGet(app_no, 12302));*/
 		rttr.addAttribute("app_no", app_no);
 		rttr.addAttribute("app_kind", app_kind);
 		rttr.addAttribute ("pageNum",appCriteria.getPageNum());

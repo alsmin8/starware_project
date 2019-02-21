@@ -61,6 +61,12 @@ public class ApprovalServiceImpl implements ApprovalService {
 	
 	//detail
 	@Override
+	public PowerDTO appPowerGet(int app_no, int emp_no) {
+		// TODO Auto-generated method stub
+		return approvalmapper.appPowerGet(app_no, emp_no);
+	}
+
+	@Override
 	public Approval appDetail(int app_no) {
 		log.info("get........"+app_no);
 		return approvalmapper.appDetail(app_no);
@@ -200,6 +206,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return keywordList;
 	}
 
+	
 
 
 }

@@ -90,8 +90,10 @@ td {
 			action="/approval/appdetailvacation?app_no=${approval.app_no}&app_kind=${app_kind}"
 			method="post">
 			<input type="hidden" name="app_kind" value="<%=app_kind%>">
-			<table class="table table-bordered table-hover"
-				style="text-align: center; border: 1px solid #dddddd;">
+			<input type="hidden" id="app_title" value=${appCriteria.app_title }/>
+			
+			<table class="table table-bordered"
+				style="text-align: center; border: 1px solid #dddddd; ">
 				<thead>
 					<tr>
 						<th colspan="6"><h4>연 차 신 청 서</h4></th>
@@ -109,21 +111,21 @@ td {
 				</tr>
 				<tr>
 					<td style="width: 110px;">부 서</td>
-					<td>${dept.dept_name}</td>
+					<td colspan="2">${dept.dept_name}</td>
 					<td style="width: 110px;">직 급</td>
-					<td>${grade.grade_name}</td>
+					<td colspan="2">${grade.grade_name}</td>
 				</tr>
 				<tr>
-					<td style="width: 110px;">휴가기간</td>
-					<td><fmt:parseDate var="dateString"
+					<td style="width: 16%;">휴가기간</td>
+					<td style="width: 21%;"><fmt:parseDate var="dateString"
 							value="${vacationdoc.vd_startdate}" pattern="yyyy-MM-dd" /> <fmt:formatDate
 							value="${dateString}" pattern="yyyy-MM-dd" /></td>
-					<td>~</td>
-					<td><fmt:parseDate var="dateString"
+					<td style="width: 6%;">~</td>
+					<td style="width: 21%;"><fmt:parseDate var="dateString"
 							value="${vacationdoc.vd_enddate}" pattern="yyyy-MM-dd" /> <fmt:formatDate
 							value="${dateString}" pattern="yyyy-MM-dd" /></td>
-					<td style="width: 110px;">총 일수</td>
-					<td>${vacationdoc.vd_day}</td>
+					<td style="width: 16%;">총 일수</td>
+					<td style="width: 16%;">${vacationdoc.vd_day}일</td>
 				</tr>
 				<tr>
 					<td style="width: 110px;">내용</td>
@@ -144,7 +146,9 @@ td {
 					href="/approval/appupdatevacationform?app_no=${approval.app_no}&app_kind=${approval.app_kind}">수정</a>
 				&emsp;&emsp;&emsp;&emsp;&emsp; <a
 					href="/approval/appdeletevacation?app_no=${approval.app_no}">삭제</a>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-				<a href="/approval/applist_alllist">목록</a>
+				<a href="/approval/applist_alllist?app_title="><input type="hidden" id="app_title" value=${approval.app_title }/>목록</a>
+				
+				
 			</center>
 		</form>
 

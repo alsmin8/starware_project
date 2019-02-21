@@ -14,7 +14,9 @@
 <script src="/resources/jquery.js" type="text/javascript"></script>
 <script src="/resources/js/bootstrap.js"></script>
 <style>
-
+.inline td{
+ display:inline;
+}
 td{
 text-align: center;
 }
@@ -95,7 +97,7 @@ text-align: center;
 				style="text-align: center; border: 1px solid #dddddd;">
 				<thead>
 					<tr>
-						<th colspan="4"><h4>연 차 신 청 서</h4></th>
+						<th colspan="6"><h4>연 차 신 청 서</h4></th>
 					</tr>
 			<tr>
 				<td style="width: 110px;">제 목</td>
@@ -108,12 +110,20 @@ text-align: center;
 				<td colspan="2"><input  class="form-control" type="text" name="emp_no" value=${emp_no }></td>
 			</tr>
 			<tr>
-				<td style="width: 110px;">휴가기간</td>
-				<td><input  class="form-control" type="date" name="vd_startdate"></td>
-				<td>~</td>
-				<td><input  class="form-control" type="date" name="vd_enddate"></td>
-				<td style="width: 110px;">총 </td>
-				<td><input  class="form-control" type="text" name="vd_day" size="1">일</td>
+				<td style="width: 110px;">부 서</td>
+				<td colspan="2"><input class="form-control" type="text" name="dept_name" value=${dept.dept_name}></td>
+				<td style="width: 110px;">직 급</td>
+				<td colspan="2"><input class="form-control" type="text" name="grade_name" value=${grade.grade_name}></td>
+			</tr>
+			<tr>
+				<td style="width: 16%;">휴가기간</td>
+				<td style="width: 21%;"><input  class="form-control" type="date" id = "Startdatepicker" name="vd_startdate"></td>
+				<td style="width: 6%;">~</td>
+				<td style="width: 21%;"><input  class="form-control" type="date" id = "Enddatepicker" name="vd_enddate"></td>
+				<td style="width: 16%;">총 </td>
+				<td style="width: 16%;" id=inline>
+				<input  class="form-control" type="text" name="vd_day" id="vd_day"  > <!-- style="width: 25%" -->
+					<input type="button" name="dayBtn" id = "dayBtn" value="계산"></td>
 			</tr>
 			<tr>
 				<td style="width: 110px;">내용</td>
@@ -138,6 +148,21 @@ text-align: center;
 	</form>
 	</div>
 	
+	<script type="text/javascript">
+	 $("#dayBtn").click(function(){
+         var startDate =$("#Startdatepicker").val();
+         var endDate = $("#Enddatepicker").val();
+        
+         sDate = new Date(startDate);
+         eDate = new Date(endDate);
+         console.log("시작 "+sDate+"끝"+eDate);
+         dateResult = ((eDate - sDate)/1000/60/60/24)+1;  
+         console.log(dateResult);
+         $('#vd_day').val(dateResult); 
+         
+         return false;
+      });
+	</script>
 	
 <script type="text/javascript">
 function startSuggest(){

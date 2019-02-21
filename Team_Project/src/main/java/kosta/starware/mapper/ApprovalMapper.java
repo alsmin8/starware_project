@@ -11,6 +11,7 @@ import kosta.starware.domain.Approval;
 import kosta.starware.domain.DisbursementDoc;
 import kosta.starware.domain.DraftDoc;
 import kosta.starware.domain.EmpDTO;
+import kosta.starware.domain.EmpVO;
 import kosta.starware.domain.PowerDTO;
 import kosta.starware.domain.VacationDoc;
 
@@ -20,6 +21,7 @@ public interface ApprovalMapper {
 	public List<Approval> appList();
 	public List<Approval> appPaging(AppCriteria cri);
 	public int getTotalCount(AppCriteria appcri);
+	public EmpVO appGetEmpNo(int emp_no);
  	//insert
 	public void appInsert(Approval approval);
 	public void appInsertSelectKey(Approval approval);
@@ -28,6 +30,7 @@ public interface ApprovalMapper {
 	public void appDraftInsert(DraftDoc draftDoc);
 	public void appVacationInsert(VacationDoc vacationDoc);
 	//detail
+	public PowerDTO appPowerGet(@Param("app_no") int app_no, @Param("emp_no") int emp_no);
 	public Approval appDetail(int app_no);
 	public DisbursementDoc appDdDetail(int app_no);
 	public DraftDoc appDraftDetail(int app_no);
