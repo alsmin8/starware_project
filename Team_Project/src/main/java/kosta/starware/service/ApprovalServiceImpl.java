@@ -240,8 +240,8 @@ public class ApprovalServiceImpl implements ApprovalService {
 	//검색한 결재권자를 db에 저장서비스
 	@Override
 	public void appInsert(Approval approval, List<Integer> attendees) {
-		int app_no = approval.getApp_no();
 		approvalmapper.appInsertSelectKey(approval);
+		int app_no = approval.getApp_no();
 		
 		System.out.println("attendees 정보 : " + attendees);
 		System.out.println("app_no : " + app_no);
