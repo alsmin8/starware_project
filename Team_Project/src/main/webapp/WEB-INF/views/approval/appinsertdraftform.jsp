@@ -94,13 +94,13 @@
 				<td style="width: 110px;">이 름</td>
 				<td><input  class="form-control" type="text" name="emp_name" value=${emp_name}></td>
 				<td style="width: 110px;">사 번</td>
-				<td><input type="text" name="emp_no" value=${emp_no}></td>
+				<td><input class="form-control" type="text" name="emp_no" value=${emp_no}></td>
 			</tr>
 			<tr>
 				<td style="width: 110px;">부 서</td>
-				<td><input  class="form-control" type="text" name="dept_name"></td>
+				<td><input class="form-control" type="text" name="dept_name" value=${dept.dept_name}></td>
 				<td style="width: 110px;">직 급</td>
-				<td><input  class="form-control" type="text" name="grade_name"></td>
+				<td><input class="form-control" type="text" name="grade_name" value=${grade.grade_name}></td>
 			</tr>
 			<tr>
 				<td style="width: 110px;">제 목</td>

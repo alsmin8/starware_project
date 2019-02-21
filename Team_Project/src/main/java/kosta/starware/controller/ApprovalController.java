@@ -84,7 +84,7 @@ public class ApprovalController {
 
 	@Transactional
 	@PostMapping("/appinsertddform")
-	public String appDdInsert(Approval approval, DisbursementDoc disbursementdoc,@RequestParam("attendees") List<Integer> attendees) {
+	public String appDdInsert(Approval approval, DisbursementDoc disbursementdoc,@RequestParam("attendees") List<Integer> attendees, HttpSession session) {
 		log.info("appInsert::" + approval + "appInsert::" + disbursementdoc + " attendees::" + attendees);
 		if(attendees.size() == 0 || attendees == null){
 			return "redirect:/approval/applist_alllist";

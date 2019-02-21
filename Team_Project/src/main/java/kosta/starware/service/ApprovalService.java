@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import kosta.starware.domain.AppCriteria;
 import kosta.starware.domain.Approval;
 import kosta.starware.domain.DisbursementDoc;
@@ -22,6 +24,7 @@ public interface ApprovalService {
 	public void appDraftInsert(DraftDoc draftDoc);
 	public void appVacationInsert(VacationDoc vacationDoc);
 	//detail
+	public PowerDTO appPowerGet(int app_no, int emp_no);
 	public Approval appDetail(int app_no);
 	public DisbursementDoc appDdDetail(int app_no);
 	public DraftDoc appDraftDetail(int app_no);

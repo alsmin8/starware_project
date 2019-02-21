@@ -18,8 +18,16 @@
 		where e.emp_no=a.emp_no and rownum <= #{pageNum}*#{amount} 
 		
 ]]>
+		<!-- <if test="app_kind != null">
+			<trim prefix="and"> app_kind = #{app_kind, javaType=String,
+				jdbcType=VARCHAR} </trim>
+		</if> -->
 		<if test="app_kind != null">
 			<trim prefix="and"> app_kind = #{app_kind, javaType=String,
+				jdbcType=VARCHAR} </trim>
+		</if>
+		<if test="app_title != null">
+			<trim prefix="and"> app_title = #{app_title, javaType=String,
 				jdbcType=VARCHAR} </trim>
 		</if>
 		<if test="app_situation != null">
@@ -46,6 +54,13 @@
 		#{app_title}, sysdate, null,'결재요청', #{emp_no})
 
 	</insert>
+	
+	<select id="appGetEmpNo">
+	select g.grade_name, d.dept_name
+    from grade g, dept d, emp e 
+    where g.grade_no=e.grade_no and d.dept_no=e.dept_no
+	</select>
+	
 	<select id="getAppNo" resultType="int">
 		select max(app_no) from approval
 	</select>
@@ -67,6 +82,15 @@
 		#{vd_contents})
 	</insert>
 	<!-- DETAIL 문서보기 SQL!! -->
+	
+	<select id="appPowerGet" resultType="kosta.starware.domain.PowerDTO">
+		select e.emp_name
+		from emp e, approval a, power p
+		where e.emp_no=p.emp_no
+		and a.app_no=#{app_no} and p.emp_no=#{emp_no}
+	</select>
+	
+	
 	<select id="appDetail" resultType="kosta.starware.domain.Approval">
 		select * from approval where app_no=#{app_no}
 	</select>
@@ -123,6 +147,10 @@
 		select count(*) from approval where app_no > 0
 		<if test="app_kind != null">
 			<trim prefix="and"> app_kind = #{app_kind, javaType=String,
+				jdbcType=VARCHAR} </trim>
+		</if>
+		<if test="app_title != null">
+			<trim prefix="and"> app_title = #{app_title, javaType=String,
 				jdbcType=VARCHAR} </trim>
 		</if>
 		<if test="app_situation != null">

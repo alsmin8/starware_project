@@ -10,6 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale = 1">
 <link rel="stylesheet" href="/resources/css/bootstrap.css">
 <link rel="stylesheet" href="/resources/css/custom.css">
+<link rel="stylesheet" href="/resources/css/apprCustom.css">
 <title>STARWARE(Groupware)</title>
 <script src="/resources/jquery.js" type="text/javascript"></script>
 <script src="/resources/js/bootstrap.js"></script>
@@ -75,7 +76,7 @@ td {
 			});
 		});
 	</script>
-
+	
 	<div class="container">
 		<ul class="nav nav-tabs" role="tablist">
 			<li class="active"><a id="tab1" href="/approval/applist_alllist"
@@ -89,20 +90,24 @@ td {
 	</div>
 	<div class="container" id="applist">
 		<h2>전자결재목록</h2>
-		<br> <a class=newapproval href="appselectform">새 결재 상신</a>
 		
 		<ul class="nav navbar-nav navbar-left">
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown" role="buton" aria-haspopup="true"
-					aria-expanded="false">문서별 검색<span class="caret"></span>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" 
+					role="buton" aria-haspopup="true" aria-expanded="false">문서별 검색
+					<span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
 						<li><a href ="/approval/applist_alllist?app_kind=기안서">기안서</a></li>
 						<li><a href ="/approval/applist_alllist?app_kind=지출결의서">지출결의서</a></li>
 						<li><a href ="/approval/applist_alllist?app_kind=연차신청서">연차신청서</a></li>
-						
-					</ul></li>
+					</ul>
+					</li>
 			</ul>	
+		<br><br><br><br> 
+		<b><a class=newapproval href="appselectform">새 결재 상신</a></b>
+		
+			
 		<!-- <script type="text/javascript">
 	$(document).ready(
 			$(function(){
@@ -111,15 +116,16 @@ td {
 				});
 			});
 	</script> -->
-		<table class="type04">
+	
+		<table class="type05" style="width:100%">
 			<tr>
-				<td>글번호</td>
-				<td>문서종류</td>
-				<td>제 목</td>
-				<td>기안일자</td>
-				<td>완료일자</td>
-				<td>결재현황</td>
-				<td>기안자</td>
+				<td width =100px>글번호</td>
+				<td width =100px>문서종류</td>
+				<td width =400px>제 목</td>
+				<td width =100px>기안일자</td>
+				<td width =100px>완료일자</td>
+				<td width =100px>결재현황</td>
+				<td width =100px>기안자</td>
 			</tr>
 
 			<c:forEach var="Approval" items="${list}">
@@ -143,7 +149,7 @@ td {
 
 		</table>
 
-		<div class='pull-right'>
+		<div align="center">
 			<ul class="pagination">
 
 				<c:if test="${appPageMaker.prev}">
@@ -179,30 +185,24 @@ td {
 					})
 				})
 				</script>
-				<br>
-				<br>
 
 
 				<form id="actionForm" action="/approval/applist_alllist" method="get">
-					 <!-- <input
-						type="checkbox" name="time" value="approval_time">기간 <input
-						type="date" name="time" value="app_startdate">~ <input
-						type="date" name="time" value="app_enddate"> <br> -->
+					 
 						<input type="radio" name="app_situation" value="결재요청">결재요청
 				    	<input type="radio" name="app_situation" value="결재중">결재중 
 						<input type="radio" name="app_situation" value="반려">반려 
 						<input type="radio" name="app_situation" value="승인">승인
-
-					<!-- 	<input type ="checkbox" name = "vd_title" value = "vd_title">제목
-	<input type ="text" name = "searchKey" size = "10"></input> -->
-
-					<!-- <input type ="text" name = "searchKey" size = "10"></input> -->
+					<br>
+					<input type ="checkbox">제목
+					<input type ="text" name = "app_title" size = "10"></input>
+					
 					<br>
 					<input type='hidden' name='pageNum' value='${appPageMaker.appcri.pageNum }'>
-				<input type='hidden' name='amount' value='${appPageMaker.appcri.amount }'>
+					<input type='hidden' name='amount' value='${appPageMaker.appcri.amount }'>
 				<%-- <input type='hidden' name='app_kind' value='${appPageMaker.appcri.app_kind }'> --%>
 				<%-- <input type='hidden' name='time' value='${appPageMaker.appcri.time }'>--%>
-				<%--  <input type='hidden' name='app_situation' value='${appPageMaker.appcri.app_situation }'> --%>
+				<%-- <input type='hidden' name='app_situation' value='${appPageMaker.appcri.app_situation }'> --%>
 					
 					<input type="submit" value="검색">
 
