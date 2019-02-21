@@ -52,8 +52,8 @@ public class ProjectController {
 
 	private ProjectService service;
 
-	@GetMapping("/listProjectForm")
-	public void listProjectForm(ProjectCriteria cri, Model model) {
+	@GetMapping("/projectList")
+	public void projectList(ProjectCriteria cri, Model model) {
 
 		log.info("list + cri");
 		model.addAttribute("listProjectForm", service.getList(cri));
@@ -73,8 +73,8 @@ public class ProjectController {
 		return new ResponseEntity<>(service.getAttachList(project_No), HttpStatus.OK);
 	}
 
-	@PostMapping("/insertProject")
-	public String insertProject(RedirectAttributes rttr, ProjectDTO project) {
+	@PostMapping("/projectInsert")
+	public String projectInsert(RedirectAttributes rttr, ProjectDTO project) {
 
 		if (project.getAttachList() != null) {
 			project.getAttachList().forEach(attach -> log.info(attach));
@@ -85,30 +85,30 @@ public class ProjectController {
 
 		rttr.addFlashAttribute("result", project.getProject_No());
 
-		return "redirect:/project/listProjectForm";
+		return "redirect:/project/projectList";
 	}
 
-	@GetMapping("/insertProjectForm")
-	public void insertProjectForm() {
+	@GetMapping("/projectInsert")
+	public void projectInsert() {
 
 	}
 
-	@RequestMapping("/detailProjectForm")
-	public void detailProjectForm(@RequestParam("project_No") int project_No, Model model,
+	@RequestMapping("/projectDetail")
+	public void projectDetail(@RequestParam("project_No") int project_No, Model model,
 			@ModelAttribute("cri") ProjectCriteria cri) {
 		log.info("detail....");
 		model.addAttribute("project", service.read(project_No));
 	}
 
-	@RequestMapping("/updateProjectForm")
-	public void updateProjectForm(@RequestParam("project_No") int project_No, Model model,
+	@RequestMapping("/projectUpdate")
+	public void projectUpdate(@RequestParam("project_No") int project_No, Model model,
 			@ModelAttribute("cri") ProjectCriteria cri) {
 		model.addAttribute("project", service.read(project_No));
 		log.info(cri);
 	}
 
-	@PostMapping("/updateProjectForm")
-	public String updateProject(ProjectDTO project, @ModelAttribute("cri") ProjectCriteria cri, @RequestParam("project_No") int project_No,
+	@PostMapping("/projectUpdate")
+	public String projectUpdate(ProjectDTO project, @ModelAttribute("cri") ProjectCriteria cri, @RequestParam("project_No") int project_No,
 			RedirectAttributes rttr) {
 
 		log.info("update:" + project);
@@ -120,16 +120,12 @@ public class ProjectController {
 			deleteFiles(attachList);
 			rttr.addFlashAttribute("result", "success");
 		}
-/*		rttr.addAttribute("pageNum", cri.getPageNum());
-		rttr.addAttribute("amount", cri.getAmount());
-		rttr.addAttribute("ProjectSearchType", cri.getProjectSearchType());
-		rttr.addAttribute("ProjectSearchKey", cri.getProjectSearchKey());*/
 
-		return "redirect:/project/listProjectForm" + cri.getListLink();
+		return "redirect:/project/projectList" + cri.getListLink();
 	}
 
-	@RequestMapping("/deleteProject")
-	public String deleteProject(@RequestParam("project_No") int project_No, RedirectAttributes rttr,
+	@RequestMapping("/projectDelete")
+	public String projectDelete(@RequestParam("project_No") int project_No, RedirectAttributes rttr,
 			@ModelAttribute("cri") ProjectCriteria cri) {
 
 		log.info("remove....................." + project_No);
@@ -140,12 +136,14 @@ public class ProjectController {
 		rttr.addAttribute("amount", cri.getAmount());
 		rttr.addAttribute("ProjectSearchType", cri.getProjectSearchType());
 		rttr.addAttribute("ProjectSearchKey", cri.getProjectSearchKey());
+		
+		rttr.addFlashAttribute("result", "success");
 
-		return "redirect:/project/listProjectForm";
+		return "redirect:/project/projectList";
 	}
 
-	@GetMapping("/deleteProjectForm")
-	public void deleteProjectForm(@RequestParam("project_No") int project_No, Model model,
+	@GetMapping("/projectDelete")
+	public void projectDelete(@RequestParam("project_No") int project_No, Model model,
 			@ModelAttribute("cri") ProjectCriteria cri) {
 
 		model.addAttribute("project", service.read(project_No));
@@ -380,4 +378,11 @@ public class ProjectController {
 				}
 		});
 	}
+	
+	@GetMapping("/projectBoard")
+	   public void board(@RequestParam("project_No") int project_No,Model model){
+	      
+	      model.addAttribute("project", service.read(project_No));
+	      
+	   }
 }

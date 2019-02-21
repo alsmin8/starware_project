@@ -10,10 +10,10 @@
 <meta name="viewport" content="width=device-width, initial-scale = 1">
 <link rel="stylesheet" href="/resources/css/bootstrap.css">
 <link rel="stylesheet" href="/resources/css/custom.css">
+<link rel="stylesheet" href="/resources/css/detailProject.css">
 <title>STARWARE(Groupware)</title>
 <script src="/resources/jquery.js" type="text/javascript"></script>
 <script src="/resources/js/bootstrap.js"></script>
-<link rel="stylesheet" href="/resources/css/detailProject.css">
 <style>
 .uploadResult {
   width:100%;
@@ -38,7 +38,7 @@
   color:white;
 }
 .bigPictureWrapper {
-  position: absolute;
+  position: static;
   display: none;
   justify-content: center;
   align-items: center;
@@ -77,7 +77,7 @@
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="login.jsp">STARWARE</a>
+			<a class="navbar-brand" href="/login">STARWARE</a>
 		</div>
 
 		<div class="collapse navbar-collapse"
@@ -85,12 +85,12 @@
 			<ul class="nav navbar-nav">
             <li><a href="/loginafter">메인</a></li>
             <li><a href="/approval/applist_alllist">전자결재</a></li>
-            <li><a href="/project/listProjectForm">협업지원</a></li>
+           	<li class="active"><a href="/project/projectList">협업지원</a></li>
             <li><a href="/notice/noticeList">공지사항</a></li>
             <li><a href="/attend/attendInsert">출퇴근관리</a></li>
             <li><a href="/emp/empList">인사관리</a></li>
             <li><a href="/schedule/scheduleMain">일정관리</a></li>
-            <li class="active"><a href="/chat/messengerFind">메세지함<span id="unread" class="label label-info"></span></a></li>
+            <li><a href="/chat/messengerFind">메세지함<span id="unread" class="label label-info"></span></a></li>
 			</ul>
 			<%
 				if (emp_no == null) {
@@ -113,7 +113,7 @@
 					aria-expanded="false">회원관리<span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a href="logoutaction.jsp">로그아웃</a></li>
+						<li><a href="/logoutaction">로그아웃</a></li>
 					</ul></li>
 			</ul>
 
@@ -126,61 +126,51 @@
 	<div class="container">
 	
 	<h3 align="center">프로젝트 상세보기</h3>
-	<hr>
-	<table class="detail" width="1000" border="1" cellpadding="0" cellspacing="0" style="margin-left: auto; margin-right: auto;">
+	<table class="detail">
 		<tr>
-			<td>번호</td>
+			<th>번호</th>
 			<td>${project.project_No }</td>
 		</tr>
 		<tr>
-			<td>작성일</td>
+			<th>작성일</th>
 			<td>${project.project_Regdate }</td>
 		</tr>
 		<tr>
-			<td>프로젝트 제목</td>
+			<th>프로젝트 제목</th>
 			<td>${project.project_Title }</td>
 		</tr>
 		<tr>
-			<td>작성자</td>
+			<th>작성자</th>
 			<td>${project.project_Writer }</td>
 		</tr>
 		<tr>
-			<td>담당자</td>
+			<th>담당자</th>
 			<td>${project.project_Manager }</td>
 		</tr>
 		<tr>
-			<td>기간</td>
+			<th>기간</th>
 			<td>${project.project_Term }</td>
 		</tr>
 		<tr>
-			<td>계획시작일</td>
+			<th>계획시작일</th>
 			<td><fmt:parseDate var="project_Start_Date"	value="${project.project_Start_Date}" pattern="yyyy-MM-dd"/> <fmt:formatDate value="${project_Start_Date}"
 							pattern="yyyy-MM-dd" /></td>
 		</tr>
 		<tr>
-			<td>계획종료일</td>
-			<td><fmt:parseDate var="project_End_Date"	value="${project.project_End_Date}" pattern="yyyy-MM-dd"
-							scope="page" /> <fmt:formatDate value="${project_End_Date}"
+			<th>계획종료일</th>
+			<td><fmt:parseDate var="project_End_Date"	value="${project.project_End_Date}" pattern="yyyy-MM-dd" scope="page" /> <fmt:formatDate value="${project_End_Date}"
 							pattern="yyyy-MM-dd" /></td>
 		</tr>
 		<tr>
-			<td>프로젝트 종류</td>
+			<th>프로젝트 종류</th>
 			<td>${project.project_Kind }</td>
 		</tr>
 		<tr>
-			<td>진행상태</td>
+			<th>진행상태</th>
 			<td>${project.project_Situation }</td>
 		</tr>
 		<tr>
-			<td>프로젝트 종류</td>
-			<td>${project.project_Kind }</td>
-		</tr>
-		<tr>
-			<td>진행상태</td>
-			<td>${project.project_Situation }</td>
-		</tr>
-		<tr>
-			<td>내용</td>
+			<th>내용</th>
 			<td>${project.project_Contents }</td>
 		</tr>
 	</table>
@@ -212,12 +202,13 @@
 <!-- /.row -->
 	
 	
-	<button data-oper="update" class="btn btn-primary pull" style="text-align: center">수정하기</button>
-	<button data-oper="delete" class="btn btn-primary pull" style="text-align: center">삭제하기</button>
-	<button data-oper="list" class="btn btn-primary pull" style="text-align: center">목록</button>
+	<button data-oper="update" class="btn btn-primary pull" style="text-align: right">수정하기</button>
+	<button data-oper="delete" class="btn btn-primary pull" style="text-align: right">삭제하기</button>
+	<button data-oper="list" class="btn btn-primary pull" style="text-align: right">목록</button>
+	<span style="float: right;"><input class="btn btn-primary pull" type="button" value="게시판" onclick="location.href='/project/projectBoard?project_No=${project.project_No}&project_Writer=${project.project_Writer }&pageNum=${cri.pageNum}&amount=${cri.amount}';"></span>
 
 	
-	<form id='listAction' action="project/listProjectForm" method="get">
+	<form id='listAction' action="project/projectList" method="get">
 	<input type='hidden' name='project_No' id='project_No' value='<c:out value="${project.project_No}"/>'>
 	<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
 	<input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
@@ -225,7 +216,7 @@
     <input type='hidden' name='projectSearchKey' value='<c:out value="${cri.projectSearchKey}"/>'>
 	</form>
 	
-	<form id='deleteFormAction' action="project/deleteProjectForm" method="get">
+	<form id='deleteFormAction' action="project/projectDelete" method="get">
 	<input type='hidden' name='project_No' id='project_No' value='<c:out value="${project.project_No}"/>'>
 	<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
 	<input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
@@ -233,7 +224,7 @@
     <input type='hidden' name='projectSearchKey' value='<c:out value="${cri.projectSearchKey}"/>'>
 	</form>
 	
-	<form id='updateFormAction' action="project/updateProjectForm" method="get">
+	<form id='updateFormAction' action="project/projectUpdate" method="get">
 	<input type='hidden' name='project_No' id='project_No' value='<c:out value="${project.project_No}"/>'>
 	<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
 	<input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
@@ -256,14 +247,7 @@ $(document).ready(function () {
 		  
 		  $(arr).each(function(i, attach){
 		         if(attach.project_fileName){
-/*  		             var fileCallPath =  encodeURIComponent( attach.project_uploadPath+ "/s_"+attach.project_uuid +"_"+attach.project_fileName);
-		             
- 		             str += "<li data-path='"+attach.project_uploadPath+"' data-uuid='"+attach.project_uuid+"' data-filename='"+attach.project_fileName+"'><div>";
-		             str += "<img src='/project/display?project_fileName="+fileCallPath+"'>";
-		             str += "</div>";
-		             str +"</li>";
-		           }else{ */
-		               
+		        	 
 		             str += "<li data-path='"+attach.project_uploadPath+"' data-uuid='"+attach.project_uuid+"' data-filename='"+attach.project_fileName+"'><div>";
 		             str += "<span> "+ attach.project_fileName+"</span><br/>";
 		             str += "<img src='/resources/images/attach.png'></a>";
@@ -281,8 +265,6 @@ $(document).ready(function () {
 		    })();//end function
 
 $(".uploadResult").on("click","li", function(e){
-    
-    //console.log("view image");
     
     var liObj = $(this);
     
@@ -307,17 +289,17 @@ $(".uploadResult").on("click","li", function(e){
 		var deleteFormAction = $("#deleteFormAction");
 
 		$("button[data-oper='update']").on("click", function(e) {
-			updateFormAction.attr("action", "/project/updateProjectForm").submit();
+			updateFormAction.attr("action", "/project/projectUpdate").submit();
 	}); 
 
 		$("button[data-oper='list']").on("click", function(e) {
 			listAction.find("#project_No").remove();
-			listAction.attr("action", "/project/listProjectForm")
+			listAction.attr("action", "/project/projectList")
 			listAction.submit();
 	});
 	
 		$("button[data-oper='delete']").on("click", function(e) {
-			deleteFormAction.attr("action", "/project/deleteProjectForm").submit();
+			deleteFormAction.attr("action", "/project/projectDelete").submit();
 	}); 
 	
 	});

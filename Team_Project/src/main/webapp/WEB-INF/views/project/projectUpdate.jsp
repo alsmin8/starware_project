@@ -92,7 +92,7 @@
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="login.jsp">STARWARE</a>
+			<a class="navbar-brand" href="/login">STARWARE</a>
 		</div>
 
 		<div class="collapse navbar-collapse"
@@ -100,12 +100,12 @@
 			<ul class="nav navbar-nav">
 				<li><a href="/loginafter">메인</a></li>
 				<li><a href="/approval/applist_alllist">전자결재</a></li>
-				<li><a href="/project/listProjectForm">협업지원</a></li>
+				<li class="active"><a href="/project/projectList">협업지원</a></li>
 				<li><a href="/notice/noticeList">공지사항</a></li>
 				<li><a href="/attend/attendInsert">출퇴근관리</a></li>
 				<li><a href="/emp/empList">인사관리</a></li>
 				<li><a href="/schedule/scheduleMain">일정관리</a></li>
-				<li class="active"><a href="/chat/messengerFind">메세지함<span
+				<li><a href="/chat/messengerFind">메세지함<span
 						id="unread" class="label label-info"></span></a></li>
 			</ul>
 			<%
@@ -129,7 +129,7 @@
 					aria-expanded="false">회원관리<span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a href="logoutaction.jsp">로그아웃</a></li>
+						<li><a href="/logoutaction">로그아웃</a></li>
 					</ul></li>
 			</ul>
 
@@ -139,10 +139,8 @@
 		</div>
 	</nav>
 
-
+<form role="form" id="form" name="form" action="projectUpdate" method="post">
 	<div class="container">
-		<form role="form" id="form" name="form" action="updateProject"
-			method="post">
 			<input type="hidden" name="project_No" value="${project.project_No}">
 			<input type="hidden" name="emp_no" value="${emp_no}"> <input
 				type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
@@ -199,10 +197,9 @@
 							id="project_Members" name="project_Members" maxlength="20"
 							value="${project.project_Members }"></td>
 
-						<td style="width: 110px;"><h5>계획시작일</h5></td>
-						<td colspan="2"><input class="form-control" type="date"
-							id="project_Start_Date" name="project_Start_Date" maxlength="20"
-							value="${project.project_Start_Date }"></td>
+												<td style="width: 110px;"><h5>기간</h5></td>
+						<td colspan="2"><input class="form-control" type="number"
+							id="project_Term" name="project_Term" maxlength="20"></td>
 					</tr>
 
 					<tr>
@@ -210,25 +207,20 @@
 						<td colspan="2"><input class="form-control" type="text"
 							id="project_Title" name="project_Title" maxlength="20"
 							value="${project.project_Title }"></td>
+						<td style="width: 110px;"><h5>계획시작일</h5></td>
+						<td colspan="2"><input class="form-control"  type="date"
+							id="project_Start_Date" name="project_Start_Date" maxlength="20"
+							value="${project.project_Start_Date }"></td>
 
+					</tr>
+					<tr>
+						<td style="width: 110px;"><h5>내용</h5></td>
+						<td colspan="2"><textarea class="form-control" rows="8"
+								cols="100" name="project_Contents">${project.project_Contents }</textarea></td>
 						<td style="width: 110px;"><h5>계획종료일</h5></td>
 						<td colspan="2"><input class="form-control" type="date"
 							id="project_End_Date" name="project_End_Date" maxlength="20"
 							value="${project.project_End_Date }"></td>
-
-						</td>
-					</tr>
-					<tr>
-						<td style="width: 110px;"><h5>기간</h5></td>
-						<td colspan="2"><input class="form-control" type="number"
-							id="project_Term" name="project_Term" maxlength="20"></td>
-					</tr>
-
-					<tr>
-						<td style="width: 110px;"><h5>내용</h5></td>
-						<td colspan="2"><textarea class="form-control" rows="10"
-								cols="120" name="project_Contents">${project.project_Contents }</textarea></td>
-						<td colspan="2" rowspan="2"></td>
 					</tr>
 
 				</tbody>
@@ -257,11 +249,9 @@
 				<!-- end panel -->
 			</div>
 			<!-- /.row -->
-
+		</form>
 			<button type="submit" data-oper='list' class="btn btn-primary pull"	style="margin-left: 485px">프로젝트 수정 취소</button>
 			<button type="submit" data-oper='update' class="btn btn-primary pull" style="text-align: center;">프로젝트 수정</button>
-		</form>
-	</div>
 
 	<script type="text/javascript">
 		$(document).ready(
@@ -288,11 +278,11 @@
 									}
 
 									updateProjectForm.attr("action",
-											"/project/updateProjectForm");
+											"/project/projectUpdate");
 
 								} else if (projectoper === 'list') {
 									updateProjectForm.attr("action",
-											"/project/listProjectForm").attr(
+											"/project/projectList").attr(
 											"method", "get");
 
 									var pageNumTag = $("input[name='pageNum']")
@@ -454,7 +444,7 @@
 		  	      
 		  	    }else if(operation === 'list'){
 		  	      //move to list
-		  	      formObj.attr("action", "/project/listProjectForm").attr("method","get");
+		  	      formObj.attr("action", "/project/projectList").attr("method","get");
 		  	      
 		  	      var pageNumTag = $("input[name='pageNum']").clone();
 		  	      var amountTag = $("input[name='amount']").clone();

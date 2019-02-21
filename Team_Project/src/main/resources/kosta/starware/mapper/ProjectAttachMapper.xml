@@ -6,18 +6,17 @@
 
 <mapper namespace="kosta.starware.mapper.ProjectAttachMapper">
 
-	<insert id="insert">insert into project_attach (project_uuid,
-		project_uploadPath, project_fileName, project_No)values
-		(#{project_uuid}, #{project_uploadPath}, #{project_fileName},
-		#{project_No}) </insert>
+	<insert id="insert">
+	insert into project_attach (project_uuid, project_uploadPath, project_fileName, project_No)
+	values(#{project_uuid}, #{project_uploadPath}, #{project_fileName},#{project_No}) </insert>
 
-	<delete id="delete">delete from project_attach where
-		project_uuid=#{project_uuid} </delete>
+	<delete id="delete">
+	delete from project_attach where project_uuid=#{project_uuid} </delete>
 
-	<select id="findByProjectNo" resultType="kosta.starware.domain.ProjectAttachVO">select * from
-		project_attach where project_No = #{project_No} </select>
+	<select id="findByProjectNo" resultType="kosta.starware.domain.ProjectAttachVO">
+	select * from project_attach where project_No = #{project_No} </select>
 
-	<delete id="deleteAll">delete project_attach where project_No =
-		#{project_No} </delete>
+	<delete id="deleteAll">
+	delete project_attach where project_No =#{project_No} </delete>
 
 </mapper>

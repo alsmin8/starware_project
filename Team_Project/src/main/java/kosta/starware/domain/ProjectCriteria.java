@@ -1,7 +1,5 @@
 package kosta.starware.domain;
 
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.queryParam;
-
 import org.springframework.web.util.UriComponentsBuilder;
 
 import lombok.Getter;
@@ -20,7 +18,7 @@ public class ProjectCriteria {
 	private String projectSearchKey;
 	
 	public ProjectCriteria(){
-		this(1,10);
+		this(1,6);
 	}
 	
 	public ProjectCriteria(int pageNum, int amount){
