@@ -131,7 +131,13 @@ public class ApprovalServiceImpl implements ApprovalService {
 	
 	
 	
-	
+	//내가 올린 결재 목록
+	@Override
+	public List<HashMap> myselfApproval(String userID) {
+		List<HashMap> list = approvalmapper.myselfApproval(userID);
+		//log.info(list);
+		return list;
+	}
 	
 	//list<hashmap>으로 jsp에 출력하고자 하는 column 값 반환
 	@Override

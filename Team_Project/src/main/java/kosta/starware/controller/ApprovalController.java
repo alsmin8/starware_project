@@ -347,9 +347,22 @@ public class ApprovalController {
 	}
 
 
-	@GetMapping("/applist_myself")
-	public void mySelf() {
-
+	@RequestMapping("/applist_myself")
+	public String mySelf(HttpSession session, Model model) {
+		log.info("applist_myself 시작 : ");
+		String userID = (String) session.getAttribute("emp_no");
+		String userName = (String) session.getAttribute("emp_name");
+		
+		if (userID == null || userName == null) {
+			session.setAttribute("messageType", "오류메세지");
+			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
+			return "redirect:/login";
+		}else{
+			List<HashMap> applist_myself = approvalservice.myselfApproval(userID);
+			//log.info(applist_result);
+			model.addAttribute("applist_myself", applist_myself);
+			return "/approval/applist_myself";
+		}
 	}
 
 	@RequestMapping("/applist_result")

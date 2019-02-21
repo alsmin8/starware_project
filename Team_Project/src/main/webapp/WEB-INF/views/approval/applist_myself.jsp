@@ -88,34 +88,33 @@ text-align: center;
 		<h2>내가 올린 결재 목록</h2><br>
 	<table class="type04">
 	<tr>
-	<td>글번호</td>
-	<td>문서종류</td>
-	<td>제      목</td>
-	<td>기안일자</td>
-	<td>완료일자</td>
-	<td>결재현황</td>
-	<td>기안자</td>
+		<td>글번호</td>
+		<td>문서종류</td>
+		<td>제      목</td>
+		<td>기안일자</td>
+		<td>완료일자</td>
+		<td>승인결과</td>
+		<td>기안자</td>
 	</tr>
 	
-	<c:forEach var="Approval" items="${list}">
-	<tr>
-	<td><a href="detail.bit?seq=${Approval.app_no}&app_kind=${Approval.app_kind}">${Approval.app_no}</a></td>
-	<td>${Approval.app_kind}</td>
-	
-	<td>${Approval.vd_title}</td>
-	
-	<td>
-	 <fmt:parseDate var="dateString" value="${Approval.app_startdate}" pattern="yyyy-MM-dd"/>
-	 <fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd"/>
-	</td>
-	<td>
-	 <fmt:parseDate var="dateString" value="${Approval.app_enddate}" pattern="yyyy-MM-dd"/>
-	 <fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd"/>
-	</td>
-	<td>${Approval.app_situation}</td>
-	<td>${Approval.emp_name}</td>
-	</tr>
-	</c:forEach>
+		<c:forEach var="Approval" items="${applist_myself}">
+			<tr data-app_no="${Approval.APP_NO}", data-app_kind="${Approval.APP_KIND}", data-power_defult="${Approval.POWER_DEFULT}">
+				<td>${Approval.APP_NO}</td>
+				<td>${Approval.APP_KIND}</td>
+				<td>${Approval.APP_TITLE}</td>
+				<%-- <a href="detail.bit?seq=${Approval.APP_NO}&app_kind=${Approval.APP_KIND}"></a> --%>
+				<td>
+					 <fmt:parseDate var="dateString" value="${Approval.APP_STARTDATE}" pattern="yyyy-MM-dd"/>
+					 <fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd"/>
+				</td>
+				<td>
+					 <fmt:parseDate var="dateString" value="${Approval.APP_ENDDATE}" pattern="yyyy-MM-dd"/>
+					 <fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd"/>
+				</td>
+				<td>${Approval.APP_SITUATION}</td>
+				<td>${Approval.EMP_NAME}(${Approval.EMP_NO})</td>
+			</tr>
+		</c:forEach>
 	
 	</table>
 	<br><br>

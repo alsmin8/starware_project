@@ -46,4 +46,7 @@ public interface ApprovalService {
 		
 	//보류 결재권자 인설트
 	public void appInsert(Approval approval, List<Integer> attendees);
+	
+	//내가 올린 결재 목록
+	public List<HashMap> myselfApproval(String userID);
 }
