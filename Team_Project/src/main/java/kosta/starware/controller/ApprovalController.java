@@ -71,15 +71,24 @@ public class ApprovalController {
 	}
 
 	@GetMapping("/appinsertddform")
-	public void appinsertddform() {
+	public void appinsertddform(HttpSession session, Model model) {
+		int emp_no =Integer.parseInt((String)session.getAttribute("emp_no"));
+		model.addAttribute("dept",empService.empDeptGet(empService.empGet(emp_no).getDept_no()));
+		model.addAttribute("grade", empService.empGradeGet(empService.empGet(emp_no).getGrade_no()));
 	}
 
 	@GetMapping("/appinsertdraftform")
-	public void appinsertdraftform() {
+	public void appinsertdraftform(HttpSession session, Model model) {
+		int emp_no =Integer.parseInt((String)session.getAttribute("emp_no"));
+		model.addAttribute("dept",empService.empDeptGet(empService.empGet(emp_no).getDept_no()));
+		model.addAttribute("grade", empService.empGradeGet(empService.empGet(emp_no).getGrade_no()));
 	}
 
 	@GetMapping("/appinsertvacationform")
-	public void appinsertvacationform() {
+	public void appinsertvacationform(HttpSession session, Model model) {
+		int emp_no =Integer.parseInt((String)session.getAttribute("emp_no"));
+		model.addAttribute("dept",empService.empDeptGet(empService.empGet(emp_no).getDept_no()));
+		model.addAttribute("grade", empService.empGradeGet(empService.empGet(emp_no).getGrade_no()));
 	}
 
 	@Transactional
