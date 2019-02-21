@@ -32,5 +32,6 @@ public interface EmpMapper {
 	
 	public DeptVO empDept(int dept_no);
 
+	public List<EmpVO> empList();
 }
 //

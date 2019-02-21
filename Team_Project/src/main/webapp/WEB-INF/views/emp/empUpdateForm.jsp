@@ -18,7 +18,7 @@
 
 </head>
 <body>
-<%-- 	<%
+<%
 		String emp_no = null;
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
@@ -29,7 +29,7 @@
 			response.sendRedirect("login.jsp");
 			return;
 		}
-	%> --%>
+	%>
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed"
@@ -109,8 +109,10 @@
 					<tbody>
 						<tr>
 							<td style="width: 110px;"><h5>사번</h5></td>
-							<td><input class="form-control" type="text" id="emp_no"
-								name="emp_no" maxlength="20" placeholder="사번을 입력하세요" value = "${emp.emp_no }"></td>
+							<td>사번은 임의로 수정할 수 없습니다.</td>
+							<%-- <td><input class="form-control" type="text" id="emp_no"
+								name="emp_no" maxlength="20" placeholder="사번을 입력하세요" value = "${emp.emp_no }"></td>	 --%>
+								
 							<!-- <td style="width: 110px;"><button class="btn btn-primary"
 									onclick="registerCheckFunction();" type="button">중복체크</button></td> -->
 						</tr>

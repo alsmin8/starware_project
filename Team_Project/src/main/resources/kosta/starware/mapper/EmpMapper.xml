@@ -7,15 +7,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="empGetList" resultType="kosta.starware.domain.EmpVO">
 <![CDATA[
-select * from emp where emp_no > 0
+select/*+INDEX DESC(emp XPKEMP)*/ * from emp where emp_no > 0
 ]]>
 	</select>
 
 
-
-
 	<sql id="criteria">
-		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+		<trim prefix="(" suffix=") AND" prefixOverrides="OR">
 			<foreach item='empSearchType' collection="empSearchArr">
 				<trim prefix="OR">
 					<choose>
@@ -28,11 +26,11 @@ select * from emp where emp_no > 0
 						</when>
 
 						<when test="empSearchType == 'D'.toString()">
-							dept_no like '%'||#{empSearchKeyword}||'%'
+							dept_name like '%'||#{empSearchKeyword}||'%'
 						</when>
 
 						<when test="empSearchType == 'G'.toString()">
-							grade_no like '%'||#{empSearchKeyword}||'%'
+							grade_name like '%'||#{empSearchKeyword}||'%'
 						</when>
 
 						<when test="empSearchType == 'S'.toString()">
@@ -45,33 +43,62 @@ select * from emp where emp_no > 0
 	</sql>
 
 
+
 	<select id="empGetListWithPaging" resultType="kosta.starware.domain.EmpVO">
 
 <![CDATA[
 select 
- emp_no, emp_name, emp_hiredate, dept_no, grade_no, emp_empstate
+  emp_no, emp_name, emp_hiredate, dept_name, grade_name, emp_empstate
 from
-(
-select /*+INDEX DESC(emp emp_no)*/
-rownum rn, emp_no, emp_name, emp_hiredate, dept_no, grade_no, emp_empstate
-from
-emp
-where
+( select /*+INDEX (e XPKEMP )*/
+rownum rn, emp_no, emp_name, emp_hiredate, dept_name, grade_name, emp_empstate
+ from emp e, grade g, dept d 
+ where g.grade_no = e.grade_no and d.dept_no = e.dept_no
+and rownum <= #{pageNum} * #{amount}]]>
+
+		<trim prefix="AND (" suffix=")" prefixOverrides="OR">
+			<foreach item='empSearchType' collection="empSearchArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="empSearchType == 'N'.toString()">
+							emp_name like '%'||#{empSearchKeyword}||'%'
+						</when>
+
+						<when test="empSearchType == 'E'.toString()">
+							emp_no like '%'||#{empSearchKeyword}||'%'
+						</when>
+
+						<when test="empSearchType == 'D'.toString()">
+							dept_name like '%'||#{empSearchKeyword}||'%'
+						</when>
+
+						<when test="empSearchType == 'G'.toString()">
+							grade_name like '%'||#{empSearchKeyword}||'%'
+						</when>
+
+						<when test="empSearchType == 'S'.toString()">
+							emp_empstate like '%'||#{empSearchKeyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	
+<![CDATA[ )
+where rn > (#{pageNum} -1) * #{amount}
 ]]>
-		<include refid="criteria"></include>
-<![CDATA[
-		 rownum <= #{pageNum} * #{amount}
-		)
-		where rn > (#{pageNum} -1) * #{amount}
-		]]>
 
 	</select>
 
 	<select id="empGetTotalCount" resultType="int">
-		select count(*) from
-		emp where
+		select count(*) 
+		
+ from emp e, grade g, dept d 
+ where
+
 		<include refid="criteria"></include>
-		emp_no > 0
+		g.grade_no = e.grade_no and d.dept_no = e.dept_no
+		<!-- emp_no > 0 -->
 	</select>
 
 
@@ -144,16 +171,8 @@ ON EMP.GRADE_NO = GRADE.GRADE_NO
 
 	<select id="empRead" resultType="kosta.starware.domain.EmpVO">
 		select * from emp where emp_no
-		=#{emp_no}
+		=#{emp_no} 
 	</select>
-
-
-	<!-- <update id="updateEmp" parameterType="Emp"> update emp set emp_no=#{emp_no}, 
-		emp_name=#{emp_name}, emp_pass=#{emp_pass}, emp_gender=#{emp_gender}, emp_socialNo=#{emp_socialNo}, 
-		dept_no=#{dept_no}, grade_no=#{grade_no}, emp_cellphone=#{emp_cellphone}, 
-		emp_extension=#{emp_extension}, emp_hiredate=#{emp_hiredate}, emp_retiredate=#{emp_retiredate}, 
-		emp_empstate=#{emp_empstate}, emp_totalvdays=#{emp_totalvdays}, emp_vleftdays=#{emp_vleftdays} 
-		where emp_no = #{emp_no} </update> -->
 
 
 	<update id="empUpdate">
@@ -181,6 +200,15 @@ ON EMP.GRADE_NO = GRADE.GRADE_NO
 		emp_no=#{emp_no}
 
 	</update>
+
+<select id="empList" resultType="kosta.starware.domain.EmpVO">
+      select e.*, d.dept_name 
+      from emp e, dept d
+      where e.dept_no = d.dept_no 
+      AND emp_no > 0
+   </select>
+
+
 
 </mapper>
 

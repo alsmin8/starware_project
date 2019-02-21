@@ -16,6 +16,19 @@
 </head>
 <body>
 	
+	<%
+		String emp_no = null;
+		if (session.getAttribute("emp_no") != null) {
+			emp_no = (String) session.getAttribute("emp_no");
+		}
+		if (emp_no == null) {
+			session.setAttribute("messageType", "오류메세지");
+			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
+			response.sendRedirect("login.jsp");
+			return;
+		}
+	%>
+	
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed"
@@ -108,8 +121,8 @@
 					<tbody>
 						<tr>
 							<td style="width: 110px;"><h5>사번</h5></td>
-							<td><input class="form-control" type="text" id="emp_no"
-								name="emp_no" maxlength="20" placeholder="사번을 입력하세요"></td>
+							<td><!-- <input class="form-control" type="text" id="emp_no"
+								name="emp_no" maxlength="20" placeholder="사번을 입력하세요"> -->사번은 임의로 지정할 수 없습니다.</td>
 							<!-- <td style="width: 110px;"><button class="btn btn-primary"
 									onclick="registerCheckFunction();" type="button">중복체크</button></td> -->
 						</tr>
