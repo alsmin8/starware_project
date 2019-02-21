@@ -141,8 +141,6 @@ text-align: center;
 	<br><input type = "submit" value = "검색">
 	
 	</form>
-	
-	
 	</div>
 	
 	
