@@ -110,18 +110,18 @@ tr {
 				</thead>
 				<tr>
 					<td colspan="8" style='width:450px; ' rowspan="3"></td>
-					<td >결재자2</td>
+					<td >상신자</td>
+					<td >결재자1</td>
 					<td >결재자2</td>
 					<td >결재자3</td>
-					<td >상신자</td>
 					
 				</tr>
 				<tr>
 					<!-- <td style='height:100px'colspan="8"></td> -->
-					<td style='height:100px'>결재자1</td>
-					<td >결재자1</td>
-					<td >결재자2</td>
-					<td >결재자3</td>
+					<td style='height:100px'></td>
+					<td ></td>
+					<td ></td>
+					<td ></td>
 					
 				</tr>
 				<tr>
