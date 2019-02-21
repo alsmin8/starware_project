@@ -89,6 +89,14 @@ public class EmpServiceImpl implements EmpService {
 		// TODO Auto-generated method stub
 		 return mapper.empDeptGet(dept_no);
 	}
+	
+	@Override
+	   public List<EmpVO> empListService() {
+	      
+	      log.info("empListService............");
+	      
+	      return mapper.empList();
+	   }
 
 
 	

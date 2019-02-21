@@ -15,6 +15,7 @@ public class AppCriteria {
 	private String app_startdate;
 	private String app_enddate;
 	private String app_situation;
+	private String app_title;
 	private String searchKey;
 	
 	private int pageNum;

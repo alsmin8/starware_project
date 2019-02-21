@@ -81,7 +81,8 @@ public class ApprovalServiceTest {
 		
 		String app_no = "2";
 		String app_kind = "기안서";
-		HashMap list = approvalservice.resultDetail(app_no, app_kind);
+		String emp_no = "12301";
+		HashMap list = approvalservice.resultDetail(app_no, app_kind, emp_no);
 
 		log.info("list :" +list);
 	}

@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kosta.starware.domain.NoticeAttachFileDTO;
+import kosta.starware.domain.NoticeAttachVO;
 import kosta.starware.domain.NoticeCriteria;
 import kosta.starware.domain.NoticePageDTO;
 import kosta.starware.domain.NoticeVO;
@@ -62,7 +65,12 @@ public class NoticeController {
 	
 	@PostMapping("/noticeInsert")
 	public String noticeInsert(NoticeVO notice, RedirectAttributes rttr){
+		
 		log.info("notice Insert:"+notice);
+		
+	/*	if(notice.getAttachList()!=null){
+			notice.getAttachList().forEach(attach ->log.info(attach));
+		}*/
 		service.insertNoticeService(notice);
 		
 		rttr.addFlashAttribute("result", notice.getNotice_no());
@@ -110,12 +118,20 @@ public class NoticeController {
 	public String noticeDelete(@RequestParam("notice_no") int notice_no
 			, @ModelAttribute("ncri") NoticeCriteria ncri,
 			RedirectAttributes rttr){
-		service.deleteNoticeService(notice_no);
+		
+		List<NoticeAttachVO> attachList=service.getAttachList(notice_no);				
+		
+		if(service.deleteNoticeService(notice_no)){
+			deleteFiles(attachList);
+			log.info("deleted....");
+		}
+	
+		//service.deleteNoticeService(notice_no);
 		
 		rttr.addAttribute("pageNum", ncri.getPageNum());
 		rttr.addAttribute("amount", ncri.getAmount());
 		
-		return "redirect:/notice/noticeList";
+		return "redirect:/notice/noticeList"+ncri.getListLink();
 	}
 	
 	
@@ -280,7 +296,42 @@ public class NoticeController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<String>("deleted", HttpStatus.OK);
-	}	
+	}
+	
+	
+	@RequestMapping(value="/getAttachList", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<NoticeAttachVO>> getAttachList(int notice_no){
+		return new ResponseEntity<>(service.getAttachList(notice_no), HttpStatus.OK);
+	}
+	
+	
+	public void deleteFiles(List<NoticeAttachVO> attachList){
+		if(attachList==null||attachList.size()==0){
+			return;
+		}
+		
+		attachList.forEach(attach -> {
+		
+			try {
+
+				Path file=Paths.get("C:\\upload\\"+attach.getNotice_uploadPath()+"\\"+attach.getNotice_uuid()+"_"+attach.getNotice_fileName());
+				Files.deleteIfExists(file);
+				
+				if(Files.probeContentType(file).startsWith("image")){
+						Path thumbNail=Paths.get("C:\\upload\\"+attach.getNotice_uploadPath()+"\\s_"+attach.getNotice_uuid()+"_"+attach.getNotice_fileName());
+						
+						Files.delete(thumbNail);
+				}
+				
+			} catch (Exception e) {
+				log.error("delete file error:"+e.getMessage());
+			}
+		
+		}); //end foreach
+		
+	}
+	
 }
 	
 	

@@ -11,4 +11,5 @@ public class PowerDTO {
 	private String app_no;
 	private String emp_no;
 	private String power_defult;
+	private String upload;
 }

@@ -9,4 +9,3 @@ public class GradeVO {
    private int grade_salary;
    
 }
-//

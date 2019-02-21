@@ -60,7 +60,7 @@ text-align: center;
 					aria-expanded="false">접속하기<span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a href="main.jsp">로그인</a></li>
+						<li><a href="/login">로그인</a></li>
 					</ul></li>
 			</ul>
 			<%
@@ -132,7 +132,30 @@ text-align: center;
 	
 	
 	</div>
+		
+	<script>
 	
+	var str = $('input[name=vd_startdate]').val();
+	var str1 = displayDate(str);
+	var str3 = $('input[name=vd_enddate]').val();
+	var str4 = displayDate(str);
+	console.log(typeof(str1));
+	$('input[name=vd_startdate]').val(str1);
+	$('input[name=vd_enddate]').val(str4);
+	
+	// 날짜 필요 없는 거 제거
+	function displayDate(timeValue) {
+   var today = new Date();
+   var gap = today.getTime() - timeValue;
+   var dateObj = new Date(timeValue);
+      
+   var yy = dateObj.getFullYear();
+   var mm = dateObj.getMonth() + 1;
+   var dd = dateObj.getDate();
+   
+   return [yy, '-',(mm > 9 ? '' : '0') + mm, '-',(dd > 9 ? '' : '0') + dd].join('');
+};
+</script>
 	
 </body>
 </html>

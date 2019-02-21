@@ -47,6 +47,19 @@
 
 </head>
 <body>
+<%
+		String emp_no = null;
+		if (session.getAttribute("emp_no") != null) {
+			emp_no = (String) session.getAttribute("emp_no");
+		}
+		if (emp_no == null) {
+			session.setAttribute("messageType", "오류메세지");
+			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
+			response.sendRedirect("login.jsp");
+			return;
+		}
+	%>
+
 
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
@@ -56,20 +69,20 @@
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="main.jsp">STARWARE</a>
+			<a class="navbar-brand" href="/login">STARWARE</a>
 		</div>
 
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a href="loginafter.jsp">메인</a></li>
-				<li><a href="list.bit">전자결재</a></li>
-				<li><a href="listActionProject.pro">협업지원</a></li>
-				<li><a href="list.not">공지사항</a></li>
-				<li><a href="resource_main.jsp">출퇴근관리</a></li>
-				<li class="active"><a href="empList">인사관리</a></li>
-				<li><a href="calendar_main.jsp">일정관리</a></li>
-				<li><a href="messengerFind.jsp">메세지함</a></li>
+				<li><a href="/loginafter">메인</a></li>
+            <li><a href="/approval/applist_alllist">전자결재</a></li>
+            <li><a href="/project/projectList">협업지원</a></li>
+            <li><a href="/notice/noticeList">공지사항</a></li>
+            <li><a href="/attend/attendInsert">출퇴근관리</a></li>
+            <li class="active"><a href="/emp/empList">인사관리</a></li>
+            <li><a href="/schedule/scheduleMain">일정관리</a></li>
+            <li><a href="/chat/messengerFind">메세지함<span id="unread" class="label label-info"></span></a></li>
 			</ul>
 
 			<ul class="nav navbar-nav navbar-right">
@@ -78,7 +91,7 @@
 					aria-expanded="false">회원관리<span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a href="logoutaction.jsp">로그아웃</a></li>
+						<li><a href="/logoutaction">로그아웃</a></li>
 					</ul></li>
 			</ul>
 
@@ -87,12 +100,17 @@
 
 	<div class="container">
 
-		<h1>사원 정보</h1>
+		<h1>인사관리</h1>
 
 		<h3>사원정보</h3>
-		<a href="/emp/empInsertForm?emp_no=${emp.emp_no }">입력하기</a>
+
+
+
+
+
 		<table class="type04">
-			<!-- <table width="500" border="1" cellpadding="0" cellspacing="0"> -->
+
+			<!-- <table width="500" border="1" cellpadding="0" cellspacing="0">  -->
 			<tr>
 				<td>사번</td>
 				<td>성명</td>
@@ -102,12 +120,11 @@
 				<td>재직상태</td>
 
 			</tr>
-
 			<c:forEach var="emp" items="${empList}">
 
 
 				<tr>
-					<td>${emp.emp_no }</td>
+					<td>${emp.emp_no}</td>
 					<%-- <td><a href="/emp/empDetail?emp_no=${emp.emp_no }">${emp.emp_name }</a></td>  --%>
 
 
@@ -120,23 +137,38 @@
 
 
 					<td>${emp.emp_hiredate }</td>
-					<td>${emp.dept_no }</td>
-					<td>${emp.grade_no }</td>
+					<td>${emp.dept_name }</td>
+					<td>${emp.grade_name }</td>
 					<td>${emp.emp_empstate }</td>
 
 
 
 				</tr>
+
+
 			</c:forEach>
 
 
 		</table>
+
+		<tr>
+			<td style="text-align: right" colspan="3">
+				<h5 style="color: red;" id="passwordCheckMessage"></h5> <a
+				class="btn btn-default pull-right" value="입력"
+				href="/emp/empInsertForm?emp_no=${emp.emp_no }">사원정보추가</a>
+			</td>
+		</tr>
+
 	</div>
-	<br>
-	<br>
+	
+
+	
+	
+	
 	<!-- 페이지 처리 영역 (newver.)-->
-	<div class="pagination">
-		<ul>
+	
+	<div class="text-center">
+		<ul class="pagination">
 			<c:if test="${empPageMaker.prev}">
 				<li class="paginate_button previous"><a
 					href="${empPageMaker.empStartPage -1}">Previous</a></li>
@@ -164,7 +196,7 @@
 		</form>
 
 		<script type="text/javascript">
-			/* var empActionForm =$('#empActionForm'); */
+		
 			$(document)
 					.ready(
 							function() {
@@ -226,73 +258,75 @@
 		</script>
 		<!-- 검색 부분 -->
 		<div class='row'>
-			<div class="col-lg-12">
+		<div class="col-lg-12" >
 
-				<form id='empSearchForm' action="/emp/empList" method='get' id="empSearch">
+				<form id='empSearch' action="/emp/empList" method='get' >
 					<select name='empSearchType'>
 						<option value=""
 						<c:out value="${empPageMaker.empcri.empSearchType == null?'selected':'' }"/>>--</option>
+						<option value="NEDGS"
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'NEDGS'?'selected':'' }"/>>전체</option>
 						<option value="N"
 						<c:out value="${empPageMaker.empcri.empSearchType eq 'N'?'selected':'' }"/>>성명</option>
 						<option value="E"
 						<c:out value="${empPageMaker.empcri.empSearchType eq 'E'?'selected':'' }"/>>사번</option>
 						<option value="D"
-						<c:out value="${empPageMaker.empcri.empSearchType eq 'D'?'selected':'' }"/>>부서번호</option>
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'D'?'selected':'' }"/>>부서</option>
 						<option value="G"
-						<c:out value="${empPageMaker.empcri.empSearchType eq 'G'?'selected':'' }"/>>직급번호</option>
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'G'?'selected':'' }"/>>직급</option>
 						<option value="S"
 						<c:out value="${empPageMaker.empcri.empSearchType eq 'S'?'selected':'' }"/>>재직상태</option>
 						<option value="NE"
-						<c:out value="${empPageMaker.empcri.empSearchType eq 'NE'?'selected':'' }"/>>성명 or 사번</option>
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'NE'?'selected':'' }"/>>성명+사번</option>
 						<option value="ND"
-						<c:out value="${empPageMaker.empcri.empSearchType eq 'ND'?'selected':'' }"/>>성명 or 부서번호</option>
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'ND'?'selected':'' }"/>>성명+부서</option>
 						<option value="NG"
-						<c:out value="${empPageMaker.empcri.empSearchType eq 'NG'?'selected':'' }"/>>성명 or 직급번호</option>
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'NG'?'selected':'' }"/>>성명+직급</option>
 						<option value="NS"
-						<c:out value="${empPageMaker.empcri.empSearchType eq 'NS'?'selected':'' }"/>>성명 or 재직상태</option>
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'NS'?'selected':'' }"/>>성명+재직상태</option>
 						<option value="ED"
-						<c:out value="${empPageMaker.empcri.empSearchType eq 'ED'?'selected':'' }"/>>사번 or 부서번호</option>
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'ED'?'selected':'' }"/>>사번+부서</option>
 						<option value="EG"
-						<c:out value="${empPageMaker.empcri.empSearchType eq 'EG'?'selected':'' }"/>>사번 or 직급번호</option>
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'EG'?'selected':'' }"/>>사번+직급</option>
 						<option value="ES"
-						<c:out value="${empPageMaker.empcri.empSearchType eq 'ES'?'selected':'' }"/>>사번 or 재직상태</option>
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'ES'?'selected':'' }"/>>사번+재직상태</option>
 						<option value="DG"
-						<c:out value="${empPageMaker.empcri.empSearchType eq 'DG'?'selected':'' }"/>>부서번호 or 직급번호</option>
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'DG'?'selected':'' }"/>>부서+직급</option>
 						<option value="DS"
-						<c:out value="${empPageMaker.empcri.empSearchType eq 'DS'?'selected':'' }"/>>부서번호 or 재직상태</option>
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'DS'?'selected':'' }"/>>부서+재직상태</option>
 						<option value="GS"
-						<c:out value="${empPageMaker.empcri.empSearchType eq 'GS'?'selected':'' }"/>>직급번호 or 재직상태</option>
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'GS'?'selected':'' }"/>>직급+재직상태</option>
 						<option value="NED"
-						<c:out value="${empPageMaker.empcri.empSearchType eq 'NED'?'selected':'' }"/>>성명 or 사번 or 부서번호</option>
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'NED'?'selected':'' }"/>>성명+사번+부서</option>
 						<option value="NEG"
-						<c:out value="${empPageMaker.empcri.empSearchType eq 'NEG'?'selected':'' }"/>>성명 or 사번 or 직급번호</option>
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'NEG'?'selected':'' }"/>>성명+사번 +직급</option>
 						<option value="NES"
-						<c:out value="${empPageMaker.empcri.empSearchType eq 'NES'?'selected':'' }"/>>성명 or 사번 or 재직상태</option>
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'NES'?'selected':'' }"/>>성명 +사번+재직상태</option>
 						<option value="EDG"
-						<c:out value="${empPageMaker.empcri.empSearchType eq 'EDG'?'selected':'' }"/>>사번 or 부서번호 or 직급번호</option>
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'EDG'?'selected':'' }"/>>사번+부서+직급</option>
 						<option value="EDS"
-						<c:out value="${empPageMaker.empcri.empSearchType eq 'EDS'?'selected':'' }"/>>사번 or 부서번호 or 재직상태</option>
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'EDS'?'selected':'' }"/>>사번+부서+재직상태</option>
 						<option value="DGS"
-						<c:out value="${empPageMaker.empcri.empSearchType eq 'DGS'?'selected':'' }"/>>부서번호 or 직급번호 or 재직상태</option>
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'DGS'?'selected':'' }"/>>부서+직급+재직상태</option>
 						<option value="NEDG"
-						<c:out value="${empPageMaker.empcri.empSearchType eq 'NEDG'?'selected':'' }"/>>성명 or 사번 or 부서번호 or 직급번호</option>
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'NEDG'?'selected':'' }"/>>성명+사번+부서 +직급</option>
 						<option value="NEDS"
-						<c:out value="${empPageMaker.empcri.empSearchType eq 'NEDS'?'selected':'' }"/>>성명 or 사번 or 부서번호 or 재직상태</option>
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'NEDS'?'selected':'' }"/>>성명+사번+부서+재직상태</option>
 						<option value="EDGS"
-						<c:out value="${empPageMaker.empcri.empSearchType eq 'EDGS'?'selected':'' }"/>>사번 or 부서번호 or 직급번호 or 재직상태</option>
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'EDGS'?'selected':'' }"/>>사번+부서+직급+재직상태</option>
 						<option value="NDGS"
-						<c:out value="${empPageMaker.empcri.empSearchType eq 'NDGS'?'selected':'' }"/>>성명 or 부서번호 or 직급번호 or 재직상태</option>
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'NDGS'?'selected':'' }"/>>성명+부서+직급+재직상태</option>
 						<option value="NEGS"
-						<c:out value="${empPageMaker.empcri.empSearchType eq 'NEGS'?'selected':'' }"/>>성명 or 사번 or 직급번호 or 재직상태</option>
-						<option value="NEDGS"
-						<c:out value="${empPageMaker.empcri.empSearchType eq 'NEDGS'?'selected':'' }"/>>성명 or 사번 or 부서번호 or 직급번호 or 재직상태</option>
+						<c:out value="${empPageMaker.empcri.empSearchType eq 'NEGS'?'selected':'' }"/>>성명+사번+직급+재직상태</option>
+						
 					</select> 
+
 					<input type='text' name='empSearchKeyword' />
-					<input type='hidden' name='pageNum' value='${pageMaker.empcri.pageNum }' />
-					<input type='hidden' name='amount' value='${pageMaker.empcri.amount }' />
-					<button class='btn btn-default'>Search</button>
+					<input type='hidden' name='pageNum' value='${empPageMaker.empcri.pageNum }' />
+					<input type='hidden' name='amount' value='${empPageMaker.empcri.amount }' />
+					<button type = 'submit' class='btn btn-default'>Search</button>
 				</form>
-			</div>
+				</div>
 		</div>
 	</div>
 

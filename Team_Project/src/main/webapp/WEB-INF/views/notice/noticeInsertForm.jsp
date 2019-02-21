@@ -45,7 +45,7 @@
 			<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 				class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="login.jsp">STARWARE</a>
+		<a class="navbar-brand" href="/login">STARWARE</a>
 	</div>
 
 	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -182,6 +182,22 @@
 				console.log("submit clicked");
 
 				var str = "";
+				
+				
+				$(".uploadResult ul li").each(function(i, obj){
+					var jobj= $(obj);
+				
+					console.log(jobj);
+					
+					str+="<input type='hidden' name='attachList["+i+"].notice_fileName' value='"+jobj.data("filename")+"'>";
+					str+="<input type='hidden' name='attachList["+i+"].notice_uuid' value='"+jobj.data("uuid")+"'>";
+					str+="<input type='hidden' name='attachList["+i+"].notice_uploadPath' value='"+jobj.data("path")+"'>";
+					str+="<input type='hidden' name='attachList["+i+"].notice_fileType' value='"+jobj.data("type")+"'>";
+					
+				})
+				
+				 formObj.append(str).submit();
+				
 			})
 
 			var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
@@ -230,12 +246,74 @@
 					success : function(result) {
 						console.log(result);
 						showUploadedFile(result); //업로드 결과 처리 함수
-						$(".uploadDiv").html(cloneObj.html());
+						//$(".uploadDiv").html(cloneObj.html());
 					}
 				});
 			})
 			
-			var uploadResult=$(".uploadResult ul");
+			
+			function showUploadedFile(uploadResultArr){
+				
+				if(!uploadResultArr||uploadResultArr.length==0){return;}
+
+				var uploadUL=$(".uploadResult ul");
+				
+				var str = "";
+			
+				 $(uploadResultArr).each(function(i, obj) {
+	
+					 
+					if(!obj.image){
+						var fileCallPath =  encodeURIComponent("/"+ obj.uploadPath+ "/"+obj.uuid+"_"+obj.fileName);
+						var fileLink=fileCallPath.replace(new RegExp(/\\/g),"/");
+						
+						str+="<li "
+						str+="data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'><div>";
+						str+="<span>"+obj.fileName+"</span>";
+						str+="<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button>";
+						str+="<img src='/resources/images/notice_attach.jpg' style='width: 30px; height: 30px;'></a>";
+						str+="</div>";
+						str+"</li>";
+						
+						
+						/* str+="<li ";
+						str+="data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-fileName='"+obj.fileName+"' data-type'"+obj.image+"' ><div>";
+						str+="<span> "+obj.fileName+"</span>";
+						str+="<img src='/resources/images/notice_attach.jpg' style='width: 30px; height: 30px;'>"+"</a>"+
+						"<span data-file=\'"+fileCallPath+"\' data-type='file'> 【  X 】 </span></div></li>";  */
+						
+					/* 	str+="<li><div><a href='/notice/download?fileName="+fileCallPath+"'>"+"<img src='/resources/images/notice_attach.jpg' style='width: 30px; height: 30px;'>"+obj.fileName+"</a>"+
+						"<span data-file=\'"+fileCallPath+"\' data-type='file'> 【  X 】 </span></div></li>";  */
+				
+					}else{
+						
+						 var fileCallPath =  encodeURIComponent("/"+obj.uploadPath+ "/s_"+obj.uuid+"_"+obj.fileName);
+						 
+						 str+="<li data-path='"+obj.uploadPath+"'";
+						 str+=" data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'";
+						 str+=" ><div>";
+						 str+="<span> "+obj.fileName+"</span>";
+						 str+="<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button>";
+						 str+="<img src='/notice/display?fileName="+fileCallPath+"'>";
+						 str+="</div>";
+						 str+"</li>";
+						 
+						 
+					/* 	 var originPath=obj.uploadPath+"\\"+obj.uuid+"_"+obj.fileName;
+						 originPath=originPath.replace(new RegExp(/\\/g),"/");
+					
+						 str+="<li><a><img src='/notice/display?fileName="+fileCallPath+"'></a>"+
+								 "<span data-file=\'"+fileCallPath+"\'' data-type='image'> 【  X 】 </span> "
+								 +"</li>"; */
+						 			
+					}
+				});
+				 uploadUL.append(str);
+			}
+			
+		
+			
+			//var uploadResult=$(".uploadResult ul");
 			
 			$(".uploadResult").on("click", "button", function(e){
 				console.log("delete file...");
@@ -261,53 +339,7 @@
 			})
 			
 			
-			function showUploadedFile(uploadResultArr){
-				
-				if(!uploadResultArr||uploadResultArr.length==0){return;}
-
-				var uploadUL=$(".uploadResult ul");
-				
-				var str = "";
 			
-				 $(uploadResultArr).each(function(i, obj) {
-	
-					 
-					if(!obj.image){
-						var fileCallPath =  encodeURIComponent("/"+ obj.uploadPath+ "/"+obj.uuid+"_"+obj.fileName);
-						var fileLink=fileCallPath.replace(new RegExp(/\\/g),"/");
-						console.log(fileLink);
-						
-						str+="<li><div>";
-						str+="<span>"+obj.fileName+"</span>";
-						str+="<button type='button' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-						str+="<img src='/resources/images/notice_attach.jpg' style='width: 30px; height: 30px;'></a>";
-						str+="</div></li>";
-						
-						
-						/* str+="<li ";
-						str+="data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-fileName='"+obj.fileName+"' data-type'"+obj.image+"' ><div>";
-						str+="<span> "+obj.fileName+"</span>";
-						str+="<img src='/resources/images/notice_attach.jpg' style='width: 30px; height: 30px;'>"+"</a>"+
-						"<span data-file=\'"+fileCallPath+"\' data-type='file'> 【  X 】 </span></div></li>";  */
-						
-					/* 	str+="<li><div><a href='/notice/download?fileName="+fileCallPath+"'>"+"<img src='/resources/images/notice_attach.jpg' style='width: 30px; height: 30px;'>"+obj.fileName+"</a>"+
-						"<span data-file=\'"+fileCallPath+"\' data-type='file'> 【  X 】 </span></div></li>";  */
-				
-					}else{
-						
-						 var fileCallPath =  encodeURIComponent("/"+ obj.uploadPath+ "/s_"+obj.uuid+"_"+obj.fileName);
-						 
-						 var originPath=obj.uploadPath+"\\"+obj.uuid+"_"+obj.fileName;
-						 originPath=originPath.replace(new RegExp(/\\/g),"/");
-					
-						 str+="<li><a><img src='/notice/display?fileName="+fileCallPath+"'></a>"+
-								 "<span data-file=\'"+fileCallPath+"\'' data-type='image'> 【  X 】 </span> "
-								 +"</li>";
-						 			
-					}
-				});
-				uploadResult.append(str);
-			}
 			
 			
 		})

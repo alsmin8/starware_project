@@ -30,6 +30,8 @@ public interface EmpService {
 	public GradeVO empGrade(int grade_no);
 	
 	public DeptVO empDeptGet(int dept_no);
+	
+	public List<EmpVO> empListService();
 
 }
 //

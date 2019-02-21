@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import kosta.starware.domain.AppCriteria;
 import kosta.starware.domain.Approval;
 import kosta.starware.domain.DisbursementDoc;
@@ -22,6 +24,7 @@ public interface ApprovalService {
 	public void appDraftInsert(DraftDoc draftDoc);
 	public void appVacationInsert(VacationDoc vacationDoc);
 	//detail
+	public PowerDTO appPowerGet(int app_no, int emp_no);
 	public Approval appDetail(int app_no);
 	public DisbursementDoc appDdDetail(int app_no);
 	public DraftDoc appDraftDetail(int app_no);
@@ -39,7 +42,7 @@ public interface ApprovalService {
 	
 	//내가 결재할 목록
 	public List<HashMap> resultApproval(String userID);
-	public HashMap resultDetail(String app_no, String app_kind);
+	public HashMap resultDetail(String app_no, String app_kind, String emp_no);
 	public int resultAccept(PowerDTO powerDTO);
 	public int resultReject(PowerDTO powerDTO);
 	public List<HashMap> listJsonEmp(String keyword);
@@ -47,4 +50,6 @@ public interface ApprovalService {
 	//보류 결재권자 인설트
 	public void appInsert(Approval approval, List<Integer> attendees);
 	
+	//내가 올린 결재 목록
+	public List<HashMap> myselfApproval(String userID);
 }

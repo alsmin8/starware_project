@@ -1,5 +1,8 @@
 package kosta.starware.controller;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -68,25 +71,34 @@ public class ApprovalController {
 	}
 
 	@GetMapping("/appinsertddform")
-	public void appinsertddform() {
+	public void appinsertddform(HttpSession session, Model model) {
+		int emp_no =Integer.parseInt((String)session.getAttribute("emp_no"));
+		model.addAttribute("dept",empService.empDeptGet(empService.empGet(emp_no).getDept_no()));
+		model.addAttribute("grade", empService.empGradeGet(empService.empGet(emp_no).getGrade_no()));
 	}
 
 	@GetMapping("/appinsertdraftform")
-	public void appinsertdraftform() {
+	public void appinsertdraftform(HttpSession session, Model model) {
+		int emp_no =Integer.parseInt((String)session.getAttribute("emp_no"));
+		model.addAttribute("dept",empService.empDeptGet(empService.empGet(emp_no).getDept_no()));
+		model.addAttribute("grade", empService.empGradeGet(empService.empGet(emp_no).getGrade_no()));
 	}
 
 	@GetMapping("/appinsertvacationform")
-	public void appinsertvacationform() {
+	public void appinsertvacationform(HttpSession session, Model model) {
+		int emp_no =Integer.parseInt((String)session.getAttribute("emp_no"));
+		model.addAttribute("dept",empService.empDeptGet(empService.empGet(emp_no).getDept_no()));
+		model.addAttribute("grade", empService.empGradeGet(empService.empGet(emp_no).getGrade_no()));
 	}
 
 	@Transactional
 	@PostMapping("/appinsertddform")
-	public String appDdInsert(Approval approval, DisbursementDoc disbursementdoc,@RequestParam("attendees") List<Integer> attendees) {
+	public String appDdInsert(Approval approval, DisbursementDoc disbursementdoc,@RequestParam("attendees") List<Integer> attendees, HttpSession session) {
 		log.info("appInsert::" + approval + "appInsert::" + disbursementdoc + " attendees::" + attendees);
 		if(attendees.size() == 0 || attendees == null){
 			return "redirect:/approval/applist_alllist";
 		}else{
-			approvalservice.appInsert(approval);
+			approvalservice.appInsert(approval, attendees);
 			approvalservice.appDdInsert(disbursementdoc);
 
 			//rttr.addFlashAttribute("result", approval.getApp_no());
@@ -115,7 +127,7 @@ public class ApprovalController {
 		if(attendees.size() == 0 || attendees == null){
 			return "redirect:/approval/applist_alllist";
 		}else{
-			approvalservice.appInsert(approval);
+			approvalservice.appInsert(approval, attendees);
 			approvalservice.appVacationInsert(vacationDoc);
 			//rttr.addFlashAttribute("result", approval.getApp_no());
 			return "redirect:/approval/applist_alllist";
@@ -344,9 +356,22 @@ public class ApprovalController {
 	}
 
 
-	@GetMapping("/applist_myself")
-	public void mySelf() {
-
+	@RequestMapping("/applist_myself")
+	public String mySelf(HttpSession session, Model model) {
+		log.info("applist_myself 시작 : ");
+		String userID = (String) session.getAttribute("emp_no");
+		String userName = (String) session.getAttribute("emp_name");
+		
+		if (userID == null || userName == null) {
+			session.setAttribute("messageType", "오류메세지");
+			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
+			return "redirect:/login";
+		}else{
+			List<HashMap> applist_myself = approvalservice.myselfApproval(userID);
+			//log.info(applist_result);
+			model.addAttribute("applist_myself", applist_myself);
+			return "/approval/applist_myself";
+		}
 	}
 
 	@RequestMapping("/applist_result")
@@ -365,8 +390,5 @@ public class ApprovalController {
 			model.addAttribute("applist_result", applist_result);
 			return "/approval/applist_result";
 		}
-
-
 	}
-
 }

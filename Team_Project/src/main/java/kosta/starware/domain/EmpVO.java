@@ -19,6 +19,10 @@ public class EmpVO {
 	private String emp_empstate;
 	private int emp_totalvdays;
 	private int emp_vleftdays;
+	
+	private String dept_name;
+	private String grade_name;
+	
 
 }
 //

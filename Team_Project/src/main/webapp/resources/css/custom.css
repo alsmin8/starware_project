@@ -26,7 +26,7 @@ h2 {
 h1 {
 	font-family: 'Hanna';
 }
-/* Å×ÀÌºí °ü·Ã µðÀÚÀÎ Ã³¸®*/
+/* ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½*/
 thead th {
 	background-color: #5bc0de;
 	color: white;
@@ -48,7 +48,7 @@ tr td:last-child, tr th:last-child {
 	border-top-left-radius: 6px;
 	border-bottom-left-radius: 6px;
 }
-/* ¸ð´Þ ÆË¾÷Ã¢ °ü·Ã µðÀÚÀÎ Ã³¸®*/
+/* ï¿½ï¿½ï¿½ ï¿½Ë¾ï¿½Ã¢ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½*/
 .vertical-alignment-helper {
 	display: table;
 	height: 100%;
@@ -69,7 +69,7 @@ tr td:last-child, tr th:last-child {
 	pointer-events: all;
 }
 
-/*Ã¤ÆÃÃ¢ */
+/*Ã¤ï¿½ï¿½Ã¢ */
 .portlet {
 	margin-bottom: 15px;
 }
@@ -233,7 +233,7 @@ tr td:last-child, tr th:last-child {
 	color: #e74c3c;
 }
 
-/*ÀüÃ¼ ¸µÅ© °ü·Ã ¿µ¿ª*/
+/*ï¿½ï¿½Ã¼ ï¿½ï¿½Å© ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½*/
 a {
 	color: #000000;
 	text-decoration: none;
@@ -244,8 +244,8 @@ a:hover {
 	text-decoration: none;
 	cursor: pointer;
 }
-/*³×ºñ°ÔÀÌ¼Ç ¿µ¿ª*/
-.navbar-default { /*³×ºñ°ÔÀÌ¼Ç ¹Ù »ö»ó*/
+/*ï¿½×ºï¿½ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½*/
+.navbar-default { /*ï¿½×ºï¿½ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½*/
 	background-color: #5bc0de;
 	border-color: #5bc0de;
 	border-bottom-color: #dddddd;
@@ -253,7 +253,7 @@ a:hover {
 	border-radius: 0px;
 }
 
-.navbar-default .navbar-brand { /*³×ºñ°ÔÀÌ¼Ç Á¦¸ñ »ö»ó*/
+.navbar-default .navbar-brand { /*ï¿½×ºï¿½ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½*/
 	color: #ffffff;
 	padding-top: 25px;
 	font-family: 'Hanna';
@@ -261,43 +261,43 @@ a:hover {
 }
 
 .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus
-	{ /*³×ºñ°ÔÀÌ¼Ç Á¦¸ñ »ö»ó*/
+	{ /*ï¿½×ºï¿½ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½*/
 	color: #dddddd;
 	background-color: transparent;
 }
 
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover,
-	.navbar-default .navbar-nav>.active>a:focus { /*¼±ÅÃµÈ ³×ÀÌ°ÔÀÌ¼Ç ¸¶¿ì½º »ö»ó ÀÌº¥Æ®*/
+	.navbar-default .navbar-nav>.active>a:focus { /*ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ì½º ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ®*/
 	color: #5bc0de;
 	background-color: #ffffff;
 }
-.navbar-default .navbar-nav>li>a { /*³×ºñ°ÔÀÌ¼Ç ±ÛÀÚ ±âº» ÆùÆ® º¯°æ*/
+.navbar-default .navbar-nav>li>a { /*ï¿½×ºï¿½ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½âº» ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½*/
 	color: #ffffff;
 	font-family: 'Noto Sans KR';
 }
 
 .navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus
-	{ /*³×ºñ°ÔÀÌ¼Ç ±ÛÀÚ¿¡ ¸¶¿ì½º¸¦ ¿Ã·ÈÀ»¶§*/
+	{ /*ï¿½×ºï¿½ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ì½ºï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½*/
 	color: #dddddd;
 }
 
 .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover,
-	.navbar-default .navbar-nav>.open>a:focus { /*¿­¸° µå¶ø´Ù¿î ¸¶¿ì½º »ö»ó ÀÌº¥Æ®*/
+	.navbar-default .navbar-nav>.open>a:focus { /*ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ù¿ï¿½ ï¿½ï¿½ï¿½ì½º ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ®*/
 	color: #5bc0de;
 	text-decoration: none;
 	background-color: #ffffff;
 }
 
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus
-	{ /*Åä±Û¿¡ ¸¶¿ì½º¸¦ ¿Ã·ÈÀ»¶§*/
+	{ /*ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ì½ºï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½*/
 	background-color: #1456b8;
 }
 
-.navbar-default .navbar-toggle .icon-bar { /*Åä±Û ¾ÆÀÌÄÜ ¹Ù »ö»ó*/
+.navbar-default .navbar-toggle .icon-bar { /*ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½*/
 	background-color: #dddddd;
 }
 
-@media ( max-width :767px) { /*ÀÛÀº È­¸éÀÏ¶§ µå¶ø´Ù¿î¾ÆÀÌÅÛ¿¡ ¸¶¿ì½º¸¦ ¿Ã·ÈÀ»¶§*/
+@media ( max-width :767px) { /*ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½ï¿½Ï¶ï¿½ ï¿½ï¿½ï¿½ï¿½Ù¿ï¿½ï¿½ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ì½ºï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½*/
 	.navbar-default .navbar-nav .open .dropdown-menu>li>a {
 		color: #ffffff;
 	}
@@ -306,7 +306,7 @@ a:hover {
 		color: #eeeeee;
 	}
 }
-/*³×ºñ°ÔÀÌ¼Ç ¹Ù ±æÀÌ ¼öÁ¤*/
+/*ï¿½×ºï¿½ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½*/
 .navbar-fixed-top{
 	min-height: 60px;
 }
@@ -315,7 +315,7 @@ a:hover {
 	padding-bottom: 0px;
 	line-height: 70px;
 }
-@media ( max-width :767px) { /*ÀÛÀº È­¸éÀÏ¶§ µå¶ø´Ù¿î¾ÆÀÌÅÛ¿¡ ¸¶¿ì½º¸¦ ¿Ã·ÈÀ»¶§*/
+@media ( max-width :767px) { /*ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½ï¿½Ï¶ï¿½ ï¿½ï¿½ï¿½ï¿½Ù¿ï¿½ï¿½ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ì½ºï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½*/
 	.navbar-default .navbar-brand{
 		padding-top: 15px;
 	}
@@ -325,7 +325,6 @@ a:hover {
 		line-height: 40px;
 	}
 }	
-
 
 table.type04 {
     border-collapse: separate;
@@ -347,7 +346,29 @@ table.type04 td {
     padding: 10px;
     vertical-align: top;
     border-bottom: 1px solid #ccc;
+} 
+
+table.type05 {
+    border-collapse: separate;
+    border-spacing: 1px;
+    text-align: left;
+    line-height: 1.5;
+    border-top: 1px solid #ccc;
+  margin : 20px 10px;
 }
+table.type05 th {
+    padding: 10px;
+    font-weight: bold;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+}
+table.type05 td {
+    padding: 10px;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+} 
+
+
 
 table tr:hover td{
    background: #f2f2f2;

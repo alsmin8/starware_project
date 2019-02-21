@@ -14,13 +14,20 @@
 <script src="/resources/jquery.js" type="text/javascript"></script>
 <script src="/resources/js/bootstrap.js"></script>
 <style>
+/* #mytable {
+width: 100px;
+border: 1px solid #ddd !important;
+bor
+} */
 td {
+ border: 1px solid #dddddd;
 	text-align: center;
 }
 
 tr {
+ border: 1px solid #dddddd;
 	height: 25px;
-	width: 200;
+	width: 100;
 }
 </style>
 
@@ -94,54 +101,85 @@ tr {
 
 		<form action="/approval/appdetaildd?app_no=${approval.app_no}&app_kind=${app_kind}" method="post">
 			<input type="hidden" name="app_kind" value="<%=app_kind%>">
-			<table class="table table-bordered table-hover"
-				style="text-align: center; border: 1px solid #dddddd;">
+			<table 
+				style="text-align: center; border: 1px solid #dddddd; width: 100%">
 				<thead>
 					<tr>
-						<th colspan="4"><h4>지 출 결 의 서</h4></th>
+						<th colspan="12" ><h4>지 출 결 의 서</h4></th>
 					</tr>
 				</thead>
+				<tr>
+					<td colspan="8" style='width:450px; ' rowspan="3"></td>
+					<td >상신자</td>
+					<td >결재자1</td>
+					<td >결재자2</td>
+					<td >결재자3</td>
+					
+				</tr>
+				<tr>
+					<!-- <td style='height:100px'colspan="8"></td> -->
+					<td style='height:100px'></td>
+					<td ></td>
+					<td ></td>
+					<td ></td>
+					
+				</tr>
+				<tr>
+					<!-- <td colspan="8"></td> -->
+					<td>${emp.emp_name }</td>
+					<td><%-- ${power.emp_name } --%></td>
+					<td><%-- ${power.emp_name } --%></td>
+					<td><%-- ${power.emp_name } --%></td>
+			
+				</tr>			
+			</table>
+			<table class="table table-bordered"
+				style="text-align: center; border: 1px solid #dddddd; ">
+				
 				<tbody>
 					<tr>
-						<td style="width: 110px;">제 목</td>
-						<td colspan="3">${approval.app_title }</td>
+						<td colspan="3" >제 목</td>
+						<td colspan="9">${approval.app_title }</td>
 					</tr>
 					<tr>
-						<td style="width: 110px;">이 름</td>
-						<td>${emp.emp_name }</td>
-						<td style="width: 110px;">사 번</td>
-						<td>${emp.emp_no}</td>
+						<td colspan="3" >이 름</td>
+						<td colspan="3">${emp.emp_name }</td>
+						<td colspan="3">사 번</td>
+						<!-- <td  >사 번</td>
+						<td style="border-left: 0">사 번</td> -->
+						<td colspan="3" >${emp.emp_no}</td>
 					</tr>
 					<tr>
-						<td style="width: 110px;">부 서</td>
-						<td>${dept.dept_name}</td>
-						<td style="width: 110px;">직 급</td>
-						<td>${grade.grade_name}</td>
+						<td colspan="3" >부 서</td>
+						<td colspan="3">${dept.dept_name}</td>
+						<td colspan="3" >직 급</td>
+						<td colspan="3">${grade.grade_name}</td>
 					</tr>
 					<tr>
-						<td style="width: 110px;">순 번</td>
-						<td style="width: 110px;">사용일자</td>
-						<td style="width: 110px;">사 유</td>
-						<td style="width: 110px;">사용금액</td>
+						<td colspan="3" >순 번</td>
+						<td colspan="3" >사용일자</td>
+						<td colspan="3" >사 유</td>
+						<td colspan="3" >사용금액</td>
 					</tr>
 					<tr>
-					    <td style="width: 110px;">${disbursementdoc.d_idx}</td>
-						<td style="width: 110px;">
-							<fmt:parseDate var="dateString" value="${disbursementdoc.d_usingdate}" pattern="yyyy-MM-dd" />
-							<fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd" /></td>
-						<td style="width: 110px;">${disbursementdoc.d_contents}</td>
-						<td style="width: 110px;">${disbursementdoc.d_amount}</td>
+					    <td colspan="3" >${disbursementdoc.d_idx}</td>
+						<td colspan="3" >
+							 <fmt:parseDate var="dateString" value="${disbursementdoc.d_usingdate}" pattern="yyyy-MM-dd" />
+							<fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd" />
+							</td>
+						<td colspan="3" >${disbursementdoc.d_contents}</td>
+						<td colspan="3" >${disbursementdoc.d_amount}</td>
 					</tr>
 					<tr>
-						<td style="width: 110px;"></td>
-						<td style="width: 110px;"></td>
-						<td style="width: 110px;"></td>
-						<td style="width: 110px;"></td>
+						<td colspan="3" ></td>
+						<td colspan="3" ></td>
+						<td colspan="3" ></td>
+						<td colspan="3" ></td>
 					</tr>
 
 					<tr>
-						<td style="width: 110px;">비 고</td>
-						<td colspan="3"></td>
+						<td colspan="3" >비 고</td>
+						<td colspan="9"></td>
 					</tr>
 				</tbody>
 
@@ -156,6 +194,7 @@ tr {
 
 
 	</div>
+	
 
 
 </body>

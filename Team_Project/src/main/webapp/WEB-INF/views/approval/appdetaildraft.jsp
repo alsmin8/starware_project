@@ -15,8 +15,16 @@
 <script src="/resources/js/bootstrap.js"></script>
 <style>
 td {
+ border: 1px solid #dddddd;
 	text-align: center;
 }
+
+tr {
+ border: 1px solid #dddddd;
+	height: 25px;
+	width: 100;
+}
+
 </style>
 
 </head>
@@ -90,29 +98,57 @@ td {
 			action="/approval/appdetailddraft?app_no=${approval.app_no}&app_kind=${approval.app_kind}"
 			method="post">
 			<input type="hidden" name="app_kind" value="<%=app_kind%>">
-			<table class="table table-bordered table-hover"
-				style="text-align: center; border: 1px solid #dddddd;">
+			<table 
+				style="text-align: center; border: 1px solid #dddddd; width: 100%">
 				<thead>
 					<tr>
-						<th colspan="4"><h4>기 안 서</h4></th>
+						<th colspan="12" ><h4>기 안 서</h4></th>
 					</tr>
 				</thead>
+				<tr>
+					<td colspan="8" style='width:450px; ' rowspan="3"></td>
+					<td >상신자</td>
+					<td >결재자1</td>
+					<td >결재자2</td>
+					<td >결재자3</td>
+					
+				</tr>
+				<tr>
+					<!-- <td style='height:100px'colspan="8"></td> -->
+					<td style='height:100px'></td>
+					<td ></td>
+					<td ></td>
+					<td ></td>
+					
+				</tr>
+				<tr>
+					<!-- <td colspan="8"></td> -->
+					<td>${emp.emp_name }</td>
+					<td><%-- ${power.emp_name } --%></td>
+					<td><%-- ${power.emp_name } --%></td>
+					<td><%-- ${power.emp_name } --%></td>
+			
+				</tr>			
+			</table>
+			<table class="table table-bordered table-hover"
+				style="text-align: center; border: 1px solid #dddddd;">
+				<tr>
+					<td style="width: 110px;">제 목</td>
+					<td colspan="3">${approval.app_title}</td>
+				</tr>
 				<tr>
 					<td style="width: 110px;">이 름</td>
 					<td style="width: 110px;">${emp.emp_name }</td>
 					<td style="width: 110px;">사 번</td>
 					<td style="width: 110px;">${emp.emp_no}</td>
-				<tr>
+				</tr>
 				<tr>
 					<td style="width: 110px;">부 서</td>
 					<td>${dept.dept_name}</td>
 					<td style="width: 110px;">직 급</td>
 					<td>${grade.grade_name}</td>
 				</tr>
-				<tr>
-					<td style="width: 110px;">제 목</td>
-					<td colspan="3">${approval.app_title}</td>
-				</tr>
+				
 				<tr>
 					<td style="width: 110px;" rowspan="5">내 용</td>
 					<td colspan="3" rowspan="5" height="250">${draftdoc.dd_contents}</td>
