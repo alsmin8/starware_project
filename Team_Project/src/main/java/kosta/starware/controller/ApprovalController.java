@@ -89,7 +89,7 @@ public class ApprovalController {
 		if(attendees.size() == 0 || attendees == null){
 			return "redirect:/approval/applist_alllist";
 		}else{
-			approvalservice.appInsert(approval);
+			approvalservice.appInsert(approval, attendees);
 			approvalservice.appDdInsert(disbursementdoc);
 
 			//rttr.addFlashAttribute("result", approval.getApp_no());
@@ -118,7 +118,7 @@ public class ApprovalController {
 		if(attendees.size() == 0 || attendees == null){
 			return "redirect:/approval/applist_alllist";
 		}else{
-			approvalservice.appInsert(approval);
+			approvalservice.appInsert(approval, attendees);
 			approvalservice.appVacationInsert(vacationDoc);
 			//rttr.addFlashAttribute("result", approval.getApp_no());
 			return "redirect:/approval/applist_alllist";
