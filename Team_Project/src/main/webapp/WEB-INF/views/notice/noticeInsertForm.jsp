@@ -14,7 +14,7 @@
 <script src="/resources/jquery.js" type="text/javascript"></script>
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -22,7 +22,7 @@
 
 </head>
 <body>
-	<%-- <%
+	<%
 		String emp_no = null;
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
@@ -30,10 +30,10 @@
 		if (emp_no == null) {
 			session.setAttribute("messageType", "오류메세지");
 			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
-			response.sendRedirect("login.jsp");
+			response.sendRedirect("/login");
 			return;
 		}
-	%> --%>
+	%>
 
 
 
@@ -76,7 +76,8 @@
 	<div class="container">
 		<form role="form" name="form" action="noticeInsert" method="post"
 			onsubmit="return checkForm();">
-			<input type="hidden" name="emp_no" value="12301"><br>
+			<input type="hidden" name="emp_no" value="<%=emp_no%>"><br>
+			
 			<table class="table table-bordered table-hover"
 				style="text-align: center; border: 1px solid #dddddd;">
 				<thead>
@@ -192,7 +193,7 @@
 					str+="<input type='hidden' name='attachList["+i+"].notice_fileName' value='"+jobj.data("filename")+"'>";
 					str+="<input type='hidden' name='attachList["+i+"].notice_uuid' value='"+jobj.data("uuid")+"'>";
 					str+="<input type='hidden' name='attachList["+i+"].notice_uploadPath' value='"+jobj.data("path")+"'>";
-					str+="<input type='hidden' name='attachList["+i+"].notice_fileType' value='"+jobj.data("type")+"'>";
+					/* str+="<input type='hidden' name='attachList["+i+"].notice_fileType' value='"+jobj.data("type")+"'>"; */
 					
 				})
 				
@@ -270,20 +271,10 @@
 						str+="<li "
 						str+="data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'><div>";
 						str+="<span>"+obj.fileName+"</span>";
-						str+="<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button>";
+						str+="<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' class='btn btn-default'><i class='fa fa-times'></i></button>";
 						str+="<img src='/resources/images/notice_attach.jpg' style='width: 30px; height: 30px;'></a>";
 						str+="</div>";
 						str+"</li>";
-						
-						
-						/* str+="<li ";
-						str+="data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-fileName='"+obj.fileName+"' data-type'"+obj.image+"' ><div>";
-						str+="<span> "+obj.fileName+"</span>";
-						str+="<img src='/resources/images/notice_attach.jpg' style='width: 30px; height: 30px;'>"+"</a>"+
-						"<span data-file=\'"+fileCallPath+"\' data-type='file'> 【  X 】 </span></div></li>";  */
-						
-					/* 	str+="<li><div><a href='/notice/download?fileName="+fileCallPath+"'>"+"<img src='/resources/images/notice_attach.jpg' style='width: 30px; height: 30px;'>"+obj.fileName+"</a>"+
-						"<span data-file=\'"+fileCallPath+"\' data-type='file'> 【  X 】 </span></div></li>";  */
 				
 					}else{
 						
@@ -293,19 +284,12 @@
 						 str+=" data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'";
 						 str+=" ><div>";
 						 str+="<span> "+obj.fileName+"</span>";
-						 str+="<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button>";
+						 str+="<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' class='btn btn-default'><i class='fa fa-times'></i></button>";
 						 str+="<img src='/notice/display?fileName="+fileCallPath+"'>";
 						 str+="</div>";
 						 str+"</li>";
 						 
-						 
-					/* 	 var originPath=obj.uploadPath+"\\"+obj.uuid+"_"+obj.fileName;
-						 originPath=originPath.replace(new RegExp(/\\/g),"/");
-					
-						 str+="<li><a><img src='/notice/display?fileName="+fileCallPath+"'></a>"+
-								 "<span data-file=\'"+fileCallPath+"\'' data-type='image'> 【  X 】 </span> "
-								 +"</li>"; */
-						 			
+			
 					}
 				});
 				 uploadUL.append(str);
@@ -349,9 +333,7 @@
 
 	<script>
 		//데이트 피커 날짜 제한
-
 		$(function() {
-
 			$("#today").text(new Date().toLocaleDateString());
 
 			$("#start").datepicker({

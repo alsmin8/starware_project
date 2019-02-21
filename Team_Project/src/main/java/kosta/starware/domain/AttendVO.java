@@ -18,8 +18,6 @@ public class AttendVO {
 	private String attend_stateNo;
 	
 	private String emp_name;
-	//¸®ÀýÆ®¸Ê
-	//private List<EmpDTO> empList;
 	
 	
 }

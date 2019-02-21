@@ -33,11 +33,9 @@ public class AttendServiceImpl implements AttendService {
 		
 		//이름만 검색시
 		if(attcri.getSearchName()!=null&&!attcri.getFrom().contains("2")&&!attcri.getTo().contains("2")){
-			
 			if(attcri.getSearchName().length()==0){
 				attcri.setSearchName(null);
 			}
-			
 			attcri.setFrom(null);
 			attcri.setTo(null);
 			return attendMapper.totalRecordWithPaging(attcri);
@@ -61,9 +59,6 @@ public class AttendServiceImpl implements AttendService {
 			attcri.setSearchName(null);	
 		}
 		return attendMapper.totalRecordWithPaging(attcri);
-
-		
-		
 	}
 
 	@Override

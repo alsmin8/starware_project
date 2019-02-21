@@ -14,7 +14,7 @@ public interface NoticeService {
 	
 	public NoticeVO detailNoticeService(int notice_no);
 	
-	public int updateNoticeService(NoticeVO notice);
+	public boolean updateNoticeService(NoticeVO notice);
 
 	public boolean deleteNoticeService(int notice_no);
 	

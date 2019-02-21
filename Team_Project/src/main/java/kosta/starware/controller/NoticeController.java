@@ -68,9 +68,6 @@ public class NoticeController {
 		
 		log.info("notice Insert:"+notice);
 		
-	/*	if(notice.getAttachList()!=null){
-			notice.getAttachList().forEach(attach ->log.info(attach));
-		}*/
 		service.insertNoticeService(notice);
 		
 		rttr.addFlashAttribute("result", notice.getNotice_no());
@@ -103,7 +100,7 @@ public class NoticeController {
 	public void noticeDetail(@RequestParam("notice_no") int notice_no, 
 			@ModelAttribute("ncri") NoticeCriteria ncri, Model model){
 		model.addAttribute("notice", service.detailNoticeService(notice_no));
-		//log.info(model);
+		log.info(model);
 	}
 	
 	
@@ -125,8 +122,6 @@ public class NoticeController {
 			deleteFiles(attachList);
 			log.info("deleted....");
 		}
-	
-		//service.deleteNoticeService(notice_no);
 		
 		rttr.addAttribute("pageNum", ncri.getPageNum());
 		rttr.addAttribute("amount", ncri.getAmount());
@@ -171,7 +166,6 @@ public class NoticeController {
 		String uploadFolderPath=getFolder();
 		
 		//make folder
-		//File uploadPath=new File(uploadFolder, getFolder());
 		File uploadPath = new File(uploadFolder, uploadFolderPath);
 
 		
@@ -315,11 +309,13 @@ public class NoticeController {
 		
 			try {
 
-				Path file=Paths.get("C:\\upload\\"+attach.getNotice_uploadPath()+"\\"+attach.getNotice_uuid()+"_"+attach.getNotice_fileName());
+				Path file=Paths.get("C:\\upload\\"+attach.getNotice_uploadPath()+"\\"+attach.getNotice_uuid()+"_"
+				+attach.getNotice_fileName());
 				Files.deleteIfExists(file);
 				
 				if(Files.probeContentType(file).startsWith("image")){
-						Path thumbNail=Paths.get("C:\\upload\\"+attach.getNotice_uploadPath()+"\\s_"+attach.getNotice_uuid()+"_"+attach.getNotice_fileName());
+						Path thumbNail=Paths.get("C:\\upload\\"+attach.getNotice_uploadPath()+"\\s_"
+				+attach.getNotice_uuid()+"_"+attach.getNotice_fileName());
 						
 						Files.delete(thumbNail);
 				}

@@ -27,21 +27,16 @@ public class NoticeServiceImpl implements NoticeService {
 	@Transactional
 	@Override
 	public void insertNoticeService(NoticeVO notice) {
-		log.info("게시글 등록..."+notice);
 		
 		noticeMapper.insertNotice(notice);
 		
 		if(notice.getAttachList()==null||notice.getAttachList().size()<=0){
 			return;
 		}
-		
 		notice.getAttachList().forEach(attach ->{
 			attach.setNotice_no(notice.getNotice_no());
 			attachMapper.insert(attach);
 		});
-		
-		
-	
 	}
 	
 
@@ -59,8 +54,16 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public int updateNoticeService(NoticeVO notice) {
-		return noticeMapper.noticeUpdate(notice);
+	public boolean updateNoticeService(NoticeVO notice) {
+		attachMapper.deleteAll(notice.getNotice_no());
+		boolean updateResult=noticeMapper.noticeUpdate(notice)==1;
+		if(updateResult&&notice.getAttachList().size()>0){
+			notice.getAttachList().forEach(attach->{
+				attach.setNotice_no(notice.getNotice_no());
+				attachMapper.insert(attach);
+			});
+		}
+		return updateResult;
 	}
 
 	@Override
