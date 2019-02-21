@@ -242,7 +242,6 @@ public class ApprovalServiceImpl implements ApprovalService {
 		}
 		return keywordList;
 	}
-<<<<<<< HEAD
 	
 	//검색한 결재권자를 db에 저장서비스
 	@Override
@@ -258,10 +257,5 @@ public class ApprovalServiceImpl implements ApprovalService {
 			approvalmapper.powerInsert(app_no, emp_no);
 		}
 	}
-=======
 
-	
-
-
->>>>>>> refs/remotes/origin/bitna
 }
