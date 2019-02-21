@@ -23,8 +23,8 @@
 		if (emp_no == null) {
 			session.setAttribute("messageType", "오류메세지");
 			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
-			/* response.sendRedirect("login.jsp");
-			return; */
+			response.sendRedirect("/login");
+			return; 
 		}
 	%> 
 	<nav class="navbar navbar-default">
@@ -71,8 +71,12 @@
 <ul class="nav nav-tabs" role="tablist">
   <li><a id="tab1" role="tab" data-toggle="tab" style="font-size:11pt; font-weight:bold">출근/퇴근</a></li>
   <li class="active"><a id="tab2" href="#empRecordTab"  role="tab" data-toggle="tab" font-weight="bold" style="font-size:11pt; font-weight:bold">출퇴근 기록지</a></li>
-  <li><a id="tab3" role="tab" data-toggle="tab" font-weight="bold" style="font-size:11pt; font-weight:bold">근태 기록지(관리자)</a></li>
+  <c:if test="${emp_no==12301 }">
+  	<li><a id="tab3" role="tab" data-toggle="tab" font-weight="bold"
+				style="font-size: 11pt; font-weight: bold">근태 기록지(관리자)</a></li>
+  </c:if>		
 </ul>
+
 	<script type="text/javascript">
 		$(function() {
 			$('#tab1').click(function() {

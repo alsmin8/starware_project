@@ -31,17 +31,17 @@
 	float:left;
 	padding:4px;
 	margin-right:3px;
-	width:30px;
+	width:35px;
 	color:#000;
-	font:bold 12px tahoma;
+	font:bold 13px tahoma;
 	border:1px solid #eee;
 	text-align:center;
 	text-decoration:none;
 }
 .pagination ul li a:hover, ul li a:focus, .active > a{
-	color:#fff;
-	border:1px solid #8BD2CC;
-	background-color:#8BD2CC;
+	color:#000;
+	border:1px solid #7ACBE3;
+	background-color:#7ACBE3;
 }
 
 </style>
@@ -64,7 +64,7 @@
 </head>
 <body>
 
-<%-- 	<%
+	<%
 		String emp_no = null;
 		if (session.getAttribute("emp_no") != null) {
 			emp_no = (String) session.getAttribute("emp_no");
@@ -72,10 +72,10 @@
 		if (emp_no == null) {
 			session.setAttribute("messageType", "오류메세지");
 			session.setAttribute("messageContent", "현재 로그인이 되어있지 않습니다.");
-			response.sendRedirect("login.jsp");
+			response.sendRedirect("/login");
 			return;
 		}
-	%> --%>
+	%> 
 	
 	<nav class="navbar navbar-default">
 	<div class="navbar-header">
@@ -237,6 +237,7 @@
 			</c:forEach>
 		</table>
 		
+	<div align="center">
 		<!-- 페이지처리 영역 -->
 		<div class="pagination">
 			<ul>
@@ -258,7 +259,7 @@
 				</c:if>
 			</ul>
 		</div>
-
+	</div>
 
 	
 	<form id='attendAction' action='/attend/attendTotalRecord' method='get'>

@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kosta.starware.mapper.NoticeMapper">
 
-<sql id="criteria">
+	<sql id="criteria">
 		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
 			<foreach item='noticeSearchType' collection="noticeSearchArr">
 				<trim prefix="OR">
@@ -16,90 +16,96 @@
 							notice_contents like '%'||#{noticeSearchKey}||'%'
 						</when>
 						<when test="noticeSearchType=='W'.toString()">
-							emp_no like '%'||#{noticeSearchKey}||'%'
+							emp_name like '%'||#{noticeSearchKey}||'%'
 						</when>
 					</choose>
 				</trim>
 			</foreach>
 		</trim>
-</sql>
+	</sql>
 
 
 
 
 
-<insert id="insertNotice">
-		<selectKey keyProperty="notice_no" order="BEFORE" resultType="int">
-		select notice_no_seq.nextval from dual
+	<insert id="insertNotice">
+		<selectKey keyProperty="notice_no" order="BEFORE"
+			resultType="int">
+			select notice_no_seq.nextval from dual
 		</selectKey>
 
 		insert into notice values
-		(#{notice_no}, #{notice_subject}, #{notice_title},
+		(#{notice_no}, #{notice_subject},
+		#{notice_title},
 		#{notice_contents}, 0, sysdate,
 		#{notice_startDate},
 		#{notice_endDate},
 		#{notice_state}, #{emp_no})
 
-</insert>
+	</insert>
 
-
-<select id="noticeListWithPaging" resultType="kosta.starware.domain.NoticeVO">
+	<select id="noticeListWithPaging" resultType="kosta.starware.domain.NoticeVO">
 <![CDATA[
-select notice_no, notice_subject, notice_title, emp_no, notice_regdate, notice_hitCount
+select /*+ index_desc(notice XPKNOTICE) */*
 from ( 
-select /*+ index_desc(notice XPKNOTICE) */
-rownum rn, notice_no, notice_subject, notice_title, emp_no, notice_regdate, notice_hitCount
-from notice
+select /*+ index_desc(n XPKNOTICE) */
+rownum rn, n.notice_no, n.notice_subject, n.notice_title, n.emp_no, n.notice_regdate, n.notice_hitCount, e.emp_name
+from notice n, emp e
 where ]]>
 
-<include refid="criteria"></include>
+		<include refid="criteria"></include>
 
 <![CDATA[
-rownum<=#{pageNum}*#{amount})
+rownum<=#{pageNum}*#{amount}
+and n.emp_no=e.emp_no)
 	where rn>(#{pageNum}-1)*#{amount}
+	
 	]]>
 
-</select>
+	</select>
 
 
 
 
-<select id="noticeDetail" resultType="kosta.starware.domain.NoticeVO">
-select * from notice
-where notice_no=#{notice_no}
-
-</select>
-
-<update id="updateHitCount">
-update notice
-set notice_hitCount=#{notice_hitCount}+1
-where notice_no=#{notice_no}
-</update>
-
-<update id="noticeUpdate">
-update notice
-set notice_title=#{notice_title},
-notice_subject=#{notice_subject},
-notice_contents=#{notice_contents},
-notice_startDate=#{notice_startDate},
-notice_endDate=#{notice_endDate},
-notice_state=#{notice_state}
-where notice_no=#{notice_no}
-</update>
 
 
-<delete id="noticeDelete">
-delete notice where notice_no=#{notice_no}
-</delete>
+	<select id="noticeDetail" resultType="kosta.starware.domain.NoticeVO">
+		select * from notice n, emp e
+		where notice_no=#{notice_no}
+		and n.emp_no=e.emp_no
 
-<select id="getNoticeTotal" resultType="int">
-select count(*) from notice
-where
 
-<include refid="criteria"></include>
+	</select>
 
- notice_no>0
-</select>
+	<update id="updateHitCount">
+		update notice
+		set notice_hitCount=#{notice_hitCount}+1
+		where notice_no=#{notice_no}
+	</update>
+
+	<update id="noticeUpdate">
+		update notice
+		set notice_title=#{notice_title},
+		notice_subject=#{notice_subject},
+		notice_contents=#{notice_contents},
+		notice_startDate=#{notice_startDate},
+		notice_endDate=#{notice_endDate},
+		notice_state=#{notice_state}
+		where notice_no=#{notice_no}
+	</update>
+
+
+	<delete id="noticeDelete">
+		delete notice where notice_no=#{notice_no}
+	</delete>
+
+	<select id="getNoticeTotal" resultType="int">
+		select count(*) from notice n, emp e
+		where
+
+		<include refid="criteria"></include>
+		n.emp_no=e.emp_no
+	</select>
 
 </mapper>
 

@@ -24,4 +24,6 @@ public class NoticeVO {
 	
 	private List<NoticeAttachVO> attachList;
 	
+	private String emp_name;
+	
 }

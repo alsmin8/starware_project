@@ -6,7 +6,8 @@
 
 	<insert id="insertAttend">
 		insert into attend values
-		(to_date(sysdate, 'YY-MM-DD'), #{emp_no}, 
+		(to_date(sysdate,
+		'YY-MM-DD'), #{emp_no},
 		to_char(sysdate, 'HH24:MI:SS'), '',
 		#{attend_stateNo}
 		)
@@ -45,10 +46,7 @@
 	and rownum<=#{pageNum}*#{amount}
 	)
 		where rn>(#{pageNum}-1)*#{amount}
-
 	]]>
-
-
 	</select>
 
 
@@ -66,10 +64,9 @@ select * from
 	and to_char(attend_date, 'MM')=to_char(#{month})
 )
 ]]>
-
 	</select>
 
-	
+
 	<select id="getAttendTotal" resultType="int">
 	<![CDATA[
 	select count(*) from 
@@ -87,23 +84,27 @@ select * from
 				to_char(#{from}) AND to_char(#{to})
 			</if>
 		</trim>
-	)
+		)
 	</select>
-	
-	
+
+
 	<select id="getOneRecord" resultType="String">
-	select TO_CHAR(attend_date, 'YYYY-MM-DD') from attend
-	where emp_no=#{emp_no}
-	and TO_CHAR(attend_date,'YYYY-MM-DD')=TO_CHAR(sysdate, 'YYYY-MM-DD')
-	</select>	
-	
-	<select id="getEndTime" resultType="String">
-	select attend_endTime from attend
-	WHERE emp_no=#{emp_no}
-	and TO_CHAR(attend_date,'YYYY-MM-DD')=TO_CHAR(sysdate, 'YYYY-MM-DD')
+		select TO_CHAR(attend_date,
+		'YYYY-MM-DD') from attend
+		where emp_no=#{emp_no}
+		and
+		TO_CHAR(attend_date,'YYYY-MM-DD')=TO_CHAR(sysdate, 'YYYY-MM-DD')
 	</select>
-	
-	
+
+	<select id="getEndTime" resultType="String">
+		select attend_endTime from
+		attend
+		WHERE emp_no=#{emp_no}
+		and
+		TO_CHAR(attend_date,'YYYY-MM-DD')=TO_CHAR(sysdate, 'YYYY-MM-DD')
+	</select>
+
+
 
 </mapper>
 

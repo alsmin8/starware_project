@@ -30,8 +30,6 @@ public class AttendController {
 	
 	@GetMapping("/attendInsert")
 	public void attendInsert(AttendVO attend){
-		//log.info("attend insert..."+attend);
-		//service.insertAttendService(attend);
 	}
 	
 	@ResponseBody
@@ -56,7 +54,6 @@ public class AttendController {
 	
 	@GetMapping("/attendEmpRecord")
 	public void attendEmpRecord(Model model){
-		//model.addAttribute("list", service.empRecordService());
 	}
 	
 	

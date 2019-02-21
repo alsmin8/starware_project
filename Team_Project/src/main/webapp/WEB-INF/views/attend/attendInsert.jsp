@@ -2,6 +2,7 @@
 	pageEncoding="utf-8"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="java.text.SimpleDateFormat"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	Date nowTime = new Date();
 	SimpleDateFormat sf = new SimpleDateFormat("yyyy년 MM월 dd일 a hh:mm:ss");
@@ -119,12 +120,14 @@ button:hover:before,button:hover:after{
 
 	<div class="container">
 		<ul class="nav nav-tabs" role="tablist">
-			<li class="active"><a id="tab1" href="#attendTab" role="tab"
+				<li class="active"><a id="tab1" href="#attendTab" role="tab"
 				data-toggle="tab" style="font-size: 11pt; font-weight: bold">출근/퇴근</a></li>
-			<li><a id="tab2" role="tab" data-toggle="tab" font-weight="bold"
+				<li><a id="tab2" role="tab" data-toggle="tab" font-weight="bold"
 				style="font-size: 11pt; font-weight: bold">출퇴근 기록지</a></li>
-			<li><a id="tab3" role="tab" data-toggle="tab" font-weight="bold"
+			   <c:if test="${emp_no==12301 }">
+  	<li><a id="tab3" role="tab" data-toggle="tab" font-weight="bold"
 				style="font-size: 11pt; font-weight: bold">근태 기록지(관리자)</a></li>
+  </c:if>			
 		</ul>
 		<script type="text/javascript">
 			$(function() {
@@ -205,8 +208,10 @@ button:hover:before,button:hover:after{
 							data : allData,
 							type : 'POST',
 							success : function(result) {
-								alert(result);
-							}
+								//alert(result);
+								var attendContents=$('#attendContents').text(result);
+								$('#attendModal').modal();
+ 							}
 						});
 					})
 
@@ -218,7 +223,9 @@ button:hover:before,button:hover:after{
 							data : allData,
 							type : 'POST',
 							success : function(result) {
-								alert(result);
+								//alert(result);
+								var attendContents=$('#attendContents').text(result);
+								$('#attendModal').modal();
 							}
 						});
 					})
@@ -257,26 +264,19 @@ button:hover:before,button:hover:after{
 		}
 	</script>
 
-
-
-
-
-
-
-	<!-- Modal  추가 -->
-	<div class="modal fade" id="AttendModal" tabindex="-1" role="dialog"
-		aria-labelledby="AttendModalLabel" aria-hidden="true">
+<!-- Modal  추가 -->
+	<div class="modal fade" id="attendModal" tabindex="-1" role="dialog"
+		aria-labelledby="attendModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="AttendModalLabel">Modal title</h4>
+					<h4 class="modal-title" id="attendModalLabel">확인 메시지</h4>
 				</div>
-				<div class="modal-body">이미 출근하셨습니다.</div>
+				<div class="modal-body" id="attendContents"></div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -285,109 +285,11 @@ button:hover:before,button:hover:after{
 	</div>
 	<!-- /.modal -->
 
-	<script type="text/javascript">
-		/* 	$(document).ready(function() {
-		 var result = '<c:out value="${result}"/>';
-		 checkModal(result);
-		 history.replaceState({}, null, null);
-		 function checkModal(result) {
-		 if (result === '' || history.state) {
-		 return;
-		 }
-		 if (parseInt(result) > 0) {
-		 $(".modal-body").html(
-		 "게시글 " + parseInt(result)
-		 + " 번이 등록되었습니다.");
-		 }
-		 $("#AttendModal").modal("show");
-		 }
-		 $("#regBtn").on("click", function() {
-		 self.location = "/board/register";
-		 });
-		 var actionForm = $("#actionForm");
-		 $(".paginate_button a").on(
-		 "click",
-		 function(e) {
-		 e.preventDefault();
-		 console.log('click');
-		 actionForm.find("input[name='pageNum']")
-		 .val($(this).attr("href"));
-		 actionForm.submit();
-		 });
-		
-		 }); */
-	</script>
 
 
 
 
 
-
-	<%
-		String messageContent = null;
-		if (session.getAttribute("messageContent") != null) {
-			messageContent = (String) session.getAttribute("messageContent");
-		}
-		String messageType = null;
-		if (session.getAttribute("messageType") != null) {
-			messageType = (String) session.getAttribute("messageType");
-		}
-		if (messageContent != null) {
-	%>
-	<div class="modal fade" id="messageModal" tabindex="-1" role="dialog"
-		aria-hidden="true">
-		<div class="vertical-alignment-helper">
-			<div class="modal-dialog vertical-align-center">
-				<div
-					class="modal-content <%if (messageType.equals("오류메세지"))
-					out.println("panel-warning");
-				else
-					out.println("panel-success");%>">
-					<div class="modal-header panel-heading">
-						<button type="button" class="close" data-dismiss="modal">
-							<span aria-hidden="true">&times</span> <span class="sr-only">Close</span>
-						</button>
-						<h4 class="modal-title">
-							<%=messageType%>
-						</h4>
-					</div>
-					<div class="modal-body">
-						<%=messageContent%>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<script type="text/javascript">
-		$('#messageModal').modal('show');
-	</script>
-	<%
-		session.removeAttribute("messageContent");
-			session.removeAttribute("messageType");
-		}
-	%>
-	<div class="modal fade" id="checkModal" tabindex="-1" role="dialog"
-		aria-hidden="true">
-		<div class="vertical-alignment-helper">
-			<div class="modal-dialog vertical-align-center">
-				<div id="checkType" class="modal-content panel-info">
-					<div class="modal-header panel-heading">
-						<button type="button" class="close" data-dismiss="modal">
-							<span aria-hidden="true">&times</span> <span class="sr-only">Close</span>
-						</button>
-						<h4 class="modal-title">확인메세지</h4>
-					</div>
-					<div id="checkMessage" class="modal-body"></div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 </body>
 </body>
 </html>
