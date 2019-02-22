@@ -72,6 +72,7 @@ text-align: center;
 					aria-expanded="false">회원관리<span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
+						<li><a href="/logoutaction">로그아웃</a></li>
 					</ul></li>
 			</ul>
 

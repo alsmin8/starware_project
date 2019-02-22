@@ -68,7 +68,7 @@
 				<span class="icon-bar"></span> 
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="login.jsp">STARWARE</a>
+			<a class="navbar-brand" href="/login">STARWARE</a>
 		</div>
 
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -88,7 +88,7 @@
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="buton" aria-haspopup="true" aria-expanded="false">
 						회원관리<span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="logoutaction.jsp">로그아웃</a></li>
+						<li><a href="/logoutaction">로그아웃</a></li>
 					</ul>
 				</li>
 			</ul>
