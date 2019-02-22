@@ -194,8 +194,9 @@
 	
 	<select id="resultApproval" parameterType="String" resultType="java.util.HashMap">
 		select a.app_no, a.app_kind, a.APP_TITLE, a.APP_Startdate,
-		pw.power_regdate, pw.power_defult, a.emp_no 
+		pw.power_regdate, pw.power_defult, a.emp_no, e.emp_name
 		from approval a inner join power pw on a.app_no = pw.app_no 
+   		inner join emp e on a.emp_no = e.emp_no 
 		where pw.emp_no = #{emp_no}
 	</select>
 
