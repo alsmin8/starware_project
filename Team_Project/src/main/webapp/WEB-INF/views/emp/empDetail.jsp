@@ -70,8 +70,7 @@
 	
 
 	<div class="container">
-		 <!-- <form id = "empUpdate" method="post" action="/emp/empUpdateForm"> --> 
-
+		
 		<table class="table table-bordered table-hover"
 			style="text-align: center; border: 1px solid #dddddd;">
 			<thead>
@@ -102,11 +101,11 @@
 					<td colspan="2">${emp.emp_socialNo }</td>
 				</tr>
 				<tr>
-					<td style="width: 110px;"><h5>부서번호</h5></td>
+					<td style="width: 110px;"><h5>부서</h5></td>
 					<td colspan="2">${dept.dept_name }</td>
 				</tr>
 				<tr>
-					<td style="width: 110px;"><h5>직급번호</h5></td>
+					<td style="width: 110px;"><h5>직급</h5></td>
 					<td colspan="2">${grade.grade_name }</td>
 				</tr>
 				<tr>
@@ -172,7 +171,7 @@
 			<input type='hidden' name='amount'
 				value='<c:out value="${empcri.amount }"/>'>
 		</form>
-		<!-- </form> -->
+		
 	</div>
 	
 	<div align="center">
@@ -200,45 +199,6 @@ $(document).ready(function() {
   
 });
 </script>
-
-	 <!--  <script type="text/javascript">
-		$(document).ready(
-				function() {
-					var empListAction = $('#empListAction');
-					var empUpdateForm = $('#empUpdateForm');
-					var empActionForm =$('#empActionForm');
-				$(".empMove")
-					.on(
-							"click",
-							function(e) {
-
-								e.preventDefault();
-								empActionForm
-										.append("<input type='hidden' name='emp_no' value='"
-												+ $(this)
-														.attr(
-																"href")
-												+ "'>");
-								empActionForm.attr(
-										"action",
-										"/emp/empDetail/empUpdateForm");
-								empActionForm.submit();
-
-							});
-				});
-	</script>  -->
-
 </body>
 </html>
-
-
-<%-- <li>사번: ${emp.emp_no }</li>
-		<li>성명: ${emp.emp_name }</li>
-		<li>비밀번호: ${emp.emp_pass}</li>
-		<li>성별: ${emp.emp_gender}</li>
-		<li>주민등록번호: ${emp.emp_socialNo }</li>
-		<li>부서번호: ${emp.dept_no}</li>
-		<li>직급번호: ${emp.grade_no }</li>
-		<li>연락처: ${emp.emp_cellphone }</li>
-		<li>내선번호: ${emp.emp_extension }</li>
-		<li>입사일: ${emp.emp_hiredate }</li> --%>
+	

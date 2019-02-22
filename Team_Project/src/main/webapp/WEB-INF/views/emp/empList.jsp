@@ -115,8 +115,8 @@
 				<td>사번</td>
 				<td>성명</td>
 				<td>입사일</td>
-				<td>부서번호</td>
-				<td>직급번호</td>
+				<td>부서</td>
+				<td>직급</td>
 				<td>재직상태</td>
 
 			</tr>
@@ -125,12 +125,6 @@
 
 				<tr>
 					<td>${emp.emp_no}</td>
-					<%-- <td><a href="/emp/empDetail?emp_no=${emp.emp_no }">${emp.emp_name }</a></td>  --%>
-
-
-					<%-- <td><a href = '/emp/empDetail?emp_no=<c:out value="${emp.emp_no }"/>'>
-					<c:out value="${emp.emp_name }" /></a></td>  --%>
-
 					<td><a class='empMove' href='<c:out value="${emp.emp_no }"/>'>
 							<c:out value="${emp.emp_name }" />
 					</a></td>
@@ -254,8 +248,8 @@
 													empActionForm.submit();
 
 												});
-							});
-		</script>
+									});
+									</script>
 		<!-- 검색 부분 -->
 		<div class='row'>
 		<div class="col-lg-12" >

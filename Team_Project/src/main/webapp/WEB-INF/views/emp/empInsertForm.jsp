@@ -66,48 +66,6 @@
 		</div>
 	</nav>
 	
-	<%-- <div class="container">
-	
-	<h1>사원 정보</h1>
-	
-		<h3>사원정보 입력</h3>
-	<hr>
-	<form action="insertAction.do" method="post">
-
-		사번 : <input type="text" name="emp_no" value="12301"><br>
-		성명 : <input type="text" name="emp_name" value="최성우"><br>
-		비밀번호 : <input type="text" name="emp_pass" value="12301"><br>
-		성별 : <input type="text" name="emp_gender" value="M"><br>
-		주민등록번호 : <input type="text" name="emp_socialNo" value="920717-1234567"><br>
-		부서번호 : <input type="text" name="dept_no" value="103"><br>
-		직급번호 : <input type="text" name="grade_no" value="20"><br>
-		연락처 : <input type="text" name="emp_cellphone" value="010-1234-5678"><br>
-		내선번호 : <input type="text" name="emp_extension" value="1001"><br>
-		입사일 : <input type="text" name="emp_hiredate" value="2018-01-01"><br>
-		퇴사일 : <input type="text" name="emp_retiredate" value="2018-12-31"><br>
-		고용상태 : <input type="text" name="emp_empstate" value="퇴사"><br> 
-		
-			<!-- 셀렉트 형태(수정시 DB에서 데이터 유지가 안되는 상태, 일단은 inputtype으로 사용하자 -->
-				<select type = "hidden" name="emp_empstate">
-			<option value="선택" >${emp.emp_empstate }</option>
-			<option value="재직">재직</option>
-			<option value="퇴사">퇴사</option>
-			</select> <br> 
-			
-		총 연차일수 : <input type="text" name="emp_totalvdays" value="15"><br>
-		잔여 연차일수 : <input type="text" name="emp_vleftdays" value="13"><br>
-
-		
-
-		<br>
-				
-		 <input type="submit" value="등록"> <a href="list.do">목록</a> 
-		 	
-	</form>
-	
-	
-	
-	</div> --%>
 	
 	<div class="container">
 			<form method="post" action="/emp/empInsertForm">

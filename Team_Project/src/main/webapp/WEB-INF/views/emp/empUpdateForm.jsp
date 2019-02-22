@@ -71,28 +71,6 @@
 	
 	
 	<div class="container">
-
-	
-	
-	<%-- 
-	
-	사번 : <input type="text" name="emp_no" value = "${emp.emp_no }"><br>
-	성명 : <input type="text" name="emp_name" value = "${emp.emp_name }"><br>
-	비밀번호 : <input type="text" name="emp_pass" value = "${emp.emp_pass }"><br>
-	성별 : <input type="text" name="emp_gender" value = "${emp.emp_gender }"><br>
-	주민등록번호 : <input type="text" name="emp_socialNo" value = "${emp.emp_socialNo }"><br>
-	부서번호 : <input type="text" name="dept_no" value = "${emp.dept_no }"><br>
-	직급번호 : <input type="text" name="grade_no" value = "${emp.grade_no }"><br>
-	연락처 : <input type="text" name="emp_cellphone" value = "${emp.emp_cellphone }"><br>
-	내선번호 : <input type="text" name="emp_extension" value = "${emp.emp_extension }"><br>
-	입사일 : <input type="text" name="emp_hiredate" value = "${emp.emp_hiredate }"><br>
-	퇴사일 : <input type="text" name="emp_retiredate" value = "${emp.emp_retiredate }"><br>
-	고용상태 : <input type="text" name="emp_empstate" value = "${emp.emp_empstate }"><br>
-		
-	총 연차일수 : <input type="text" name="emp_totalvdays" value = "${emp.emp_totalvdays }"><br>
-	잔여 연차일수 : <input type="text" name="emp_vleftdays" value = "${emp.emp_vleftdays }"><br>
-	 
-	> --%>
 	
 	<form id="empForm" name="empForm" action="/emp/empUpdate" method="post" >
 	<input type="hidden" name="emp_no" value="${emp.emp_no }">
@@ -229,7 +207,7 @@ $(document).ready(function() {
 	  var empOperation = $(this).data("oper");
 	  
 	  console.log(empOperation);
-	 //여기부터 잘못된거같다 
+	  
 	  if(empOperation === 'Update'){
 		  empUpdateForm.attr("action", "/emp/empUpdate");
 		  
@@ -251,16 +229,6 @@ $(document).ready(function() {
   });
 </script>
 
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 </body>
 </html>
