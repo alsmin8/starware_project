@@ -23,11 +23,29 @@
   		values(#{schedule_no}, #{emp_no}, #{category_no}, #{schedule_title}, #{schedule_contents}, sysdate, #{schedule_starttime}, #{schedule_endtime})
   </insert>
   
-  <select id="listSch" resultType="kosta.starware.domain.ScheduleVO">
-  	select distinct schedule_no, s.category_no as category_no, s.emp_no as emp_no, schedule_title, schedule_contents, schedule_starttime, schedule_endtime, category_name, category_color, attcount 
-  	from schedule s, category c where s.category_no = c.category_no and s.emp_no = #{emp_no} order by schedule_no
+  
+  <select id="listSch" parameterType="map" resultType="kosta.starware.domain.ScheduleVO">
+  	select distinct /*+ RULE */ schedule_no, s.category_no as category_no, s.emp_no as emp_no, emp_name, schedule_title, schedule_contents, schedule_starttime, schedule_endtime, category_name, category_color, attcount 
+  	from schedule s join category c on s.category_no = c.category_no join emp e on s.emp_no = e.emp_no where s.emp_no = #{emp_no}
+  	<if test="cgr_no">
+  	 	<foreach collection="cgr_no" item="item" open="and (" separator="or" close=")">
+  			category_no = #{cgr_no}
+  		</foreach>
+  	</if>
+	<if test="area">
+		<foreach collection="area" item="item" open="and (" separator="or" close=")">
+			<if test="item=='schedule_time'">
+				schedule_starttime <![CDATA[>=]]> #{schedule_starttime} and schedule_endtime <![CDATA[<=]]> #{schedule_endtime}
+			</if>
+			<if test="item=='schedule_title'||item=='schedule_contents'||item=='category_name'">
+				${item} like '%'||#{searchKey}||'%'
+			</if>
+		</foreach>
+	</if>
+	order by schedule_no desc
   </select>
   
+ 
   <select id="getSch" resultType="kosta.starware.domain.ScheduleVO">
   	select distinct schedule_no, s.category_no as category_no, s.emp_no as emp_no, schedule_title, schedule_contents, schedule_starttime, schedule_endtime, category_name, category_color, attcount 
   	from schedule s, category c where s.category_no = c.category_no and s.emp_no = #{emp_no} and schedule_no = #{schedule_no} order by schedule_no
@@ -37,7 +55,41 @@
   	select s.emp_no, emp_name, dept_name from schedule s, emp e, dept d where s.emp_no = e.emp_no and e.dept_no = d.dept_no and schedule_no = #{schedule_no}
   </select>
   
- 
+  <update id="updateSch">
+  	update schedule set schedule_title = #{schedule_title}, category_no = #{category_no}, schedule_contents = #{schedule_contents}, schedule_starttime = #{schedule_starttime}, schedule_endtime = #{schedule_endtime} where schedule_no = #{schedule_no}
+  </update>
   
+  <delete id="deleteSch">
+  	delete from schedule where schedule_no = #{schedule_no} and emp_no = #{emp_no}
+  </delete>
+  
+  <update id="updateAttCount">
+  	<selectKey resultType="int" keyProperty="attcount" order="BEFORE">
+        select MAX(attcount)+1 from schedule where schedule_no = #{schedule_no}
+    </selectKey>
+  	update schedule set attcount = #{attcount} where schedule_no = #{schedule_no}
+  </update>
+  
+  <update id="updateSchJson">
+  	update schedule set schedule_starttime = #{schedule_starttime}, schedule_endtime = #{schedule_endtime} where schedule_no = #{schedule_no}
+  </update>
+  <!-- 
+  <select id="getJsonBySno" resultMap="">
+  	select 
+  </select>
+  
+ <resultMap type="kosta.starware.domain.EmpVO" id="EmpVO">
+	<result column="emp_no" property="emp_no"/>
+	<result column="emp_name" property="emp_name"/>
+	<result column="dept_name" property="dept_name"/>
+</resultMap>
+
+<resultMap type="kosta.starware.domain.ScheduleVO" id="schVO">
+	<result column="schedule_no" property="schedule_no"/>
+	<result column="category_no" property="category_no"/>
+	<result column="age" property="age"/>
+	<collection property="EmpVO" resultMap="EmpVO"/>
+</resultMap>
+   -->
 
 </mapper>

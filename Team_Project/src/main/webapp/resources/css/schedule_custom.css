@@ -1,9 +1,36 @@
 .top-nav {
-	align:right;
-	position: absolute;
-	right: 400px;
-	top: 120px;
-		
+	display:block;
+	margin:5px;
+	width: 180px;
+	height: 50px;
+	font-weight: bold;
+	margin-bottom:8px;
+}
+
+#container {
+    width: 80%;
+    heigth: 100%;
+    margin: 0px auto;
+/*     border: 1px solid #bcbcbc; */
+}
+      
+#ca-header {
+/*     border: 1px solid #bcbcbc; */
+}
+
+#side-bar {
+		width: 18%;
+		height: 80%;
+        float: left;
+        border-right: 1px solid #eee;
+/*         border: 1px solid #bcbcbc; */
+}
+
+#content {
+		width: 82%;
+		height: 100%;
+        float: right;
+/*         border: 1px solid #bcbcbc; */
 }
 
 table {
@@ -13,12 +40,18 @@ table {
 
 .new {
 	text-align: center;
-	background-color: #5858FA;
-	color: white;
 	margin-top: 2px;
 	margin-bottom: 2px;
-	border-color: #5858FA;
 	border-radius: 5px;
+	color: white;
+	font-size: 14.5px;
+	position: relative;
+}
+
+.colorCalendar {
+	width: 3px;
+	height: 3px;
+	display: inline-block;
 }
 
 .new>a {
@@ -62,6 +95,12 @@ table {
 		display: inline-block;
 }
 
+.colorSchList {
+	width: 12px;
+	height: 12px;
+	display: inline-block;
+}
+
 .color-select {
 				display: none; 
 				width: 20px;
@@ -84,26 +123,34 @@ table {
 }
 
 #calendar-info {
-	z-index: 1000px;
-	position: absolute;
-	left: 65px;
-	top: 260px;
-	width: 290px;
-	height: 500px;
+	width: 100%;
+	height: 100%;
+	font-weight: bold;
+	text-align: center;
+	list-style: none;
+	padding:0%;
+	margin-top: 9%;
+}
+
+#calendar-info li {
+	padding: 10px;
+	margin: 8px;
+	border-radius: 9px;
 }
 
 .list {
-	height: 260px;
+	height:100%;
+	width:100%;
 }
 
 #calendar-sub-info {
-	display:none;
-	z-index: 2000px;
+	display:none; 
+	width: 8%;
+	height: 30%;
+	z-index: 100px;
 	position: absolute;
-	left: 280px;
-	top: 270px;
-	width: 120px;
-	height: 200px;
+	top: 54.8%;
+	left: 22%;
 }
 
 #delete-btn {
@@ -113,13 +160,112 @@ table {
 }
 
 #mylist {
-	z-index: 1000px;
+	maring-left: 0px;
+	margin-top: 5px;
+	padding:0px;
 }
 
-.title {
-	text-align: center;
-}
- #mylist tr  {
+ #mylist td  {
  	border:0px;
 	text-align: center;
+	padding:6px;
+	margin-left: auto;
+	margin-right: auto;
 } 
+
+.calendar-header {
+	width:100%;
+	 border:0;
+	 cellspacing:0;
+	 cellpadding:0;
+	 text-align: center;
+	 margin-left: 2%;
+}
+
+.calendar-body {
+	 width:100%;
+	 height: 100%;
+	 cellspacing:0;
+	 cellpadding:0;
+	 border-collapse: collapse;
+	 margin-left: 2%;
+}
+
+.calendar-body tbody td {
+	height: 108px;
+}
+
+#side-bar li {
+	background-color:#CEE3F6;
+}
+
+.menu-line {
+	margin: 13px;
+}
+
+#registerSchModal {
+	display:none;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: auto;
+	margin-bottom: auto;
+	height: 700px;
+	width: 800px;
+	top: 30px;
+}
+
+.myColorList {
+	list-style: none;
+	margin: 7px;
+}
+
+#selColor ul {
+	padding: 0px;
+}
+
+.myColorList div {
+	margin-bottom: 5px;
+	margin-right: 10px;
+}
+
+.modal {
+	overflow-y: scroll;
+}
+
+.sub{
+/* 	display:none; */
+} 
+
+.imgSelect {
+	cursor: pointer;
+}
+
+.popupLayer {
+	position: absolute;
+	display: none;
+	background-color: #E0F2F7;
+	border: solid 1px #d0d0d0;
+	width: 300px;
+	height: 150px;
+	padding: 10px;
+	z-index: 100000000;
+	border-radius: 8px;
+}
+.popupLayer div span {
+	position: absolute;
+	top: 5px;
+	right: 5px
+}
+
+#members{
+	background-color: #E6E6E6;
+	border-radius: 5px;
+	padding: 3px;
+}
+
+#detail-content {
+	width: 320px;
+	height: 120px;
+	font-family: 'Jeju Gothic', sans-serif;
+	line-height: 1.8em;
+}

@@ -15,5 +15,7 @@ public class CategoryVO {
 	private String category_color;
 	private int category_ordinal;
 	private List<Integer> attendees;
+	private String[] emp_name;
+	private String[] dept_name;
 
 }

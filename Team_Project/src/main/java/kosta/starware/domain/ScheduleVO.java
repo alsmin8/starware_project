@@ -19,10 +19,12 @@ public class ScheduleVO {
 	private String schedule_starttime;
 	private String schedule_endtime;
 	private List<Integer> attendees;
-	private int attCount;
+	private int attcount;
 	private String category_name;
 	private String category_color;
 	private String emp_name;
 	private String dept_name;
+	private String[] emp_name2;
+	private String[] dept_name2;
 
 }

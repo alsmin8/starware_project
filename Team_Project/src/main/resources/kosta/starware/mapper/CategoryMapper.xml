@@ -49,5 +49,9 @@
   <delete id="deleteCgr">
   	delete from category where category_no = #{category_no} and emp_no = #{emp_no}
   </delete>
+  
+  <select id="empInfo" resultType="kosta.starware.domain.EmpVO">
+  	select emp_no, emp_name, dept_name from emp e, dept d where e.dept_no = d.dept_no and emp_no = #{emp_no}
+  </select>
 
 </mapper>

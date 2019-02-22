@@ -46,6 +46,23 @@ public class CategoryServiceImpl implements CategoryService {
 		CategoryVO category = mapper.getCgr(category_no, emp_no);
 		
 		category.setAttendees(mapper.getCgrByCno(category_no));
+		
+		if(category.getAttendees()!=null) {
+			
+			String[] emp_name = new String[category.getAttendees().size()];
+			String[] dept_name = new String[category.getAttendees().size()];
+			
+			for(int i = 0; i < category.getAttendees().size();i++) {
+				EmpVO emp = mapper.empInfo(category.getAttendees().get(i));
+				
+				emp_name[i] = emp.getEmp_name();
+				dept_name[i] = emp.getDept_name();
+			
+			}
+			category.setEmp_name(emp_name);
+			category.setDept_name(dept_name);
+		}
+
 		System.out.println("category.........."+category);
 		return category;
 	}
@@ -59,5 +76,11 @@ public class CategoryServiceImpl implements CategoryService {
 	public int deleteCgr(int category_no, int emp_no) {
 		return mapper.deleteCgr(category_no, emp_no);
 	}
+	
+	@Override
+	public int updateColorCgr(CategoryVO category) {
+		return mapper.updateColorCgr(category);
+	}
+
 
 }
