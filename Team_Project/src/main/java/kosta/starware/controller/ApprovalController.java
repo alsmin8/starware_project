@@ -386,7 +386,7 @@ public class ApprovalController {
 			return "redirect:/login";
 		}else{
 			List<HashMap> applist_result = approvalservice.resultApproval(userID);
-			//log.info(applist_result);
+			log.info(applist_result);
 			model.addAttribute("applist_result", applist_result);
 			return "/approval/applist_result";
 		}

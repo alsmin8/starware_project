@@ -29,7 +29,7 @@ public class AttendController {
 	private AttendService service;
 	
 	@GetMapping("/attendInsert")
-	public void attendInsert(AttendVO attend){
+	public void attendInsert(){
 	}
 	
 	@ResponseBody
