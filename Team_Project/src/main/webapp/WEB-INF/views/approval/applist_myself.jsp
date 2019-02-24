@@ -94,7 +94,6 @@ text-align: center;
 		<td>기안일자</td>
 		<td>완료일자</td>
 		<td>승인결과</td>
-		<td>기안자</td>
 	</tr>
 	
 		<c:forEach var="Approval" items="${applist_myself}">
@@ -112,7 +111,6 @@ text-align: center;
 					 <fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd"/>
 				</td>
 				<td>${Approval.APP_SITUATION}</td>
-				<td>${Approval.EMP_NAME}(${Approval.EMP_NO})</td>
 			</tr>
 		</c:forEach>
 	
