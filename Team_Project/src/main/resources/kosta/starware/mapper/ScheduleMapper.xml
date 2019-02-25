@@ -13,14 +13,14 @@
         select MAX(schedule_no)+1 from schedule        
     </selectKey>
   		insert into 
-  		schedule(schedule_no, emp_no, category_no, schedule_title, schedule_contents, schedule_regdate, schedule_starttime, schedule_endtime) 
-  		values(#{schedule_no}, #{emp_no}, #{category_no}, #{schedule_title}, #{schedule_contents}, sysdate, #{schedule_starttime}, #{schedule_endtime})
+  		schedule(schedule_no, emp_no, category_no, schedule_title, schedule_contents, schedule_regdate, schedule_starttime, schedule_endtime, attcount) 
+  		values(#{schedule_no}, #{emp_no}, #{category_no}, #{schedule_title}, #{schedule_contents}, sysdate, #{schedule_starttime}, #{schedule_endtime}, 0)
   </insert>
 
   <insert id="addAttendeeSch">
   	insert into 
-  	schedule(schedule_no, emp_no, category_no, schedule_title, schedule_contents, schedule_regdate, schedule_starttime, schedule_endtime) 
-  		values(#{schedule_no}, #{emp_no}, #{category_no}, #{schedule_title}, #{schedule_contents}, sysdate, #{schedule_starttime}, #{schedule_endtime})
+  	schedule(schedule_no, emp_no, category_no, schedule_title, schedule_contents, schedule_regdate, schedule_starttime, schedule_endtime, attcount) 
+  		values(#{schedule_no}, #{emp_no}, #{category_no}, #{schedule_title}, #{schedule_contents}, sysdate, #{schedule_starttime}, #{schedule_endtime}, 0)
   </insert>
   
   
@@ -29,7 +29,7 @@
   	from schedule s join category c on s.category_no = c.category_no join emp e on s.emp_no = e.emp_no where s.emp_no = #{emp_no}
   	<if test="cgr_no">
   	 	<foreach collection="cgr_no" item="item" open="and (" separator="or" close=")">
-  			category_no = #{cgr_no}
+  			s.category_no = ${item}
   		</foreach>
   	</if>
 	<if test="area">
@@ -42,7 +42,7 @@
 			</if>
 		</foreach>
 	</if>
-	order by schedule_no desc
+	order by schedule_starttime asc
   </select>
   
  

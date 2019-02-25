@@ -17,6 +17,7 @@
 <script type="text/javascript" src="/resources/js/httpRequest.js"></script>
 <script type="text/javascript" src="/resources/js/bootstrap.js"></script>
 <script type="text/javascript" src="/resources/js/category.js"></script>
+<script type="text/javascript" src="/resources/js/moment.js"></script>
 </head>
 <body>
 
@@ -61,9 +62,12 @@
 	<div id="container">
 	
 	<div id="ca-header">
-		<a href="/schedulePage/"><h3>일정 목록</h3></a>
-		<div id="mask"></div>
-		<hr>
+		<a href="/schedulePage/"><h3>일정 관리</h3></a>
+			<div class="btn-group" style="position:absolute;top:90px;right:150px">
+				<input type="button" class="btn btn-secondary" onclick="javascript:location.href='<c:url value='/schedulePage/' />'" value="캘린더" /> 
+				<input type="button" class="btn btn-primary" onclick="javascript:location.href='<c:url value='/schedulePage/listSch' />'" value="목록" /> 
+			</div>
+		<hr class="menu-line">
 	</div>
 	
 	<div class="card" style="border: 1px solid #BDBDBD">
@@ -105,7 +109,7 @@
 	</div>
 	<br>
 	<div align="left">
-		<input type="button" value="오늘 일정 보기" class="btn btn-default" id="mysche">
+		<input type="button" value="오늘 일정 보기" class="btn btn-default" id="mysche" >
 <!--   		<input type="button" value="마감일자별" class="btn btn-default">
   		<input type="button" value="사용자별" class="btn btn-default" > -->
   	</div>
@@ -148,5 +152,27 @@
 
 	<br><br>
 			</div>
+			
+			<script type="text/javascript">
+		$('#mysche').on('click', function() {
+			console.log('성공 오늘');
+			var date = new Date();
+			var formatDate = moment(date).format('YYYY/MM/DD');
+			var schedule_starttime = formatDate+' 00:00';
+			var schedule_endtime = formatDate+' 23:59';
+			var params = {area : "schedule_time", schedule_starttime : schedule_starttime, schedule_endtime : schedule_endtime}
+			
+			scheduleService.getList(params, function(data) {
+				var html = '';
+				$('.type04').empty();
+				$('.type04').append('<tr><td>카테고리번호</td><td>카테고리색상</td><td>카테고리명</td><td>일정명</td><td>시작일</td><td>종료일</td><td>참여자수</td></tr>')
+				$.each(data, function(index, item) {
+					html += '<tr><td>'+item.category_no+'</td><td><div class="colorSchList" style="background-color:'+item.category_color+'"></div></td><td>'+item.category_name+'</td><td>'+item.schedule_title+'</td><td>'+item.schedule_starttime+'</td><td>'+item.schedule_endtime+'</td><td>'+item.attcount+'</td></tr>'
+				});
+				$('.type04').append(html);
+				$('.type04').append('</table>');
+			})
+		})
+	</script>
 </body>
 </html>

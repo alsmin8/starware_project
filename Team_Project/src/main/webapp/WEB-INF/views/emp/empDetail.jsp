@@ -142,9 +142,12 @@
 					<td style="text-align: right" colspan="3">
 					<span style="float:right">
 						<button type = "submit" data-oper='empListAction' class="btn btn-default">목록</button>
-						 <!-- 관리자 권한 -->
+						<!-- 관리자 권한 -->
 						<c:set var="emp_no" value="<%=emp_no %>"></c:set>
-						<c:if test="${emp_no eq '12302'}"> 
+                  <c:if test="${emp_no eq '12301'}"> 
+                  <button type = "submit" data-oper='empOperForm' class="btn btn-default">수정</button>
+                  </c:if>
+                  <%-- <c:if test="${emp_no = 12301 } "> 
 						<button type = "submit" data-oper='empOperForm' class="btn btn-default">수정</button>
 						</c:if>
 					</span>

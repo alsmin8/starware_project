@@ -25,6 +25,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Override
 	public int insertSch(ScheduleVO schedule) {
 		mapper.insertSch(schedule);
+		System.out.println("service-sche"+schedule.getSchedule_no());
 		
 		return mapper.updateAttCount(schedule.getSchedule_no());
 	}
@@ -46,6 +47,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 		map.put("schedule_starttime", search.getSchedule_starttime());
 		map.put("schedule_endtime", search.getSchedule_endtime());
 		map.put("emp_no", emp_no);
+		map.put("cgr_no", search.getCgr_no());
 		List<ScheduleVO> list = mapper.listSch(map);
 		
 /*		try {

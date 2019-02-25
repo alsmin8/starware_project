@@ -25,4 +25,8 @@ public interface CategoryService {
 
 	public int updateColorCgr(CategoryVO category);
 	
+	public EmpVO empInfo(int emp_no);
+	
+	public List<CategoryVO> getPowerList(int category_no);
+	
 }

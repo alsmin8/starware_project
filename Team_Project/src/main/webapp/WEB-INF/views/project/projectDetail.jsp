@@ -148,6 +148,10 @@
 			<td>${project.project_Manager }</td>
 		</tr>
 		<tr>
+			<th>팀원</th>
+			<td>${project.project_Members }</td>
+		</tr>
+		<tr>
 			<th>기간</th>
 			<td>${project.project_Term }</td>
 		</tr>
@@ -184,7 +188,7 @@
   <div class="col-lg-12">
     <div class="panel panel-default">
 
-      <div class="panel-heading">Files</div>
+      <div class="panel-heading">파일첨부</div>
       <!-- /.panel-heading -->
       <div class="panel-body">
         

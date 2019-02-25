@@ -8,11 +8,11 @@
   	<selectKey resultType="int" keyProperty="category_no" order="BEFORE">
         select MAX(category_no)+1 from category        
     </selectKey>
-  		insert into category values(#{category_no}, #{emp_no}, #{category_name}, #{category_color}, 1)
+  		insert into category values(#{category_no}, #{emp_no}, #{category_name}, #{category_color}, 1, #{category_type}, 3)
   </insert>
 
   <insert id="addAttendee">
-  	insert into category values(#{category_no}, ${emp_no}, #{category_name}, #{category_color}, 1)
+  	insert into category values(#{category_no}, #{emp_no}, #{category_name}, #{category_color}, 1, #{category_type}, #{cgr_power})
   </insert>
 <!--   	<selectKey resultType="int" keyProperty="category_no" order="BEFORE">
         select MAX(category_no)+1 from category        
@@ -23,7 +23,7 @@
   	</foreach> -->
   
   <select id="listEmp" resultType="kosta.starware.domain.EmpVO">
-  	select emp_no, emp_name, dept_name from emp e, dept d where e.dept_no = d.dept_no
+  	select emp_no, emp_name, dept_name, grade_name from emp e, dept d, grade g where e.dept_no = d.dept_no and e.grade_no = g.grade_no
   </select>
   
   <select id="listCgr" resultType="kosta.starware.domain.CategoryVO">
@@ -34,8 +34,8 @@
   	select * from category where category_no = #{category_no} and emp_no = #{emp_no}
   </select>
   
-  <select id="getCgrByCno" resultType="int">
-  	select emp_no from category where category_no = #{category_no}
+  <select id="getCgrByCno" resultType="kosta.starware.domain.EmpVO">
+  	select c.emp_no, emp_name, grade_name, dept_name from category c, emp e, dept d, grade g where e.emp_no = c.emp_no and e.dept_no = d.dept_no and e.grade_no = g.grade_no and category_no = #{category_no}
   </select>
   
   <update id="updateCgr">
@@ -51,7 +51,7 @@
   </delete>
   
   <select id="empInfo" resultType="kosta.starware.domain.EmpVO">
-  	select emp_no, emp_name, dept_name from emp e, dept d where e.dept_no = d.dept_no and emp_no = #{emp_no}
+  	select emp_no, emp_name, dept_name, grade_name, g.grade_no from emp e, dept d, grade g where e.dept_no = d.dept_no and e.grade_no = g.grade_no and emp_no = #{emp_no}
   </select>
 
 </mapper>

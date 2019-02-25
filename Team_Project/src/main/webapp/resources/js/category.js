@@ -101,8 +101,28 @@ var categoryService = (function() {
 		})
 	}
 	
+function getPower(params, callback, error) {
+		
+		$.ajax({
+			type : 'get', 
+			url : '/schedule/getPowerList',
+			data : params,
+			dataType : 'json',
+			success : function(data, status, xhr) {
+				if(callback) {
+					callback(data);
+				}
+			},
+			error : function(xhr, status, er) {
+				if(error) {
+					error();
+				}
+			}
+		})
+	}
+	
 	// replyservice 의 리턴값
-	return {add : add, getList : getList, remove : remove, update : update, get : get};
+	return {add : add, getList : getList, remove : remove, update : update, get : get, getPower : getPower};
 	
 	// replyservice 호출 동시에 함수를 실행하자.
 })();
@@ -175,11 +195,70 @@ var scheduleService = (function() {
 		})
 	}
 	
+	function getList(params, callback, error) {
+		$.ajax({
+			type : 'get',
+			url : '/schedule/listSchJson.json',
+			data : params,
+			dataType : 'json',
+			success : function(data, status, xhr) {
+				if(callback) {
+					callback(data);
+				}
+			},
+			error : function(xhr, status, er) {
+				if(error) {
+					error();
+				}
+			}
+			
+		})
+	}
+	
 	// replyservice 의 리턴값
-	return {add : add, update : update, get : get};
+	return {add : add, update : update, get : get, getList : getList};
 	
 	// replyservice 호출 동시에 함수를 실행하자.
 })();
+
+
+
+
+
+
+
+
+
+var empService = (function() {
+	
+	function get(params, callback, error) {
+		$.ajax({
+			type : 'get',
+			url : '/schedule/getEmpJson',
+			data : params,
+			dataType : 'json',
+			success : function(data, status, xhr) {
+				if(callback) {
+					callback(data);
+				}
+			},
+			error : function(xhr, status, er) {
+				if(error) {
+					error();
+				}
+			}
+			
+		})
+	}
+	
+	// replyservice 의 리턴값
+	return {get : get};
+	
+	// replyservice 호출 동시에 함수를 실행하자.
+})();
+
+
+
 
 
 function wrapWindowByMask(str){
@@ -220,9 +299,9 @@ function startSuggest() {
 			$('#suggest tbody').html('');
 			var html = "";
 			$.each(data, function(index, item) {
-				var str = item.emp_no + ":"+item.emp_name+":"+item.dept_name;
+				var str = item.emp_no + ":"+item.emp_name+":"+item.dept_name+":"+item.grade_name;
 				console.log('str..........'+str);
-				html += "<tr><td><a href=javascript:select('" + str + "')>" + item.emp_name + "</a></td><td>" 
+				html += "<tr><td><a href=javascript:select('" + str + "')>" + item.emp_name + "</a></td><td>"+item.grade_name+"</td><td>" 
 								+ item.dept_name + "</td><td>" + item.emp_no + "</td></tr>";
 			});
 			console.log('성공');
@@ -243,10 +322,18 @@ function show(elementId) {
 function select(selectKeyword) {
 /*              		hide('suggest');  */
 	var emp_no = selectKeyword.substring(0, selectKeyword.indexOf(':'));
-	var emp_name = selectKeyword.substring(selectKeyword.indexOf(':')+1, selectKeyword.lastIndexOf(':'));
-	var dept_name = selectKeyword.substring(selectKeyword.lastIndexOf(':')+1);
-$('.attendees-group').append('<span><input type="checkbox" name="attendees" value="'+ emp_no + '" checked="checked" style="display:none">'
-							+ emp_name +'-'+dept_name+' ['+emp_no+']</input><button id="delete-btn">X</button></span>');
+	var temp_word = selectKeyword.substring(selectKeyword.indexOf(':')+1);
+	var emp_name = temp_word.substring(0, temp_word.indexOf(':'));
+	var dept_name = temp_word.substring(temp_word.indexOf(':')+1, temp_word.lastIndexOf(':'));
+	var grade_name = temp_word.substring(temp_word.lastIndexOf(':')+1);
+	
+$('.attendees-group').append('<tr><td><input type="checkbox" name="attendees" value="'+ emp_no + '" checked="checked" style="display:none"></input><input type="checkbox" name="power_group" value="" checked="checked" style="display:none"></input>'+ emp_name +'</td><td>'+grade_name+'</td><td>'+dept_name+'</td><td>'+emp_no+'</td><td colspan="3">	<input type="checkbox" class="pickpwr" name="power_temp" checked id="열람" value="1" /> 열람 <input type="checkbox" class="pickpwr" name="power_temp" id="초대" value="2" /> 참석자 초대 <input type="checkbox" class="pickpwr" name="power_temp" id="편집" value="3" /> 편집</div><td><button id="delete-btn">X</button></td></tr>');
+if($('#개인').is(':checked')) {
+	$('#초대').prop('disabled', true);
+	$('#초대').prop('checked', false);
+	$('#편집').prop('disabled', true);
+	$('#편집').prop('checked', false);
+}
 }
 
 function hide(elementId) {
@@ -259,25 +346,22 @@ function hide(elementId) {
 
 
 function showList() {
-	$('.list').empty();
-	
+	$('#개인캘린더 tr').remove();
+	$('#공유캘린더 tr').remove();
+	$('#회사캘린더 tr').remove();
 	categoryService.getList(function(data){
 		var html = '';
-		html += '<table id="mylist" class="table"><tbody>';
-		console.log('html..........'+html);
-		
 		$.each(data, function(index, item) {
-				html += "<tr><td style='width:80px;padding-left:35px'><input type='checkbox' name='cgr-member' checked='checked' value='cgr-"+item.category_no+"' style='position:absolute;z-index:100;left:169px;'></input><div class='colorMainList' style='background-color:" 
-								+ item.category_color + "'></div></td><td>" + item.category_name + "</td></tr>";
-				console.log('d'+item.category_color);
+				html = "<tr><td class='type1'><input type='checkbox' class='cgrmb' name='select-cgr' checked='checked' value='cgr-"+item.category_no+"' style='position:absolute;z-index:100;left:169px;'></input><div class='colorMainList' style='background-color:" 
+								+ item.category_color + "'></div></td><td class='type2'>" + item.category_name + "</td></tr>";
+				console.log('ddd'+item.category_type);
+					$('#'+item.category_type+'캘린더').append(html);
 			});
 		
-			html += '<tbody></table>'
 			console.log('성공');
-			$('.list').append(html);
-			
 		});
 	};
+	
 
 	function dateDiff(_date1, _date2) {
 	    var diffDate_1 = _date1 instanceof Date ? _date1 : new Date(_date1);
@@ -292,19 +376,13 @@ function showList() {
 	    return diff;
 	}
 
-	
-	 function showCalendar() {
-		var cgrValue = $('input[type=checkbox][name=cgr-member]').length;
-	 	console.log('.....길이!!'+cgrValue);
-		 var cgrData = new Array(cgrValue);
-		    for(var i=0; i<cgrValue; i++){                          
-		    	if($('input[type=checkbox][name=cgr-member]')[i].prop('checked')) {
-		    		cgrData[i] = $('input[type=checkbox][name=cgr-member]')[i].id;
-		    		console.log('.....!!'+cgrData[i]);
-		    	}
-		    }
-		    
-		var params = {cgr_no : cgrData}
+	 function showCalendar(cgrData) {
+		console.log('params'+cgrData);
+		jQuery.ajaxSettings.traditional = true;
+		var params = '';
+		if(cgrData!=null) {
+			params = {cgr_no : cgrData};
+		}
 			
 		$.ajax({
 			type : 'get', 
@@ -347,9 +425,9 @@ function showList() {
 							var len3 = (dateDiff(re_day, end_day)+1)*100;
 							
 							var reformatDate = moment(re_day).format('YYYYMMDD');
-							$("td[id='"+ reformatDate + "']").append("<div class='new imgSelect' style='background-color:"+item.category_color+";width:"+len3+"%'><div class='colorCalendar' style='background-color:" 
-									+ item.category_color + "'></div>"
-									+item.schedule_title+" ("+item.attcount+") </div>");
+							$("td[id='"+ reformatDate + "']").append("<div class='new' style='background-color:"+item.category_color+";width:"+len3+"%'><div class='colorCalendar' style='background-color:" 
+									+ item.category_color + "'></div><a class='imgSelect'>"
+									+item.schedule_title+" ("+item.attcount+")</a></div>");
 						}
 						else {
 							len2 = (len+1) * 100;
@@ -362,7 +440,7 @@ function showList() {
 						console.log('date.......'+formattedDate+'len.......'+len);
 						$("td[id='"+ formattedDate + "']").append("<div class='new' id='schno-"+item.schedule_no+"' name = '"+item.schedule_starttime+"~"+item.schedule_endtime+"' draggable='true' ondragstart='drag(event)' style='background-color:"
 								+item.category_color+";width:"+len2+"%'><div class='colorCalendar' style='background-color:" 
-									+ item.category_color + "'></div><a class='imgSelect'>"
+									+ item.category_color + "'></div><a href='/schedulePage/getSch?schedule_no="+item.schedule_no+"'>"
 						+item.schedule_title+" ("+item.attcount+") </a></div>");
 						
 /*					}*/
@@ -376,14 +454,17 @@ function showList() {
 		});
 				
 		}; 
-	
 
 $(document).ready(function(){
     //검은 막 띄우기
+	var modal = $('.modal');
     $('.register').click(function(){
     	modal.find("input").val("");
         $('div[class=attendees-group]').empty();
         $('.color-selector .color').css('border', '');
+        
+        $('.member-contents').empty();
+        $('#member-group').css('display', 'none');
         
         wrapWindowByMask('register');
         $('#insertCgrBtn').show();
@@ -429,7 +510,9 @@ $(document).ready(function(){
     
 	$('.attendees-group').on('click', 'button', function(e) {
 		e.preventDefault();
-		$(this).parent().remove();
+
+		$(this).parents('tr').remove();
+
 	}) 
 
 	/*$('#calendar-info #menu').click(function() {
@@ -575,14 +658,5 @@ $(document).on('click', '.imgSelect', function(e)
 		
 		return false;
 	 });
-	 
-	 var cgrValue = $('input[type=checkbox][name=cgr-member]').length;
-	 
-	 var cgrData = new Array(cgrValue);
-	    for(var i=0; i<cgrValue; i++){                          
-	    	cgrData[i] = $('input[type=checkbox][name=cgr-member]')[i].checked;
-	    	console.log('.....!!'+cgrData[i])
-	    }
-	    
-	 showCalendar(cgrData);
+
 	 

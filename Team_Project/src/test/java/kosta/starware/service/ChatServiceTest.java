@@ -1,5 +1,7 @@
 package kosta.starware.service;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -21,11 +23,11 @@ public class ChatServiceTest {
 	@Setter(onMethod_ = @Autowired)
 	private ChatService chatService;
 	
-/*	@Test
+@Test
 	public void testExist(){
 		log.info(chatService);
 		assertNotNull(chatService);
-	}*/
+	}
 	
 /*	@Test
 	public void testdisplayTime(){

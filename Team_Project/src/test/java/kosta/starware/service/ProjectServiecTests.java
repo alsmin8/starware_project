@@ -22,11 +22,12 @@ public class ProjectServiecTests {
 	@Setter(onMethod_ = { @Autowired })
 	private ProjectService service;
 
-	/*
-	 * @Test public void test(){
-	 * 
-	 * log.info(service); assertNotNull(service); }
-	 */
+
+@Test 
+public void test(){
+
+log.info(service); assertNotNull(service); }
+
 
 	/*
 	 * @Test public void testregister(){ ProjectDTO project = new ProjectDTO();
@@ -44,11 +45,11 @@ public class ProjectServiecTests {
 	 * log.info("������ ������Ʈ ��ȣ:" + project.getProject_No()); }
 	 */
 
-	@Test
+/*	@Test
 	public void testGetList() {
 
 		service.getList(new ProjectCriteria(2,10)).forEach(project -> log.info(project));
-	}
+	}*/
 
 	/*
 	 * @Test public void testRead(){
