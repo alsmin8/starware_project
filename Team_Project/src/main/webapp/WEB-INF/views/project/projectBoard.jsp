@@ -184,7 +184,7 @@
 						var str2 = "";
 						var str3 = "";
 						if(list == null || list.length == 0){
-							todolist.hmtl("");
+							todolist.html("");
 							
 							return;
 							
