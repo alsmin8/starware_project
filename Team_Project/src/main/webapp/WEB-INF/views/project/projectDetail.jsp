@@ -148,6 +148,10 @@
 			<td>${project.project_Manager }</td>
 		</tr>
 		<tr>
+			<th>팀원</th>
+			<td>${project.project_Members }</td>
+		</tr>
+		<tr>
 			<th>기간</th>
 			<td>${project.project_Term }</td>
 		</tr>
