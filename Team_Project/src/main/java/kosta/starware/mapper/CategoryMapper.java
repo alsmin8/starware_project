@@ -19,7 +19,7 @@ public interface CategoryMapper {
 	
 	public CategoryVO getCgr(@Param("category_no") int category_no, @Param("emp_no") int emp_no);
 	
-	public List<Integer> getCgrByCno(int category_no);
+	public List<EmpVO> getCgrByCno(int category_no);
 	
 	public int addAttendee(CategoryVO category);
 	

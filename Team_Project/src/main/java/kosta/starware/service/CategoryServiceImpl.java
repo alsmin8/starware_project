@@ -1,5 +1,6 @@
 package kosta.starware.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -44,24 +45,6 @@ public class CategoryServiceImpl implements CategoryService {
 	public CategoryVO getCgr(int category_no, int emp_no) {
 		
 		CategoryVO category = mapper.getCgr(category_no, emp_no);
-		
-		category.setAttendees(mapper.getCgrByCno(category_no));
-		
-		if(category.getAttendees()!=null) {
-			
-			String[] emp_name = new String[category.getAttendees().size()];
-			String[] dept_name = new String[category.getAttendees().size()];
-			
-			for(int i = 0; i < category.getAttendees().size();i++) {
-				EmpVO emp = mapper.empInfo(category.getAttendees().get(i));
-				
-				emp_name[i] = emp.getEmp_name();
-				dept_name[i] = emp.getDept_name();
-			
-			}
-			category.setEmp_name(emp_name);
-			category.setDept_name(dept_name);
-		}
 
 		System.out.println("category.........."+category);
 		return category;
@@ -80,6 +63,27 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public int updateColorCgr(CategoryVO category) {
 		return mapper.updateColorCgr(category);
+	}
+	
+	@Override
+	public EmpVO empInfo(int emp_no) {
+		return mapper.empInfo(emp_no);
+	}
+	
+	@Override
+	public List<CategoryVO> getPowerList(@Param("category_no") int category_no) {
+		List<EmpVO> list = mapper.getCgrByCno(category_no);
+		List<CategoryVO> list2 = new ArrayList<>();
+
+		for(int i = 0; i < list.size(); i++) {
+			CategoryVO category = mapper.getCgr(category_no, list.get(i).getEmp_no());
+			category.setEmp_name(list.get(i).getEmp_name());
+			category.setDept_name(list.get(i).getDept_name());
+			category.setGrade_name(list.get(i).getGrade_name());
+			list2.add(category);
+		}
+		
+		return list2;
 	}
 
 
