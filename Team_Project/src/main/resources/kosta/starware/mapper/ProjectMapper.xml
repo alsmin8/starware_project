@@ -21,7 +21,7 @@
 		</selectKey>
 		insert into	project
 		values(#{project_No},#{project_Title},#{project_Contents},#{project_Kind},#{project_Writer},#{project_Manager},#{project_Members},
-		#{project_Term},#{project_Start_Date},#{project_End_Date},sysdate,#{project_Situation},12301)
+		#{project_Term},#{project_Start_Date},#{project_End_Date},sysdate,#{project_Situation},#{emp_No})
 	</insert>
 
 	<select resultType="kosta.starware.domain.ProjectDTO" id="readProject">

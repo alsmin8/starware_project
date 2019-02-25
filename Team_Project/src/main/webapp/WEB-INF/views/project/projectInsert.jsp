@@ -108,7 +108,7 @@
 	<div class="container">
 		<form role="form" action="projectInsert" method="post">
 			
-			<input type="hidden" name="emp_No" value="12301">
+			<input type="hidden" name="emp_No" value="<%=emp_no%>">
 			<table class="table table-bordered table-hover"
 				style="text-align: center; border: 1px solid #dddddd;">
 				<thead>
