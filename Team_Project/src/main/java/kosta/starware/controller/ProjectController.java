@@ -193,7 +193,7 @@ public class ProjectController {
 		File file;
 
 		try {
-			file = new File("E:\\upload\\" + URLDecoder.decode(fileName, "UTF-8"));
+			file = new File("C:\\upload\\" + URLDecoder.decode(fileName, "UTF-8"));
 
 			file.delete();
 

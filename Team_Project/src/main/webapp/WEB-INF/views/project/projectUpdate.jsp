@@ -199,7 +199,7 @@
 
 												<td style="width: 110px;"><h5>기간</h5></td>
 						<td colspan="2"><input class="form-control" type="number"
-							id="project_Term" name="project_Term" maxlength="20"></td>
+							id="project_Term" name="project_Term" maxlength="20" value="${project.project_Term }"></td>
 					</tr>
 
 					<tr>
@@ -232,7 +232,7 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="panel panel-default">
-						<div class="panel-heading">Files</div>
+						<div class="panel-heading">파일첨부</div>
 						<!-- /.panel-heading -->
 						<div class="panel-body">
 						<input type="file" name="uploadFile" multiple="multiple">
@@ -344,7 +344,7 @@
 		    
 		    console.log("delete file");
 		      
-		    if(confirm("Remove this file? ")){
+		    if(confirm("파일을 삭제하시겠습니까? ")){
 		    
 		      var targetLi = $(this).closest("li");
 		      targetLi.remove();
@@ -473,7 +473,7 @@
 		  	          str += "<input type='hidden' name='attachList["+i+"].project_fileName' value='"+jobj.data("filename")+"'>";
 		  	          str += "<input type='hidden' name='attachList["+i+"].project_uuid' value='"+jobj.data("uuid")+"'>";
 		  	          str += "<input type='hidden' name='attachList["+i+"].project_uploadPath' value='"+jobj.data("path")+"'>";
-		  	          
+		  	        
 		  	        });
 		  	        formObj.append(str).submit();
 		          }
